@@ -11,19 +11,19 @@ The workflows are powered by the `prisma2 generate` command, which runs the foll
 
 ## Query Engine
 
-| **Done?** | **Docs?** |             **Issue?**             |       **Target**       |  **Platform**   |          **Notes**           |
-| :-------: | :-------: | :--------------------------------: | :--------------------: | :-------------: | :--------------------------: |
-|     ✓     |     ✓     |                 ✓                  |          Mac           |       mac       |                              |
-|           |           | github.com/prisma/prisma2/issues/6 |         Lambda         | linux-musl (?)  |                              |
-|           |           | github.com/prisma/prisma2/issues/5 |        Zeit Now        | linux-musl (?)  |                              |
-|           |           | github.com/prisma/prisma2/issues/2 |         Ubuntu         |   linux-glibc   |                              |
-|           |           | github.com/prisma/prisma2/issues/2 |         Centos         |   linux-glibc   |                              |
-|           |           | github.com/prisma/prisma2/issues/2 |         Alpine         |   linux-musl    |                              |
-|           |           | github.com/prisma/prisma2/issues/4 |        Windows         |                 |                              |
-|     ✓     |     ✓     |                 ✓                  |      Code Sandbox      |   linux-glibc   | Uses: `node:10.16.0-stretch` |
-|           |           |                                    |         Heroku         |   linux-glibc   |                              |
-|           |           |                                    |      Netlify Fns       | linux-musl (?)  |                              |
-|           |           |                                    | Google Cloud Functions | linux-glibc (?) |                              |
+| **Done?** | **Docs?** |                 **Issue?**                 |       **Target**       |  **Platform**   |          **Notes**           |
+| :-------: | :-------: | :----------------------------------------: | :--------------------: | :-------------: | :--------------------------: |
+|     ✓     |     ✓     |                     ✓                      |          Mac           |       mac       |                              |
+|           |           | https://github.com/prisma/prisma2/issues/6 |         Lambda         | linux-musl (?)  |                              |
+|           |           | https://github.com/prisma/prisma2/issues/5 |        Zeit Now        | linux-musl (?)  |                              |
+|           |           | https://github.com/prisma/prisma2/issues/2 |         Ubuntu         |   linux-glibc   |                              |
+|           |           | https://github.com/prisma/prisma2/issues/2 |         Centos         |   linux-glibc   |                              |
+|           |           | https://github.com/prisma/prisma2/issues/2 |         Alpine         |   linux-musl    |                              |
+|           |           | https://github.com/prisma/prisma2/issues/4 |        Windows         |                 |                              |
+|     ✓     |     ✓     |                     ✓                      |      Code Sandbox      |   linux-glibc   | Uses: `node:10.16.0-stretch` |
+|           |           |                                            |         Heroku         |   linux-glibc   |                              |
+|           |           |                                            |      Netlify Fns       | linux-musl (?)  |                              |
+|           |           |                                            | Google Cloud Functions | linux-glibc (?) |                              |
 
 To download the binary, replace `${platform}` with the **Platform** above:
 
@@ -85,19 +85,19 @@ We can use the configuration above to override our default settings.
 
 Currently **migration-engine**, soon also **introspection**.
 
-| **Done?** | **Docs?** |             **Issue?**             |       **Target**       |  **Platform**   |          **Notes**           |
-| :-------: | :-------: | :--------------------------------: | :--------------------: | :-------------: | :--------------------------: |
-|     ✓     |     ✓     |                 ✓                  |          Mac           |       mac       |                              |
-|           |           | github.com/prisma/prisma2/issues/6 |         Lambda         | linux-musl (?)  |                              |
-|           |           | github.com/prisma/prisma2/issues/5 |        Zeit Now        | linux-musl (?)  |                              |
-|           |           | github.com/prisma/prisma2/issues/2 |         Ubuntu         |   linux-glibc   |                              |
-|           |           | github.com/prisma/prisma2/issues/2 |         Centos         |   linux-glibc   |                              |
-|           |           | github.com/prisma/prisma2/issues/2 |         Alpine         |   linux-musl    |                              |
-|           |           | github.com/prisma/prisma2/issues/4 |        Windows         |                 |                              |
-|     ✓     |     ✓     |                 ✓                  |      Code Sandbox      |   linux-glibc   | Uses: `node:10.16.0-stretch` |
-|           |           |                                    |         Heroku         |   linux-glibc   |                              |
-|           |           |                                    |      Netlify Fns       | linux-musl (?)  |                              |
-|           |           |                                    | Google Cloud Functions | linux-glibc (?) |                              |
+| **Done?** | **Docs?** |                 **Issue?**                 |       **Target**       |  **Platform**   |          **Notes**           |
+| :-------: | :-------: | :----------------------------------------: | :--------------------: | :-------------: | :--------------------------: |
+|     ✓     |     ✓     |                     ✓                      |          Mac           |       mac       |                              |
+|           |           | https://github.com/prisma/prisma2/issues/6 |         Lambda         | linux-musl (?)  |                              |
+|           |           | https://github.com/prisma/prisma2/issues/5 |        Zeit Now        | linux-musl (?)  |                              |
+|           |           | https://github.com/prisma/prisma2/issues/2 |         Ubuntu         |   linux-glibc   |                              |
+|           |           | https://github.com/prisma/prisma2/issues/2 |         Centos         |   linux-glibc   |                              |
+|           |           | https://github.com/prisma/prisma2/issues/2 |         Alpine         |   linux-musl    |                              |
+|           |           | https://github.com/prisma/prisma2/issues/4 |        Windows         |                 |                              |
+|     ✓     |     ✓     |                     ✓                      |      Code Sandbox      |   linux-glibc   | Uses: `node:10.16.0-stretch` |
+|           |           |                                            |         Heroku         |   linux-glibc   |                              |
+|           |           |                                            |      Netlify Fns       | linux-musl (?)  |                              |
+|           |           |                                            | Google Cloud Functions | linux-glibc (?) |                              |
 
 To download the binary, replace `${platform}` with the Platform above:
 
