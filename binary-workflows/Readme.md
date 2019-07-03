@@ -42,7 +42,7 @@ https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/${platform}/prisma
 #### Lambda, Serverless, Apex, Netlify Functions, rsync
 
 - Some configuration needed
-- Installed via manually calling `prisma2 generate` before deploying
+- Installed manually by calling `prisma2 generate` before deploying
 
 We'll provide some high-level targets for common targets:
 
