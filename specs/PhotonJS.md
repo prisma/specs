@@ -203,6 +203,7 @@ const updatedPosts: Post[] = await photon.posts
   .updateMany({ uploaded: true })
 
 // Supports chaining multiple write operations
+// TODO: Is this a transaction? -> probably
 const updatedPosts2: Post[] = await photon.users
   .find('user-id')
   .update({ email: 'new@email.com' })
@@ -248,6 +249,9 @@ const dynamicResult3: DynamicResult3 = await photon.users.find({
 const deletedCount: number = await photon.users.deleteMany()
 ```
 
+## Implicit back relations
+
+- See https://github.com/prisma/prisma2/issues/81
 
 ## Top level query API
 
