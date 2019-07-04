@@ -145,3 +145,7 @@ the prebuilt binaries.
 #### curl
 
 We can modify this script to fit our needs: https://github.com/apex/apex/blob/master/install.sh.
+
+# Open Questions
+
+- [ ] Should the target be in the Prisma schema or a global env var?
