@@ -15,14 +15,6 @@ The workflows are powered by the `prisma2 generate` command, which runs the foll
 
 <!-- toc -->
 
-## Currently Available Platforms
-
-- darwin
-- linux-lambda
-- linux-zeit
-- linux-glibc
-- linux-musl
-
 ## Query Engine
 
 | **Working?** | **Docs?** |                 **Issue?**                  |       **Target**       | **Platform** |          **Notes**           |
@@ -74,6 +66,14 @@ As examples of high-level targets, some of these targets will include:
 - zeit
 - netlify functions
 - cloudflare workers
+
+##### Currently Available Platforms
+
+- darwin: https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/darwin/prisma
+- linux-lambda: https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-lambda/prisma
+- linux-zeit: https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-zeit/prisma
+- linux-glibc: https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc/prisma
+- linux-musl: https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl/prisma
 
 **Open Question**: we may run into issues over time if we don't version these and they change their underlying platform (zeit / netlify)
 
@@ -128,6 +128,12 @@ Currently **migration-engine**, soon also **introspection**.
 To download the binary, replace `${platform}` with the Platform above:
 
 https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/${platform}/migration-engine
+
+### Currently Available Platforms
+
+- darwin: https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/darwin/migration-engine
+- linux-glibc: https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc/migration-engine
+- linux-musl: https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl/migration-engine
 
 ### Installation
 
