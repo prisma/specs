@@ -14,18 +14,18 @@ be plugged in into the Prisma workflow.
 
 - [Motivation](#motivation)
 - [Detailed design](#detailed-design)
-  * [Generator configuration from `prisma.yml`](#generator-configuration-from-prismayml)
-  * [Generator resolution](#generator-resolution)
-  * [Generator interface](#generator-interface)
-    + [TypeScript](#typescript)
-    + [Non-TypeScript](#non-typescript)
-  * [Official Generators](#official-generators)
-  * [Installing 3rd party generators](#installing-3rd-party-generators)
-  * [Inclusion in the Prisma SDK](#inclusion-in-the-prisma-sdk)
-  * [Generating the client into `node_modules`](#generating-the-client-into-node_modules)
-    + [New Client generation output](#new-client-generation-output)
-  * [How client generation hooks in to migrate](#how-client-generation-hooks-in-to-migrate)
-    + [`prisma generate`](#prisma-generate)
+  - [Generator configuration from `prisma.yml`](#generator-configuration-from-prismayml)
+  - [Generator resolution](#generator-resolution)
+  - [Generator interface](#generator-interface)
+    - [TypeScript](#typescript)
+    - [Non-TypeScript](#non-typescript)
+  - [Official Generators](#official-generators)
+  - [Installing 3rd party generators](#installing-3rd-party-generators)
+  - [Inclusion in the Prisma SDK](#inclusion-in-the-prisma-sdk)
+  - [Generating the client into `node_modules`](#generating-the-client-into-node_modules)
+    - [New Client generation output](#new-client-generation-output)
+  - [How client generation hooks in to migrate](#how-client-generation-hooks-in-to-migrate)
+    - [`prisma generate`](#prisma-generate)
 - [Drawbacks](#drawbacks)
 - [Alternatives](#alternatives)
 - [Adoption strategy](#adoption-strategy)
@@ -112,7 +112,7 @@ generate:
   ./generators/java-generator --run:
     output: ./src/generated/client
     flavor: redundant
-  './with-quotes/it-may/be-easier/to --read':
+  "./with-quotes/it-may/be-easier/to --read":
     output: ./src/generated/client
     flavor: generics
 ```
@@ -146,34 +146,34 @@ default generators and some other useful utility functions.
 The basic `Generator` class looks like this:
 
 ```ts
-import { GraphQLSchema } from 'graphql'
-import { IGQLType } from 'prisma-datamodel'
-import * as fs from 'fs'
+import { GraphQLSchema } from "graphql";
+import { IGQLType } from "prisma-datamodel";
+import * as fs from "fs";
 
 export interface GeneratorInput<Parameters = any> {
   /**
    * The graphql-js schema instance. The schema is the generated API Schema, that is
    * being generated based on the datamodel.
    */
-  schema: GraphQLSchema
+  schema: GraphQLSchema;
   /**
    * The ast representation of all models, including information like `isEmbedded`
    */
-  internalTypes: IGQLType[]
+  internalTypes: IGQLType[];
   /**
    * The raw string of the endpoint as provided in the prisma.yml.
    * This may contain env var interpolation statements like ${env:PRISMA_ENDPOINT}
    */
-  endpoint: string
+  endpoint: string;
   /**
    * The raw string of the secret as provided in the prisma.yml.
    * This may contain env var interpolation statements like ${env:PRISMA_SECRET}
    */
-  secret: string
+  secret: string;
   /**
    * The parameters provided in the prisma.yml for this generator, converted from yaml to json.
    */
-  parameters: Parameters
+  parameters: Parameters;
 }
 
 /**
@@ -182,21 +182,21 @@ export interface GeneratorInput<Parameters = any> {
  * The paths of files will be created relative to the prisma.yml
  */
 export interface FileMap {
-  [fileName: string]: string
+  [fileName: string]: string;
 }
 
-export type RenderOutput = FileMap | string
+export type RenderOutput = FileMap | string;
 
 export abstract class Generator {
-  protected input: GeneratorInput
+  protected input: GeneratorInput;
 
-  public static reservedTypes = ['Prisma']
+  public static reservedTypes = ["Prisma"];
 
   constructor(input: GeneratorInput) {
-    this.input = input
+    this.input = input;
   }
 
-  public abstract render(): RenderOutput
+  public abstract render(): RenderOutput;
   public saveToFS(output: RenderOutput) {
     //...
   }
@@ -206,19 +206,19 @@ export abstract class Generator {
 A concrete user implementation of a generator could look like this:
 
 ```ts
-import { Generator, GeneratorInput } from './Generator'
-import { print } from 'graphql'
+import { Generator, GeneratorInput } from "./Generator";
+import { print } from "graphql";
 
 export interface Parameters {
-  output: string
+  output: string;
 }
 
 export default class ExampleGenerator extends Generator {
   constructor(input: GeneratorInput<Parameters>) {
-    super(input)
+    super(input);
   }
   render() {
-    return print(this.input.schema)
+    return print(this.input.schema);
   }
 }
 ```
@@ -246,25 +246,25 @@ export interface GeneratorInput {
   /**
    * The schema SDL string representing the API Schema, which is being generated based on the datamodel.
    */
-  schema: string
+  schema: string;
   /**
    * The ast representation of all models, including information like `isEmbedded`
    */
-  internalTypes: IGQLType[]
+  internalTypes: IGQLType[];
   /**
    * The raw string of the endpoint as provided in the prisma.yml.
    * This may contain env var interpolation statements like ${env:PRISMA_ENDPOINT}
    */
-  endpoint: string
+  endpoint: string;
   /**
    * The raw string of the secret as provided in the prisma.yml.
    * This may contain env var interpolation statements like ${env:PRISMA_SECRET}
    */
-  secret: string
+  secret: string;
   /**
    * The parameters provided in the prisma.yml for this generator, converted from yaml to json.
    */
-  parameters: any
+  parameters: any;
 }
 ```
 
@@ -283,7 +283,7 @@ Node.js. By pointing to the generator binary in the `prisma.yml`, you can includ
 
 ```yaml
 generate:
-  'node_modules/my-generator':
+  "node_modules/my-generator":
     flavor: generics
 ```
 

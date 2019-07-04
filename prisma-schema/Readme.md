@@ -3,17 +3,17 @@
 <!-- toc -->
 
 - [Datasource Block](#datasource-block)
-  * [Supported fields](#supported-fields)
+  - [Supported fields](#supported-fields)
 - [Generator Block](#generator-block)
-  * [Supported fields](#supported-fields-1)
+  - [Supported fields](#supported-fields-1)
 - [Model Block](#model-block)
-  * [Field Names](#field-names)
-  * [Data Types](#data-types)
-    + [Core Data Type to Connector](#core-data-type-to-connector)
-    + [Core Data Type to Generator](#core-data-type-to-generator)
-    + [Optional Types](#optional-types)
-    + [List Types](#list-types)
-    + [Relations](#relations)
+  - [Field Names](#field-names)
+  - [Data Types](#data-types)
+    - [Core Data Type to Connector](#core-data-type-to-connector)
+    - [Core Data Type to Generator](#core-data-type-to-generator)
+    - [Optional Types](#optional-types)
+    - [List Types](#list-types)
+    - [Relations](#relations)
       - [One-to-One (1:1) Relationships](#one-to-one-11-relationships)
       - [One-to-Many (1:N) Relationships](#one-to-many-1n-relationships)
       - [Implicit Many-to-Many (M:N) Relationships](#implicit-many-to-many-mn-relationships)
@@ -22,42 +22,42 @@
       - [Multiple-Reference Relationships](#multiple-reference-relationships)
       - [Referencing Primary Composite Keys](#referencing-primary-composite-keys)
       - [Referencing fields that are not @id](#referencing-fields-that-are-not-id)
-  * [Attributes](#attributes)
-    + [Case 1. No arguments](#case-1-no-arguments)
-    + [Case 2. One positional argument](#case-2-one-positional-argument)
-    + [Case 3. Many named arguments](#case-3-many-named-arguments)
-    + [Field Attributes](#field-attributes)
-    + [Core Field Attributes](#core-field-attributes)
+  - [Attributes](#attributes)
+    - [Case 1. No arguments](#case-1-no-arguments)
+    - [Case 2. One positional argument](#case-2-one-positional-argument)
+    - [Case 3. Many named arguments](#case-3-many-named-arguments)
+    - [Field Attributes](#field-attributes)
+    - [Core Field Attributes](#core-field-attributes)
       - [@id](#id)
       - [@unique](#unique)
       - [@map(\_ name: String)](#map_-name-string)
       - [@default(\_ expr: Expr)](#default_-expr-expr)
       - [@relation(\_ name?: String, references?: Identifier[], onDelete?: CascadeEnum)](#relation_-name-string-references-identifier-ondelete-cascadeenum)
       - [@updatedAt](#updatedat)
-    + [Block Attributes](#block-attributes)
-    + [Core Block Attributes](#core-block-attributes)
-    + [Type Specifications](#type-specifications)
-  * [Why do we enforce the Core Prisma Primitive Type, even when there is a type specification?](#why-do-we-enforce-the-core-prisma-primitive-type-even-when-there-is-a-type-specification)
+    - [Block Attributes](#block-attributes)
+    - [Core Block Attributes](#core-block-attributes)
+    - [Type Specifications](#type-specifications)
+  - [Why do we enforce the Core Prisma Primitive Type, even when there is a type specification?](#why-do-we-enforce-the-core-prisma-primitive-type-even-when-there-is-a-type-specification)
 - [Comments](#comments)
 - [Type Definition](#type-definition)
 - [Enum Block](#enum-block)
 - [Embed Block](#embed-block)
-  * [Inline Embeds](#inline-embeds)
+  - [Inline Embeds](#inline-embeds)
 - [Env Function](#env-function)
-  * [Introspect Behavior](#introspect-behavior)
-  * [Migrate Behavior](#migrate-behavior)
-  * [Generate Behavior](#generate-behavior)
-  * [Switching Datasources based on Environments](#switching-datasources-based-on-environments)
+  - [Introspect Behavior](#introspect-behavior)
+  - [Migrate Behavior](#migrate-behavior)
+  - [Generate Behavior](#generate-behavior)
+  - [Switching Datasources based on Environments](#switching-datasources-based-on-environments)
 - [Function](#function)
 - [Configuration Layout](#configuration-layout)
-  * [Soloists](#soloists)
-  * [Team](#team)
-    + [Multiple .prisma in the same directory get concatenated](#multiple-prisma-in-the-same-directory-get-concatenated)
-    + [Multiple directories for different environments](#multiple-directories-for-different-environments)
+  - [Soloists](#soloists)
+  - [Team](#team)
+    - [Multiple .prisma in the same directory get concatenated](#multiple-prisma-in-the-same-directory-get-concatenated)
+    - [Multiple directories for different environments](#multiple-directories-for-different-environments)
 - [Auto Formatting](#auto-formatting)
-  * [Formatting Rules](#formatting-rules)
-    + [Configuration blocks are align by their `=` sign.](#configuration-blocks-are-align-by-their--sign)
-    + [Field definitions are aligned into columns separated by 2 or more spaces.](#field-definitions-are-aligned-into-columns-separated-by-2-or-more-spaces)
+  - [Formatting Rules](#formatting-rules)
+    - [Configuration blocks are align by their `=` sign.](#configuration-blocks-are-align-by-their--sign)
+    - [Field definitions are aligned into columns separated by 2 or more spaces.](#field-definitions-are-aligned-into-columns-separated-by-2-or-more-spaces)
 
 <!-- tocstop -->
 
@@ -953,11 +953,11 @@ datasource pg {
 ```
 
 ```ts
-childProcess.spawn('./query_engine', {
+childProcess.spawn("./query_engine", {
   env: {
-    url: process.env.POSTGRES_URL,
-  },
-})
+    url: process.env.POSTGRES_URL
+  }
+});
 ```
 
 ### Switching Datasources based on Environments

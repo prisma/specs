@@ -13,9 +13,9 @@ This RFC depends on [prisma expression language](https://github.com/prisma/rfcs/
 - [Basic example](#basic-example)
 - [Motivation](#motivation)
 - [Detailed design](#detailed-design)
-  * [Operators](#operators)
-  * [Usage](#usage)
-    + [Examples](#examples)
+  - [Operators](#operators)
+  - [Usage](#usage)
+    - [Examples](#examples)
 - [Drawbacks](#drawbacks)
 - [Alternatives](#alternatives)
 - [Adoption strategy](#adoption-strategy)
@@ -33,12 +33,12 @@ const nestedResult1 = await prisma.users({
   select: {
     posts: {
       select: {
-        likeCount: (post: PostExpression) => post.comments.likes.sum(),
-      },
+        likeCount: (post: PostExpression) => post.comments.likes.sum()
+      }
     },
-    friends: true,
-  },
-})
+    friends: true
+  }
+});
 ```
 
 This example shows how an aggregation over an integer value from a child node can be accomplished.

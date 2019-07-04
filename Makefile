@@ -1,6 +1,10 @@
-readmes := $(wildcard */Readme.md)
+readmes := Readme.md $(wildcard */Readme.md)
 
-precommit: toc
+precommit: toc format
+
+## Format
+format: bin.prettier
+	@ prettier --print-width 160 --write $(readmes)
 
 ## Generate a table of contents
 toc: bin.markdown-toc
