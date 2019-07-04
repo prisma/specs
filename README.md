@@ -2,7 +2,8 @@
 
 Technical specification of Prisma
 
-- [Binary workflows](/binary-workflows)
+- [Binary Workflows](/binary-workflows)
+- [Binary Process Management](/binary-process-management)
 - [Lift](/lift)
 - [Photon Aggregration API](/photon-aggregation-api)
 - [Photon Expression API](/photon-expression-api)
