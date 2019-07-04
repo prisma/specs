@@ -10,11 +10,12 @@ The example code below assumes the following Prisma schema:
 type ID = String @id @default(cuid())
 
 model Post {
-  id       ID
-  title    String
-  body     String
-  comments Comment[]
-  author   User
+  id        ID
+  title     String
+  body      String
+  published Boolean
+  comments  Comment[]
+  author    User
 }
 
 model Comment {
@@ -51,6 +52,7 @@ type Post = {
   id: string
   title: string
   body: string
+  published: boolean
 }
 
 type Comment = {
@@ -137,25 +139,8 @@ const upsertedUser: User = await photon.users.find('bobs-id').upsert({
   create: { id: '...', firstName: 'Alice' },
 })
 
-// NOTE has Fluent API disabled (incl. nested queries)
+// Delete operation doesn't return any data
 const result: undefined = await photon.users.find('bobs-id').delete()
-
-// TODO refine
-await photon.posts.find('id').update({
-  comments: {
-    updateMany: {
-      where: { text: { startsWith: '...' } },
-      update: {
-        media: {
-          updateMany: {
-            where: { url: 'exact-url' },
-            update: { uploaded: true },
-          },
-        },
-      },
-    },
-  },
-})
 ```
 
 ## Select / Include API
@@ -196,7 +181,7 @@ const result: undefined = await photon.posts
 ## Fluent API
 
 - TODO: Spec out different between chainable vs terminating
-  - Chainable: schema-based fields (e.g. relations), find, update, upsert, create, 
+  - Chainable: schema-based fields (e.g. relations), find, update, upsert, create,
   - Terminating: select, include, delete, count, scalar field, exists
 
 ```ts
@@ -211,17 +196,16 @@ const bobsPosts: DynamicResult3 = await photon.users
   .posts({ first: 50 })
   .include({ comments: true })
 
-//
-await photon.posts
-  .findMany()
+const updatedPosts: Post[] = await photon.posts
+  .find('id')
   .comments({ where: { text: { startsWith: '...' } } })
   .media({ where: { url: 'exact-url' }, first: 100 })
   .updateMany({ uploaded: true })
 
 // Supports chaining multiple write operations
-const updatedPosts: Post[] = await photon.users
+const updatedPosts2: Post[] = await photon.users
   .find('user-id')
-  .update({ postCount: 2 })
+  .update({ email: 'new@email.com' })
   .posts({ where: { published: true } })
   .updateMany({ comments: { connect: 'comment-id' } })
 ```
@@ -314,6 +298,77 @@ await photon.batch([
     ],
   },
 ])
+```
+
+## Embeds
+
+```
+datasource mydb {
+  provider = "postgres"
+  url      = "pg:/..."
+}
+
+generator photon {
+  provider = "photonjs"
+  platform = ""
+}
+
+type ID = String @id @default(uuid())
+
+model Blog {
+  id          ID
+  name        String
+  viewCount   Int
+  isPublished Boolean
+  newField    String
+  posts       Post[]
+  authors     Author[]
+}
+
+model Author {
+  id    ID
+  name  String?
+  posts Post[]
+  blog  Blog
+  update String
+}
+
+model Post {
+  id       Int       @id
+  title    String
+  tags     String[]
+  blog     Blog
+  comments Comment[]
+}
+
+embed Comment {
+  text   String
+  media  Media[]
+  author Author
+}
+
+embed Media {
+  url      String
+  uploaded Boolean
+}
+```
+
+```ts
+await photon.posts.find('id').update({
+  comments: {
+    updateMany: {
+      where: { text: { startsWith: '...' } },
+      update: {
+        media: {
+          updateMany: {
+            where: { url: 'exact-url' },
+            update: { uploaded: true },
+          },
+        },
+      },
+    },
+  },
+})
 ```
 
 ## Group By
@@ -577,6 +632,10 @@ await photon.disconnect()
 - [ ] Connection management when used with embedded query engine
 - [ ] Force indexes
 - [ ] Rethink raw API fallbacks
+
+## Ugly parts
+
+- Select/Include API: Chainable `.select()` vs nested `{ select: { } }` API
 
 # Future topics
 
