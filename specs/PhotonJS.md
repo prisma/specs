@@ -136,7 +136,7 @@ const updatedUserByEmail: User = await photon.users
 
 const upsertedUser: User = await photon.users.find('bobs-id').upsert({
   update: { firstName: 'Alice' },
-  create: { id: '...', firstName: 'Alice' },
+  create: { id: 'my-custom-id', firstName: 'Alice' },
 })
 
 // Delete operation doesn't return any data
@@ -198,7 +198,7 @@ const bobsPosts: DynamicResult3 = await photon.users
 
 const updatedPosts: Post[] = await photon.posts
   .find('id')
-  .comments({ where: { text: { startsWith: '...' } } })
+  .comments({ where: { text: { startsWith: 'Hello' } } })
   .media({ where: { url: 'exact-url' }, first: 100 })
   .updateMany({ uploaded: true })
 
