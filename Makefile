@@ -1,5 +1,6 @@
 readmes := Readme.md $(wildcard */Readme.md)
 
+## Called as part of a git precommit hook
 precommit: toc format
 
 ## Format
