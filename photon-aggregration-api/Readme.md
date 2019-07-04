@@ -8,6 +8,20 @@ This RFC proposes a basic aggregation mechanism to prisma.
 
 This RFC depends on [prisma expression language](https://github.com/prisma/rfcs/pull/3).
 
+<!-- toc -->
+
+- [Basic example](#basic-example)
+- [Motivation](#motivation)
+- [Detailed design](#detailed-design)
+  * [Operators](#operators)
+  * [Usage](#usage)
+    + [Examples](#examples)
+- [Drawbacks](#drawbacks)
+- [Alternatives](#alternatives)
+- [Adoption strategy](#adoption-strategy)
+
+<!-- tocstop -->
+
 # Basic example
 
 A basic aggregation mechanisms would allow applying aggregate functions to single fields:

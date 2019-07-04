@@ -6,6 +6,45 @@
 
 In order to make Prismas existing migration system more powerful, we introduce a migration folder which includes datamodel snapshots per migration.
 
+<!-- toc -->
+
+- [Basic example](#basic-example)
+- [Motivation](#motivation)
+- [Terminology](#terminology)
+  * [Migration](#migration)
+  * [Migration Folder](#migration-folder)
+  * [Migration Scripts](#migration-scripts)
+  * [Migration Direction](#migration-direction)
+  * [Declarative migration](#declarative-migration)
+  * [Imperative migration](#imperative-migration)
+  * [Datamodel Snapshots](#datamodel-snapshots)
+  * [Migration Engine](#migration-engine)
+  * [Migration History](#migration-history)
+- [Detailed design](#detailed-design)
+  * [Naming of migration folders](#naming-of-migration-folders)
+  * [Writing `before` or `after` migration scripts](#writing-before-or-after-migration-scripts)
+  * [Up & Down in migration scripts](#up--down-in-migration-scripts)
+  * [Transactional/rollback behavior of migration scripts](#transactionalrollback-behavior-of-migration-scripts)
+  * [Attaching migration information (`rename` & `migrationValue`)](#attaching-migration-information-rename--migrationvalue)
+  * [Deleting old migrations](#deleting-old-migrations)
+  * [Locking the database during migration to prevent data corruption](#locking-the-database-during-migration-to-prevent-data-corruption)
+  * [Migration execution order](#migration-execution-order)
+  * [Solving merge conflicts](#solving-merge-conflicts)
+  * [The draft mode](#the-draft-mode)
+- [Drawbacks](#drawbacks)
+- [Alternatives](#alternatives)
+  * [Go](#go)
+  * [Python](#python)
+  * [PHP](#php)
+  * [Java](#java)
+  * [Node.js](#nodejs)
+  * [Ruby](#ruby)
+- [Adoption strategy](#adoption-strategy)
+- [How we teach this](#how-we-teach-this)
+- [Unresolved questions](#unresolved-questions)
+
+<!-- tocstop -->
+
 # Basic example
 
 When starting out with a simple project like this:

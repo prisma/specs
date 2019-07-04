@@ -1,4 +1,8 @@
-# Binary Workflows
+- Start Date: 2019-03-22
+- RFC PR: (leave this empty)
+- Prisma Issue: (leave this empty)
+
+# Summary
 
 We need our rust binaries to work on a variety of operating systems and workflows.
 
@@ -8,6 +12,8 @@ The workflows are powered by the `prisma2 generate` command, which runs the foll
 - check to see if the binary exists
 - download the binary if it doesn't exist
 - generate the photon code
+
+<!-- toc -->
 
 ## Query Engine
 

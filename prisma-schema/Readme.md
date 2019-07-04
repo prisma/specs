@@ -1,15 +1,19 @@
-# Datamodel 2.0
+# Prisma Schema
+
+<!-- toc -->
 
 - [Datasource Block](#datasource-block)
+  * [Supported fields](#supported-fields)
 - [Generator Block](#generator-block)
+  * [Supported fields](#supported-fields-1)
 - [Model Block](#model-block)
-  - [Field Names](#field-names)
-  - [Data Types](#data-types)
-    - [Core Data Type to Connector](#core-data-type-to-connector)
-    - [Core Data Type to Generator](#core-data-type-to-generator)
-    - [Optional Types](#optional-types)
-    - [List Types](#list-types)
-    - [Relations](#relations)
+  * [Field Names](#field-names)
+  * [Data Types](#data-types)
+    + [Core Data Type to Connector](#core-data-type-to-connector)
+    + [Core Data Type to Generator](#core-data-type-to-generator)
+    + [Optional Types](#optional-types)
+    + [List Types](#list-types)
+    + [Relations](#relations)
       - [One-to-One (1:1) Relationships](#one-to-one-11-relationships)
       - [One-to-Many (1:N) Relationships](#one-to-many-1n-relationships)
       - [Implicit Many-to-Many (M:N) Relationships](#implicit-many-to-many-mn-relationships)
@@ -17,47 +21,49 @@
       - [Self-Referential Relationships](#self-referential-relationships)
       - [Multiple-Reference Relationships](#multiple-reference-relationships)
       - [Referencing Primary Composite Keys](#referencing-primary-composite-keys)
-  - [Attributes](#attributes)
-    - [Case 1. No arguments](#case-1-no-arguments)
-    - [Case 2. One positional argument](#case-2-one-positional-argument)
-    - [Case 3. Many named arguments](#case-3-many-named-arguments)
-    - [Field Attributes](#field-attributes)
-    - [Core Field Attributes](#core-field-attributes)
-      - [@id()](#id)
-      - [@unique()](#unique)
-      - [@field(\_ name: String)](#field_-name-string)
+      - [Referencing fields that are not @id](#referencing-fields-that-are-not-id)
+  * [Attributes](#attributes)
+    + [Case 1. No arguments](#case-1-no-arguments)
+    + [Case 2. One positional argument](#case-2-one-positional-argument)
+    + [Case 3. Many named arguments](#case-3-many-named-arguments)
+    + [Field Attributes](#field-attributes)
+    + [Core Field Attributes](#core-field-attributes)
+      - [@id](#id)
+      - [@unique](#unique)
+      - [@map(\_ name: String)](#map_-name-string)
       - [@default(\_ expr: Expr)](#default_-expr-expr)
-      - [@relation(\_ name?: String, references?: Identifier[], onDelete?: CascadeEnum)](#relation_-fields-identifier-name-string-ondelete-cascadeenum)
+      - [@relation(\_ name?: String, references?: Identifier[], onDelete?: CascadeEnum)](#relation_-name-string-references-identifier-ondelete-cascadeenum)
       - [@updatedAt](#updatedat)
-    - [Block Attributes](#block-attributes)
-    - [Core Block Attributes](#core-block-attributes)
-    - [Type Specifications](#type-specifications)
-  - [Why do we enforce the Core Prisma Primitive Type, even when there is a type specification?](#why-do-we-enforce-the-core-prisma-primitive-type-even-when-there-is-a-type-specification)
+    + [Block Attributes](#block-attributes)
+    + [Core Block Attributes](#core-block-attributes)
+    + [Type Specifications](#type-specifications)
+  * [Why do we enforce the Core Prisma Primitive Type, even when there is a type specification?](#why-do-we-enforce-the-core-prisma-primitive-type-even-when-there-is-a-type-specification)
 - [Comments](#comments)
 - [Type Definition](#type-definition)
 - [Enum Block](#enum-block)
 - [Embed Block](#embed-block)
-  - [Inline Embeds](#inline-embeds)
+  * [Inline Embeds](#inline-embeds)
 - [Env Function](#env-function)
-  - [Introspect Behavior](#introspect-behavior)
-  - [Migrate Behavior](#migrate-behavior)
-  - [Generate Behavior](#generate-behavior)
-  - [Switching Datasources based on Environments](#switching-datasources-based-on-environments)
+  * [Introspect Behavior](#introspect-behavior)
+  * [Migrate Behavior](#migrate-behavior)
+  * [Generate Behavior](#generate-behavior)
+  * [Switching Datasources based on Environments](#switching-datasources-based-on-environments)
 - [Function](#function)
 - [Configuration Layout](#configuration-layout)
-  - [Soloists](#soloists)
-  - [Team](#team)
-    - [Multiple .prisma in the same directory get concatenated](#multiple-prisma-in-the-same-directory-get-concatenated)
-    - [Multiple directories for different environments](#multiple-directories-for-different-environments)
+  * [Soloists](#soloists)
+  * [Team](#team)
+    + [Multiple .prisma in the same directory get concatenated](#multiple-prisma-in-the-same-directory-get-concatenated)
+    + [Multiple directories for different environments](#multiple-directories-for-different-environments)
 - [Auto Formatting](#auto-formatting)
-  - [Formatting Rules](#formatting-rules)
-    - [Configuration blocks are align by their `=` sign.](#configuration-blocks-are-align-by-their--sign)
-    - [Field definitions are aligned into columns separated by 2 or more spaces.](#field-definitions-are-aligned-into-columns-separated-by-2-or-more-spaces)
+  * [Formatting Rules](#formatting-rules)
+    + [Configuration blocks are align by their `=` sign.](#configuration-blocks-are-align-by-their--sign)
+    + [Field definitions are aligned into columns separated by 2 or more spaces.](#field-definitions-are-aligned-into-columns-separated-by-2-or-more-spaces)
+
+<!-- tocstop -->
 
 ## Datasource Block
 
-Datasource blocks tell the datamodel where the models are backed. You can have
-multiple datasources with different connectors.
+Datasource blocks tell the schema where the models are backed. You can have multiple datasources with different connectors.
 
 ```groovy
 datasource pg {
@@ -83,17 +89,14 @@ datasource mgo2 {
   - `postgresql`
   - `mongodb`
   - `mysql`
-- `url` Connection url including auth info. Each datasource provider documents
-  the url syntax. most providers use the syntax provided by the database
+- `url` Connection url including auth info. Each datasource provider documents the url syntax. most providers use the syntax provided by the database
 - `enabled` Use environment variables to enable/disable a datasource
 
-Connectors may bring their own attributes to allow users to tailor their
-datamodels according to specific features of their connected datasources.
+Connectors may bring their own attributes to allow users to tailor their schemas according to specific features of their connected datasources.
 
 ## Generator Block
 
-Generator blocks configure what clients are generated and how they're generated.
-Language preferences and configuration will go in here:
+Generator blocks configure what clients are generated and how they're generated. Language preferences and configuration will go in here:
 
 ```groovy
 generator js {
@@ -117,8 +120,7 @@ generator go {
 
 > Note: these provider names are WIP
 
-- `provider` Can be a path or one of the following built in datasource
-  providers:
+- `provider` Can be a path or one of the following built in datasource providers:
   - `javascript`
   - `typescript`
   - `golang`
@@ -126,8 +128,7 @@ generator go {
 
 Generators may brign their own attributes
 
-Generator blocks also generate a namespace. This namespace allows fine-grained
-control over how a model generates it's types:
+Generator blocks also generate a namespace. This namespace allows fine-grained control over how a model generates it's types:
 
 ```groovy
 generate go {
@@ -143,13 +144,11 @@ model User {
 }
 ```
 
-This namespace is determined by the capabilities of the generator. The generator
-will export a schema of capabilities we'll plug into.
+This namespace is determined by the capabilities of the generator. The generator will export a schema of capabilities we'll plug into.
 
 ## Model Block
 
-Models are the high-level entities of our business. They are the nouns: the
-User, the Comment, the Post and the Tweet.
+Models are the high-level entities of our business. They are the nouns: the User, the Comment, the Post and the Tweet.
 
 Models may be backed by different datasources:
 
@@ -219,10 +218,8 @@ Field names are:
 
 ### Data Types
 
-Prisma has a couple core primitive types. How these core types are defined may
-vary across connectors. Every connector **must** implement these core types.
-It's part of the connectors interface to Prisma. If a connector doesn't have a
-core type, it should provide a **best-effort implementation**.
+Prisma has a couple core primitive types. How these core types are defined may vary across connectors. Every connector **must** implement these core types. It's
+part of the connectors interface to Prisma. If a connector doesn't have a core type, it should provide a **best-effort implementation**.
 
 | Type     | Description           |
 | -------- | --------------------- |
@@ -252,8 +249,7 @@ Here's how some of the databases we're tracking map to the core types:
 | Float    | REAL    | double | number   |
 | Datetime | _N/A_   | date   | _N/A_    |
 
-**\_N/A:** here means no perfect equivalent, but we can probably get pretty
-close.
+**\_N/A:** here means no perfect equivalent, but we can probably get pretty close.
 
 #### Core Data Type to Generator
 
@@ -267,8 +263,7 @@ close.
 
 #### Optional Types
 
-All field types support optional fields. By default, fields are required, but if
-you want to make them optional, you add a `?` at the end.
+All field types support optional fields. By default, fields are required, but if you want to make them optional, you add a `?` at the end.
 
 ```groovy
 model User {
@@ -288,8 +283,7 @@ The default output for a nullable field is null.
 
 #### List Types
 
-All primitive `types`, `enums`, `relations` and `embeds` natively support lists.
-Lists are denoted with `[]` at the end of the type.
+All primitive `types`, `enums`, `relations` and `embeds` natively support lists. Lists are denoted with `[]` at the end of the type.
 
 ```groovy
 model User {
@@ -304,33 +298,24 @@ Lists can also be optional and will give the list a 3rd state, null:
 - `Blog[]`: empty list or non-empty list of blogs (default: [])
 - `Blog[]?`: null, empty list or non-empty list of blogs (default: null)
 
-The default value for a required list is an empty list. The default value for an
-optional list is null.
+The default value for a required list is an empty list. The default value for an optional list is null.
 
-For `Blog[]?`, we'll plan for this from an implementation perspective, but not
-expose it publicly for now.
+For `Blog[]?`, we'll plan for this from an implementation perspective, but not expose it publicly for now.
 
 #### Relations
 
 Prisma provides a high-level syntax for defining relationships.
 
-There are three kinds of relations: `1-1`, `1-m` and `m-n`. In relational
-databases `1-1` and `1-m` is modeled the same way, and there is no built-in
-support for `m-n` relations.
+There are three kinds of relations: `1-1`, `1-m` and `m-n`. In relational databases `1-1` and `1-m` is modeled the same way, and there is no built-in support
+for `m-n` relations.
 
-Prisma core provides explicit support for all 3 relation types and connectors
-must ensure that their guarantees are upheld:
+Prisma core provides explicit support for all 3 relation types and connectors must ensure that their guarantees are upheld:
 
-- `1-1` The return value on both sides is a nullable single value. Prisma
-  prevents accidentally storing multiple records in the relation.
-- `1-m` The return value on one side is a optional single value, on the other
-  side a list that might be empty.
-- `m-n` The return value on both sides is a list that might be empty. This is an
-  improvement over the standard implementation in relational databases that
-  require the application developer to deal with implementation details such as
-  an intermediate table / join table. In Prisma, each connector will implement
-  this concept in the way that is most efficient on the given storage engine and
-  expose an API that hides the implementation details.
+- `1-1` The return value on both sides is a nullable single value. Prisma prevents accidentally storing multiple records in the relation.
+- `1-m` The return value on one side is a optional single value, on the other side a list that might be empty.
+- `m-n` The return value on both sides is a list that might be empty. This is an improvement over the standard implementation in relational databases that
+  require the application developer to deal with implementation details such as an intermediate table / join table. In Prisma, each connector will implement
+  this concept in the way that is most efficient on the given storage engine and expose an API that hides the implementation details.
 
 ##### One-to-One (1:1) Relationships
 
@@ -348,10 +333,8 @@ model Customer {
 }
 ```
 
-For 1:1 relationships, it doesn't matter which side you store the foreign key.
-Therefore Prisma has a convention that the foreign key is added to the model who
-appears first alphanumerically. In the example above, that's the `Customer`
-model.
+For 1:1 relationships, it doesn't matter which side you store the foreign key. Therefore Prisma has a convention that the foreign key is added to the model who
+appears first alphanumerically. In the example above, that's the `Customer` model.
 
 Under the hood, the models looks like this:
 
@@ -366,15 +349,11 @@ Under the hood, the models looks like this:
 | user          | integer |
 | address       | text    |
 
-You **may** omit either `User.customer` or `Customer.user` and the relationship
-will remain intact. This makes either the back-relation or the forward-relation
-optional. If one side of the relation is missing, Prisma implies the field name
-based on the name of the model it is pointing to.
+You **may** omit either `User.customer` or `Customer.user` and the relationship will remain intact. This makes either the back-relation or the forward-relation
+optional. If one side of the relation is missing, Prisma implies the field name based on the name of the model it is pointing to.
 
-If you're introspecting an existing database and the foreign key does not follow
-the alphanumeric convention, then we'll use the
-`@relation(_ name: String?, references: Identifier[]?, onDelete: OnDeleteEnum?)`
-attribute to clarify.
+If you're introspecting an existing database and the foreign key does not follow the alphanumeric convention, then we'll use the
+`@relation(_ name: String?, references: Identifier[]?, onDelete: OnDeleteEnum?)` attribute to clarify.
 
 ```groovy
 model User {
@@ -408,8 +387,7 @@ model Blog {
 
 - `Blog.author`: points to the primary key on writer
 
-Connectors for relational databases will implement this as two tables with a
-foreign-key constraint on the blogs table:
+Connectors for relational databases will implement this as two tables with a foreign-key constraint on the blogs table:
 
 | **writers** |         |
 | ----------- | ------- |
@@ -420,10 +398,8 @@ foreign-key constraint on the blogs table:
 | id        | integer |
 | author    | integer |
 
-You **may** omit `Blog.author` and the relationship will remain intact. If one
-side of the relation is missing, Prisma implies the field name based on the name
-of the model it is pointing to. If you omitted `Writer.blogs`, Prisma would add
-an implicit `Writer.blog` field, making the relation `1-1` instead of `1-m`
+You **may** omit `Blog.author` and the relationship will remain intact. If one side of the relation is missing, Prisma implies the field name based on the name
+of the model it is pointing to. If you omitted `Writer.blogs`, Prisma would add an implicit `Writer.blog` field, making the relation `1-1` instead of `1-m`
 
 You may also map to composite primary keys:
 
@@ -459,8 +435,7 @@ Underneath:
 
 ##### Implicit Many-to-Many (M:N) Relationships
 
-Blogs can have multiple writers and a writer can write many blogs. Prisma
-supports implicit join tables as a low-syntax way to get started.
+Blogs can have multiple writers and a writer can write many blogs. Prisma supports implicit join tables as a low-syntax way to get started.
 
 ```groovy
 model Blog {
@@ -474,10 +449,8 @@ model Writer {
 }
 ```
 
-Connectors for relational databases should implement this as two data tables and
-a single join table. For data sources that support composite primary keys, we'll
-use `primary key(blog, writer)` to ensure that there can't be no more than one
-unique association.
+Connectors for relational databases should implement this as two data tables and a single join table. For data sources that support composite primary keys,
+we'll use `primary key(blog, writer)` to ensure that there can't be no more than one unique association.
 
 | **Blog** |         |
 | -------- | ------- |
@@ -492,8 +465,7 @@ unique association.
 | blog               | integer |
 | writer             | integer |
 
-For implicit many-to-many relations, you **must** include both `Blog.authors`
-and `Writer.blogs`. If one of these fields is missing, Prisma will assume it's a
+For implicit many-to-many relations, you **must** include both `Blog.authors` and `Writer.blogs`. If one of these fields is missing, Prisma will assume it's a
 **One-to-Many (1:N)** relationship.
 
 ##### Explicit Many-to-Many (M:N) Relationships
@@ -552,8 +524,7 @@ model Employee {
 
 ##### Multiple-Reference Relationships
 
-Models may have multiple references to the same model. To prevent ambiguities,
-we explicitly name the foreign key field using a `@relation` attribute:
+Models may have multiple references to the same model. To prevent ambiguities, we explicitly name the foreign key field using a `@relation` attribute:
 
 ```groovy
 model User {
@@ -590,8 +561,7 @@ model Block {
 
 ##### Referencing fields that are not @id
 
-The `@id` attribute marks the primary identifyer of a model. If a model does not
-have a primary identifier or you want to reference another field, you can
+The `@id` attribute marks the primary identifyer of a model. If a model does not have a primary identifier or you want to reference another field, you can
 specify the field using the `@relation` attribute
 
 ```groovy
@@ -609,8 +579,7 @@ model Block {
 
 ### Attributes
 
-Attributes modify the behavior of a field or block. Field attributes are
-prefixed with a `@`, while block attributes are prefixed with `@@`.
+Attributes modify the behavior of a field or block. Field attributes are prefixed with a `@`, while block attributes are prefixed with `@@`.
 
 Depending on their signature, attributes may be called in the following cases:
 
@@ -624,8 +593,7 @@ Depending on their signature, attributes may be called in the following cases:
 
 #### Case 2. One positional argument
 
-`@attribute(_ p0: T0, p1: T1, ...)`: There may be up to one positional argument
-that doesn't need to be named.
+`@attribute(_ p0: T0, p1: T1, ...)`: There may be up to one positional argument that doesn't need to be named.
 
 - `@field("my_column")`
 - `@default(10)`
@@ -639,10 +607,8 @@ For arrays with a single parameter, you **may** omit the surrounding brackets:
 
 #### Case 3. Many named arguments
 
-`@attribute(p1: T1, p2: T2, _: T3, ...)`: There may be any number of named
-arguments. If there is a positional argument, then it **may** appear anywhere in
-the function signature, but if it's present and required, the caller **must**
-place it before any named arguments. Named arguments may appear in any order:
+`@attribute(p1: T1, p2: T2, _: T3, ...)`: There may be any number of named arguments. If there is a positional argument, then it **may** appear anywhere in the
+function signature, but if it's present and required, the caller **must** place it before any named arguments. Named arguments may appear in any order:
 
 - `@@pg.index([ email, first_name ], name: "my_index", partial: true)`
 - `@@pg.index([ first_name, last_name ], unique: true, name: "my_index")`
@@ -665,9 +631,8 @@ For arrays with a single parameter, you **may** omit the surrounding brackets:
 
 #### Field Attributes
 
-Field attributes are marked by an `@` prefix placed at the end of the field
-definition. You can have as many field attributes as you want and they may also
-span multiple lines:
+Field attributes are marked by an `@` prefix placed at the end of the field definition. You can have as many field attributes as you want and they may also span
+multiple lines:
 
 ```
 model _ {
@@ -685,15 +650,12 @@ type _ _ @attribute("input")
 
 #### Core Field Attributes
 
-Prisma supports the following core field attributes. Field attributes may be
-used in `model` and `embed` blocks as well as `type` definitions. These
-attributes **must** be implemented by every connector with a **best-effort
-implementation**:
+Prisma supports the following core field attributes. Field attributes may be used in `model` and `embed` blocks as well as `type` definitions. These attributes
+**must** be implemented by every connector with a **best-effort implementation**:
 
 ##### @id
 
-Defines the primary key. There **must** be exactly one field `@id` or block
-`@id`
+Defines the primary key. There **must** be exactly one field `@id` or block `@id`
 
 ##### @unique
 
@@ -713,8 +675,7 @@ Disambiguates relationships when needed
 
 - name: _(optional)_ defines the name of the relationship
 - references: _(optional)_ list of field names to reference
-- onDelete: _(optional)_ defines what we do when the referenced relation is
-  deleted
+- onDelete: _(optional)_ defines what we do when the referenced relation is deleted
   - **CASCADE**: also delete this entry
   - **SET_NULL**: set the field to null. This is the default
 
@@ -724,8 +685,7 @@ Updates the time to `now()` whenever the model is updated
 
 #### Block Attributes
 
-Field attributes are marked by an `@@` prefix placed anywhere inside the block.
-You can have as many block attributes as you want and they may also span
+Field attributes are marked by an `@@` prefix placed anywhere inside the block. You can have as many block attributes as you want and they may also span
 multiple lines:
 
 ```
@@ -750,26 +710,19 @@ embed \_ { @@attribute0
 
 #### Core Block Attributes
 
-Prisma supports the following core block attributes. Block attributes may be
-used in `model` and `embed` blocks. These attributes **must** be implemented by
+Prisma supports the following core block attributes. Block attributes may be used in `model` and `embed` blocks. These attributes **must** be implemented by
 every connector with a **best-effort implementation**:
 
-- `@@map(_ name: String)`: Define the name of the underlying table or collection
-  name
+- `@@map(_ name: String)`: Define the name of the underlying table or collection name
 - `@@id(_ fields: Identifier[])`: Defines a composite primary key across fields
-- `@@unique(_ fields: Identifier[], name: String?)`: Defines a composite unique
-  constraint across fields
+- `@@unique(_ fields: Identifier[], name: String?)`: Defines a composite unique constraint across fields
 
 #### Type Specifications
 
-In order to live up to our promise of not tailoring Prisma to the lowest-common
-database feature-set, connectors may bring their own attributes to the
-datamodel.
+In order to live up to our promise of not tailoring Prisma to the lowest-common database feature-set, connectors may bring their own attributes to the schema.
 
-The connector can bring all of its own specific types into the datamodel. This
-will make your datamodel less universal, but more capable for the datasource
-you're using. Connectors will export a schema of capabilities that you can apply
-to your datamodel field and blocks.
+The connector can bring all of its own specific types into the schema. This will make your schema less universal, but more capable for the datasource you're
+using. Connectors will export a schema of capabilities that you can apply to your schema field and blocks.
 
 ```groovy
 datasource pg {
@@ -808,11 +761,9 @@ model User {
 }
 ```
 
-Additionally, a generator might choose to implement dedicated support for all or
-some Type Specifications.
+Additionally, a generator might choose to implement dedicated support for all or some Type Specifications.
 
-For example, a ts generator might choose to interpret the type of the `name`
-field as `ArrayBuffer(8)` instead of `String` for performance reasons
+For example, a ts generator might choose to interpret the type of the `name` field as `ArrayBuffer(8)` instead of `String` for performance reasons
 
 ```groovy
 model User {
@@ -820,29 +771,23 @@ model User {
 }
 ```
 
-This mapping is not declarative, so the generator is free to take all aspects of
-the datamodel into account when making this decision, including collation
-settings for the table and so on.
+This mapping is not declarative, so the generator is free to take all aspects of the schema into account when making this decision, including collation settings
+for the table and so on.
 
 ### Why do we enforce the Core Prisma Primitive Type, even when there is a type specification?
 
-Generators are guaranteed that they can always fall back to the Core Prisma
-Primitive Type. This way they can implement special enhancements for certain
-Type Specifications of certain databases but still work reasonably well for all
-the types and databases that they don't have dedicated support for.
+Generators are guaranteed that they can always fall back to the Core Prisma Primitive Type. This way they can implement special enhancements for certain Type
+Specifications of certain databases but still work reasonably well for all the types and databases that they don't have dedicated support for.
 
-This is especially important for connectors and generators implemented by the
-community.
+This is especially important for connectors and generators implemented by the community.
 
 ## Comments
 
-There are 2 types of comments that are supported in the datamodel:
+There are 2 types of comments that are supported in the schema:
 
-1. `// comment`: This comment is for the reader's clarity and is not present in
-   the AST.
-2. `/// comment`: These comments will show up in the AST, either as descriptions
-   to AST nodes or as free-floating comments. Tools can then use these comments
-   to provide additional information to the user.
+1. `// comment`: This comment is for the reader's clarity and is not present in the AST.
+2. `/// comment`: These comments will show up in the AST, either as descriptions to AST nodes or as free-floating comments. Tools can then use these comments to
+   provide additional information to the user.
 
 Here are some different examples:
 
@@ -868,8 +813,7 @@ model Customer {}
 
 ## Type Definition
 
-Type definitions can be used to consolidate various type specifications into one
-type.
+Type definitions can be used to consolidate various type specifications into one type.
 
 ```groovy
 type Numeric Float @pg.numeric(precision: 5, scale: 2)
@@ -892,8 +836,7 @@ enum Color {
 }
 ```
 
-Enums can include their corresponding value to determine what is stored by the
-datasource:
+Enums can include their corresponding value to determine what is stored by the datasource:
 
 ```groovy
 enum Color {
@@ -906,12 +849,10 @@ For now, we'll only support `String` enum value types.
 
 ## Embed Block
 
-Embeds are supported natively by Prisma. There are 2 types of embeds: named
-embeds (just called embeds) and inline embeds.
+Embeds are supported natively by Prisma. There are 2 types of embeds: named embeds (just called embeds) and inline embeds.
 
-Unlike relations, embed tells the clients that this data \_comes with the
-record. How the data is actually stored (co-located or not) is not a concern of
-the data model.
+Unlike relations, embed tells the clients that this data \_comes with the record. How the data is actually stored (co-located or not) is not a concern of the
+data model.
 
 ```groovy
 model User {
@@ -938,8 +879,7 @@ embed Sources {
 
 There's another way to use embeds.
 
-When you don't need to reuse an embed, inline embeds are handy. Inlines embeds
-are supported in `model` and `embed` blocks. They can be nested as deep as you
+When you don't need to reuse an embed, inline embeds are handy. Inlines embeds are supported in `model` and `embed` blocks. They can be nested as deep as you
 want. Please don't go too deep though.
 
 ```groovy
@@ -961,11 +901,10 @@ enum Card {
 
 ## Env Function
 
-The datamodel can require certain environment expectations to be met. The
-purpose of the `env` function is to:
+The schema can require certain environment expectations to be met. The purpose of the `env` function is to:
 
-- Keeps secrets out of the datamodel
-- Improve portability of the datamodel
+- Keeps secrets out of the schema
+- Improve portability of the schema
 
 ````groovy
 datasource pg {
@@ -976,7 +915,7 @@ datasource pg {
 
 In this case `env` represents the outside environment. Tools will be expected to
 provide this environment variable when they perform operations based on the
-datamodel. For example:
+schema. For example:
 
 ```sh
 $ prisma deploy
@@ -989,24 +928,20 @@ $ POSTGRES_URL="postgres://user:secret@rds.amazon.com:4321/db" prisma deploy
 
 Environment variables will most often be used to connect to a datasource.
 
-Therefore, we check and resolve environment variables before connecting and
-running introspection algorithms.
+Therefore, we check and resolve environment variables before connecting and running introspection algorithms.
 
 ### Migrate Behavior
 
 Environment variables will most often be used to connect to a datasource.
 
-Therefore, we check and resolve environment variables before connecting and
-running our migrations.
+Therefore, we check and resolve environment variables before connecting and running our migrations.
 
 ### Generate Behavior
 
-Environment variables will most often be used to connect to a datasource. When
-we're generating source code, we don't need to connect to the datasource, but
+Environment variables will most often be used to connect to a datasource. When we're generating source code, we don't need to connect to the datasource, but
 rather when we run the source code.
 
-Therefore, we will detect the use of an environment variable in the connector's
-configuration and copy it into the generated code. The generators will decide
+Therefore, we will detect the use of an environment variable in the connector's configuration and copy it into the generated code. The generators will decide
 how to generate these environment variable entrypoints.
 
 Here's an example:
@@ -1027,8 +962,7 @@ childProcess.spawn('./query_engine', {
 
 ### Switching Datasources based on Environments
 
-Sometimes it's nice to get started with an SQLite database and migrate to
-Postgres or MySQL for production. We support this workflow:
+Sometimes it's nice to get started with an SQLite database and migrate to Postgres or MySQL for production. We support this workflow:
 
 ```groovy
 datasource db {
@@ -1050,21 +984,17 @@ model User {
 }
 ```
 
-When two different datasources share the same name, their exported capabilities
-are the intersection of the two datasources. This makes it safe to use the
+When two different datasources share the same name, their exported capabilities are the intersection of the two datasources. This makes it safe to use the
 attributes depending on the runtime environment variable switch.
 
-Intersecting capabilities also provide a way to switch to a new data source and
-see how portable your datasource is.
+Intersecting capabilities also provide a way to switch to a new data source and see how portable your datasource is.
 
-If two datasources of the same name are enabled, we will throw a runtime-time
-error.
+If two datasources of the same name are enabled, we will throw a runtime-time error.
 
 ## Function
 
-Prisma core provides a set of functions that **must** be implemented by every
-connector with a **best-effort implementation**. Functions only work inside
-field and block attributes that accept them.
+Prisma core provides a set of functions that **must** be implemented by every connector with a **best-effort implementation**. Functions only work inside field
+and block attributes that accept them.
 
 - `uuid()` - generates a fresh UUID
 - `cuid()` - generates a fresh cuid
@@ -1083,33 +1013,29 @@ model User {
 
 Functions will always be provided at the Prisma level by the query engine.
 
-The data types that these functions return will be defined by the connectors.
-For example, `now()` in Postgres will return a `timestamp with time zone`, while
+The data types that these functions return will be defined by the connectors. For example, `now()` in Postgres will return a `timestamp with time zone`, while
 `now()` with a JSON connector would return an `ISOString`.
 
 ## Configuration Layout
 
 > Note: This section is still WIP
 
-Our prisma datamodel is designed to serve the requirements of a variety of
-consumers.
+Our prisma schema is designed to serve the requirements of a variety of consumers.
 
 ### Soloists
 
-Single developer just wants to shove everything in a single file. They don't
-want to clutter their application up with your configuration. This is supported
-by using the same language for configuration and your datamodel.
+Single developer just wants to shove everything in a single file. They don't want to clutter their application up with your configuration. This is supported by
+using the same language for configuration and your schema.
 
 ```sh
 /app
-  datamodel.prisma
+  schema.prisma
 ```
 
 ### Team
 
-A team may have a lot of configuration or many different models. They may also
-have many environments they need to deploy to. We support a couple options to
-break up the datamodel.
+A team may have a lot of configuration or many different models. They may also have many environments they need to deploy to. We support a couple options to
+break up the schema.
 
 #### Multiple .prisma in the same directory get concatenated
 
@@ -1121,8 +1047,7 @@ break up the datamodel.
     comment.prisma
 ```
 
-The above could also address the preference to separate configuration from the
-datamodel. For example:
+The above could also address the preference to separate configuration from the schema. For example:
 
 ```sh
 /app
@@ -1134,8 +1059,7 @@ datamodel. For example:
 
 #### Multiple directories for different environments
 
-If your environment widely vary, you can separate environment by directory. You
-can use symlinks or the `import` block to share configuration:
+If your environment widely vary, you can separate environment by directory. You can use symlinks or the `import` block to share configuration:
 
 ```sh
 /app
@@ -1150,24 +1074,19 @@ can use symlinks or the `import` block to share configuration:
       comment.prisma
 ```
 
-You should only reach for this capability if you absolutely need it.
-[Twelve-Factor App](https://12factor.net/config?S_TACT=105AGX28) encourages you
-to only manage environment differences inside environment variables. We supports
-this use case very well with `env` blocks.
+You should only reach for this capability if you absolutely need it. [Twelve-Factor App](https://12factor.net/config?S_TACT=105AGX28) encourages you to only
+manage environment differences inside environment variables. We supports this use case very well with `env` blocks.
 
 ## Auto Formatting
 
-Following the lead of [gofmt](https://golang.org/cmd/gofmt/) and
-[prettier](https://github.com/prettier/prettier), our syntax ships with a
-formatter for `.prisma` files.
+Following the lead of [gofmt](https://golang.org/cmd/gofmt/) and [prettier](https://github.com/prettier/prettier), our syntax ships with a formatter for
+`.prisma` files.
 
-Like `gofmt` and unlike `prettier`, we offer no options for configurability
-here. **There is one way to format a prisma file**.
+Like `gofmt` and unlike `prettier`, we offer no options for configurability here. **There is one way to format a prisma file**.
 
 This strictness serves two benefits:
 
-1. No bikeshedding. There's a saying in the Go community that, "Gofmt's style is
-   nobody's favorite, but gofmt is everybody's favorite."
+1. No bikeshedding. There's a saying in the Go community that, "Gofmt's style is nobody's favorite, but gofmt is everybody's favorite."
 2. No pull requests with different spacing schemes.
 
 ### Formatting Rules
@@ -1221,8 +1140,7 @@ block _ {
 }
 ```
 
-Multiline field attributes are properly aligned with the rest of the field
-attributes:
+Multiline field attributes are properly aligned with the rest of the field attributes:
 
 ```
 block _ {

@@ -10,6 +10,30 @@ ensure typesafe access to the Prisma API.
 In this spec we propose how we can provide an easy to use generator API both for TypeScript and other languages to generate clients and how these generators can
 be plugged in into the Prisma workflow.
 
+<!-- toc -->
+
+- [Motivation](#motivation)
+- [Detailed design](#detailed-design)
+  * [Generator configuration from `prisma.yml`](#generator-configuration-from-prismayml)
+  * [Generator resolution](#generator-resolution)
+  * [Generator interface](#generator-interface)
+    + [TypeScript](#typescript)
+    + [Non-TypeScript](#non-typescript)
+  * [Official Generators](#official-generators)
+  * [Installing 3rd party generators](#installing-3rd-party-generators)
+  * [Inclusion in the Prisma SDK](#inclusion-in-the-prisma-sdk)
+  * [Generating the client into `node_modules`](#generating-the-client-into-node_modules)
+    + [New Client generation output](#new-client-generation-output)
+  * [How client generation hooks in to migrate](#how-client-generation-hooks-in-to-migrate)
+    + [`prisma generate`](#prisma-generate)
+- [Drawbacks](#drawbacks)
+- [Alternatives](#alternatives)
+- [Adoption strategy](#adoption-strategy)
+- [How we teach this](#how-we-teach-this)
+- [Unresolved questions](#unresolved-questions)
+
+<!-- tocstop -->
+
 # Motivation
 
 Prisma provides a higher abstraction level to connect to databases. While the core part of Prisma is the query engine, which transforms GraphQL queries into

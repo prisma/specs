@@ -14,6 +14,24 @@ This allows use-cases like:
 - Filtering by calculated values
 - Filtering or Ordering by aggregated data
 
+<!-- toc -->
+
+- [Basic example](#basic-example)
+- [Motivation](#motivation)
+- [Detailed design](#detailed-design)
+  * [Capabilities of Expressions](#capabilities-of-expressions)
+  * [Limitations of Expressions](#limitations-of-expressions)
+  * [Identifiers and Functions](#identifiers-and-functions)
+  * [Interoperability with the GraphQL API](#interoperability-with-the-graphql-api)
+- [Drawbacks](#drawbacks)
+- [Alternatives](#alternatives)
+- [Adoption strategy](#adoption-strategy)
+  * [Implementation Plan and related DB capabilities](#implementation-plan-and-related-db-capabilities)
+- [How we teach this](#how-we-teach-this)
+- [Unresolved questions](#unresolved-questions)
+
+<!-- tocstop -->
+
 # Basic example
 
 An expression could look similar to this on the client side.
