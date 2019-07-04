@@ -1,8 +1,12 @@
 # Detailed design
 
-The example code below assumes the following datamodel:
+## Prisma Schema
 
-```groovy
+The example code below assumes the following Prisma schema:
+
+```prisma
+// datasource config ...
+
 type ID = String @id @default(cuid())
 
 model Post {
@@ -21,14 +25,16 @@ model Comment {
 }
 
 model User {
-  id        ID
-  firstName String
-  lastName  String
-  email     String
-  posts     Post[]
-  comments  Comment[]
-  friends   User[]
-  profile   Profile
+  id           ID
+  firstName    String
+  lastName     String
+  email        String
+  posts        Post[]
+  comments     Comment[]
+  friends      User[]    @relation("friends")
+  profile      Profile
+  bestFriend   User      @relation("bestFriend") @unique
+  bestFriendOf User      @relation("bestFriend")
 }
 
 embed Profile {
@@ -69,15 +75,20 @@ type Profile = {
 ## Basic Queries
 
 ```ts
-// Get single node by id
+// Find single node by @id field
 const alice: User = await photon.users.find('user-id')
 
-// Get single node by other unique field
+// Find single node by other unique field
 const alice: User = await photon.users.find({ email: 'alice@prisma.io' })
 
-// Lookup-by Multi-field indexes
+// Find using composite/multi-field unique indexes
 const john: User = await photon.users.find({
   name: { firstName: 'John', lastName: 'Doe' },
+})
+
+// Find using unique relation
+const bob: User = await photon.users.find({
+  bestFriend: { email: 'alice@prisma.io' },
 })
 
 // Get many nodes
@@ -95,31 +106,17 @@ const usersByProfile = await photon.users.findMany({
 
 // Where / filtering
 await photon.users.findMany({ where: { email: { contains: '@gmail.com' } } })
-
 await photon.users.findMany({
   where: { email: { containsInsensitive: '@gmail.com' } },
 })
+await photon.users.findMany({})
 
-// ???
-// // Exists
-// await photon.users
-//   .findMany({ email: { containsInsensitive: '@gmail.com' } })
-//   .exists()
+// Exists
+const userFound: boolean = await photon.users.find('bobs-id').exists()
+const foundAtLeastOneUser: boolean = await photon.users
+  .findMany({ email: { containsInsensitive: '@gmail.com' } })
+  .exists()
 ```
-
-<!-- ## Top level query API
-
-```ts
-const nestedResult = await photon.query({
-  users: {
-    first: 100,
-    select: {
-      posts: { select: { comments: true } },
-      friends: true,
-    },
-  },
-})
-``` -->
 
 ## Writing Data
 
@@ -188,9 +185,19 @@ const userWithPostsAndFriends: DynamicResult2 = await photon.users
     posts: { include: { comments: true } },
     friends: true,
   })
+
+// Omit return data if not needed
+const result: undefined = await photon.posts
+  .findMany({ where: { published: true } })
+  .updateMany({ comments: { connect: 'comment-id' } })
+  .select(false)
 ```
 
 ## Fluent API
+
+- TODO: Spec out different between chainable vs terminating
+  - Chainable: schema-based fields (e.g. relations), find, update, upsert, create, 
+  - Terminating: select, include, delete, count, scalar field, exists
 
 ```ts
 const bobsPosts: Post[] = await photon.users
@@ -204,22 +211,22 @@ const bobsPosts: DynamicResult3 = await photon.users
   .posts({ first: 50 })
   .include({ comments: true })
 
-// TODO refine
+//
 await photon.posts
   .findMany()
   .comments({ where: { text: { startsWith: '...' } } })
   .media({ where: { url: 'exact-url' }, first: 100 })
-  .updateMany({ uploaded: true }, { if: {} })
+  .updateMany({ uploaded: true })
 
-// TODO refine
-await photon.users
+// Supports chaining multiple write operations
+const updatedPosts: Post[] = await photon.users
   .find('user-id')
   .update({ postCount: 2 })
   .posts({ where: { published: true } })
   .updateMany({ comments: { connect: 'comment-id' } })
-  .select(false)
 ```
 
+<!--
 ## TODO: `withPageInfo`
 
 ```ts
@@ -255,6 +262,21 @@ const dynamicResult3: DynamicResult3 = await photon.users.find({
 })
 
 const deletedCount: number = await photon.users.deleteMany()
+```
+
+
+## Top level query API
+
+```ts
+const nestedResult = await photon.query({
+  users: {
+    first: 100,
+    select: {
+      posts: { select: { comments: true } },
+      friends: true,
+    },
+  },
+})
 ```
 
 ## Optimistic Concurrency Control / Optimistic Offline Lock
@@ -387,11 +409,11 @@ const userWithPostsAndFriends2 = await photon.users.find({
 })
 ```
 
-<!-- ## `$exec`
+## `$exec`
 
 ```ts
 const usersQueryWithTimeout = await photon.users.$exec({ timeout: 1000 })
-``` -->
+```
 
 ## Batching
 
@@ -461,9 +483,9 @@ const userCount = await photon.users.count({
 })
 ```
 
-<!-- ## Life-cycle hooks -->
+## Life-cycle hooks
 
-<!-- ### Middleware (blocking)
+### Middleware (blocking)
 
 ```ts
 function beforeUserCreate(user: UserCreateProps): UserCreateProps {
@@ -496,7 +518,7 @@ const photon = new Photon()
 photon.on('User:beforeCreate', user => {
   stripe.createUser(user)
 })
-``` -->
+```
 
 ## Error Handling
 
@@ -537,6 +559,8 @@ await photon.disconnect()
 
 # Drawbacks
 
+- Name clashes and confusion of schema-based methods vs Photon methods
+
 # Alternatives
 
 - `$nested` API
@@ -545,8 +569,11 @@ await photon.disconnect()
 
 # How we teach this
 
+-->
+
 # Unresolved questions
 
+- [ ] find by unique relation
 - [ ] Connection management when used with embedded query engine
 - [ ] Force indexes
 - [ ] Rethink raw API fallbacks
