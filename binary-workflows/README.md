@@ -15,6 +15,14 @@ The workflows are powered by the `prisma2 generate` command, which runs the foll
 
 <!-- toc -->
 
+## Currently Available Platforms
+
+- darwin
+- linux-lambda
+- linux-zeit
+- linux-glibc
+- linux-musl
+
 ## Query Engine
 
 | **Working?** | **Docs?** |                 **Issue?**                  |       **Target**       | **Platform** |          **Notes**           |
