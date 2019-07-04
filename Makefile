@@ -4,7 +4,7 @@ precommit: toc format
 
 ## Format
 format: bin.prettier
-	@ prettier --print-width 160 --write $(readmes)
+	@ prettier --print-width 160 --loglevel error --write $(readmes)
 
 ## Generate a table of contents
 toc: bin.markdown-toc
