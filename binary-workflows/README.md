@@ -17,21 +17,21 @@ The workflows are powered by the `prisma2 generate` command, which runs the foll
 
 ## Query Engine
 
-| **Working?** | **Docs?** |                 **Issue?**                  |        **Name**        |      **Package**       |
-| :----------: | :-------: | :-----------------------------------------: | :--------------------: | :--------------------: |
-|      ✓       |     ✓     |                      ✓                      |          Mac           |         darwin         |
-|              |           | https://github.com/prisma/prisma2/issues/6  |     Lambda Node 8      | linux-musl-libssl1.0.1 |
-|              |           | https://github.com/prisma/prisma2/issues/6  |     Lambda Node 10     | linux-musl-libssl1.0.2 |
-|              |           | https://github.com/prisma/prisma2/issues/5  |        Zeit Now        | linux-musl-libssl1.0.1 |
-|              |           | https://github.com/prisma/prisma2/issues/86 |   Netlify Functions    |           ?            |
-|      ✓       |           | https://github.com/prisma/prisma2/issues/2  |         Ubuntu         |      linux-glibc       |
-|      ✓       |           | https://github.com/prisma/prisma2/issues/2  |         Centos         |      linux-glibc       |
-|      ✓       |           | https://github.com/prisma/prisma2/issues/2  |         Alpine         |       linux-musl       |
-|              |           | https://github.com/prisma/prisma2/issues/4  |        Windows         |        windows         |
-|      ✓       |           |                      ✓                      |      Code Sandbox      |      linux-glibc       |
-|              |           | https://github.com/prisma/prisma2/issues/84 |         Heroku         |           ?            |
-|              |           | https://github.com/prisma/prisma2/issues/85 |   Cloudflare Workers   |           ?            |
-|              |           | https://github.com/prisma/prisma2/issues/87 | Google Cloud Functions |     user's choice      |
+| **Working?** | **Docs?** |                 **Issue?**                  |        **Name**        |       **Package**       |
+| :----------: | :-------: | :-----------------------------------------: | :--------------------: | :---------------------: |
+|      ✓       |     ✓     |                      ✓                      |          Mac           |         darwin          |
+|              |           | https://github.com/prisma/prisma2/issues/6  |     Lambda Node 8      | linux-glibc-libssl1.0.1 |
+|              |           | https://github.com/prisma/prisma2/issues/6  |     Lambda Node 10     | linux-glibc-libssl1.0.2 |
+|              |           | https://github.com/prisma/prisma2/issues/5  |        Zeit Now        | linux-glibc-libssl1.0.1 |
+|              |           | https://github.com/prisma/prisma2/issues/86 |   Netlify Functions    |            ?            |
+|      ✓       |           | https://github.com/prisma/prisma2/issues/2  |         Ubuntu         |       linux-glibc       |
+|      ✓       |           | https://github.com/prisma/prisma2/issues/2  |         Centos         |       linux-glibc       |
+|      ✓       |           | https://github.com/prisma/prisma2/issues/2  |         Alpine         |       linux-musl        |
+|              |           | https://github.com/prisma/prisma2/issues/4  |        Windows         |         windows         |
+|      ✓       |           |                      ✓                      |      Code Sandbox      |       linux-glibc       |
+|              |           | https://github.com/prisma/prisma2/issues/84 |         Heroku         |            ?            |
+|              |           | https://github.com/prisma/prisma2/issues/85 |   Cloudflare Workers   |            ?            |
+|              |           | https://github.com/prisma/prisma2/issues/87 | Google Cloud Functions |      user's choice      |
 
 To download the binary, replace `${package}` with the **Package** above:
 
@@ -65,16 +65,16 @@ generator photon {
 
 ##### Platforms and their URLs
 
-|         target         | status |                                        url                                        |
-| :--------------------: | :----: | :-------------------------------------------------------------------------------: |
-|         darwin         |   ✓    |    https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/darwin/prisma    |
-|      linux-lambda      | remove | https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-lambda/prisma |
-|       linux-zeit       | remove |  https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-zeit/prisma  |
-|      linux-glibc       |   ✓    | https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc/prisma  |
-|       linux-musl       |   ✓    |  https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl/prisma  |
-|        windows         |   ✓    |   https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/windows/prisma    |
-| linux-musl-libssl1.0.1 |  todo  |                                                                                   |
-| linux-musl-libssl1.0.2 |  todo  |                                                                                   |
+|         target          |    issue    |                                   url or issue                                    |
+| :---------------------: | :---------: | :-------------------------------------------------------------------------------: |
+|         darwin          |      ✓      |    https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/darwin/prisma    |
+|      linux-lambda       | todo remove | https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-lambda/prisma |
+|       linux-zeit        | todo remove |  https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-zeit/prisma  |
+|       linux-glibc       |      ✓      | https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc/prisma  |
+|       linux-musl        |      ✓      |  https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl/prisma  |
+|         windows         |             |                    https://github.com/prisma/prisma2/issues/4                     |
+| linux-glibc-libssl1.0.1 |             |                    https://github.com/prisma/prisma2/issues/97                    |
+| linux-glibc-libssl1.0.2 |             |                    https://github.com/prisma/prisma2/issues/97                    |
 
 Alternatively, this can be done via an environment variable:
 
@@ -127,7 +127,7 @@ https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/${package}/migrati
 |   darwin    |   ✓    |   https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/darwin/migration-engine    |
 | linux-glibc |   ✓    | https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc/migration-engine |
 | linux-musl  |   ✓    | https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl/migration-engine  |
-|   windows   |        |   https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/windows/migration-engine   |
+|   windows   |        |                         https://github.com/prisma/prisma2/issues/4                         |
 
 ### Installation
 
