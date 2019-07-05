@@ -953,11 +953,11 @@ datasource pg {
 ```
 
 ```ts
-childProcess.spawn("./query_engine", {
+childProcess.spawn('./query_engine', {
   env: {
-    url: process.env.POSTGRES_URL
-  }
-});
+    url: process.env.POSTGRES_URL,
+  },
+})
 ```
 
 ### Switching Datasources based on Environments
@@ -1016,26 +1016,102 @@ Functions will always be provided at the Prisma level by the query engine.
 The data types that these functions return will be defined by the connectors. For example, `now()` in Postgres will return a `timestamp with time zone`, while
 `now()` with a JSON connector would return an `ISOString`.
 
-## Configuration Layout
+## Importing schemas
 
-> Note: This section is still WIP
+A team may have a lot of configuration or many different models. They may also have many environments they need to deploy to. We support an `import <string>`
+function that will concatenate schemas together and join their contents.
 
-Our prisma schema is designed to serve the requirements of a variety of consumers.
+**schema.prisma**
 
-### Soloists
+```groovy
+import "./post.prisma"
 
-Single developer just wants to shove everything in a single file. They don't want to clutter their application up with your configuration. This is supported by
-using the same language for configuration and your schema.
-
-```sh
-/app
-  schema.prisma
+model User {
+	posts Post[]
+}
 ```
 
-### Team
+**post.prisma**
 
-A team may have a lot of configuration or many different models. They may also have many environments they need to deploy to. We support a couple options to
-break up the schema.
+```groovy
+model Post {
+	title String @pg.varchar(42)
+	body  String
+}
+```
+
+Resolves to:
+
+```groovy
+model Post {
+	title String @pg.varchar(42)
+	body  String
+}
+
+model User {
+	posts Post[]
+}
+```
+
+### Importing from other endpoints
+
+We also support fetching schemas from Github, NPM, HTTP and can add more as desired. We were inspired by Hashicorp's
+[go-getter](https://github.com/hashicorp/go-getter).
+
+Here are some possibilities:
+
+```
+import "https://Aladdin:OpenSesame@www.example.com/index.html"
+import "github://prisma/project/post.schema"
+import "npm://prisma/app/comments.schema"
+```
+
+### Conflict Resolution
+
+Often times you'll import a schema that has conflicting models. In this case we take the union of all fields and attributes:
+
+**post.prisma**
+
+```groovy
+model Post {
+  id    Int    @id
+	title String @pg.varchar(42)
+	body  String
+  @@unique([id,title])
+}
+```
+
+**schema.prisma**
+
+```groovy
+import "./post.prisma"
+
+model User {
+	posts: Post[]
+}
+
+model Post {
+	title String @unique
+}
+```
+
+Resolves to:
+
+```groovy
+model User {
+	posts: Post[]
+}
+
+model Post {
+  id    Int    @id
+	title String @pg.varchar(42)
+	body  String
+  @@unique([id,title])
+}
+```
+
+- **Open Question:** What happens if the field types differ?
+- **Open Question:** Do we want to take the union? Is there some other approach that's more clear?
 
 #### Multiple .prisma in the same directory get concatenated
 
