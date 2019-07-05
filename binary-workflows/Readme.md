@@ -15,6 +15,21 @@ The workflows are powered by the `prisma2 generate` command, which runs the foll
 
 <!-- toc -->
 
+- [Query Engine](#query-engine)
+  - [Development Installation](#development-installation)
+    - [OSX, Windows](#osx-windows)
+  - [Production Installation](#production-installation)
+    - [Lambda, Serverless, Apex, Netlify Functions, rsync](#lambda-serverless-apex-netlify-functions-rsync)
+      - [Platforms and their URLs](#platforms-and-their-urls)
+    - [Now, Heroku, Deploy from CI](#now-heroku-deploy-from-ci)
+- [CLI (migration-engine + introspection binaries)](#cli-migration-engine--introspection-binaries)
+  - [Platforms and their URLs](#platforms-and-their-urls-1)
+  - [Installation](#installation)
+    - [yarn/npm](#yarnnpm)
+    - [curl](#curl)
+
+<!-- tocstop -->
+
 ## Query Engine
 
 | **Working?** | **Docs?** |                 **Issue?**                  |        **Name**        |       **Package**       |
