@@ -33,7 +33,7 @@ The workflows are powered by the `prisma2 generate` command, which runs the foll
 - download the binary if it doesn't exist
 - generate the photon code
 
-## Query Engine
+# Query Engine
 
 | **Working?** | **Docs?** |                 **Issue?**                  |        **Name**        |       **Package**       |
 | :----------: | :-------: | :-----------------------------------------: | :--------------------: | :---------------------: |
@@ -57,17 +57,17 @@ https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/${package}/prisma
 
 - By excluding `_libsslx.x.x`, we're assuming the latest build. `linux_musl` means `linux_musl_libssl-latest`.
 
-### Development Installation
+## Development Installation
 
-#### OSX, Windows
+### OSX, Windows
 
 - Installed via `yarn add prisma2`.
 - `postinstall` hook runs, calling `prisma2 generate`
 - No configuration needed
 
-### Production Installation
+## Production Installation
 
-#### Lambda, Serverless, Apex, Netlify Functions, rsync
+### Lambda, Serverless, Apex, Netlify Functions, rsync
 
 - Some configuration needed
 - Installed manually by calling `prisma2 generate` before deploying
@@ -81,7 +81,7 @@ generator photon {
 }
 ```
 
-##### Platforms and their URLs
+#### Platforms and their URLs
 
 |         target          |    issue    |                                   url or issue                                    |
 | :---------------------: | :---------: | :-------------------------------------------------------------------------------: |
@@ -114,7 +114,7 @@ generator photon {
 
 After, we can install the binary via `prisma generate`
 
-#### Now, Heroku, Deploy from CI
+### Now, Heroku, Deploy from CI
 
 - Installed via `yarn add prisma2`.
 - `postinstall` hook runs, calling `prisma2 generate`
@@ -138,7 +138,7 @@ To download the binary, replace `${package}` with the Package above:
 
 https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/${package}/migration-engine
 
-### Platforms and their URLs
+## Platforms and their URLs
 
 |   target    | status |                                            url                                             |
 | :---------: | :----: | :----------------------------------------------------------------------------------------: |
@@ -147,13 +147,13 @@ https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/${package}/migrati
 | linux-musl  |   ✓    | https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl/migration-engine  |
 |   windows   |        |                         https://github.com/prisma/prisma2/issues/4                         |
 
-### Installation
+## Installation
 
-#### yarn/npm
+### yarn/npm
 
 `yarn add prisma2` runs a `install` (or `postinstall`) scripts which should detect our current environment, check if we already have the binary, and download
 the prebuilt binaries.
 
-#### curl
+### curl
 
 We can modify this script to fit our needs: https://github.com/apex/apex/blob/master/install.sh.
