@@ -52,8 +52,6 @@
 - [Importing schemas](#importing-schemas)
   - [Importing from other endpoints](#importing-from-other-endpoints)
   - [Conflict Resolution](#conflict-resolution)
-    - [Multiple .prisma in the same directory get concatenated](#multiple-prisma-in-the-same-directory-get-concatenated)
-    - [Multiple directories for different environments](#multiple-directories-for-different-environments)
 - [Auto Formatting](#auto-formatting)
   - [Formatting Rules](#formatting-rules)
     - [Configuration blocks are align by their `=` sign.](#configuration-blocks-are-align-by-their--sign)
@@ -953,11 +951,11 @@ datasource pg {
 ```
 
 ```ts
-childProcess.spawn('./query_engine', {
+childProcess.spawn("./query_engine", {
   env: {
-    url: process.env.POSTGRES_URL,
-  },
-})
+    url: process.env.POSTGRES_URL
+  }
+});
 ```
 
 ### Switching Datasources based on Environments
