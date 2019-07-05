@@ -49,9 +49,9 @@
   - [Generate Behavior](#generate-behavior)
   - [Switching Datasources based on Environments](#switching-datasources-based-on-environments)
 - [Function](#function)
-- [Configuration Layout](#configuration-layout)
-  - [Soloists](#soloists)
-  - [Team](#team)
+- [Importing schemas](#importing-schemas)
+  - [Importing from other endpoints](#importing-from-other-endpoints)
+  - [Conflict Resolution](#conflict-resolution)
     - [Multiple .prisma in the same directory get concatenated](#multiple-prisma-in-the-same-directory-get-concatenated)
     - [Multiple directories for different environments](#multiple-directories-for-different-environments)
 - [Auto Formatting](#auto-formatting)
@@ -1112,46 +1112,6 @@ model Post {
 
 - **Open Question:** What happens if the field types differ?
 - **Open Question:** Do we want to take the union? Is there some other approach that's more clear?
-
-#### Multiple .prisma in the same directory get concatenated
-
-```sh
-/app
-  /prisma
-    user.prisma
-    post.prisma
-    comment.prisma
-```
-
-The above could also address the preference to separate configuration from the schema. For example:
-
-```sh
-/app
-  /prisma
-    schema.prisma
-    connectors.prisma
-    generators.prisma
-```
-
-#### Multiple directories for different environments
-
-If your environment widely vary, you can separate environment by directory. You can use symlinks or the `import` block to share configuration:
-
-```sh
-/app
-  /prisma
-    /production
-      user.prisma
-      post.prisma
-      comment.prisma
-    /development
-      user.prisma
-      post.prisma
-      comment.prisma
-```
-
-You should only reach for this capability if you absolutely need it. [Twelve-Factor App](https://12factor.net/config?S_TACT=105AGX28) encourages you to only
-manage environment differences inside environment variables. We supports this use case very well with `env` blocks.
 
 ## Auto Formatting
 
