@@ -35,21 +35,21 @@ The workflows are powered by the `prisma2 generate` command, which runs the foll
 
 # Query Engine
 
-| **Working?** | **Docs?** |                 **Issue?**                  |        **Name**        |       **Package**       |
-| :----------: | :-------: | :-----------------------------------------: | :--------------------: | :---------------------: |
-|      ✓       |     ✓     |                      ✓                      |          Mac           |         darwin          |
-|              |           | https://github.com/prisma/prisma2/issues/6  |     Lambda Node 8      | linux-glibc-libssl1.0.1 |
-|              |           | https://github.com/prisma/prisma2/issues/6  |     Lambda Node 10     | linux-glibc-libssl1.0.2 |
-|              |           | https://github.com/prisma/prisma2/issues/5  |        Zeit Now        | linux-glibc-libssl1.0.1 |
-|              |           | https://github.com/prisma/prisma2/issues/86 |   Netlify Functions    |            ?            |
-|      ✓       |           | https://github.com/prisma/prisma2/issues/2  |         Ubuntu         |       linux-glibc       |
-|      ✓       |           | https://github.com/prisma/prisma2/issues/2  |         Centos         |       linux-glibc       |
-|      ✓       |           | https://github.com/prisma/prisma2/issues/2  |         Alpine         |       linux-musl        |
-|              |           | https://github.com/prisma/prisma2/issues/4  |        Windows         |         windows         |
-|      ✓       |           |                      ✓                      |      Code Sandbox      |       linux-glibc       |
-|              |           | https://github.com/prisma/prisma2/issues/84 |         Heroku         |            ?            |
-|              |           | https://github.com/prisma/prisma2/issues/85 |   Cloudflare Workers   |            ?            |
-|              |           | https://github.com/prisma/prisma2/issues/87 | Google Cloud Functions |      user's choice      |
+|        **Name**        |       **Package**       | **Working?** | **Docs?** |                 **Issue?**                  |
+| :--------------------: | :---------------------: | :----------: | :-------: | :-----------------------------------------: |
+|          Mac           |         darwin          |      ✓       |     ✓     |                      ✓                      |
+|     Lambda Node 8      | linux-glibc-libssl1.0.1 |              |           | https://github.com/prisma/prisma2/issues/6  |
+|     Lambda Node 10     | linux-glibc-libssl1.0.2 |              |           | https://github.com/prisma/prisma2/issues/6  |
+|        Zeit Now        | linux-glibc-libssl1.0.1 |              |           | https://github.com/prisma/prisma2/issues/5  |
+|   Netlify Functions    |            ?            |              |           | https://github.com/prisma/prisma2/issues/86 |
+|         Ubuntu         |       linux-glibc       |      ✓       |           | https://github.com/prisma/prisma2/issues/2  |
+|         Centos         |       linux-glibc       |      ✓       |           | https://github.com/prisma/prisma2/issues/2  |
+|         Alpine         |       linux-musl        |      ✓       |           | https://github.com/prisma/prisma2/issues/2  |
+|        Windows         |         windows         |              |           | https://github.com/prisma/prisma2/issues/4  |
+|      Code Sandbox      |       linux-glibc       |      ✓       |           |                      ✓                      |
+|         Heroku         |            ?            |              |           | https://github.com/prisma/prisma2/issues/84 |
+|   Cloudflare Workers   |            ?            |              |           | https://github.com/prisma/prisma2/issues/85 |
+| Google Cloud Functions |      user's choice      |              |           | https://github.com/prisma/prisma2/issues/87 |
 
 To download the binary, replace `${package}` with the **Package** above:
 
