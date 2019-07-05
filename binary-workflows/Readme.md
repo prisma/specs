@@ -7,18 +7,18 @@
 <!-- toc -->
 
 - [Summary](#summary)
-  - [Query Engine](#query-engine)
-    - [Development Installation](#development-installation)
-      - [OSX, Windows](#osx-windows)
-    - [Production Installation](#production-installation)
-      - [Lambda, Serverless, Apex, Netlify Functions, rsync](#lambda-serverless-apex-netlify-functions-rsync)
-        - [Platforms and their URLs](#platforms-and-their-urls)
-      - [Now, Heroku, Deploy from CI](#now-heroku-deploy-from-ci)
+- [Query Engine](#query-engine)
+  - [Development Installation](#development-installation)
+    - [OSX, Windows](#osx-windows)
+  - [Production Installation](#production-installation)
+    - [Lambda, Serverless, Apex, Netlify Functions, rsync](#lambda-serverless-apex-netlify-functions-rsync)
+      - [Platforms and their URLs](#platforms-and-their-urls)
+    - [Now, Heroku, Deploy from CI](#now-heroku-deploy-from-ci)
   - [CLI (migration-engine + introspection binaries)](#cli-migration-engine--introspection-binaries)
-    - [Platforms and their URLs](#platforms-and-their-urls-1)
-    - [Installation](#installation)
-      - [yarn/npm](#yarnnpm)
-      - [curl](#curl)
+  - [Platforms and their URLs](#platforms-and-their-urls-1)
+  - [Installation](#installation)
+    - [yarn/npm](#yarnnpm)
+    - [curl](#curl)
 
 <!-- tocstop -->
 
@@ -122,7 +122,7 @@ After, we can install the binary via `prisma generate`
 
 We can use the configuration above to override our default settings.
 
-## CLI (migration-engine + introspection binaries)
+# CLI (migration-engine + introspection binaries)
 
 Currently **migration-engine**, soon also **introspection**.
 
