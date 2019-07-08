@@ -125,7 +125,6 @@ const foundAtLeastOneUser: boolean = await photon.users
 ```ts
 const newUser: User = await photon.users.create({ firstName: 'Alice' })
 
-// Updates
 const updatedUser: User = await photon.users
   .find('bobs-id')
   .update({ firstName: 'Alice' })
@@ -141,6 +140,13 @@ const upsertedUser: User = await photon.users.find('bobs-id').upsert({
 
 // Delete operation doesn't return any data
 const result: undefined = await photon.users.find('bobs-id').delete()
+
+// Nested writes
+const updatedUser: User = await photon.users.find('bobs-id').update({
+  posts: {
+    create: { title: 'New post', body: 'Hello world', published: true },
+  },
+})
 ```
 
 ## Select / Include API
@@ -636,6 +642,7 @@ await photon.disconnect()
 - [ ] Connection management when used with embedded query engine
 - [ ] Force indexes
 - [ ] Rethink raw API fallbacks
+- [ ] How to query records that were "touched" during nested writes
 
 ## Ugly parts
 
