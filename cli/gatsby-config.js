@@ -12,7 +12,8 @@ module.exports = {
         `,
         defaultLayouts: {
           default: require.resolve("./src/components/layout.tsx")
-        }
+        },
+        remarkPlugins: [require(`remark-slug`)],
       }
     },
     'gatsby-plugin-typescript'

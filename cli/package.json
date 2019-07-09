@@ -13,6 +13,7 @@
     "normalize.css": "^8.0.1",
     "react": "^16.5.1",
     "react-dom": "^16.5.1",
+    "remark-slug": "^5.1.2",
     "typeface-roboto-mono": "^0.0.54"
   },
   "keywords": [
