@@ -1,13 +1,39 @@
-import CLI from '../components/cli'
+import { Terminal, SectionTitle, Spacer, Select, Option, Button, Line } from '../components/cli'
 
-# My first MDX Page
-some awesome content
+# Selecting a Database
+Some info about this view here
 
-<CLI>
-  test
-  <a href="#other-headline">some link</a>
-</CLI>
+<Terminal>
+  ~/my-app prisma init
+  <Spacer height={20} />
+  <SectionTitle>Which database do you want to use?</SectionTitle>
+  <Spacer height={16} />
+  <Select>
+    <Option label="SQLite" description="Easiest to set up" isSelected href="#sqlite" />
+    <Option label="MySQL" description="Requires running MySQL database" href="#mysql" />
+    <Option label="PostgreSQL" description="Requires running PostreSQL database" href="#postgresql" />
+    <Option label="MongoDB" description="(Coming soon)" isDisabled href="#mongodb" />
+  </Select>
+</Terminal>
 
-# Other headline
+# SQLite
+Some info about this view here
 
-hello
+<Terminal>
+  ~/my-app prisma init
+  <Spacer height={20} />
+  <SectionTitle>How do you want to proceed?</SectionTitle>
+  <Spacer height={16} />
+  <Select>
+    <Option label="Create a new SQLite file" description="Beginner's choice" href="#sqlite-new-db" />
+    <Option label="Use an existing SQLite file" description="Requires the path to the file" href="#sqlite-current-db" />
+  </Select>
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Button label="Back" description="(Database selection)" />
+</Terminal>
+
+# MySQL
+# PostgreSQL
+# MongoDB
