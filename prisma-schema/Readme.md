@@ -32,7 +32,7 @@
       - [@unique](#unique)
       - [@map(\_ name: String)](#map_-name-string)
       - [@default(\_ expr: Expr)](#default_-expr-expr)
-      - [@relation(\_ name?: String, references?: Identifier[], onDelete?: CascadeEnum)](#relation_-name-string-references-identifier-ondelete-cascadeenum)
+      - [`@relation(\_ name?: String, references?: Identifier[], onDelete?: CascadeEnum)`](#relation_-name-string-references-identifier-ondelete-cascadeenum)
       - [@updatedAt](#updatedat)
     - [Block Attributes](#block-attributes)
     - [Core Block Attributes](#core-block-attributes)
@@ -293,7 +293,7 @@ model User {
 
 Lists can also be optional and will give the list a 3rd state, null:
 
-- `Blog[]`: empty list or non-empty list of blogs (default: [])
+- `Blog[]`: empty list or non-empty list of blogs (default: `[]`)
 - `Blog[]?`: null, empty list or non-empty list of blogs (default: null)
 
 The default value for a required list is an empty list. The default value for an optional list is null.
@@ -904,7 +904,7 @@ The schema can require certain environment expectations to be met. The purpose o
 - Keeps secrets out of the schema
 - Improve portability of the schema
 
-````groovy
+```groovy
 datasource pg {
   provider = "postgres"
   url      = env("POSTGRES_URL")
@@ -920,7 +920,7 @@ $ prisma deploy
 ! required POSTGRES_URL variable not provided
 
 $ POSTGRES_URL="postgres://user:secret@rds.amazon.com:4321/db" prisma deploy
-````
+```
 
 ### Introspect Behavior
 
