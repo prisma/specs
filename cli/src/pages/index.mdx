@@ -57,3 +57,43 @@ Some info about this view here
   <Spacer height={16} />
   <Button label="Confirm" />
 </Terminal>
+
+<br/>
+
+## Select language
+<Terminal>
+  ~/my-app prisma init
+  <Spacer height={20} />
+  <SectionTitle>Which programming language do you want to use to access your database with Photon?</SectionTitle>
+  <Spacer height={8} />
+  <Line />
+  <Spacer height={16} />
+  <Button label="TypeScript" isSelected />
+  <Button label="JavaScript" />
+  <Button label="Go" description="(Coming soon)" isDisabled />
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Button icon="back" label="Back" description="(Tool selection)" />
+</Terminal>
+
+<br/>
+
+## Select boilerplate
+<Terminal>
+  ~/my-app prisma init
+  <Spacer height={20} />
+  <SectionTitle>Do you want to use a boilerplate or explore Prisma from scratch?</SectionTitle>
+  <Spacer height={8} />
+  <Line />
+  <Spacer height={16} />
+  <Button label="From scratch" description="Simple script with API examples" labelWidth={180} isSelected />
+  <Button label="GraphQL boilerplate" description="GraphQL server example" labelWidth={180} />
+  <Button label="REST boilerplate" description="REST API example (using express.js)" labelWidth={180} />
+  <Button label="gRPC boilerplate" description="gRPC API example (client + server)" labelWidth={180} />
+  <Button label="No boilerplate" description="Just generate the Prisma schema" labelWidth={180} />
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Button icon="back" label="Back" description="(Language selection)" />
+</Terminal>
