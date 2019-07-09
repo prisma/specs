@@ -62,14 +62,14 @@ const raw = {
       email: '"public"."users"."email"',
       firstName: '"public"."users"."first_name"',
       toString() {
-        return '"public"."users"';
-      }
+        return '"public"."users"'
+      },
     },
     toString() {
-      return '"public"';
-    }
-  }
-};
+      return '"public"'
+    },
+  },
+}
 ```
 
 We'll also generate a raw API. This will be dependent on both the data source and the language we're generating for. You'll see a couple examples below of
@@ -78,8 +78,8 @@ different flavours.
 For JS, the API will look like this:
 
 ```js
-const photon = new Photon();
-console.log(`select ${raw.pg.user.firstName} from ${raw.pg.user}`);
+const photon = new Photon()
+console.log(`select ${raw.pg.user.firstName} from ${raw.pg.user}`)
 ```
 
 Resolving to:
@@ -180,10 +180,10 @@ LIMIT 0,
 ## Photon JS
 
 ```js
-import { raw } from "@generated/photon";
+import { raw } from '@generated/photon'
 const {
-  pg: { community_profile, community_image, community_message, community_gift_user, community_gifts, auth_user, community_visit, auth_user_role }
-} = raw;
+  pg: { community_profile, community_image, community_message, community_gift_user, community_gifts, auth_user, community_visit, auth_user_role },
+} = raw
 
 photon.raw(`
 SELECT *
@@ -233,7 +233,9 @@ FROM
                                     WHERE ${community_gift_user.community_gift_id} = ${community_gifts.community_gift_id}), '", \"name"\: "',
                                    (SELECT ${community_gifts.name}
                                     FROM ${community_gifts} cg
-                                    WHERE ${community_gift_user.community_gift_id} = ${community_gifts.community_gift_id}), '", \"text"\: "', ${community_gift_user.message}, '"}')
+                                    WHERE ${community_gift_user.community_gift_id} = ${community_gifts.community_gift_id}), '", \"text"\: "', ${
+  community_gift_user.message
+}, '"}')
                    FROM ${community_gift_user} cgu
                    WHERE ${community_gift_user.user_id} = text), NULL) AS gift
       FROM ${community_message} AS cm
@@ -258,10 +260,12 @@ FROM
       AND ${community_visit.status} = 'normal'
       WHERE ${community_visit.community_profile_id} = '1658024' GROUP BY ${auth_user.visitor}) AS un
    LEFT JOIN ${community_profile} cp ON ${community_profile.community_profile_id} = ${community_visit.visiter}
-   LEFT JOIN ${auth_user_role} aur ON ${auth_user_role.auth_user_id} = ${community_visit.visiter}) AS ch GROUP  BY ${community_visit.visiter}, message_id, ${community_visit.visit}
+   LEFT JOIN ${auth_user_role} aur ON ${auth_user_role.auth_user_id} = ${community_visit.visiter}) AS ch GROUP  BY ${community_visit.visiter}, message_id, ${
+  community_visit.visit
+}
 ORDER BY ts DESC
 LIMIT 0, 20
-`);
+`)
 ```
 
 ## Photon Go
@@ -412,6 +416,7 @@ func main() {
 ## Other Complex SQL statements
 
 - https://www.notion.so/prismaio/Jeff-Seibert-292c628370e244bfa293b4ea494364aa
+- https://www.notion.so/prismaio/Crazy-SQL-queries-a8e298d44385475da168eb3262e8b53f
 - https://github.com/schickling/optonaut-api-server/blob/v9/handlers/optograph.go#L808
 
 # MongoDB
@@ -465,28 +470,31 @@ db.user.aggregate([
 We can rewrite for Photon JS as:
 
 ```js
-import { raw } from "@generated/photon";
+import { raw } from '@generated/photon'
 const {
-  mgo: { user }
-} = raw;
+  mgo: { user },
+} = raw
 
 await photon.raw([
-  { $match: { $or: [{ [user.class]: "a" }, { $and: [{ [user.class]: "b" }, { [user.hrs]: { $exists: 1 } }] }] } },
+  { $match: { $or: [{ [user.class]: 'a' }, { $and: [{ [user.class]: 'b' }, { [user.hrs]: { $exists: 1 } }] }] } },
   {
     $project: {
-      [user.rate + "Multiply"]: { $multiply: ["$" + user.rate, "$" + user.hrs, 52] },
+      [user.rate + 'Multiply']: { $multiply: ['$' + user.rate, '$' + user.hrs, 52] },
       [user.rate]: 1,
       [user.class]: 1,
-      [user.hrs]: 1
-    }
+      [user.hrs]: 1,
+    },
   },
   {
     $match: {
-      $or: [{ $and: [{ [user.class]: "a" }, { [user.rate]: { $gt: 20000 } }] }, { $and: [{ [user.class]: "b" }, { [user.rate + "Multiply"]: { $gt: 20000 } }] }]
-    }
+      $or: [
+        { $and: [{ [user.class]: 'a' }, { [user.rate]: { $gt: 20000 } }] },
+        { $and: [{ [user.class]: 'b' }, { [user.rate + 'Multiply']: { $gt: 20000 } }] },
+      ],
+    },
   },
-  { $project: { [user.class]: 1, [user.rate]: 1, [user.hrs]: 1 } }
-]);
+  { $project: { [user.class]: 1, [user.rate]: 1, [user.hrs]: 1 } },
+])
 ```
 
 ## Photon Go
