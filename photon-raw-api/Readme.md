@@ -8,19 +8,21 @@ The raw APIs provide a low-level, "best effort" type-safe, escape-hatch for Phot
 
 <!-- toc -->
 
-- [How raw gets generated](#how-raw-gets-generated)
-- [MySQL & Postgres](#mysql--postgres)
-  - [Raw Query](#raw-query)
-  - [Photon JS](#photon-js)
-  - [Photon Go](#photon-go)
-    - [photon.RawTemplate](#photonrawtemplate)
-    - [photon.Raw](#photonraw)
-  - [Other Complex SQL statements](#other-complex-sql-statements)
-- [MongoDB](#mongodb)
-  - [Raw Query](#raw-query-1)
-  - [Photon JS](#photon-js-1)
-  - [Photon Go](#photon-go-1)
-- [HTTP Datasources?](#http-datasources)
+- [Raw's API is Datasource Dependent](#raws-api-is-datasource-dependent)
+- [Datasources](#datasources)
+  - [MySQL & Postgres](#mysql--postgres)
+    - [Photon JS](#photon-js)
+      - [Real-world SQL Query](#real-world-sql-query)
+      - [Real-world JS equivalent](#real-world-js-equivalent)
+    - [Photon Go](#photon-go)
+      - [photon.RawTemplate](#photonrawtemplate)
+      - [photon.Raw](#photonraw)
+    - [Other Complex SQL statements](#other-complex-sql-statements)
+  - [MongoDB](#mongodb)
+    - [Raw Query](#raw-query)
+    - [Photon JS](#photon-js-1)
+    - [Photon Go](#photon-go-1)
+  - [HTTP](#http)
 
 <!-- tocstop -->
 
@@ -68,14 +70,14 @@ const raw = {
       email: '"public"."users"."email"',
       firstName: '"public"."users"."first_name"',
       toString() {
-        return '"public"."users"'
-      },
+        return '"public"."users"';
+      }
     },
     toString() {
-      return '"public"'
-    },
-  },
-}
+      return '"public"';
+    }
+  }
+};
 ```
 
 We'll also generate a raw API. This will be dependent on both the data source and the language we're generating for. You'll see a couple examples below of
@@ -84,12 +86,12 @@ different flavours.
 For JS, the API will look like this:
 
 ```js
-const photon = new Photon()
-const { user } = Photon.raw.pg
-const alice = 'alice@prisma.io'
+const photon = new Photon();
+const { user } = Photon.raw.pg;
+const alice = "alice@prisma.io";
 
 // using a tagged template
-await photon.raw.pg`select ${user.firstName} from ${user} where ${user.email} = ${alice}`
+await photon.raw.pg`select ${user.firstName} from ${user} where ${user.email} = ${alice}`;
 ```
 
 Which resolves to the following query:
@@ -196,9 +198,9 @@ LIMIT 0,
 The above SQL query results in:
 
 ```js
-import Photon from '@generated/photon'
+import Photon from "@generated/photon";
 
-const photon = new Photon()
+const photon = new Photon();
 const {
   community_profile,
   community_image,
@@ -207,8 +209,8 @@ const {
   community_gifts,
   auth_user,
   community_visit,
-  auth_user_role,
-} = Photon.raw.pg // or `Photon.datasource.pg`
+  auth_user_role
+} = Photon.raw.pg; // or `Photon.datasource.pg`
 
 await photon.raw.pg`
 SELECT *
@@ -258,9 +260,7 @@ FROM
                                     WHERE ${community_gift_user.community_gift_id} = ${community_gifts.community_gift_id}), '", \"name"\: "',
                                    (SELECT ${community_gifts.name}
                                     FROM ${community_gifts} cg
-                                    WHERE ${community_gift_user.community_gift_id} = ${community_gifts.community_gift_id}), '", \"text"\: "', ${
-  community_gift_user.message
-}, '"}')
+                                    WHERE ${community_gift_user.community_gift_id} = ${community_gifts.community_gift_id}), '", \"text"\: "', ${community_gift_user.message}, '"}')
                    FROM ${community_gift_user} cgu
                    WHERE ${community_gift_user.user_id} = text), NULL) AS gift
       FROM ${community_message} AS cm
@@ -285,12 +285,10 @@ FROM
       AND ${community_visit.status} = 'normal'
       WHERE ${community_visit.community_profile_id} = '1658024' GROUP BY ${auth_user.visitor}) AS un
    LEFT JOIN ${community_profile} cp ON ${community_profile.community_profile_id} = ${community_visit.visiter}
-   LEFT JOIN ${auth_user_role} aur ON ${auth_user_role.auth_user_id} = ${community_visit.visiter}) AS ch GROUP  BY ${community_visit.visiter}, message_id, ${
-  community_visit.visit
-}
+   LEFT JOIN ${auth_user_role} aur ON ${auth_user_role.auth_user_id} = ${community_visit.visiter}) AS ch GROUP  BY ${community_visit.visiter}, message_id, ${community_visit.visit}
 ORDER BY ts DESC
 LIMIT 0, 20
-`
+`;
 ```
 
 ### Photon Go
@@ -466,29 +464,29 @@ db.user.updateOne({ "_id" : "507f191e810c19729de860ea" }, { "rate" : 60, "class"
 We can rewrite the equivalent Photon JS as:
 
 ```js
-import Photon from '@generated/photon'
+import Photon from "@generated/photon";
 
-const { user } = Photon.raw.mgo // or `Photon.datasource.mgo`
-const photon = new Photon()
-const mgo = photon.raw.mgo
+const { user } = Photon.raw.mgo; // or `Photon.datasource.mgo`
+const photon = new Photon();
+const mgo = photon.raw.mgo;
 
 await mgo.user.insert({
   [user.rate]: 60,
-  [user.class]: 'a',
-})
+  [user.class]: "a"
+});
 
 await mgo.user.updateOne(
   {
-    [user.id]: '507f191e810c19729de860ea',
+    [user.id]: "507f191e810c19729de860ea"
   },
   {
-    [user.class]: 'b',
+    [user.class]: "b",
     [user.hrs]: 8,
     [user.profile]: {
-      [user.profile.size]: 'l',
-    },
-  },
-)
+      [user.profile.size]: "l"
+    }
+  }
+);
 ```
 
 - During generation, it'd be good to pull all the possible method (`insert`, `updateOne`) from the main mongodb driver. We could also do it as a precommit hook.
