@@ -86,8 +86,8 @@ generator photon {
 |      **Platform**       | **Status**  |                                 **URL or Issue**                                  |
 | :---------------------: | :---------: | :-------------------------------------------------------------------------------: |
 |         darwin          |      ✓      |    https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/darwin/prisma    |
-|      linux-lambda       | todo remove | https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-lambda/prisma |
-|       linux-zeit        | todo remove |  https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-zeit/prisma  |
+|      linux-lambda       | todo remove | https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-lambda/prisma.gz |
+|       linux-zeit        | todo remove |  https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-zeit/prisma.gz  |
 |       linux-glibc       |      ✓      | https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc/prisma  |
 |       linux-musl        |      ✓      |  https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl/prisma  |
 |         windows         |             |                    https://github.com/prisma/prisma2/issues/4                     |
