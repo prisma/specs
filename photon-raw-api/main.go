@@ -24,5 +24,5 @@ var Raw = &raw{
 }
 
 func main() {
-	fmt.Printf("select %s, %s from %s\n", Raw.User.Email, Raw.User.FirstName, Raw.User)
+	fmt.Printf("select %s, %s from %s where email = $1\n", Raw.User.Email, Raw.User.FirstName, Raw.User)
 }

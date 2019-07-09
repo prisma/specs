@@ -4,7 +4,7 @@
 
 # Summary
 
-The raw APIs provide a fairly type-safe escape hatch for Photon users that need highly-optimized queries or queries we don't yet support.
+The raw APIs provide a low-level, "best effort" type-safe, escape-hatch for Photon users that need to use complex queries.
 
 <!-- toc -->
 
@@ -24,9 +24,27 @@ The raw APIs provide a fairly type-safe escape hatch for Photon users that need 
 
 <!-- tocstop -->
 
-# How raw gets generated
+# Raw's API is Datasource Dependent
 
-The Photon JS generator generates a `raw` object that contains all the models, fields & types for all data sources. Given the following schema:
+Photon's Raw API will stay true to the query language of the datasource. For this reason, the raw's API will change depending on the datasource we provide.
+
+|   Data source   | Raw API |
+| :-------------: | :-----: |
+|    Postgres     | string  |
+| MySQL / MariaDB | string  |
+|      Mongo      |  json   |
+|     SQLite      | string  |
+|    DynamoDB     |  json   |
+|  ElasticSearch  |  json   |
+|    Cassandra    | string  |
+|     FaunaDB     | string  |
+|      Neo4j      | string  |
+
+# Datasources
+
+## MySQL & Postgres
+
+Given the following schema:
 
 ```groovy
 datasource pg {
@@ -34,22 +52,10 @@ datasource pg {
   url = "postgresql://user@localhost:5432/db?schema=public"
 }
 
-generator {
-  provider = "photonjs"
-}
-
 model User {
   email     String @map("email")
   firstName String @map("first_name")
-  posts     Post[]
   @@map("users")
-}
-
-model Post {
-  id     Int    @id
-  title  String @map("title")
-  author User   @map("user_id")
-  @@map("posts")
 }
 ```
 
@@ -79,22 +85,30 @@ For JS, the API will look like this:
 
 ```js
 const photon = new Photon()
-console.log(`select ${raw.pg.user.firstName} from ${raw.pg.user}`)
+const { user } = Photon.raw.pg
+const alice = 'alice@prisma.io'
+
+// using a tagged template
+await photon.raw.pg`select ${user.firstName} from ${user} where ${user.email} = ${alice}`
 ```
 
-Resolving to:
+Which resolves to the following query:
 
 ```sql
-select "public"."users"."first_name", "public"."users"."email" from "public"."users"
+select "public"."users"."first_name", "public"."users"."email" from "public"."users" where "public"."users"."email" = $1
 ```
 
+- Initial tagged template [implementation here](./tagged.js)
+- We use prepared parameters to avoid SQL injection attacks
 - `pg` is the name of the datasource as defined by prisma. For Postgres, the data source connect to a specific schema, in our case the `public` schema.
 - We can have multiple datasources by using different names (e.g. `pg`, `mgo`, etc.)
 - Other languages will generate raw differently depending on their syntax
 
-# MySQL & Postgres
+### Photon JS
 
-## Raw Query
+#### Real-world SQL Query
+
+Given the following SQL query:
 
 ```sql
 SELECT *
@@ -177,15 +191,26 @@ LIMIT 0,
       20
 ```
 
-## Photon JS
+#### Real-world JS equivalent
+
+The above SQL query results in:
 
 ```js
-import { raw } from '@generated/photon'
-const {
-  pg: { community_profile, community_image, community_message, community_gift_user, community_gifts, auth_user, community_visit, auth_user_role },
-} = raw
+import Photon from '@generated/photon'
 
-photon.raw(`
+const photon = new Photon()
+const {
+  community_profile,
+  community_image,
+  community_message,
+  community_gift_user,
+  community_gifts,
+  auth_user,
+  community_visit,
+  auth_user_role,
+} = Photon.raw.pg // or `Photon.datasource.pg`
+
+await photon.raw.pg`
 SELECT *
 FROM
   (SELECT userid,
@@ -265,15 +290,15 @@ FROM
 }
 ORDER BY ts DESC
 LIMIT 0, 20
-`)
+`
 ```
 
-## Photon Go
+### Photon Go
 
 We can use Go's templating system for raw queries. This will likely be more clear than `fmt.Sprintf`, but the downside is that there will be no syntax
 highlighting.
 
-### photon.RawTemplate
+#### photon.RawTemplate
 
 ```go
 package main
@@ -383,7 +408,7 @@ func main() {
 }
 ```
 
-### photon.Raw
+#### photon.Raw
 
 For simpler queries, it may make sense to have a sprintf-style `Raw` API:
 
@@ -406,100 +431,73 @@ func main() {
     user.FirstName
   }
 
-  err := photon.Raw(&result, "select $1, $2 from $3", photongo.Pg.Users.Email, photongo.Pg.Users.FirstName, photongo.Pg.Users)
+  err := photon.Raw(&result, "select %s, %s from %s where %s = $1", photongo.Pg.Users.Email, photongo.Pg.Users.FirstName, photongo.Pg.Users)
   if err != nil {
     panic(err)
   }
 }
 ```
 
-## Other Complex SQL statements
+### Other Complex SQL statements
 
-- https://www.notion.so/prismaio/Jeff-Seibert-292c628370e244bfa293b4ea494364aa
 - https://www.notion.so/prismaio/Crazy-SQL-queries-a8e298d44385475da168eb3262e8b53f
 - https://github.com/schickling/optonaut-api-server/blob/v9/handlers/optograph.go#L808
 
-# MongoDB
+## MongoDB
 
-## Raw Query
+> https://docs.mongodb.com/manual/crud/
+
+For MongoDB and other JSON-based query languages (e.g. DynamoDB & Elastic), it's likely that we can generate a **full type-safe** version of the API. This will
+take time to do and the raw APIs will allow us to incrementally add type-safe APIs while giving users an escape hatch for complex queries we haven't got to yet.
+
+**Open Question: How much more work would it be just to do it upfront?**
+
+### Raw Query
 
 Given the following shape of the data:
 
 ```
-db.user.insert({ "_id" : "3434sfsf", "rate" : 60, "class" : "a" });
-db.user.insert({ "_id" : "sdsdsd", "rate" : 60, "class" : "b", "hrs" : 8 });
-db.user.insert({ "_id" : "123", "rate" : 30000, "class" : "a", "hrs" : 8 });
-db.user.insert({ "_id" : "12567", "rate" : 12000, "class" : "b" });
+db.user.insert({ "rate" : 60, "class" : "a" });
+db.user.updateOne({ "_id" : "507f191e810c19729de860ea" }, { "rate" : 60, "class" : "b", "hrs" : 8, profile: { size: "l" } });
 ```
 
-And the following query:
+### Photon JS
 
-```
-db.user.aggregate([
-    { $match:
-      {$or : [ {"class" : "a"},
-              {$and : [{"class":"b"},{"hrs": {"$exists" : 1}}]}
-            ]
-      }
-    },
-    { $project :
-      { rateMultiply : { $multiply: ["$rate","$hrs",52]},
-        [mgo.user.rate]:1, class:1, hrs : 1
-      }
-    },
-    { $match :
-      {$or : [
-              { $and : [ {"class" : "a"} ,
-                          {"rate" : {"$gt" : 20000}}
-                        ]
-              } ,
-              { $and : [ {"class" : "b"},
-                          {rateMultiply: {$gt:20000}}
-                        ]
-                }
-              ]
-      }
-    },
-    { $project: {class : 1 , rate : 1 , hrs : 1 }
-    }
-])
-```
-
-## Photon JS
-
-We can rewrite for Photon JS as:
+We can rewrite the equivalent Photon JS as:
 
 ```js
-import { raw } from '@generated/photon'
-const {
-  mgo: { user },
-} = raw
+import Photon from '@generated/photon'
 
-await photon.raw([
-  { $match: { $or: [{ [user.class]: 'a' }, { $and: [{ [user.class]: 'b' }, { [user.hrs]: { $exists: 1 } }] }] } },
+const { user } = Photon.raw.mgo // or `Photon.datasource.mgo`
+const photon = new Photon()
+const mgo = photon.raw.mgo
+
+await mgo.user.insert({
+  [user.rate]: 60,
+  [user.class]: 'a',
+})
+
+await mgo.user.updateOne(
   {
-    $project: {
-      [user.rate + 'Multiply']: { $multiply: ['$' + user.rate, '$' + user.hrs, 52] },
-      [user.rate]: 1,
-      [user.class]: 1,
-      [user.hrs]: 1,
-    },
+    [user.id]: '507f191e810c19729de860ea',
   },
   {
-    $match: {
-      $or: [
-        { $and: [{ [user.class]: 'a' }, { [user.rate]: { $gt: 20000 } }] },
-        { $and: [{ [user.class]: 'b' }, { [user.rate + 'Multiply']: { $gt: 20000 } }] },
-      ],
+    [user.class]: 'b',
+    [user.hrs]: 8,
+    [user.profile]: {
+      [user.profile.size]: 'l',
     },
   },
-  { $project: { [user.class]: 1, [user.rate]: 1, [user.hrs]: 1 } },
-])
+)
 ```
 
-## Photon Go
+- During generation, it'd be good to pull all the possible method (`insert`, `updateOne`) from the main mongodb driver. We could also do it as a precommit hook.
+  This will always keep us in-sync with new features.
 
-Not familiar enough with Mongo to write the above query in Go, but the idea would look something like this:
+- **Open Question:** can we just pass the whole query into mongo as a JSON object? right now it's weirdly half-outside `user.updateMany`, the rest inside.
+- **TODO** Look into how the mongo-driver even knows about the user collection key in the first place.
+
+### Photon Go
 
 ```go
 package main
@@ -508,31 +506,50 @@ package main
 import photongo "github.com/me/app/photon-go"
 
 func main() {
-  photon, err := photongo.Dial("some-url")
+  photon, err := photongo.New()
   if err != nil {
     panic(err)
   }
 
   var result struct {
-    Class string `json:"class"`
-    Rate int `json:rate`
-    Hours int `json:hrs`
+    ID    bsontype.ObjectID `json:"_id"`
+    Class string            `json:"class"`
+    Rate  int               `json:rate`
+    Hours int               `json:hrs`
   }
 
-  err := photon.Mgo.Raw(&result, bson.M{
+  // insert into Mongo
+  err := photon.Raw.Mgo.User.Insert(&result, bson.M{
+    photongo.Mgo.Rate: 60,
     photongo.Mgo.Class: "a",
-    photongo.Mgo.Rate: 1,
-    photongo.Mgo.Hrs: 52
   })
   if err != nil {
-    panic(err)
+    return err
+  }
+
+  // update
+  err := photon.Raw.Mgo.User.UpdateOne(
+    &result,
+    bson.M{
+      photongo.Raw.Mgo.ID: "507f191e810c19729de860ea",
+    },
+    bson.M{
+      photongo.Raw.Mgo.Class: "b",
+      photon.Raw.Mgo.Hrs: 8,
+      photon.Raw.Mgo.Profile: bson.M{
+        photon.Raw.Mgo.Profile.Size: "l",
+      },
+    },
+  )
+  if err != nil {
+    return err
   }
 }
 ```
 
 - `bson.M` is a `map[string]interface{}`: https://godoc.org/labix.org/v2/mgo/bson#M
 
-# HTTP Datasources?
+## HTTP
 
 For HTTP datasources, I don't think it makes too much sense to generate a raw API. We may want to add some sort of HTTP client in the future, but I think that
 makes more sense done outside of the photon context.
