@@ -34,8 +34,7 @@ model User {
   comments     Comment[]
   friends      User[]    @relation("friends")
   profile      Profile
-  bestFriend   User      @relation("bestFriend") @unique
-  bestFriendOf User      @relation("bestFriend")
+  bestFriend   User?     @relation("bestFriend") @unique
 }
 
 embed Profile {
@@ -133,10 +132,14 @@ const updatedUserByEmail: User = await photon.users
   .find({ email: 'bob@prisma.io' })
   .update({ firstName: 'Alice' })
 
-const upsertedUser: User = await photon.users.find('bobs-id').upsert({
+const upsertedUser: User = await photon.users.find('alice-id').upsert({
   update: { firstName: 'Alice' },
   create: { id: 'my-custom-id', firstName: 'Alice' },
 })
+
+const maybeNewUser: User = await photon.users
+  .find('alice-id')
+  .orCreate({ id: 'my-custom-id', firstName: 'Alice' })
 
 // Delete operation doesn't return any data
 const result: undefined = await photon.users.find('bobs-id').delete()
@@ -215,6 +218,32 @@ const updatedPosts2: Post[] = await photon.users
   .update({ email: 'new@email.com' })
   .posts({ where: { published: true } })
   .updateMany({ comments: { connect: 'comment-id' } })
+```
+
+### Expressing the same query using fluent API syntax and declarative query
+
+- TODO
+- Add to spec: Control execution order of nested writes
+
+// TODO difference: selection set of `posts`?!
+```ts
+// Fluent
+await photon.users
+  .find('user-id')
+  .update({ email: 'new@email.com' })
+  .posts({ where: { published: true } })
+  .updateMany({ comments: { connect: 'comment-id' } })
+
+// Declarative
+await photon.users.find('bob-id').update({
+  email: 'new@email.com',
+  posts: {
+    updateMany: {
+      where: { published: true },
+      data: { comments: { connect: 'comment-id' } },
+    },
+  },
+})
 ```
 
 <!--
@@ -643,10 +672,14 @@ await photon.disconnect()
 - [ ] Force indexes
 - [ ] Rethink raw API fallbacks
 - [ ] How to query records that were "touched" during nested writes
+- [ ] Fluent API: Null behavior
+  - [ ] Should we have `photon.users.find('bob').
+- Validate API with planned supported data sources
 
 ## Ugly parts
 
 - Select/Include API: Chainable `.select()` vs nested `{ select: { } }` API
+- Upsert, findOrCreate, ...
 
 # Future topics
 
