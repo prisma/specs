@@ -1,4 +1,4 @@
-import { Terminal, SectionTitle, Spacer, Select, Option, Button, Line } from '../components/cli'
+import { Terminal, SectionTitle, Spacer, Select, Option, Button, Line, Checkbox } from '../components/cli'
 
 # Selecting a Database
 Some info about this view here
@@ -7,33 +7,53 @@ Some info about this view here
   ~/my-app prisma init
   <Spacer height={20} />
   <SectionTitle>Which database do you want to use?</SectionTitle>
+  <Spacer height={8} />
+  <Line />
   <Spacer height={16} />
-  <Select>
-    <Option label="SQLite" description="Easiest to set up" isSelected href="#sqlite" />
-    <Option label="MySQL" description="Requires running MySQL database" href="#mysql" />
-    <Option label="PostgreSQL" description="Requires running PostreSQL database" href="#postgresql" />
-    <Option label="MongoDB" description="(Coming soon)" isDisabled href="#mongodb" />
-  </Select>
+  <Button label="SQLite" description="Easiest to set up" href="#sqlite" labelWidth={100} isSelected />
+  <Button label="MySQL" description="Requires running MySQL database" href="#mysql" labelWidth={100} />
+  <Button label="PostgreSQL" description="Requires running PostreSQL database" href="#postgresql" labelWidth={100} />
+  <Button label="MongoDB" description="(Coming soon)" href="#mongodb" labelWidth={100} isDisabled />
 </Terminal>
 
-# SQLite
+<br/>
+
+## SQLite
 Some info about this view here
+- Some note
+- Some other note
 
 <Terminal>
   ~/my-app prisma init
   <Spacer height={20} />
   <SectionTitle>How do you want to proceed?</SectionTitle>
+  <Spacer height={8} />
+  <Line />
   <Spacer height={16} />
-  <Select>
-    <Option label="Create a new SQLite file" description="Beginner's choice" href="#sqlite-new-db" />
-    <Option label="Use an existing SQLite file" description="Requires the path to the file" href="#sqlite-current-db" />
-  </Select>
+  <Button label="Create a new SQLite file" description="Beginner's choice" href="#select-tools" labelWidth={230} />
+  <Button label="Use an existing SQLite file" description="Requires the path to the file" labelWidth={230} isSelected />
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
-  <Button label="Back" description="(Database selection)" />
+  <Button icon="back" label="Back" description="(Database selection)" href="#selecting-a-database" />
 </Terminal>
 
-# MySQL
-# PostgreSQL
-# MongoDB
+<br/>
+
+## Select tools
+<Terminal>
+  ~/my-app prisma init
+  <Spacer height={20} />
+  <SectionTitle>Which parts of Prisma do you want to use?</SectionTitle>
+  <Spacer height={4} />
+  <span>Learn more about the tools at prisma.io/docs</span>
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Checkbox label="Photon" description="Type-safe database client" labelWidth={80} isChecked />
+  <Checkbox label="Lift" description="Declarative data modeling & migrations" labelWidth={80} isSelected />
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Button label="Confirm" />
+</Terminal>

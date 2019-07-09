@@ -11,7 +11,5 @@ export default ({ children }) => (
 // Styles
 const sectionTitleStyles = {
   color: colors.whiteBright,
-  fontWeight: 'bold',
-  borderBottom: `1px solid ${colors.blackBright}`,
-  paddingBottom: 8,
+  fontWeight: 'bold'
 }

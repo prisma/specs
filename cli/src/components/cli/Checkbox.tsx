@@ -2,20 +2,21 @@ import React from 'react'
 import figures from 'figures'
 import colors from '../../colors'
 
-// Button
+// Checkbox
 export default ({
   label,
   labelWidth = 'auto',
   description,
   isSelected = false,
+  isChecked = false,
   isDisabled = false,
   icon = 'pointer',
   ...props
 }) => {
-  const buttonIcon = icon === 'back' ? '❮' : figures[icon]
   return (
-    <a style={buttonStyles} {...props}>
-      <div style={iconStyles(isSelected)}>{!isDisabled && buttonIcon}</div>
+    <a style={checkboxStyles} {...props}>
+      <div style={iconStyles(isSelected)}>{!isDisabled && figures[icon]}</div>
+      <div style={boxIconStyles({ isSelected, isChecked })}>{isChecked ? figures.squareSmallFilled : figures.squareSmall}</div>
       <div style={labelStyles({ isSelected, isDisabled, labelWidth })}>{label}</div>
       <div style={descriptionStyles}>{description}</div>
     </a>
@@ -23,7 +24,7 @@ export default ({
 }
 
 // Styles
-const buttonStyles = {
+const checkboxStyles = {
   display: 'flex',
   alignItems: 'center',
   padding: '2px 0',
@@ -48,5 +49,15 @@ const iconStyles = (isSelected) => {
   return {
     color: iconColor,
     width: 16
+  }
+}
+
+const boxIconStyles = ({ isSelected, isChecked }) => {
+  const iconColor = isSelected || isChecked ? colors.cyanBright : colors.white
+
+  return {
+    width: 16,
+    marginRight: 4,
+    color: iconColor
   }
 }
