@@ -1,0 +1,3 @@
+[build]
+  publish = "public"
+  command = "bash .github/build.sh"
