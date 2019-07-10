@@ -121,38 +121,112 @@ const foundAtLeastOneUser: boolean = await photon.users
 
 ## Writing Data
 
+### Write operations
+
+- replace?!
+
+- node
+  - create
+  - update
+  - updateMany
+  - upsert
+  - delete
+  - deleteMany
+- edge
+  - connection
+    - connect
+    - disconnect
+    - resetAndConnect
+  - connection + record
+    - connectOrCreate
+    - create
+    - deleteAndCreate
+    - delete
+    - deleteMany
+  - record
+    - update
+    - updateMany
+
 ```ts
-const newUser: User = await photon.users.create({ firstName: 'Alice' })
+const newUser: User = await photon.users.create({ firstName: 'Alice' }).load()
 
 const updatedUser: User = await photon.users
   .find('bobs-id')
   .update({ firstName: 'Alice' })
+  .load()
 
 const updatedUserByEmail: User = await photon.users
   .find({ email: 'bob@prisma.io' })
   .update({ firstName: 'Alice' })
+  .load()
 
-const upsertedUser: User = await photon.users.find('alice-id').upsert({
-  update: { firstName: 'Alice' },
-  create: { id: 'my-custom-id', firstName: 'Alice' },
-})
+const upsertedUser: User = await photon.users
+  .find('alice-id')
+  .upsert({
+    update: { firstName: 'Alice' },
+    create: { id: 'my-custom-id', firstName: 'Alice' },
+  })
+  .load()
 
 const maybeNewUser: User = await photon.users
   .find('alice-id')
   .orCreate({ id: 'my-custom-id', firstName: 'Alice' })
+  .load()
 
 // Delete operation doesn't return any data
 const result: undefined = await photon.users.find('bobs-id').delete()
+```
 
-// Nested writes
-const updatedUser: User = await photon.users.find('bobs-id').update({
+### Nested writes
+
+TODO: How to return data from nested writes
+
+- how many records were affected
+-
+
+```ts
+// Nested create
+await photon.users.create({
+  firstName: 'Alice',
   posts: {
     create: { title: 'New post', body: 'Hello world', published: true },
   },
 })
+
+// xxx
+// await photon.users
+//   .create({
+//     firstName: 'Alice',
+//     posts: {
+//       create: { title: 'New post', body: 'Hello world', published: true },
+//     },
+//   })
+//   .select({ posts: { newOnly: true } })
+
+// Nested write with connect
+await photon.users.create({ firstName: 'Alice', posts: { connect: 'post-id' } })
+
+// How to get newly created posts?
+await photon.users.find('bobs-id').update({
+  posts: {
+    create: { title: 'New post', body: 'Hello world', published: true },
+  },
+})
+
+await photon.users
+  .find('bobs-id')
+  .posts()
+  .update({
+    create: { title: 'New post', body: 'Hello world', published: true },
+  })
 ```
 
-## Select / Include API
+## Load: Select / Include API
+
+- Implicit load: Read operations
+- Explicit load:
+  - After write operations
+  - Custom selection set via include/select
 
 ```ts
 // Select API
@@ -163,10 +237,7 @@ type DynamicResult1 = {
 
 const userWithPostsAndFriends: DynamicResult1 = await photon.users
   .find('bobs-id')
-  .select({
-    posts: { select: { comments: true } },
-    friends: true,
-  })
+  .load({ select: { posts: { select: { comments: true } }, friends: true } })
 
 type DynamicResult2 = (User & {
   posts: (Post & { comments: Comment[] })[]
@@ -175,23 +246,23 @@ type DynamicResult2 = (User & {
 
 const userWithPostsAndFriends: DynamicResult2 = await photon.users
   .find('bobs-id')
-  .include({
-    posts: { include: { comments: true } },
-    friends: true,
-  })
+  .load({ include: { posts: { include: { comments: true } }, friends: true } })
 
-// Omit return data if not needed
-const result: undefined = await photon.posts
+await photon.posts
   .findMany({ where: { published: true } })
   .updateMany({ comments: { connect: 'comment-id' } })
-  .select(false)
 ```
 
 ## Fluent API
 
 - TODO: Spec out different between chainable vs terminating
   - Chainable: schema-based fields (e.g. relations), find, update, upsert, create,
-  - Terminating: select, include, delete, count, scalar field, exists
+  - Terminating: select, include, delete, count, scalar field, exists, aggregates?
+- TODO: Spec out return behavior
+  - read traversal
+  - write operation: single vs multi-record operation
+  - Alternative: explicit fetch/query
+- TODO: tradeoff multi-record-operations -> return count by default but can be adjusted to return actual data -> how?
 
 ```ts
 const bobsPosts: Post[] = await photon.users
@@ -220,20 +291,16 @@ const updatedPosts2: Post[] = await photon.users
   .updateMany({ comments: { connect: 'comment-id' } })
 ```
 
-### Expressing the same query using fluent API syntax and declarative query
+### Expressing the same query using fluent API syntax and nested writes
 
 - TODO
 - Add to spec: Control execution order of nested writes
 
 // TODO difference: selection set of `posts`?!
-```ts
-// Fluent
-await photon.users
-  .find('user-id')
-  .update({ email: 'new@email.com' })
-  .posts({ where: { published: true } })
-  .updateMany({ comments: { connect: 'comment-id' } })
 
+// TODO what about many posts?
+
+```ts
 // Declarative
 await photon.users.find('bob-id').update({
   email: 'new@email.com',
@@ -244,6 +311,20 @@ await photon.users.find('bob-id').update({
     },
   },
 })
+
+// Fluent
+await photon.users
+  .find('user-id')
+  .update({ email: 'new@email.com' })
+  .posts({ where: { published: true } })
+  .updateMany({ comments: { connect: 'comment-id' } })
+
+// await photon.users
+//   .find('user-id')
+//   .update({ email: 'new@email.com' })
+//   .posts({ where: { published: true } })
+//   .comments()
+//   .connect('comment-id')
 ```
 
 <!--
@@ -667,12 +748,13 @@ await photon.disconnect()
 
 # Unresolved questions
 
+- [ ] edge concept in schema
 - [ ] find by unique relation
 - [ ] Connection management when used with embedded query engine
 - [ ] Force indexes
 - [ ] Rethink raw API fallbacks
 - [ ] How to query records that were "touched" during nested writes
-- [ ] Fluent API: Null behavior
+- [ ] Fluent API: Null behavior https://github.com/prisma/photonjs/issues/89#issuecomment-508509486
   - [ ] Should we have `photon.users.find('bob').
 - Validate API with planned supported data sources
 
