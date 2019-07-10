@@ -1,4 +1,4 @@
-import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Success, Command, TextInput } from '../../components/cli'
+import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Success, Command, TextInput, Introspection } from '../../components/cli'
 
 # SQLite - Introspection
 
@@ -23,8 +23,8 @@ Previous selections:
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
-  <Button label="Introspect" />
-  <Button icon="back" label="Back" description="(Database options)" />
+  <Button label="Introspect" href="#s21-introspection" />
+  <Button icon="back" label="Back" description="(Database options)" href="./sqlite" />
 </Terminal>
 
 In this view, it would be great if the trailing `.db` could somehow be fixed since every SQLite DB file has the file extension.
