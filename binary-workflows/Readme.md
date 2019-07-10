@@ -49,7 +49,7 @@ The workflows are powered by the `prisma2 generate` command, which runs the foll
 |      Code Sandbox      |       linux-glibc       |      ✓       |           |                      ✓                      |
 |         Heroku         |            ?            |              |           | https://github.com/prisma/prisma2/issues/84 |
 |   Cloudflare Workers   |            ?            |              |           | https://github.com/prisma/prisma2/issues/85 |
-| Google Cloud Functions |      user's choice      |              |           | https://github.com/prisma/prisma2/issues/87 |
+| Google Cloud Functions |            ?            |              |           | https://github.com/prisma/prisma2/issues/87 |
 
 To download the binary, replace `${package}` with the **Package** above:
 
