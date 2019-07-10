@@ -15,7 +15,7 @@ export default ({
 }) => {
   return (
     <a style={checkboxStyles} {...props}>
-      <div style={iconStyles(isSelected)}>{!isDisabled && figures[icon]}</div>
+      <div style={iconStyles(isSelected)}>{!isDisabled && isSelected && figures[icon]}</div>
       <div style={boxIconStyles({ isSelected, isChecked })}>{isChecked ? figures.squareSmallFilled : figures.squareSmall}</div>
       <div style={labelStyles({ isSelected, isDisabled, labelWidth })}>{label}</div>
       <div style={descriptionStyles}>{description}</div>

@@ -1,0 +1,110 @@
+import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Success, TextInput } from '../components/cli'
+
+# PostgreSQL
+
+## (P.1) Enter Database Credentials
+<Terminal>
+  ~/my-app prisma init
+  <Spacer height={20} />
+  <Title primary="Enter PostgreSQL credentials" />
+  <Spacer height={4} />
+  <span>Learn how to set up a PostgreSQL database: <u>prisma.io/docs</u></span>
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Title primary="We found a local PostgreSQL database on port 5432. Do you want to use this database?" />
+  <Spacer height={4} />
+  <Button label="Yes, autofill credentials of mocal Postgres database" />
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <TextInput label="Host" placeholder="127.0.0.1" />
+  <TextInput label="Port" placeholder="3306" />
+  <TextInput label="User" value="admin" />
+  <TextInput label="Password" value="super-secret-123" />
+  <TextInput label="Database" isSelected />
+  <TextInput label="Schema (optional)" />
+  <Spacer height={16} />
+  <Checkbox label="Use SSL"/>
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <TextInput label="Or URL" placeholder="postgresql://localhost:5432/admin" />
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Button label="Connect" />
+  <Button icon="back" label="Back" description="(Database selection)" />
+</Terminal>
+
+## (P.2) Choose Existing or New Schema
+<Terminal>
+  ~/my-app prisma init
+  <Spacer height={20} />
+  <Success message="Connected to PostgreSQL server as admin" />
+  <Spacer height={20} />
+  <Title primary="Schema options" />
+  <Spacer height={4} />
+  <span>Learn how to set up a PostgreSQL database: <u>prisma.io/docs</u></span>
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Button label="Create new PostgreSQL schema" description="Beginner's choice" labelWidth={240}/>
+  <Button label="Use existing PostgreSQL schema" description="Found 5 schemas" labelWidth={240} isSelected />
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Button icon="back" label="Back" description="(Database credentials)" />
+</Terminal>
+
+## (P.2.1) Set Schema Name
+<Terminal>
+  ~/my-app prisma init
+  <Spacer height={20} />
+  <TextInput label="Enter schema name" placeholder="my-app" />
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Button label="Create" />
+  <Button icon="back" label="Back" description="(Schema options)" />
+</Terminal>
+
+## (P.3) Choose a Schema
+<Terminal>
+  ~/my-app prisma init
+  <Spacer height={20} />
+  <Success message="Connected to PostgreSQL server as admin" />
+  <Spacer height={20} />
+  <Title primary="Select a PostgreSQL schema" />
+  <Spacer height={8} />
+  <span>Select an empty schema to start a new project or introspect a non-empty one to generate your data model definition. </span>
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Title primary="Empty schemas" secondary="(Start a new project)" />
+  <Spacer height={8} />
+  <Button label="public" description="Created a year ago" labelWidth={140}/>
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Title primary="Non-empty schemas" secondary="(Introspect to generate initial data model)" />
+  <Spacer height={8} />
+  <Button label="management" description="2 tables, 1,113KB" labelWidth={140} isSelected />
+  <Button label="default$default" description="5 tables, 3,424KB" labelWidth={140}/>
+  <Button label="idkHowCommonThatIsButHeresABigassSchemaNameToTestTheLimits" description="5 tables, 3,424KB"/>
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Button icon="back" label="Back" description="(Schema options)" />
+</Terminal>
+
+## (P.3.1) Introspection
+## (P.3.2) Select Tools
+## (P.4) Select Language
+## (P.4.1) Select Language for Photon (Photon)
+## (P.4.2) Select Language for Photon (Lift+Photon)
+## (P.5) Select Boilerplate
+## (P.6) Success (Boilerplate)
+## (P.6.1) Success (Photon)
+## (P.6.2) Success (Lift+Photon)
+## (P.6.3) Success (Lift)
