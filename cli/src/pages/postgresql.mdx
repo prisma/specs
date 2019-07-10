@@ -1,4 +1,4 @@
-import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Success, TextInput, Introspection } from '../components/cli'
+import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Success, TextInput, Introspection, Command } from '../components/cli'
 
 # PostgreSQL
 
@@ -196,6 +196,31 @@ import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Succes
 </Terminal>
 
 ## (P.6) Success (Boilerplate)
+<Terminal>
+  $ prisma2 init hello-world
+  <Spacer height={20} />
+  <Success message="You're all set!" />
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Title primary="We created the following files for you:" />
+  <Spacer height={16} />
+  <Button icon="" label="schema.prisma" description="The datamodel describes your database schema" labelWidth={140} />
+  <Button icon="" label="main.ts" description="A simple script to get you started" labelWidth={140} />
+  <Button icon="" label="tsconfig.json" description="TypeScript configuration" labelWidth={140} />
+  <Button icon="" label="node_modules/" description="Required Node dependencies (includes Photon)" labelWidth={140} />
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Title primary="Run the following commands to start developing:" />
+  <Spacer height={16} />
+  <Command>cd hello-world</Command>
+  <Spacer height={4} />
+  <Command>prisma dev</Command>
+  <Spacer height={16} />
+  <div>Learn more about using Photon and Lift at https://www.prisma.io/docs/</div>
+</Terminal>
+
 ## (P.6.1) Success (Photon)
 ## (P.6.2) Success (Lift+Photon)
 ## (P.6.3) Success (Lift)
