@@ -33,14 +33,15 @@ In this view, it would be great if the trailing `.db` could somehow be fixed sin
   $ prisma2 init hello-world
   <Spacer height={20} />
   <Title primary="Enter the path to your SQLite database file" />
-  <Spacer height={16} />
-  <Line />
+  <Spacer height={8} />
+  <span>Prisma will introspect the database to generate your initial data model.</span>
+  <Spacer height={16} />  <Line />
   <Spacer height={16} />
   <TextInput label="File path" placeholder="./my.db" isSelected />
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
-  <Button label="Confirm" />
+  <Button label="Introspect" />
   <Button icon="back" label="Back" description="(Database credentials)" />
 </Terminal>
 
@@ -51,7 +52,7 @@ In this view, it would be great if the trailing `.db` could somehow be fixed sin
 <Terminal>
   $ prisma2 init hello-world
   <Spacer height={20} />
-  <Introspection progress={26.5}>Introspecting <b>management</b> schema...</Introspection>
+  <Introspection progress={26.5}>Introspecting SQLite database file at <b>./my.db</b> ...</Introspection>
 </Terminal>
 
 ## S.2.2 Tool selection
@@ -159,7 +160,7 @@ TODO
   <Spacer height={8} />
   <span>We created the Prisma schema file for your project.</span>
   <Spacer height={4} />
-  <span>You can find it in <b>hello-world/schema.prisma</b>.</span>
+  <span>You can find it at <b>hello-world/schema.prisma</b>.</span>
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
@@ -184,13 +185,13 @@ TODO
   <Spacer height={20} />
   <Success message="You're all set!" />
   <Spacer height={20} />
-  <SectionTitle>Introspection was successful.</SectionTitle>
+  <Title primary="Introspection was successful." />
   <Spacer height={8} />
   <span>Result: <b>11 tables</b> have been found in your SQLite database file.</span>
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
-  <SectionTitle>What files were created?</SectionTitle>
+  <Title primary="What files were created?"></Title>
   <Spacer height={8} />
   <span>The following files have been created:</span><br />
   <br />
@@ -200,7 +201,7 @@ TODO
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
-  <SectionTitle>What next?</SectionTitle>
+  <Title primary="What next?"></Title>
   <Spacer height={8} />
   <span>Run the following commands to continue:</span><br />
   <br />
@@ -220,13 +221,13 @@ TODO
   <Spacer height={20} />
   <Success message="You're all set!" />
   <Spacer height={20} />
-  <SectionTitle>Introspection was successful.</SectionTitle>
+  <Title primary="Introspection was successful."></Title>
   <Spacer height={8} />
   <span>Result: <b>11 tables</b> have been found in your SQLite database file.</span>
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
-  <SectionTitle>What files were created?</SectionTitle>
+  <Title primary="What files were created?"></Title>
   <Spacer height={8} />
   <span>The Prisma schema file for your project has been created.</span><br />
   <br />
@@ -234,7 +235,7 @@ TODO
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
-  <SectionTitle>What next?</SectionTitle>
+  <Title primary="What next?"></Title>
   <Spacer height={8} />
   <span>Run the following commands to continue:</span >
   <Spacer height={8} />
@@ -242,6 +243,8 @@ TODO
   <Spacer height={4} />
   <Command>$ prisma dev</Command>
   <Spacer height={16} />
+  <div>Learn more </div >
+  <Spacer height={4} />
   <div>Learn more about using only Lift in the docs:</div >
   <Spacer height={4} />
   <div>https://github.com/prisma/prisma2/blob/master/docs/lift/use-only-lift.md</div>
