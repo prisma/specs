@@ -1,37 +1,36 @@
 import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Success, TextInput, Introspection, Command } from '../components/cli'
 
-# PostgreSQL
+# MySQL
 
 ---
 
-## (P.1) Enter Database Credentials
+## (M.1) Enter Database Credentials
 <Terminal>
   ~/my-app prisma init
   <Spacer height={20} />
-  <Title primary="Enter PostgreSQL credentials" />
+  <Title primary="Enter MySQL credentials" />
   <Spacer height={4} />
-  <span>Learn how to set up a PostgreSQL database: <u>prisma.io/docs</u></span>
+  <span>Learn how to set up a MySQL database: <u>prisma.io/docs</u></span>
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
-  <Title primary="We found a local PostgreSQL database on port 5432. Do you want to use this database?" />
+  <Title primary="We found a local MySQL database on port 3306. Do you want to use this database?" />
   <Spacer height={4} />
-  <Button label="Yes, autofill credentials of mocal Postgres database" />
+  <Button label="Yes, autofill credentials of local MySQL database" />
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
   <TextInput label="Host" placeholder="127.0.0.1" />
-  <TextInput label="Port" placeholder="5432" />
+  <TextInput label="Port" placeholder="3306" />
   <TextInput label="User" value="admin" />
-  <TextInput label="Password" value="super-secret-123" />
-  <TextInput label="Database" isSelected />
-  <TextInput label="Schema (optional)" />
+  <TextInput label="Password" value="super-secret-123" isSelected />
+  <TextInput label="Database (optional)" />
   <Spacer height={16} />
   <Checkbox label="Use SSL"/>
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
-  <TextInput label="Or URL" placeholder="postgresql://localhost:5432/admin" />
+  <TextInput label="Or URL" placeholder="mysql://localhost:3306/admin" />
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
@@ -39,75 +38,75 @@ import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Succes
   <Button icon="back" label="Back" description="(Database selection)" />
 </Terminal>
 
-## (P.2) Choose Existing or New Schema
+## (M.2) Choose Existing or New Database
 <Terminal>
   ~/my-app prisma init
   <Spacer height={20} />
-  <Success message="Connected to PostgreSQL server as admin" />
+  <Success message="Connected to MySQL server as admin" />
   <Spacer height={20} />
-  <Title primary="Schema options" />
+  <Title primary="Database options" />
   <Spacer height={4} />
-  <span>Learn how to set up a PostgreSQL database: <u>prisma.io/docs</u></span>
+  <span>Learn how to set up a MySQL database: <u>prisma.io/docs</u></span>
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
-  <Button label="Create new PostgreSQL schema" description="Beginner's choice" labelWidth={240}/>
-  <Button label="Use existing PostgreSQL schema" description="Found 5 schemas" labelWidth={240} isSelected />
+  <Button label="Create new MySQL database" description="Beginner's choice" labelWidth={240}/>
+  <Button label="Use existing MySQL database" description="Found 5 databases" labelWidth={240} isSelected />
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
   <Button icon="back" label="Back" description="(Database credentials)" />
 </Terminal>
 
-## (P.2.1) Set Schema Name
+## (M.2.1) Set Database Name
 <Terminal>
   ~/my-app prisma init
   <Spacer height={20} />
-  <TextInput label="Enter schema name" placeholder="my-app" isSelected />
+  <TextInput label="Enter database name" placeholder="my-app" isSelected />
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
   <Button label="Create" />
-  <Button icon="back" label="Back" description="(Schema options)" />
+  <Button icon="back" label="Back" description="(Database options)" />
 </Terminal>
 
-## (P.3) Choose a Schema
+## (M.3) Choose a Database
 <Terminal>
   ~/my-app prisma init
   <Spacer height={20} />
-  <Success message="Connected to PostgreSQL server as admin" />
+  <Success message="Connected to MySQL server as admin" />
   <Spacer height={20} />
-  <Title primary="Select a PostgreSQL schema" />
+  <Title primary="Select a MySQL database" />
   <Spacer height={8} />
-  <span>Select an empty schema to start a new project or introspect a non-empty one to generate your data model definition. </span>
+  <span>Select an empty database to start a new project or introspect a non-empty one to generate your data model definition. </span>
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
-  <Title primary="Empty schemas" secondary="(Start a new project)" />
+  <Title primary="Empty databases" secondary="(Start a new project)" />
   <Spacer height={8} />
   <Button label="public" description="Created a year ago" labelWidth={140}/>
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
-  <Title primary="Non-empty schemas" secondary="(Introspect to generate initial data model)" />
+  <Title primary="Non-empty databases" secondary="(Introspect to generate initial data model)" />
   <Spacer height={8} />
   <Button label="management" description="2 tables, 1,113KB" labelWidth={140} isSelected />
   <Button label="default$default" description="5 tables, 3,424KB" labelWidth={140}/>
-  <Button label="idkHowCommonThatIsButHeresABigassSchemaNameToTestTheLimits" description="5 tables, 3,424KB"/>
+  <Button label="idkHowCommonThatIsButHeresABigassDatabaseNameToTestTheLimits" description="5 tables, 3,424KB"/>
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
-  <Button icon="back" label="Back" description="(Schema options)" />
+  <Button icon="back" label="Back" description="(Database options)" />
 </Terminal>
 
-## (P.3.1) Introspection
+## (M.3.1) Introspection
 <Terminal>
   ~/my-app prisma init
   <Spacer height={20} />
-  <Introspection progress={26.5}>Introspecting <b>management</b> schema...</Introspection>
+  <Introspection progress={26.5}>Introspecting <b>management</b> database...</Introspection>
 </Terminal>
 
-## (P.3.2) Select Tools
+## (M.3.2) Select Tools
 <Terminal>
   $ prisma2 init hello-world
   <Spacer height={20} />
@@ -125,7 +124,7 @@ import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Succes
   <Button label="Confirm" />
 </Terminal>
 
-## (P.4) Select Language
+## (M.4) Select Language
 <Terminal>
   $ prisma2 init hello-world
   <Spacer height={20} />
@@ -144,7 +143,7 @@ import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Succes
   <Button icon="back" label="Back" description="(Tool selection)" />
 </Terminal>
 
-## (P.4.1) Select Language for Photon (Photon)
+## (M.4.1) Select Language for Photon (Photon)
 <Terminal>
   $ prisma2 init hello-world
   <Spacer height={20} />
@@ -161,7 +160,7 @@ import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Succes
   <Button icon="back" label="Back" description="(Tool selection)" />
 </Terminal>
 
-## (P.4.2) Select Language for Photon (Lift+Photon)
+## (M.4.2) Select Language for Photon (Lift+Photon)
 <Terminal>
   $ prisma2 init hello-world
   <Spacer height={20} />
@@ -178,7 +177,7 @@ import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Succes
   <Button icon="back" label="Back" description="(Tool selection)" />
 </Terminal>
 
-## (P.5) Select Boilerplate
+## (M.5) Select Boilerplate
 <Terminal>
   $ prisma2 init hello-world
   <Spacer height={20} />
@@ -197,7 +196,7 @@ import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Succes
   <Button icon="back" label="Back" description="(Language selection)" />
 </Terminal>
 
-## (P.6) Success (Boilerplate)
+## (M.6) Success (Boilerplate)
 <Terminal>
   $ prisma2 init hello-world
   <Spacer height={20} />
@@ -223,6 +222,6 @@ import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Succes
   <div>Learn more about using Photon and Lift at https://www.prisma.io/docs/</div>
 </Terminal>
 
-## (P.6.1) Success (Photon)
-## (P.6.2) Success (Lift+Photon)
-## (P.6.3) Success (Lift)
+## (M.6.1) Success (Photon)
+## (M.6.2) Success (Lift+Photon)
+## (M.6.3) Success (Lift)
