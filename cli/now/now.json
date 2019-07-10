@@ -1,6 +1,0 @@
-{
-  "version": 2,
-  "name": "my-nodejs-ts-project",
-  "builds": [{ "src": "figma-proxy.ts", "use": "@now/node" }],
-  "routes": [{ "src": "/", "dest": "figma-proxy.ts" }]
-}
