@@ -1,4 +1,4 @@
-import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Success, TextInput, Command } from '../components/cli'
+import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Success, TextInput, Command, Introspection } from '../components/cli'
 
 # SQLite
 
@@ -15,7 +15,7 @@ import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Succes
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
-  <Button label="Create new SQLite file" description="Easy setup" labelWidth={200} isSelected />
+  <Button label="Create new SQLite file" description="Easy setup to start from scratch" labelWidth={200} isSelected />
   <Button label="Use existing SQLite file" description="Requires the path to the file" labelWidth={200} />
   <Spacer height={16} />
   <Line />
@@ -40,6 +40,7 @@ In this view, it would be great if the trailing `.db` could somehow be fixed sin
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
+  <Button label="Confirm" />
   <Button icon="back" label="Back" description="(Database credentials)" />
 </Terminal>
 
@@ -47,7 +48,11 @@ In this view, it would be great if the trailing `.db` could somehow be fixed sin
 
 ## S.2.1 Introspection
 
-TODO: Loading screen for Introspection
+<Terminal>
+  $ prisma2 init hello-world
+  <Spacer height={20} />
+  <Introspection progress={26.5}>Introspecting <b>management</b> schema...</Introspection>
+</Terminal>
 
 ## S.2.2 Tool selection
 
@@ -56,7 +61,7 @@ TODO: Loading screen for Introspection
   <Spacer height={20} />
   <Title primary="Which parts of Prisma do you want to use?" />
   <Spacer height={8} />
-  <span>Learn more about the tools at: github.com/prisma/prisma2</span>
+  <span>Learn more about the tools at: https://github.com/prisma/prisma2</span>
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
@@ -66,15 +71,30 @@ TODO: Loading screen for Introspection
   <Line />
   <Spacer height={16} />
   <Button label="Confirm" />
+  <Button icon="back" label="Back" description="(Database file path)" />
 </Terminal>
 
 <br/>
 
-## S.3 Language selection (start from scratch)
+## S.3 Language selection (start from scratch, i.e. selected Photon + Lift by default)
 
+<Terminal>
+  $ prisma2 init hello-world
+  <Spacer height={20} />
+  <Title primary="Which programming language do you want to use to access your database with Photon?" />
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Button label="JavaScript" labelWidth={100} isSelected />
+  <Button label="TypeScript" labelWidth={100} />
+  <Button label="Go" description="(Coming soon)" isDisabled />
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Button icon="back" label="Back" description="(Database options)" />
+</Terminal>
 
-
-
+<br/>
 
 ## S.3.1 Language selection (selected only Photon)
 
@@ -224,7 +244,7 @@ TODO
   <Spacer height={16} />
   <div>Learn more about using only Lift in the docs:</div >
   <Spacer height={4} />
-  <div>github.com/prisma/prisma2/blob/master/docs/lift/use-only-lift.md</div>
+  <div>https://github.com/prisma/prisma2/blob/master/docs/lift/use-only-lift.md</div>
 </Terminal>
 
 <br />
