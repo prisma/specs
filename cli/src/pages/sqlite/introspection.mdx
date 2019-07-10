@@ -126,7 +126,7 @@ Previous selections:
   <Line />
   <Spacer height={16} />
   <Button label="No boilerplate" description="(Just generate the Prisma schema)"/>
-  <Button icon="back" label="Back" description="(Language selection)" />
+  <Button icon="back" label="Back" description="(Language selection)" href="#s31-language-selection" />
 </Terminal>
 
 ### S.5.1 Success
@@ -189,6 +189,36 @@ Previous selections:
   <Spacer height={4} />
 </Terminal>
 
+### S.3.2 Language selection
+
+Previous selections: 
+
+1. SQLite
+1. Use existing SQLite file
+1. _entered file path_
+1. _introspected DB_
+1. Photon + Lift
+
+<Terminal>
+  $ prisma2 init hello-world
+  <Spacer height={20} />
+  <Title primary="Select the programming language to access your database with Photon." />
+  <Spacer height={8} />
+  <span>This decision doesn't impact the usage of Lift in your project.</span>
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Button label="JavaScript" labelWidth={100} isSelected href="#s42-boilerplate-selection" />
+  <Button label="TypeScript" labelWidth={100} href="#s42-boilerplate-selection" />
+  <Button label="Go" description="(Coming soon)" isDisabled />
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Button icon="back" label="Back" description="(Tool selection)" href="#s22-tool-selection" />
+</Terminal>
+
+<br/>
+
 ### S.4.2 Boilerplate selection 
 
 Previous selections: 
@@ -207,12 +237,12 @@ Previous selections:
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
-  <Button label="Basic boilerplate" description="Simple script with API examples" labelWidth={200} isSelected />
+  <Button label="Basic boilerplate" description="Simple script with API examples" labelWidth={200} isSelected href="#s52-success" />
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
   <Button label="No boilerplate" description="(Just generate the Prisma schema)"/>
-  <Button icon="back" label="Back" description="(Language selection)" />
+  <Button icon="back" label="Back" description="(Language selection)" href="#s32-language-selection" />
 </Terminal>
 
 ### S.5.2 Success
@@ -270,35 +300,7 @@ Previous selections:
   <Spacer height={4} />
 </Terminal>
 
-### S.3.2 Language selection
 
-Previous selections: 
-
-1. SQLite
-1. Use existing SQLite file
-1. _entered file path_
-1. _introspected DB_
-1. Photon + Lift
-
-<Terminal>
-  $ prisma2 init hello-world
-  <Spacer height={20} />
-  <Title primary="Select the programming language to access your database with Photon." />
-  <Spacer height={8} />
-  <span>This decision doesn't impact the usage of Lift in your project.</span>
-  <Spacer height={16} />
-  <Line />
-  <Spacer height={16} />
-  <Button label="JavaScript" labelWidth={100} isSelected />
-  <Button label="TypeScript" labelWidth={100} />
-  <Button label="Go" description="(Coming soon)" isDisabled />
-  <Spacer height={16} />
-  <Line />
-  <Spacer height={16} />
-  <Button icon="back" label="Back" description="(Tool selection)" />
-</Terminal>
-
-<br/>
 
 ### S.5.3 Success
 
