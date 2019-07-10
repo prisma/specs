@@ -1,4 +1,4 @@
-import { Terminal, SectionTitle, Spacer, Select, Option, Button, Line, Checkbox, Success, TextInput } from '../components/cli'
+import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Success, TextInput, Command } from '../components/cli'
 
 # SQLite
 
@@ -9,7 +9,7 @@ import { Terminal, SectionTitle, Spacer, Select, Option, Button, Line, Checkbox,
 <Terminal>
   $ prisma2 init hello-world
   <Spacer height={20} />
-  <SectionTitle>How do you want to proceed?</SectionTitle>
+  <Title primary="How do you want to proceed?" />
   <Spacer height={8} />
   <span>Start from scratch or use an existing SQLite database file.</span>
   <Spacer height={16} />
@@ -32,7 +32,7 @@ In this view, it would be great if the trailing `.db` could somehow be fixed sin
 <Terminal>
   $ prisma2 init hello-world
   <Spacer height={20} />
-  <SectionTitle>Enter the path to your SQLite database file</SectionTitle>
+  <Title primary="Enter the path to your SQLite database file" />
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
@@ -54,7 +54,7 @@ TODO: Loading screen for Introspection
 <Terminal>
   $ prisma2 init hello-world
   <Spacer height={20} />
-  <SectionTitle>Which parts of Prisma do you want to use?</SectionTitle>
+  <Title primary="Which parts of Prisma do you want to use?" />
   <Spacer height={8} />
   <span>Learn more about the tools at: github.com/prisma/prisma2</span>
   <Spacer height={16} />
@@ -81,7 +81,7 @@ TODO: Loading screen for Introspection
 <Terminal>
   $ prisma2 init hello-world
   <Spacer height={20} />
-  <SectionTitle>Which programming language do you want to use to access your database with Photon?</SectionTitle>
+  <Title primary="Which programming language do you want to use to access your database with Photon?" />
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
@@ -101,7 +101,7 @@ TODO: Loading screen for Introspection
 <Terminal>
   $ prisma2 init hello-world
   <Spacer height={20} />
-  <SectionTitle>Which programming language do you want to use to access your database with Photon?</SectionTitle>
+  <Title primary="Which programming language do you want to use to access your database with Photon?" />
   <Spacer height={8} />
   <span>This decision doesn't impact the usage of Lift in your project.</span>
   <Spacer height={16} />
@@ -122,28 +122,28 @@ TODO: Loading screen for Introspection
 
 TODO
 
+## S.5.3 Success (only Lift)
+
 <Terminal>
   $ prisma2 init hello-world
   <Spacer height={20} />
   <Success message="You're all set!" />
   <Spacer height={20} />
-  <SectionTitle>Introspection was successful.</SectionTitle>
+  <Title primary="Introspection was successful" />
   <Spacer height={8} />
-  <span>Result: <b>11 tables</b> have been found in your SQLite database file.</span>
+  <span>We found <b>11 tables</b> in your SQLite database file.</span >
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
-  <SectionTitle>What files were created?</SectionTitle>
+  <Title primary="What did we do for you?" />
   <Spacer height={8} />
-  <span>The following files have been created:</span><br />
-  <br />
-  <ul>
-    <li>project.prisma</li>
-  </ul>
+  <span>We created the Prisma schema file for your project.</span>
+  <Spacer height={4} />
+  <span>You can find it in <b>hello-world/schema.prisma</b>.</span>
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
-  <SectionTitle>What next?</SectionTitle>
+  <Title primary="What next?" />
   <Spacer height={8} />
   <span>Run the following commands to continue:</span><br />
   <br />
@@ -216,21 +216,17 @@ TODO
   <Spacer height={16} />
   <SectionTitle>What next?</SectionTitle>
   <Spacer height={8} />
-  <span>Run the following commands to continue:</span><br />
-  <br />
-  <span><code>$ cd hello-world</code></span><br />
-  <span><code>$ prisma dev</code></span><br />
-  <br />
-  <span>This starts Prisma's development mode which automatically migrates your database when you save changes to your data mode in <b>hello-world/schema.prisma</b>.</span><br />
-  <br />
-  <span>Learn more about the development mode:</span><br />
-  <br />
-  <span>https://github.com/prisma/prisma2/blob/master/docs/development-mode.md</span><br />
+  <span>Run the following commands to continue:</span >
+  <Spacer height={8} />
+  <Command>cd hello-world</Command>
+  <Spacer height={4} />
+  <Command>$ prisma dev</Command>
+  <Spacer height={16} />
+  <div>Learn more about using only Lift in the docs:</div >
+  <Spacer height={4} />
+  <div>github.com/prisma/prisma2/blob/master/docs/lift/use-only-lift.md</div>
 </Terminal>
 
 <br />
 <br />
 <br />
-<br />
-
-
