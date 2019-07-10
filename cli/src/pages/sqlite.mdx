@@ -16,8 +16,8 @@ import { Terminal, SectionTitle, Spacer, Select, Option, Button, Line, Checkbox,
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
-  <Button label="Create new SQLite file" description="We'll help you with the setup" labelWidth={220} isSelected />
-  <Button label="Use existing SQLite file" description="Requires the path to the file" labelWidth={220} />
+  <Button label="Create new SQLite file" description="Easy setup" labelWidth={200} isSelected />
+  <Button label="Use existing SQLite file" description="Requires the path to the file" labelWidth={200} />
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
@@ -98,7 +98,7 @@ TODO: Loading screen for Introspection
   <Spacer height={20} />
   <SectionTitle>Which programming language do you want to use to access your database with Photon?</SectionTitle>
   <Spacer height={8} />
-  <span>This selection doesn't impact the usage of Lift in your project.</span>
+  <span>This decision doesn't impact the usage of Lift in your project.</span>
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
@@ -120,25 +120,30 @@ TODO: Loading screen for Introspection
   <Spacer height={20} />
   <Success message="You're all set!" />
   <Spacer height={20} />
-  <SectionTitle>Introspection was successful</SectionTitle>
+  <SectionTitle>Introspection was successful.</SectionTitle>
   <Spacer height={8} />
   <span>We found <b>11 tables</b> in your SQLite database file.</span >
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
-  <SectionTitle>Here is what we did</SectionTitle>
+  <SectionTitle>What did we do for you?</SectionTitle>
   <Spacer height={8} />
-  <span>We created the Prisma schema file for your project</span><br />
-  <Spacer height={2} />
+  <span>We created the Prisma schema file for your project.</span><br />
+  <br />
   <span>You can find it in <b>hello-world/schema.prisma</b>.</span>
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
   <SectionTitle>What next?</SectionTitle>
   <Spacer height={8} />
-  <span>Run the following commands to continue:</span >
-  <span><code>cd hello-world</code></span>
-  <Spacer height={16} />
+  <span>Run the following commands to continue:</span ><br />
+  <br />
+  <span><code>$ cd hello-world</code></span><br />
+  <span><code>$ prisma dev</code></span><br />
+  <br />
+  <span>Learn more about using only Lift in the docs:</span ><br />
+  <br />
+  <span>github.com/prisma/prisma2/blob/master/docs/lift/use-only-lift.md</span ><br />
 </Terminal>
 
 <br />
