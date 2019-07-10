@@ -1,4 +1,4 @@
-import { Terminal, SectionTitle, Spacer, Select, Option, Button, Line, Checkbox, Success, TextInput } from '../components/cli'
+import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Success, TextInput } from '../components/cli'
 
 # PostgreSQL
 
@@ -6,13 +6,13 @@ import { Terminal, SectionTitle, Spacer, Select, Option, Button, Line, Checkbox,
 <Terminal>
   ~/my-app prisma init
   <Spacer height={20} />
-  <SectionTitle>Enter PostgreSQL credentials</SectionTitle>
+  <Title primary="Enter PostgreSQL credentials" />
   <Spacer height={4} />
   <span>Learn how to set up a PostgreSQL database: <u>prisma.io/docs</u></span>
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
-  <SectionTitle>We found a local PostgreSQL database on port 3306. Do you wnt to use this database?</SectionTitle>
+  <Title primary="We found a local PostgreSQL database on port 5432. Do you want to use this database?" />
   <Spacer height={4} />
   <Button label="Yes, autofill credentials of mocal Postgres database" />
   <Spacer height={16} />
@@ -43,7 +43,7 @@ import { Terminal, SectionTitle, Spacer, Select, Option, Button, Line, Checkbox,
   <Spacer height={20} />
   <Success message="Connected to PostgreSQL server as admin" />
   <Spacer height={20} />
-  <SectionTitle>Schema options</SectionTitle>
+  <Title primary="Schema options" />
   <Spacer height={4} />
   <span>Learn how to set up a PostgreSQL database: <u>prisma.io/docs</u></span>
   <Spacer height={16} />
@@ -70,6 +70,26 @@ import { Terminal, SectionTitle, Spacer, Select, Option, Button, Line, Checkbox,
 </Terminal>
 
 ## (P.3) Choose a Schema
+<Terminal>
+  ~/my-app prisma init
+  <Spacer height={20} />
+  <Success message="Connected to PostgreSQL server as admin" />
+  <Spacer height={20} />
+  <Title primary="Select a PostgreSQL schema" />
+  <Spacer height={8} />
+  <span>Select an empty database to start a new project or introspect a non-empty one to generate your data model definition. </span>
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Title primary="Empty databases" secondary="(Start a new project)" />
+  <Spacer height={16} />
+  <Button label="public" description="Created a year ago" labelWidth={140}/>
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Button icon="back" label="Back" description="(Database credentials)" />
+</Terminal>
+
 ## (P.3.1) Introspection
 ## (P.3.2) Select Tools
 ## (P.4) Select Language
