@@ -18,13 +18,13 @@ Previous selections:
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
-  <Button label="JavaScript" labelWidth={100} isSelected />
-  <Button label="TypeScript" labelWidth={100} />
+  <Button label="JavaScript" labelWidth={100} isSelected href="#s4-boilerplate-selection" />
+  <Button label="TypeScript" labelWidth={100} href="#s4-boilerplate-selection" />
   <Button label="Go" description="(Coming soon)" isDisabled />
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
-  <Button icon="back" label="Back" description="(Database options)" />
+  <Button icon="back" label="Back" description="(Database options)" href="./sqlite" />
 </Terminal>
 
 ### S.4 Boilerplate selection
@@ -42,25 +42,32 @@ Previous selections:
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
-  <Button label="Basic  boilerplate" description="Simple script with API examples" labelWidth={200} isSelected />
-  <Button label="GraphQL boilerplate" description="GraphQL server example" labelWidth={200} />
-  <Button label="REST boilerplate" description="REST API example (using express.js)" labelWidth={200} />
-  <Button label="gRPC boilerplate" description="gRPC API example (client + server)" labelWidth={200} />
+  <Button label="Basic  boilerplate" description="Simple script with API examples" labelWidth={200} isSelected href="#s51-success" />
+  <Button label="GraphQL boilerplate" description="GraphQL server example" labelWidth={200} href="#s51-success" />
+  <Button label="REST boilerplate" description="REST API example (using express.js)" labelWidth={200} href="#s51-success" />
+  <Button label="gRPC boilerplate" description="gRPC API example (client + server)" labelWidth={200} href="#s51-success" />
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
-  <Button label="No boilerplate" description="(Just generate the Prisma schema)"/>
-  <Button icon="back" label="Back" description="(Language selection)" />
+  <Button label="No boilerplate" description="(Just generate the Prisma schema)"  href="#s52-success" />
+  <Button icon="back" label="Back" description="(Language selection)" href="#s3-language-selection" />
 </Terminal>
 
-### S.5 Success
+When a boilerplate is selected, the CLI should:
+
+1. replace the data source config in schema.prisma with the DB credentials initially provided (noop for SQLite)
+1. generate Photon
+1. install npm dependencies
+1. seed the DB
+
+### S.5.1 Success
 
 Previous selections: 
 
 1. SQLite
 1. Create new SQLite file
 1. JavaScript/TypeScript
-1. GraphQL boilerplate
+1. Any boilerplate (example uses GraphQL)
 
 <Terminal>
   $ prisma2 init hello-world
@@ -72,12 +79,15 @@ Previous selections:
   <span>The following files have been created inside the <b>hello-world</b> directory:</span><br />
   <ul>
     <li><b>prisma/schema.prisma</b></li>
+    <li><b>prisma/seed.ts</b></li>
     <li><b>src/index.ts</b></li>
+    <li><b>src/schema.graphql</b></li>
+    <li><b>src/types.ts</b></li>
     <li><b>tsconfig.json</b></li>
     <li><b>package.json</b></li>
     <li><b>node_modules/</b></li>
   </ul>
-  <span>Note that <b>src/index.ts</b> contains sample read operations of the Photon API.</span><br />
+  <span>Note that your database has been seeded with the operations in <b>prisma/seed.ts</b>.</span><br />
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
@@ -89,19 +99,45 @@ Previous selections:
   <Spacer height={4} />
   <Command>yarn start</Command>
   <Spacer height={16} />
-<Spacer height={8} />
-  <span>To evolve your application you need to:</span >
-  <ol>
-    <li>Migrate your database</li>
-    <li>Re-introspect your database to update the data model: <Command>prisma2 introspect</Command></li>
-    <li>Re-generate Photon with: <Command>prisma2 introspect</Command></li>
-  </ol>
-  <Spacer height={8} />
-  <Command>prisma dev</Command>
-  <Spacer height={16} />
-  <div>This starts Prisma's development mode which automatically migrates your database and regenerates Photon when you save changes to your data model in <b>prisma/schema.prisma</b>.</div >
-  <Spacer height={4} />
-  <div>Learn more: https://github.com/prisma/prisma2/blob/master/docs/development-mode.md</div>
+  <div>Learn more about this example: https://github.com/prisma/photonjs/tree/master/examples/typescript/graphql</div>
   <Spacer height={4} />
 </Terminal>
 
+The created files are created dynamically based on which example was selected. The "Learn more"-link also needs to be adjusted dynamically based on the example. 
+
+<br />
+<br />
+<br />
+
+### S.5.2 Success
+
+1. SQLite
+1. Create new SQLite file
+1. JavaScript/TypeScript
+1. No boilerplate
+
+<Terminal>
+  $ prisma2 init hello-world
+  <Spacer height={20} />
+  <Success message="You're all set!" />
+  <Spacer height={20} />
+  <Title primary="What files were created?"></Title>
+  <Spacer height={8} />
+  <span>The Prisma schema file for your project has been created.</span><br />
+  <br />
+  <span>You can find it in <b>hello-world/schema.prisma</b>.</span>
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Title primary="What next?"></Title>
+  <Spacer height={8} />
+  <span>Run the following commands to continue:</span >
+  <Spacer height={8} />
+  <Command>cd hello-world</Command>
+  <Spacer height={4} />
+  <Command>prisma dev</Command>
+  <Spacer height={16} />
+  <div>This starts Prisma's development mode which automatically migrates your database and regenerates Photon when you save changes to your data model in <b>hello-world/schema.prisma</b>.</div >
+  <Spacer height={4} />
+  <div>Learn more: https://github.com/prisma/prisma2/blob/master/docs/development-mode.md</div>
+</Terminal>
