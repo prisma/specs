@@ -11,7 +11,7 @@ import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Succes
   <Spacer height={20} />
   <Title primary="How do you want to proceed?" />
   <Spacer height={8} />
-  <span>Start from scratch or use an existing SQLite database file.</span>
+  <span></span>
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
@@ -32,7 +32,7 @@ In this view, it would be great if the trailing `.db` could somehow be fixed sin
 <Terminal>
   $ prisma2 init hello-world
   <Spacer height={20} />
-  <Title primary="Enter the path to your SQLite database file" />
+  <Title primary="Enter the path to your SQLite database file." />
   <Spacer height={8} />
   <span>Prisma will introspect the database to generate your initial data model.</span>
   <Spacer height={16} />  <Line />
@@ -42,7 +42,7 @@ In this view, it would be great if the trailing `.db` could somehow be fixed sin
   <Line />
   <Spacer height={16} />
   <Button label="Introspect" />
-  <Button icon="back" label="Back" description="(Database credentials)" />
+  <Button icon="back" label="Back" description="(Database options)" />
 </Terminal>
 
 <br/>
@@ -57,17 +57,21 @@ In this view, it would be great if the trailing `.db` could somehow be fixed sin
 
 ## S.2.2 Tool selection
 
+In this view, Photon and Lift should be checked by default.
+
 <Terminal>
   $ prisma2 init hello-world
   <Spacer height={20} />
-  <Title primary="Which parts of Prisma do you want to use?" />
+  <Title primary="Select the Prisma tool(s) you want to use." />
   <Spacer height={8} />
-  <span>Learn more about the tools at: https://github.com/prisma/prisma2</span>
+  <span>Use the <b>SPACE</b> key to select/unselect a tool.</span>
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
   <Checkbox label="Photon" description="Type-safe database client" labelWidth={80} isChecked isSelected />
   <Checkbox label="Lift" description="Declarative data modeling & migrations" labelWidth={80} />
+  <Spacer height={8} />
+  <span>Learn more about the tools at: https://github.com/prisma/prisma2</span>
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
@@ -139,82 +143,7 @@ In this view, it would be great if the trailing `.db` could somehow be fixed sin
 
 <br/>
 
-## S.6.1 Success (only Photon)
-
-TODO
-
 ## S.5.3 Success (only Lift)
-
-<Terminal>
-  $ prisma2 init hello-world
-  <Spacer height={20} />
-  <Success message="You're all set!" />
-  <Spacer height={20} />
-  <Title primary="Introspection was successful" />
-  <Spacer height={8} />
-  <span>We found <b>11 tables</b> in your SQLite database file.</span >
-  <Spacer height={16} />
-  <Line />
-  <Spacer height={16} />
-  <Title primary="What did we do for you?" />
-  <Spacer height={8} />
-  <span>We created the Prisma schema file for your project.</span>
-  <Spacer height={4} />
-  <span>You can find it at <b>hello-world/schema.prisma</b>.</span>
-  <Spacer height={16} />
-  <Line />
-  <Spacer height={16} />
-  <Title primary="What next?" />
-  <Spacer height={8} />
-  <span>Run the following commands to continue:</span><br />
-  <br />
-  <span><code>$ TODO</code></span><br />
-  <span><code>$ TODO</code></span><br />
-  <br />
-  <span>Learn more about the development mode:</span><br />
-  <br />
-  <span>https://github.com/prisma/prisma2/blob/master/docs/development-mode.md</span><br />
-</Terminal>
-
-## S.6.1 Success (Photon + Lift)
-
-TODO
-
-<Terminal>
-  $ prisma2 init hello-world
-  <Spacer height={20} />
-  <Success message="You're all set!" />
-  <Spacer height={20} />
-  <Title primary="Introspection was successful." />
-  <Spacer height={8} />
-  <span>Result: <b>11 tables</b> have been found in your SQLite database file.</span>
-  <Spacer height={16} />
-  <Line />
-  <Spacer height={16} />
-  <Title primary="What files were created?"></Title>
-  <Spacer height={8} />
-  <span>The following files have been created:</span><br />
-  <br />
-  <ul>
-    <li>project.prisma</li>
-  </ul>
-  <Spacer height={16} />
-  <Line />
-  <Spacer height={16} />
-  <Title primary="What next?"></Title>
-  <Spacer height={8} />
-  <span>Run the following commands to continue:</span><br />
-  <br />
-  <span><code>$ TODO</code></span><br />
-  <span><code>$ TODO</code></span><br />
-  <br />
-  <span>Learn more about the development mode:</span><br />
-  <br />
-  <span>https://github.com/prisma/prisma2/blob/master/docs/development-mode.md</span><br />
-</Terminal>
-
-
-## S.6.3 Success (only Lift)
 
 <Terminal>
   $ prisma2 init hello-world
@@ -243,11 +172,9 @@ TODO
   <Spacer height={4} />
   <Command>$ prisma dev</Command>
   <Spacer height={16} />
-  <div>Learn more </div >
+  <div>This starts Prisma's development mode which automatically migrates your database when you save changes to your data model in <b>hello-world/schema.prisma</b>.</div >
   <Spacer height={4} />
-  <div>Learn more about using only Lift in the docs:</div >
-  <Spacer height={4} />
-  <div>https://github.com/prisma/prisma2/blob/master/docs/lift/use-only-lift.md</div>
+  <div>https://github.com/prisma/prisma2/blob/master/docs/development-mode.md</div>
 </Terminal>
 
 <br />
