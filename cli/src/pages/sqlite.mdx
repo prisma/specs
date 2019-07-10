@@ -1,4 +1,4 @@
-import { Terminal, SectionTitle, Spacer, Select, Option, Button, Line, Checkbox } from '../components/cli'
+import { Terminal, SectionTitle, Spacer, Select, Option, Button, Line, Checkbox, Success } from '../components/cli'
 
 # SQLite
 
@@ -69,7 +69,7 @@ TODO: Loading screen for Introspection
 
 <br/>
 
-## S.3.1 Language selection
+## S.3.1 Language selection (selected only Photon)
 
 <Terminal>
   $ prisma2 init hello-world
@@ -84,14 +84,66 @@ TODO: Loading screen for Introspection
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
-  <Button label="Confirm" />
+  <Button icon="back" label="Back" description="(Tool selection)" />
 </Terminal>
 
 <br/>
 
-## S.3.2 Language selection
+## S.3.2 Language selection (selected Photon + Lift)
+
+<Terminal>
+  $ prisma2 init hello-world
+  <Spacer height={20} />
+  <SectionTitle>Which programming language do you want to use to access your database with Photon?</SectionTitle>
+  <Spacer height={8} />
+  <span>This selection doesn't impact the usage of Lift in your project.</span>
+  <Spacer height={16} />
+  <Button label="JavaScript" labelWidth={100} isSelected />
+  <Button label="TypeScript" labelWidth={100} />
+  <Button label="Go" description="(Coming soon)" isDisabled />
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Button icon="back" label="Back" description="(Tool selection)" />
+</Terminal>
+
+<br/>
 
 ## S.6.3 Success
+
+<Terminal>
+  ~/my-app prisma init
+  <Spacer height={20} />
+  <Success message="You're all set!" />
+  <Spacer height={20} />
+  <SectionTitle>Introspection result</SectionTitle>
+  <Spacer height={8} />
+  <span>We found <b>11 tables</b> in your SQLite database file.</span >
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Button label="Create new PostgreSQL schema" description="Beginner's choice" labelWidth={240}/>
+  <Button label="Use existing PostgreSQL schema" description="Found 5 schemas" labelWidth={240} isSelected />
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Button icon="back" label="Back" description="(Database credentials)" />
+</Terminal>
+
+<br />
+<br />
+<br />
+<br />
+
+
+
+
+
+
+
+
+
+
 
 
 <!-- ## SQLite
