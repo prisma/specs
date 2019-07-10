@@ -1,4 +1,4 @@
-import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Success, TextInput } from '../components/cli'
+import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Success, TextInput, Introspection } from '../components/cli'
 
 # PostgreSQL
 
@@ -61,7 +61,7 @@ import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Succes
 <Terminal>
   ~/my-app prisma init
   <Spacer height={20} />
-  <TextInput label="Enter schema name" placeholder="my-app" />
+  <TextInput label="Enter schema name" placeholder="my-app" isSelected />
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
@@ -99,6 +99,12 @@ import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Succes
 </Terminal>
 
 ## (P.3.1) Introspection
+<Terminal>
+  ~/my-app prisma init
+  <Spacer height={20} />
+  <Introspection progress={26.5}>Introspecting <b>management</b> schema...</Introspection>
+</Terminal>
+
 ## (P.3.2) Select Tools
 ## (P.4) Select Language
 ## (P.4.1) Select Language for Photon (Photon)

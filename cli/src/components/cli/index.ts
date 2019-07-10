@@ -7,5 +7,6 @@ import Line from './Line'
 import Checkbox from './Checkbox'
 import Success from './Success'
 import TextInput from './TextInput'
+import Introspection from './Introspection'
 
-export { Terminal, Title, SectionTitle, Spacer, Button, Line, Checkbox, Success, TextInput }
+export { Terminal, Title, SectionTitle, Spacer, Button, Line, Checkbox, Success, TextInput, Introspection }
