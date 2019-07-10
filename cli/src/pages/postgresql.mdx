@@ -1,0 +1,73 @@
+import { Terminal, SectionTitle, Spacer, Select, Option, Button, Line, Checkbox } from '../components/cli'
+
+# PostgreSQL
+Some info about this view here
+- Some note
+- Some other note
+
+## (P.1) Enter Database Credentials
+<Terminal>
+  ~/my-app prisma init
+  <Spacer height={20} />
+  <SectionTitle>Enter PostgreSQL credentials</SectionTitle>
+  <Spacer height={4} />
+  <span>Learn how to set up a PostgreSQL database: <u>prisma.io/docs</u></span>
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <SectionTitle>We found a local PostgreSQL database on port 3306. Do you wnt to use this database?</SectionTitle>
+  <Spacer height={4} />
+  <Button label="Yes, autofill credentials of mocal Postgres database" />
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Button label="Host"/>
+  <Button label="Port"/>
+  <Button label="User"/>
+  <Button label="Password"/>
+  <Button label="Database"/>
+  <Button label="Schema (optional)"/>
+  <Button label="Use SSL"/>
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Button label="Or URL"/>
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Button label="Connect" />
+  <Button icon="back" label="Back" description="(Database selection)" />
+</Terminal>
+
+## (P.2) Choose Existing or New Schema
+<Terminal>
+  ~/my-app prisma init
+  <Spacer height={20} />
+  <SectionTitle>Schema options</SectionTitle>
+  <Spacer height={4} />
+  <span>Learn how to set up a PostgreSQL database: <u>prisma.io/docs</u></span>
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <SectionTitle>We found a local PostgreSQL database on port 3306. Do you wnt to use this database?</SectionTitle>
+  <Spacer height={4} />
+  <Button label="Yes, autofill credentials of mocal Postgres database" />
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Button label="Host"/>
+  <Button label="Port"/>
+  <Button label="User"/>
+  <Button label="Password"/>
+  <Button label="Database (optional)"/>
+  <Button label="Use SSL"/>
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Button label="Or URL"/>
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Button label="Connect" />
+  <Button icon="back" label="Back" description="(Database selection)" />
+</Terminal>
