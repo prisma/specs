@@ -177,6 +177,24 @@ import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Succes
 </Terminal>
 
 ## (P.5) Select Boilerplate
+<Terminal>
+  $ prisma2 init hello-world
+  <Spacer height={20} />
+  <Title primary="Do you want to use a boilerplate or explore Prisma from scratch?" />
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Button label="From scratch" description="Simple script with API examples" labelWidth={200} isSelected />
+  <Button label="GraphQL boilerplate" description="GraphQL server example" labelWidth={200} />
+  <Button label="REST boilerplate" description="REST API example (using express.js)" labelWidth={200} />
+  <Button label="gRPC boilerplate" description="gRPC API example (client + server)" labelWidth={200} />
+  <Button label="No boilerplate" description="Just generate the Prisma schema" labelWidth={200} />
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Button icon="back" label="Back" description="(Language selection)" />
+</Terminal>
+
 ## (P.6) Success (Boilerplate)
 ## (P.6.1) Success (Photon)
 ## (P.6.2) Success (Lift+Photon)
