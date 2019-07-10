@@ -12,7 +12,6 @@ import { Terminal, SectionTitle, Spacer, Select, Option, Button, Line, Checkbox,
   <SectionTitle>How do you want to proceed?</SectionTitle>
   <Spacer height={8} />
   <span>Start from scratch or use an existing SQLite database file.</span>
-
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
@@ -71,6 +70,12 @@ TODO: Loading screen for Introspection
 
 <br/>
 
+## S.3 Language selection (start from scratch)
+
+
+
+
+
 ## S.3.1 Language selection (selected only Photon)
 
 <Terminal>
@@ -113,6 +118,81 @@ TODO: Loading screen for Introspection
 
 <br/>
 
+## S.6.1 Success (only Photon)
+
+TODO
+
+<Terminal>
+  $ prisma2 init hello-world
+  <Spacer height={20} />
+  <Success message="You're all set!" />
+  <Spacer height={20} />
+  <SectionTitle>Introspection was successful.</SectionTitle>
+  <Spacer height={8} />
+  <span>Result: <b>11 tables</b> have been found in your SQLite database file.</span>
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <SectionTitle>What files were created?</SectionTitle>
+  <Spacer height={8} />
+  <span>The following files have been created:</span><br />
+  <br />
+  <ul>
+    <li>project.prisma</li>
+  </ul>
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <SectionTitle>What next?</SectionTitle>
+  <Spacer height={8} />
+  <span>Run the following commands to continue:</span><br />
+  <br />
+  <span><code>$ TODO</code></span><br />
+  <span><code>$ TODO</code></span><br />
+  <br />
+  <span>Learn more about the development mode:</span><br />
+  <br />
+  <span>https://github.com/prisma/prisma2/blob/master/docs/development-mode.md</span><br />
+</Terminal>
+
+## S.6.1 Success (Photon + Lift)
+
+TODO
+
+<Terminal>
+  $ prisma2 init hello-world
+  <Spacer height={20} />
+  <Success message="You're all set!" />
+  <Spacer height={20} />
+  <SectionTitle>Introspection was successful.</SectionTitle>
+  <Spacer height={8} />
+  <span>Result: <b>11 tables</b> have been found in your SQLite database file.</span>
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <SectionTitle>What files were created?</SectionTitle>
+  <Spacer height={8} />
+  <span>The following files have been created:</span><br />
+  <br />
+  <ul>
+    <li>project.prisma</li>
+  </ul>
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <SectionTitle>What next?</SectionTitle>
+  <Spacer height={8} />
+  <span>Run the following commands to continue:</span><br />
+  <br />
+  <span><code>$ TODO</code></span><br />
+  <span><code>$ TODO</code></span><br />
+  <br />
+  <span>Learn more about the development mode:</span><br />
+  <br />
+  <span>https://github.com/prisma/prisma2/blob/master/docs/development-mode.md</span><br />
+</Terminal>
+
+
 ## S.6.3 Success (only Lift)
 
 <Terminal>
@@ -136,15 +216,16 @@ TODO: Loading screen for Introspection
   <Spacer height={16} />
   <SectionTitle>What next?</SectionTitle>
   <Spacer height={8} />
-  <span>Run the following commands to continue:</span ><br />
+  <span>Run the following commands to continue:</span><br />
   <br />
   <span><code>$ cd hello-world</code></span><br />
-  <span><code>$ prisma dev # starts Prisma's development mode</code></span><br />
+  <span><code>$ prisma dev</code></span><br />
   <br />
-  <span>Prisma's development mode <br />
-  <span>Learn more about using Lift in the docs:</span ><br />
+  <span>This starts Prisma's development mode which automatically migrates your database when you save changes to your data mode in <b>hello-world/schema.prisma</b>.</span><br />
   <br />
-  <span>github.com/prisma/prisma2/blob/master/docs/lift/use-only-lift.md</span ><br />
+  <span>Learn more about the development mode:</span><br />
+  <br />
+  <span>https://github.com/prisma/prisma2/blob/master/docs/development-mode.md</span><br />
 </Terminal>
 
 <br />
@@ -153,92 +234,3 @@ TODO: Loading screen for Introspection
 <br />
 
 
-
-
-
-
-
-
-
-
-
-<!-- ## SQLite
-
-
-
-<Terminal>
-  ~/my-app prisma init
-  <Spacer height={20} />
-  <SectionTitle>How do you want to proceed?</SectionTitle>
-  <Spacer height={8} />
-  <Line />
-  <Spacer height={16} />
-  <Button label="Create a new SQLite file" description="Beginner's choice" href="#select-tools" labelWidth={230} />
-  <Button label="Use an existing SQLite file" description="Requires the path to the file" labelWidth={230} isSelected />
-  <Spacer height={16} />
-  <Line />
-  <Spacer height={16} />
-  <Button icon="back" label="Back" description="(Database selection)" href="#selecting-a-database" />
-</Terminal>
-
-<br/>
-
-## Select tools
-
-<Terminal>
-  ~/my-app prisma init
-  <Spacer height={20} />
-  <SectionTitle>Which parts of Prisma do you want to use?</SectionTitle>
-  <Spacer height={4} />
-  <span>Learn more about the tools at prisma.io/docs</span>
-  <Spacer height={16} />
-  <Line />
-  <Spacer height={16} />
-  <Checkbox label="Photon" description="Type-safe database client" labelWidth={80} isChecked />
-  <Checkbox label="Lift" description="Declarative data modeling & migrations" labelWidth={80} isSelected />
-  <Spacer height={16} />
-  <Line />
-  <Spacer height={16} />
-  <Button label="Confirm" />
-</Terminal>
-
-<br/>
-
-## Select language
-<Terminal>
-  ~/my-app prisma init
-  <Spacer height={20} />
-  <SectionTitle>Which programming language do you want to use to access your database with Photon?</SectionTitle>
-  <Spacer height={8} />
-  <Line />
-  <Spacer height={16} />
-  <Button label="TypeScript" isSelected />
-  <Button label="JavaScript" />
-  <Button label="Go" description="(Coming soon)" isDisabled />
-  <Spacer height={16} />
-  <Line />
-  <Spacer height={16} />
-  <Button icon="back" label="Back" description="(Tool selection)" />
-</Terminal>
-
-<br/>
-
-## Select boilerplate
-
-<Terminal>
-  ~/my-app prisma init
-  <Spacer height={20} />
-  <SectionTitle>Do you want to use a boilerplate or explore Prisma from scratch?</SectionTitle>
-  <Spacer height={8} />
-  <Line />
-  <Spacer height={16} />
-  <Button label="From scratch" description="Simple script with API examples" labelWidth={180} isSelected />
-  <Button label="GraphQL boilerplate" description="GraphQL server example" labelWidth={180} />
-  <Button label="REST boilerplate" description="REST API example (using express.js)" labelWidth={180} />
-  <Button label="gRPC boilerplate" description="gRPC API example (client + server)" labelWidth={180} />
-  <Button label="No boilerplate" description="Just generate the Prisma schema" labelWidth={180} />
-  <Spacer height={16} />
-  <Line />
-  <Spacer height={16} />
-  <Button icon="back" label="Back" description="(Language selection)" />
-</Terminal> -->
