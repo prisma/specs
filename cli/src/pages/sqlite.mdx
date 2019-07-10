@@ -12,7 +12,7 @@ import { Terminal, SectionTitle, Spacer, Select, Option, Button, Line, Checkbox,
   <SectionTitle>How do you want to proceed?</SectionTitle>
   <Spacer height={8} />
   <span>Start from scratch or use an existing SQLite database file.</span>
-  
+
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
@@ -28,16 +28,18 @@ import { Terminal, SectionTitle, Spacer, Select, Option, Button, Line, Checkbox,
 
 ## S.2 File path
 
-In this view, it would be great if the trailing `.db` could somehow be fixed since every SQLite DB file has the file extension. 
+In this view, it would be great if the trailing `.db` could somehow be fixed since every SQLite DB file has the file extension.
 
 <Terminal>
   $ prisma2 init hello-world
   <Spacer height={20} />
   <SectionTitle>Enter the path to your SQLite database file</SectionTitle>
-  <Spacer height={8} />
+  <Spacer height={16} />
   <Line />
   <Spacer height={16} />
-  <TextInput label="File path" placeholder="./my.db" labelWidth={80} />
+  <TextInput label="File path" placeholder="./my.db" isSelected />
+  <Spacer height={16} />
+  <Line />
   <Spacer height={16} />
   <Button icon="back" label="Back" description="(Database credentials)" />
 </Terminal>
@@ -75,7 +77,7 @@ TODO: Loading screen for Introspection
   $ prisma2 init hello-world
   <Spacer height={20} />
   <SectionTitle>Which programming language do you want to use to access your database with Photon?</SectionTitle>
-  <Spacer height={8} />
+  <Spacer height={16} />
   <Line />
   <Spacer height={16} />
   <Button label="JavaScript" labelWidth={100} isSelected />
@@ -97,6 +99,8 @@ TODO: Loading screen for Introspection
   <SectionTitle>Which programming language do you want to use to access your database with Photon?</SectionTitle>
   <Spacer height={8} />
   <span>This selection doesn't impact the usage of Lift in your project.</span>
+  <Spacer height={16} />
+  <Line />
   <Spacer height={16} />
   <Button label="JavaScript" labelWidth={100} isSelected />
   <Button label="TypeScript" labelWidth={100} />
