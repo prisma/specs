@@ -1,4 +1,4 @@
-import { Terminal, SectionTitle, Spacer, Select, Option, Button, Line, Checkbox, Success } from '../components/cli'
+import { Terminal, SectionTitle, Spacer, Select, Option, Button, Line, Checkbox, Success, TextInput } from '../components/cli'
 
 # SQLite
 
@@ -37,7 +37,7 @@ In this view, it would be great if the trailing `.db` could somehow be fixed sin
   <Spacer height={8} />
   <Line />
   <Spacer height={16} />
-  <Button label="File path:" description="./my.db" labelWidth={80} />
+  <TextInput label="File path" placeholder="./my.db" labelWidth={80} />
   <Spacer height={16} />
   <Button icon="back" label="Back" description="(Database credentials)" />
 </Terminal>
