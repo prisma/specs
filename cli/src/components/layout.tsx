@@ -6,6 +6,6 @@ export default ({ children }) => (
 )
 
 const layoutStyles = {
-  maxWidth: 800,
+  maxWidth: 900,
   margin: '0 auto',
 }
