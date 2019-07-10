@@ -109,32 +109,38 @@ TODO: Loading screen for Introspection
 
 <br/>
 
-## S.6.3 Success
+## S.6.3 Success (only Lift)
 
 <Terminal>
-  ~/my-app prisma init
+  $ prisma2 init hello-world
   <Spacer height={20} />
   <Success message="You're all set!" />
   <Spacer height={20} />
-  <SectionTitle>Introspection result</SectionTitle>
+  <SectionTitle>Introspection was successful</SectionTitle>
   <Spacer height={8} />
   <span>We found <b>11 tables</b> in your SQLite database file.</span >
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
-  <Button label="Create new PostgreSQL schema" description="Beginner's choice" labelWidth={240}/>
-  <Button label="Use existing PostgreSQL schema" description="Found 5 schemas" labelWidth={240} isSelected />
+  <SectionTitle>Here is what we did</SectionTitle>
+  <Spacer height={8} />
+  <span>We created the Prisma schema file for your project</span><br />
+  <Spacer height={2} />
+  <span>You can find it in <b>hello-world/schema.prisma</b>.</span>
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
-  <Button icon="back" label="Back" description="(Database credentials)" />
+  <SectionTitle>What next?</SectionTitle>
+  <Spacer height={8} />
+  <span>Run the following commands to continue:</span >
+  <span><code>cd hello-world</code></span>
+  <Spacer height={16} />
 </Terminal>
 
 <br />
 <br />
 <br />
 <br />
-
 
 
 
