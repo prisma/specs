@@ -1,3 +1,5 @@
+set -e
+
 mkdir public
 
 # CLI
