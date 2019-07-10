@@ -1,12 +1,15 @@
 import { Terminal, SectionTitle, Spacer, Select, Option, Button, Line, Checkbox } from '../components/cli'
 
-# Selecting a Database
-Some info about this view here
+# `prisma2 init`
+
+---
+
+## Selecting a Database
 
 <Terminal>
-  ~/my-app prisma init
+  $ prisma2 init hello-world
   <Spacer height={20} />
-  <SectionTitle>Which database do you want to use?</SectionTitle>
+  <SectionTitle>Select the database you want to use</SectionTitle>
   <Spacer height={8} />
   <Line />
   <Spacer height={16} />
@@ -18,10 +21,53 @@ Some info about this view here
 
 <br/>
 
-## SQLite
-Some info about this view here
-- Some note
-- Some other note
+## PostgreSQL
+
+### [PostgreSQL] Credentials
+
+<Terminal>
+  $ prisma2 init hello-world
+  <Spacer height={20} />
+  <SectionTitle>Enter the credentials of your PostgreSQL database</SectionTitle>
+  <Spacer height={8} />
+  <span>Learn how to set up a PostgreSQL database: github.com/prisma/prisma2</span>
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Button icon="back" label="Back" description="(Database selection)" />
+</Terminal>
+
+<br/>
+
+> **WARNING**: The docs link doesn't explain how to set up Postgres yet.
+
+### [No schema provided] Schema options
+
+<Terminal>
+  $ prisma2 init hello-world
+  <Spacer height={20} />
+  <SectionTitle>How do you want to proceed?</SectionTitle>
+  <Spacer height={8} />
+  <span>Start from scratch or use an existing PostgreSQL schema</span>
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Button label="Create new PostgreSQL schema" description="We'll help you with the setup" labelWidth={180} isSelected />
+  <Button label="Use existing PostgreSQL schema" description="Found 5 PostgreSQL schemas" labelWidth={180} />
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Button icon="back" label="Back" description="(Language selection)" />
+</Terminal>
+
+<br/>
+
+
+<!-- ## SQLite
+
 
 <Terminal>
   ~/my-app prisma init
@@ -41,6 +87,7 @@ Some info about this view here
 <br/>
 
 ## Select tools
+
 <Terminal>
   ~/my-app prisma init
   <Spacer height={20} />
@@ -80,6 +127,7 @@ Some info about this view here
 <br/>
 
 ## Select boilerplate
+
 <Terminal>
   ~/my-app prisma init
   <Spacer height={20} />
@@ -96,4 +144,4 @@ Some info about this view here
   <Line />
   <Spacer height={16} />
   <Button icon="back" label="Back" description="(Language selection)" />
-</Terminal>
+</Terminal> -->
