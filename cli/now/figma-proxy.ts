@@ -4,7 +4,7 @@ import { NowRequest, NowResponse } from '@now/node'
 
 export default async (req: NowRequest, res: NowResponse) => {
   const fileKey = 'cRvu7bwRRC0zleOvtlTgmkOu'
-  const nodeId = '822:4'
+  const nodeId = req.query.id as string
   const { data } = await axios.get(
     `https://api.figma.com/v1/images/${fileKey}?ids=${nodeId}`,
     {
@@ -21,6 +21,9 @@ export default async (req: NowRequest, res: NowResponse) => {
 
   res.statusCode = 200
   res.setHeader('Content-Type', `image/png`)
-  res.setHeader('Cache-Control', `public, immutable, no-transform, s-maxage=30, max-age=30`);
+  res.setHeader(
+    'Cache-Control',
+    `public, immutable, no-transform, s-maxage=30, max-age=30`
+  )
   res.end(image.data)
 }
