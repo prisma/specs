@@ -5,7 +5,9 @@ import colors from '../../colors'
 export default ({ children }) => (
   <div style={terminalStyles}>
     <TopBar />
-    {children}
+    <div style={contentStyles}>
+      {children}
+    </div>
   </div>
 )
 
@@ -48,4 +50,8 @@ const topBarTitleStyles = {
   color: colors.blackBright,
   textAlign: 'center',
   lineHeight: 1,
+}
+
+const contentStyles = {
+  padding: 8
 }
