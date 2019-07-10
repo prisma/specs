@@ -17,7 +17,8 @@ Previous selections:
   <Title primary="Enter the path to your SQLite database file." />
   <Spacer height={8} />
   <span>Prisma will introspect the database to generate your initial data model.</span>
-  <Spacer height={16} />  <Line />
+  <Spacer height={16} />  
+  <Line />
   <Spacer height={16} />
   <TextInput label="File path" placeholder="./my.db" isSelected />
   <Spacer height={16} />
@@ -69,7 +70,7 @@ Previous selections:
   <Line />
   <Spacer height={16} />
   <Button label="Confirm" />
-  <Button icon="back" label="Back" description="(Database file path)" />
+  <Button icon="back" label="Back" description="(Database file path)" href="#s2-file-path" />
 </Terminal>
 
 In this view, Photon and Lift should be checked by default.
@@ -91,13 +92,13 @@ Previous selections:
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
-  <Button label="JavaScript" labelWidth={100} isSelected />
-  <Button label="TypeScript" labelWidth={100} />
+  <Button label="JavaScript" labelWidth={100} isSelected href="#s41-boilerplate-selection" />
+  <Button label="TypeScript" labelWidth={100} href="#s41-boilerplate-selection" />
   <Button label="Go" description="(Coming soon)" isDisabled />
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
-  <Button icon="back" label="Back" description="(Tool selection)" />
+  <Button icon="back" label="Back" description="(Tool selection)"  href="#s22-tool-selection" />
 </Terminal>
 
 <br/>
@@ -120,7 +121,7 @@ Previous selections:
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
-  <Button label="Basic boilerplate" description="Simple script with API examples" labelWidth={200} isSelected />
+  <Button label="Basic boilerplate" description="Simple script with API examples" labelWidth={200} isSelected  href="#s51-success"/>
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
