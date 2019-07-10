@@ -1,4 +1,4 @@
-import { Terminal, SectionTitle, Spacer, Select, Option, Button, Line, Checkbox, Success } from '../components/cli'
+import { Terminal, SectionTitle, Spacer, Select, Option, Button, Line, Checkbox, Success, TextInput } from '../components/cli'
 
 # PostgreSQL
 
@@ -18,17 +18,18 @@ import { Terminal, SectionTitle, Spacer, Select, Option, Button, Line, Checkbox,
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
-  <Button label="Host"/>
-  <Button label="Port"/>
-  <Button label="User"/>
-  <Button label="Password"/>
-  <Button label="Database"/>
-  <Button label="Schema (optional)"/>
+  <TextInput label="Host" placeholder="127.0.0.1" />
+  <TextInput label="Port" placeholder="3306" />
+  <TextInput label="User" value="admin" />
+  <TextInput label="Password" value="super-secret-123" />
+  <TextInput label="Database" isSelected />
+  <TextInput label="Schema (optional)" />
+  <Spacer height={16} />
   <Button label="Use SSL"/>
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
-  <Button label="Or URL"/>
+  <TextInput label="Or URL" placeholder="postgresql://localhost:3306/admin" />
   <Spacer height={16} />
   <Line />
   <Spacer height={16} />
@@ -57,6 +58,17 @@ import { Terminal, SectionTitle, Spacer, Select, Option, Button, Line, Checkbox,
 </Terminal>
 
 ## (P.2.1) Set Schema Name
+<Terminal>
+  ~/my-app prisma init
+  <Spacer height={20} />
+  <TextInput label="Enter schema name" placeholder="my-app" />
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Button label="Create" />
+  <Button icon="back" label="Back" description="(Schema options)" />
+</Terminal>
+
 ## (P.3) Choose a Schema
 ## (P.3.1) Introspection
 ## (P.3.2) Select Tools

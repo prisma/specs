@@ -5,5 +5,6 @@ import Button from './Button'
 import Line from './Line'
 import Checkbox from './Checkbox'
 import Success from './Success'
+import TextInput from './TextInput'
 
-export { Terminal, SectionTitle, Spacer, Button, Line, Checkbox, Success }
+export { Terminal, SectionTitle, Spacer, Button, Line, Checkbox, Success, TextInput }
