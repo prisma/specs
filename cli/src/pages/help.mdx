@@ -1,0 +1,34 @@
+import { Terminal, Title, Spacer, Button, Line, Command } from '../components/cli'
+
+## `prisma2 help`
+
+<Terminal>
+  $ prisma2 init hello-world
+  <Spacer height={20} />
+  <Title primary="Prisma makes your data easy" secondary="(https://prisma.io)" />
+  <span>Usage: prisma [command]</span>
+  <Spacer height={24} />
+  <Title primary="Commands" />
+  <Spacer height={8} />
+  <Line />
+  <Spacer height={16} />
+  <Command label="init" description="Setup Prisma for your app" labelWidth={100} noPrefix />
+  <Command label="lift" description="Migrate your datamodel" labelWidth={100} noPrefix />
+  <Command label="convert" description="Converts a datamodel 1 to datamodel 2" labelWidth={100} noPrefix />
+  <Command label="introspect" description="Get the datamodel of your database" labelWidth={100} noPrefix />
+  <Command label="generate" description="Generate Photon" labelWidth={100} noPrefix />
+  <Command label="seed" description="Seed data into your database" labelWidth={100} noPrefix />
+  <Spacer height={16} />
+  <Title primary="Examples" />
+  <Spacer height={8} />
+  <Line />
+  <Spacer height={16} />
+  <span>Initialize files for a new Prisma project</span>
+  <Command label="prisma2 init" />
+  <Spacer height={16} />
+  <span>Start developing and auto migrating your changes locally</span>
+  <Command label="prisma2 dev" />
+  <Spacer height={16} />
+  <span>Save your changes into a migration</span>
+  <Command label="prisma2 lift save" />
+</Terminal>
