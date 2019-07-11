@@ -4,7 +4,7 @@ import colors from '../../colors'
 
 // Status
 export default ({ type, primary, secondary, labelWidth = 'auto' }) => (
-  <div style={successStyles}>
+  <div style={statusStyles}>
     {icon(type)}
     {primary && <span style={primaryTextStyles({ labelWidth, type })}>{primary}</span>}
     {secondary && <span style={secondaryTextStyles}>{secondary}</span>}
@@ -25,7 +25,7 @@ const icon = type => {
 }
 
 // Styles
-const successStyles = {
+const statusStyles = {
   display: 'flex'
 }
 
