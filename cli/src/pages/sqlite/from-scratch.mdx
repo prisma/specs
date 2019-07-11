@@ -6,7 +6,7 @@ import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Succes
 
 ### S.3 Language selection
 
-Previous selections: 
+Previous selections:
 
 1. SQLite
 1. Create new SQLite file
@@ -29,7 +29,7 @@ Previous selections:
 
 ### S.4 Boilerplate selection
 
-Previous selections: 
+Previous selections:
 
 1. SQLite
 1. Create new SQLite file
@@ -62,7 +62,7 @@ When a boilerplate is selected, the CLI should:
 
 ### S.5.1 Success
 
-Previous selections: 
+Previous selections:
 
 1. SQLite
 1. Create new SQLite file
@@ -95,15 +95,15 @@ Previous selections:
   <Spacer height={8} />
   <span>Run the following commands to continue:</span >
   <Spacer height={8} />
-  <Command>cd hello-world</Command>
+  <Command label="cd hello-world" />
   <Spacer height={4} />
-  <Command>yarn start</Command>
+  <Command label="yarn start" />
   <Spacer height={16} />
   <div>Learn more about this example: https://github.com/prisma/photonjs/tree/master/examples/typescript/graphql</div>
   <Spacer height={4} />
 </Terminal>
 
-The created files are created dynamically based on which example was selected. The "Learn more"-link also needs to be adjusted dynamically based on the example. 
+The created files are created dynamically based on which example was selected. The "Learn more"-link also needs to be adjusted dynamically based on the example.
 
 ### S.5.2 Success
 
@@ -129,9 +129,9 @@ The created files are created dynamically based on which example was selected. T
   <Spacer height={8} />
   <span>Run the following commands to continue:</span >
   <Spacer height={8} />
-  <Command>cd hello-world</Command>
+  <Command label="cd hello-world" />
   <Spacer height={4} />
-  <Command>prisma dev</Command>
+  <Command label="prisma dev" />
   <Spacer height={16} />
   <div>This starts Prisma's development mode which automatically migrates your database and regenerates Photon when you save changes to your data model in <b>hello-world/schema.prisma</b>.</div >
   <Spacer height={4} />
