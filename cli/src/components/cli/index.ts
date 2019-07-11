@@ -6,7 +6,23 @@ import Line from './Line'
 import Command from './Command'
 import Checkbox from './Checkbox'
 import Success from './Success'
+import Status from './Status'
 import TextInput from './TextInput'
 import Introspection from './Introspection'
+import { Actions, Action } from './Actions'
 
-export { Terminal, Title, Spacer, Button, Line, Checkbox, Success, TextInput, Introspection, Command }
+export {
+  Terminal,
+  Title,
+  Spacer,
+  Button,
+  Line,
+  Checkbox,
+  Success,
+  Status,
+  TextInput,
+  Introspection,
+  Command,
+  Actions,
+  Action
+}

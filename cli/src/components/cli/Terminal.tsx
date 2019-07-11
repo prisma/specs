@@ -29,7 +29,6 @@ const terminalStyles = {
   fontFamily: `'Roboto Mono', monospace`,
   padding: 14,
   fontSize: 13,
-  lineHeight: 1,
   maxWidth: 700
 }
 

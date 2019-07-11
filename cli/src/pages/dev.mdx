@@ -1,0 +1,74 @@
+import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Status, Actions, Action } from '../components/cli'
+
+# Prisma Dev
+
+<Terminal>
+  $ prisma2 dev
+  <Spacer height={20} />
+  <Title primary="Watching for changes in datamodel.prisma" />
+  <Spacer height={4} />
+  <span>Last changed at 14:24:40</span>
+  <Spacer height={24} />
+  <Title primary="Generator" />
+  <Spacer height={8} />
+  <Line />
+  <Spacer height={16} />
+  <Status type="success" primary="Photon JS Client" secondary="generated at 14:21:44" labelWidth={160} />
+  <Spacer height={4} />
+  <Status type="success" primary="Nexus Client" secondary="generated at 14:21:48" labelWidth={160} />
+  <Spacer height={24} />
+  <Title primary="Migrations" />
+  <Spacer height={8} />
+  <Line />
+  <Spacer height={16} />
+  <Status type="success" primary="Database successfully migrated" />
+  <Spacer height={4} />
+  <span>To save changes into a migration file, run prisma lift create</span>
+  <Spacer height={200} />
+  <Title primary="Admin endpoint" secondary={<u style="color:white">http://localhost:5555/admin</u>} />
+  <Spacer height={8} />
+  <Line />
+  <Spacer height={16} />
+  <Actions>
+    <Action keyStroke="r" label="reset"/>
+    <Action keyStroke="s" label="seed"/>
+    <Action keyStroke="d" label="diff"/>
+  </Actions>
+</Terminal>
+
+<br/>
+<br/>
+
+<Terminal>
+  $ prisma2 dev
+  <Spacer height={20} />
+  <Title primary="Watching for changes in datamodel.prisma" />
+  <Spacer height={4} />
+  <span>Last changed at 14:24:40</span>
+  <Spacer height={24} />
+  <Title primary="Generator" />
+  <Spacer height={8} />
+  <Line />
+  <Spacer height={16} />
+  <Status type="pending" primary="Photon JS Client" secondary="Generating..." labelWidth={160} />
+  <Spacer height={4} />
+  <Status type="error" primary="Nexus Client" secondary="Failed to generate" labelWidth={160} />
+  <Spacer height={24} />
+  <Title primary="Migrations" />
+  <Spacer height={8} />
+  <Line />
+  <Spacer height={16} />
+  <Status type="pending" primary="Migrating the database..." />
+  <Spacer height={4} />
+  <span>To save changes into a migration file, run prisma lift create</span>
+  <Spacer height={200} />
+  <Title primary="Admin endpoint" secondary={<u style="color:white">http://localhost:5555/admin</u>} />
+  <Spacer height={8} />
+  <Line />
+  <Spacer height={16} />
+  <Actions>
+    <Action keyStroke="r" label="reset"/>
+    <Action keyStroke="s" label="seed"/>
+    <Action keyStroke="d" label="diff"/>
+  </Actions>
+</Terminal>
