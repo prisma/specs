@@ -47,7 +47,7 @@ The workflows are powered by the `prisma2 generate` command, which runs the foll
 |         Alpine         |       linux-musl        |      ✓       |           | https://github.com/prisma/prisma2/issues/2  |
 |        Windows         |         windows         |              |           | https://github.com/prisma/prisma2/issues/4  |
 |      Code Sandbox      |       linux-glibc       |      ✓       |           |                      ✓                      |
-|         Heroku         |            ?            |              |           | https://github.com/prisma/prisma2/issues/84 |
+|         Heroku         |       linux-glibc            |              |           | https://github.com/prisma/prisma2/issues/84 |
 |   Cloudflare Workers   |            ?            |              |           | https://github.com/prisma/prisma2/issues/85 |
 | Google Cloud Functions |            ?            |              |           | https://github.com/prisma/prisma2/issues/87 |
 
