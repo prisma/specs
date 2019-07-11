@@ -61,7 +61,7 @@ ${how_to_proceed}
 
 Stack Trace:
 
-${stack}
+${stack_trace}
 ```
 
 Here's an example:
@@ -148,6 +148,17 @@ It should be a question and never be condescending.
 
 - **DO:** "Is Postgres running?"
 - **DONT:** "Your Postgres probably isn't runninng"
+
+### `stack_trace`
+
+The stack trace is the raw error from either Typescript or Rust.
+
+Ideally we can clean it up a bit with [clean-stack](https://github.com/sindresorhus/clean-stack) on the Javascript-side. In Rust, we should research or create a
+stack trace formatter.
+
+#### Credential Masking
+
+We may see credentials in the stack trace. It's very important that we hide this information. Sensitive information should be hidden with astericks `********`.
 
 # Error Handbook
 
