@@ -264,24 +264,76 @@ if file_path.exists() && !file_path.is_dir() {
 
 #### `DataModelErrors`
 
-**TODO**
+This error occurs when there is no datasource in the schema.
+
+```rust
+let source = config.datasources.first().ok_or(CommandError::DataModelErrors {
+    code: 1000,
+    errors: vec!["There is no datasource in the configuration.".to_string()],
+})?;
+```
 
 #### `InitializationError`
 
-**TODO**
+**TODO** This doesn't seem to be in use.
 
 #### `Generic`
 
-**TODO**
+Generic error that can occur in a couple different ways:
+
+**Parsing the schema fails**
+
+```rust
+pub fn parse_datamodel(datamodel: &str) -> CommandResult<Datamodel> {
+    let result = datamodel::parse_with_formatted_error(&datamodel, "datamodel file, line");
+    result.map_err(|e| CommandError::Generic { code: 1001, error: e })
+}
+```
+
+**TODO** Make this more specific. It seems like all the submodule-specific errors end up getting wrapped into this generic error.
 
 #### `ConnectorError`
 
-**TODO**
+Connection errors can occur whenever you connect to the database. In the migration engine, this can happen when you initialize the connection or reset the
+database.
+
+```rust
+fn initialize(&self) -> ConnectorResult<()>;
+fn reset(&self) -> ConnectorResult<()>;
+pub type ConnectorResult<T> = Result<T, ConnectorError>;
+```
 
 #### `MigrationError`
 
-**TODO**
+Migration errors occur when we detect a destructive change
+
+**TODO** verify
+
+```rust
+#[allow(unused, dead_code)]
+impl DestructiveChangesChecker<SqlMigration> for SqlDestructiveChangesChecker {
+    fn check(&self, database_migration: &SqlMigration) -> Vec<MigrationErrorOrWarning> {
+        vec![]
+    }
+}
+```
 
 #### `RollbackFailure`
 
-**TODO**
+Rollback errors occur when we try to unapply a migration but fail.
+
+```rust
+match unapply_result {
+    Ok(()) => {
+        migration_updates.status = MigrationStatus::RollbackSuccess;
+        self.migration_persistence.update(&migration_updates);
+        Ok(())
+    }
+    Err(err) => {
+        migration_updates.status = MigrationStatus::RollbackFailure;
+        migration_updates.errors = vec![format!("{:?}", err)];
+        self.migration_persistence.update(&migration_updates);
+        Err(err)
+    }
+}
+```
