@@ -34,15 +34,144 @@
 
 <!-- tocstop -->
 
-# Error Codes
+# Philosophy
 
-## Currently Known Errors
+Whenever we show an error, we should always show a path forward towards resolution. If we don't know the path forward, we should atleast link to a place to get
+help.
 
-### Query Engine
+## Error Format
+
+The format of our error should be the following:
+
+```
+${error_code} ${error_category}: ${best_guess}? ${error_message}.
+
+${how_to_proceed}
+
+Stack Trace:
+
+${stack}
+```
+
+Here's an example:
+
+```
+QE001 ConnectionError: Is postgres running? We couldn't connect to the query engine on postgresql://localhost:5432.
+
+You can find `ConnectionError` documentation here: https://prisma.io/docs/xxx
+You can post an question or issue here: https://github.com/prisma/photonjs/issues
+
+Stack Trace:
+
+ConnectorError(QueryError(Error { kind: FromSql, cause: Some(WrongType(Type(Timestamptz))) }\ \ stack backtrace:\ 0: failure::backtrace::internal::InternalBacktrace::new::h84e0252f893b7b0e (0x55a8a0489290)\ 1: failure::backtrace::Backtrace::new::h381a1eb507d04e2c (0x55a8a0489440)\ 2: <sql_connector::error::SqlError as core::convert::From<tokio_postgres::error::Error>>::from::h34ff4340a0dd5b3f (0x55a89febbc67)\ 3: sql_connector::database::postgresql::<impl sql_connector::row::ToSqlRow for tokio_postgres::row::Row>::to_sql_row::convert::h178249b965d8493a (0x55a89fe2686b)\ 4: sql_connector::database::postgresql::<impl sql_connector::row::ToSqlRow for tokio_postgres::row::Row>::to_sql_row::h3875436f09b0556f (0x55a89fe368ff)\ 5: sql_connector::database::postgresql::<impl sql_connector::transactional::Transaction for postgres::transaction::Transaction>::filter::h498f6550aa3967b1 (0x55a89fe9156a)\ 6: <sql_connector::database::postgresql::PostgreSql as sql_connector::transactional::Transactional>::with_transaction::hd5f1950fe91ab7e3 (0x55a89fbe22a8)\ 7: sql_connector::transactional::database_reader::<impl connector::database_reader::DatabaseReader for sql_connector::database::SqlDatabase<T>>::get_related_records::h291c7a1f45dc7434
+```
+
+### `error_code`
+
+**required**
+
+A unique error across all the products. Error codes will have a 2 or 3-letter prefix to categorize the error and 3 digits to uniquely identify the error.
+
+| Prefix |      Category      |
+| :----: | :----------------: |
+|  PJS   |     Photon JS      |
+|  PGO   |     Photon Go      |
+|   QE   |    Query Engine    |
+|   ME   |  Migration Engine  |
+|  CPG   | Connector Postgres |
+|  CMS   |  Connector MySQL   |
+|  CSQ   |  Connector SQLite  |
+|  CMG   |  Connector Mongo   |
+|  CDD   | Connector DynamoDB |
+
+The error codes will also have a 3-digit number identifying the unique error, starting at 001. As we discover or add more errors, we'll increment this number
+(e.g. 002, 003, ...)
+
+### `error_category`
+
+**required**
+
+Is it a connection error? Is it a configuration error? These errors will come from the codebase and will give the error a name. This will help the user identify
+what type of error occurred.
+
+#### Different Layers
+
+Errors can bubble up from different layers. Depending on the engineering effort, a breadcrumb of errors would be very helpful. Otherwise the original "deepest"
+error in the stack is the most helpful and should be bubbled up unwraped.
+
+|     Layers      |
+| :-------------: |
+|     Photon      |
+|  Query Parser   |
+| Query Execution |
+|    Connector    |
+
+**TODO**: Rust already wraps errors at each layer. How difficult would it be to have a breadcrumb system?
+
+- e.g. `Photon Error < Connector Error < SQL Connector Error`
+
+### `how_to_proceed`
+
+**required**
+
+Whenever an error occurs, we should always show the user a path out of their current predicament. The more time they spend debugging, the less time they have
+building things on top of Prisma and telling their friends about it.
+
+We will try to be as helpful as we can here:
+
+- **required** tell them where they can post a question or create an issue.
+
+  - e.g. "You can post an question or issue here: https://github.com/prisma/photonjs/issues"
+
+- **encouraged** If we have documentation for this error, provide a URL to that documentation
+
+  - e.g. "You can find `ConnectionError` documentation here: https://prisma.io/docs/xxx"
+
+### `best_guess`
+
+**encouraged**
+
+Oftentimes, we have a pretty good guess as to what the problem is. Why not ask the user to double-check their setup?
+
+It should be a question and never be condescending.
+
+- **DO:** "Is Postgres running?"
+- **DONT:** "Your Postgres probably isn't runninng"
+
+# Error Handbook
+
+This is a list of currently known errors. We'll update this list as more error conditions are required
+
+## Photon JS / Photon Go
+
+### Generation: Datamodel Syntax or Semantic Error
+
+### Runtime: Binary built for the wrong platform
+
+This isn't an exhaustive list, but should give you a good idea of what kind of errors you'll encounter if you pass in the wrong binaries
+
+|   Query Engine Binary   |                      OSX                      |                                   ubuntu:latest (w/ `apt install openssl`)                                    |
+| :---------------------: | :-------------------------------------------: | :-----------------------------------------------------------------------------------------------------------: |
+|         darwin          |                      ok                       |                                 cannot execute binary file: Exec format error                                 |
+|       linux-glibc       | cannot execute binary file: Exec format error |                                                      ok                                                       |
+| linux-glibc-libssl1.0.1 | cannot execute binary file: Exec format error | error while loading shared libraries: libssl.so.10: cannot open shared object file: No such file or directory |
+| linux-glibc-libssl1.0.2 | cannot execute binary file: Exec format error | error while loading shared libraries: libssl.so.10: cannot open shared object file: No such file or directory |
+|       linux-musl        | cannot execute binary file: Exec format error | error while loading shared libraries: libssl.so.10: cannot open shared object file: No such file or directory |
+
+### Runtime: Permissions
+
+If the binary isn't an executable (`chmod +x`), then we'll run into `./darwin: Permission denied`. Photon checks for this so it shouldn't really happen.
+
+### Runtime: Connection failed
+
+This shouldn't really happen now without an error from the query engine, but when we start needing to make network requests, we'll need to account for
+connection errors.
+
+## Query Engine
 
 Query engine errors will need to be handled by Photon.
 
-#### `UniqueConstraintViolation: Unique constraint failed: ${field_name}`
+### `UniqueConstraintViolation: Unique constraint failed: ${field_name}`
 
 Occurs when SQL returns a unique constraint violation.
 
@@ -56,7 +185,7 @@ rusqlite::Error::SqliteFailure(
 )
 ```
 
-#### `NullConstraintViolation: Null constraint failed: ${field_name}`
+### `NullConstraintViolation: Null constraint failed: ${field_name}`
 
 Occurs when SQL returns a null constraint violation.
 
@@ -70,7 +199,7 @@ rusqlite::Error::SqliteFailure(
 )
 ```
 
-#### `RecordDoesNotExist: Record does not exist`
+### `RecordDoesNotExist: Record does not exist`
 
 Occurs when a query doesn't return any rows.
 
@@ -78,9 +207,9 @@ Occurs when a query doesn't return any rows.
 rusqlite::Error::QueryReturnedNoRows => SqlError::RecordDoesNotExist,
 ```
 
-**TODO** I think we should probably
+**TODO** I think we should probably rename back to `QueryReturnedNoRows`. `RecordDoesNotExist` implies a single result not existing.
 
-#### `ColumnDoesNotExist: Column does not exist`
+### `ColumnDoesNotExist: Column does not exist`
 
 This can occur if we try pulling a result value from SQL that we didn't request. I don't think this one will happen much (famous last words). It seems like it's
 usually a for loop mistake.
@@ -89,7 +218,7 @@ usually a for loop mistake.
 SqlError::ColumnDoesNotExist => ConnectorError::ColumnDoesNotExist,
 ```
 
-#### `ConnectionError: Error creating a database connection`
+### `ConnectionError: Error creating a database connection`
 
 This error happens when we're unable to connect to the database.
 
@@ -114,7 +243,7 @@ impl From<native_tls::Error> for SqlError {
 }
 ```
 
-#### `QueryError: Error querying the database`
+### `QueryError: Error querying the database`
 
 Generic query error. This is the fallback if we can't determine what kind of query error was returned.
 
@@ -122,7 +251,7 @@ Generic query error. This is the fallback if we can't determine what kind of que
 e => SqlError::QueryError(e.into()),
 ```
 
-#### `InvalidConnectionArguments: The provided arguments are not supported.`
+### `InvalidConnectionArguments: The provided arguments are not supported.`
 
 This can occur when we pass an argument into the connection string that is either invalid or we don't yet support.
 
@@ -133,7 +262,7 @@ This can occur when we pass an argument into the connection string that is eithe
 }
 ```
 
-#### `ColumnReadFailure: The column value was different from the model`
+### `ColumnReadFailure: The column value was different from the model`
 
 Serialization has failed.
 
@@ -159,7 +288,7 @@ impl From<FromUtf8Error> for SqlError {
 }
 ```
 
-#### `FieldCannotBeNull: Field cannot be null: ${field}`
+### `FieldCannotBeNull: Field cannot be null: ${field}`
 
 Prisma-level null check constraint. This will have some overlap with `NullConstraintViolation`, which comes from the database
 
@@ -171,7 +300,7 @@ if field.is_required && value.is_null() {
 }
 ```
 
-#### `DomainError`
+### `DomainError`
 
 **TODO** When does this occur?
 
@@ -184,7 +313,7 @@ if field.is_required && value.is_null() {
 - Domain::ConversionFailure
 - Domain::ModelForRelationNotFound
 
-#### `RecordNotFoundForWhere: Record not found`
+### `RecordNotFoundForWhere: Record not found`
 
 Prisma-level null check constraint. This will have some overlap with `RecordDoesNotExist`, which comes from the database.
 
@@ -196,7 +325,7 @@ RootWriteQuery::UpsertRecord(ref ups) => match conn.find_id(&ups.where_) {
 },
 ```
 
-#### `RelationViolation: Violating a relation ${relation_name} between ${model_a_name} and ${model_b_name}`
+### `RelationViolation: Violating a relation ${relation_name} between ${model_a_name} and ${model_b_name}`
 
 Prisma-level violation when a write violates a relationship in the schema.
 
@@ -208,7 +337,7 @@ if self.top_is_create {
 }
 ```
 
-#### `RecordsNotConnected: The relation ${} has no record for the model {} connected to a record for the model {} on your write path.`
+### `RecordsNotConnected: The relation ${} has no record for the model {} connected to a record for the model {} on your write path.`
 
 Prisma-level error when you try connecting to a record that doesn't exist
 
@@ -226,7 +355,7 @@ let child_id = conn
     }
 ```
 
-#### `ConversionError: Conversion error`
+### `ConversionError: Conversion error`
 
 This error can occur while constructing a Prisma 2 Schema
 
@@ -246,7 +375,7 @@ load_v2_dml_string().inner_map(|dml_string| match datamodel::parse(&dml_string) 
 })
 ```
 
-#### `DatabaseCreationError: Database creation error: ${error}`
+### `DatabaseCreationError: Database creation error: ${error}`
 
 Occurs when you pass in an invalid connection string
 
@@ -260,9 +389,9 @@ if file_path.exists() && !file_path.is_dir() {
 }
 ```
 
-### Migration Engine
+## Migration Engine
 
-#### `DataModelErrors`
+### `DataModelErrors`
 
 This error occurs when there is no datasource in the schema.
 
@@ -273,11 +402,11 @@ let source = config.datasources.first().ok_or(CommandError::DataModelErrors {
 })?;
 ```
 
-#### `InitializationError`
+### `InitializationError`
 
 **TODO** This doesn't seem to be in use.
 
-#### `Generic`
+### `Generic`
 
 Generic error that can occur in a couple different ways:
 
@@ -292,7 +421,7 @@ pub fn parse_datamodel(datamodel: &str) -> CommandResult<Datamodel> {
 
 **TODO** Make this more specific. It seems like all the submodule-specific errors end up getting wrapped into this generic error.
 
-#### `ConnectorError`
+### `ConnectorError`
 
 Connection errors can occur whenever you connect to the database. In the migration engine, this can happen when you initialize the connection or reset the
 database.
@@ -303,7 +432,7 @@ fn reset(&self) -> ConnectorResult<()>;
 pub type ConnectorResult<T> = Result<T, ConnectorError>;
 ```
 
-#### `MigrationError`
+### `MigrationError`
 
 Migration errors occur when we detect a destructive change
 
@@ -318,7 +447,7 @@ impl DestructiveChangesChecker<SqlMigration> for SqlDestructiveChangesChecker {
 }
 ```
 
-#### `RollbackFailure`
+### `RollbackFailure`
 
 Rollback errors occur when we try to unapply a migration but fail.
 
