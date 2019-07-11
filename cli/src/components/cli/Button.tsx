@@ -26,7 +26,6 @@ export default ({
 const buttonStyles = {
   display: 'flex',
   alignItems: 'center',
-  padding: '2px 0',
 }
 
 const labelStyles = ({ isSelected, isDisabled, labelWidth }) => {

@@ -26,8 +26,7 @@ export default ({
 // Styles
 const checkboxStyles = {
   display: 'flex',
-  alignItems: 'center',
-  padding: '2px 0',
+  alignItems: 'center'
 }
 
 const labelStyles = ({ isSelected, isDisabled, labelWidth }) => {

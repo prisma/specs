@@ -27,6 +27,7 @@ const terminalStyles = {
   color: colors.white,
   borderRadius: 6,
   fontFamily: `'Roboto Mono', monospace`,
+  lineHeight: 1.5,
   padding: 14,
   fontSize: 13,
   maxWidth: 700
