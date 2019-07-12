@@ -76,11 +76,14 @@ type Profile = {
 ## Basic Queries
 
 ```ts
-// Find single node by @id field
+// Find single record by @id field
 const alice: User = await photon.users.find('user-id')
 
-// Find single node by other unique field
+// Find single record by other unique field
 const alice: User = await photon.users.find({ email: 'alice@prisma.io' })
+
+// Find single record or throw
+const alice: User = await photon.users.findOrThrow('user-id')
 
 // Find using composite/multi-field unique indexes
 const john: User = await photon.users.find({
@@ -94,7 +97,6 @@ const bob: User = await photon.users.find({
 
 // Get many nodes
 const allUsers: User[] = await photon.users.findMany({ first: 100 })
-const allUsersShortcut: User[] = await photon.users.findMany({ first: 100 })
 
 // Ordering
 const usersByEmail = await photon.users.findMany({ orderBy: { email: 'ASC' } })
@@ -123,32 +125,45 @@ const foundAtLeastOneUser: boolean = await photon.users
 
 ### Write operations
 
-- replace?!
+#### Nested Write API
 
-- node
-  - create
-  - update
-  - updateMany
-  - upsert
-  - delete
-  - deleteMany
-- edge
-  - connection
-    - connect
-    - disconnect
-    - resetAndConnect
-  - connection + record
-    - connectOrCreate
-    - create
-    - deleteAndCreate
-    - delete
-    - deleteMany
-  - record
-    - update
-    - updateMany
+| Operation             | Touches Record | Touches Connection |
+| --------------------- | -------------- | ------------------ |
+| `connect`             | No             | Yes                |
+| `disconnect`          | No             | Yes                |
+| ??? `resetAndConnect` | No             | Yes                |
+| `connectOrCreate`     | Yes            | Yes                |
+| `create`              | Yes            | Yes                |
+| `update`              | Yes            | No                 |
+| `updateMany`          | Yes            | No                 |
+| `replace`             | Yes            | No                 |
+| `replaceMany`         | Yes            | No                 |
+| `delete`              | Yes            | Yes                |
+| `deleteMany`          | Yes            | Yes                |
+
+#### Fluent Write API
+
+- Single record
+  - `create`
+  - `orCreate`
+  - `update`
+  - `replace`
+  - `upsert`
+  - `delete`
+- Collection of records
+  - `updateMany`
+  - `deleteMany`
+  - `replaceMany`
 
 ```ts
-const newUser: User = await photon.users.create({ firstName: 'Alice' }).load()
+const newUser: User = await photon.users
+  .create({
+    firstName: 'Alice',
+    lastName: 'Doe',
+    email: 'alice@prisma.io',
+    profile: { imageUrl: 'http://...', imageSize: 100 },
+  })
+  .load()
 
 const updatedUser: User = await photon.users
   .find('bobs-id')
@@ -160,17 +175,40 @@ const updatedUserByEmail: User = await photon.users
   .update({ firstName: 'Alice' })
   .load()
 
+// Like `update` but replaces entire record. Requires all required fields like `create`.
+// Resets all connections.
+const replacedUserByEmail: User = await photon.users
+  .find({ email: 'bob@prisma.io' })
+  .replace({
+    firstName: 'Alice',
+    lastName: 'Doe',
+    email: 'alice@prisma.io',
+    profile: { imageUrl: 'http://...', imageSize: 100 },
+  })
+  .load()
+
 const upsertedUser: User = await photon.users
   .find('alice-id')
   .upsert({
     update: { firstName: 'Alice' },
-    create: { id: 'my-custom-id', firstName: 'Alice' },
+    // or `replace`
+    create: {
+      firstName: 'Alice',
+      lastName: 'Doe',
+      email: 'alice@prisma.io',
+      profile: { imageUrl: 'http://...', imageSize: 100 },
+    },
   })
   .load()
 
 const maybeNewUser: User = await photon.users
   .find('alice-id')
-  .orCreate({ id: 'my-custom-id', firstName: 'Alice' })
+  .orCreate({
+    firstName: 'Alice',
+    lastName: 'Doe',
+    email: 'alice@prisma.io',
+    profile: { imageUrl: 'http://...', imageSize: 100 },
+  })
   .load()
 
 // Delete operation doesn't return any data
@@ -178,8 +216,6 @@ const result: undefined = await photon.users.find('bobs-id').delete()
 ```
 
 ### Nested writes
-
-TODO: How to return data from nested writes
 
 - how many records were affected
 -
@@ -193,6 +229,7 @@ await photon.users.create({
   },
 })
 
+// TODO: How to return data from nested writes
 // xxx
 // await photon.users
 //   .create({
@@ -201,10 +238,16 @@ await photon.users.create({
 //       create: { title: 'New post', body: 'Hello world', published: true },
 //     },
 //   })
-//   .select({ posts: { newOnly: true } })
+//   .load({ select: { posts: { newOnly: true } } })
 
 // Nested write with connect
-await photon.users.create({ firstName: 'Alice', posts: { connect: 'post-id' } })
+await photon.users.create({
+  firstName: 'Alice',
+  lastName: 'Doe',
+  email: 'alice@prisma.io',
+  profile: { imageUrl: 'http://...', imageSize: 100 },
+  posts: { connect: 'post-id' },
+})
 
 // How to get newly created posts?
 await photon.users.find('bobs-id').update({
@@ -213,12 +256,12 @@ await photon.users.find('bobs-id').update({
   },
 })
 
-await photon.users
-  .find('bobs-id')
-  .posts()
-  .update({
-    create: { title: 'New post', body: 'Hello world', published: true },
-  })
+// await photon.users
+//   .find('bobs-id')
+//   .posts()
+//   .update({
+//     create: { title: 'New post', body: 'Hello world', published: true },
+//   })
 ```
 
 ## Load: Select / Include API
@@ -274,13 +317,14 @@ type DynamicResult3 = (Post & { comments: Comment[] })[]
 const bobsPosts: DynamicResult3 = await photon.users
   .find('bobs-id')
   .posts({ first: 50 })
-  .include({ comments: true })
+  .load({ include: { comments: true } })
 
 const updatedPosts: Post[] = await photon.posts
   .find('id')
   .comments({ where: { text: { startsWith: 'Hello' } } })
   .media({ where: { url: 'exact-url' }, first: 100 })
   .updateMany({ uploaded: true })
+  .load()
 
 // Supports chaining multiple write operations
 // TODO: Is this a transaction? -> probably
@@ -289,16 +333,18 @@ const updatedPosts2: Post[] = await photon.users
   .update({ email: 'new@email.com' })
   .posts({ where: { published: true } })
   .updateMany({ comments: { connect: 'comment-id' } })
+  .load()
 ```
+
+### Null narrowing
+
+- Single-record `find` queries return `null` by default. There's also `findOrThrow`
+- `update` and `delete` as well as field traversal queries will fail if record is `null`
 
 ### Expressing the same query using fluent API syntax and nested writes
 
 - TODO
 - Add to spec: Control execution order of nested writes
-
-// TODO difference: selection set of `posts`?!
-
-// TODO what about many posts?
 
 ```ts
 // Declarative
@@ -327,7 +373,6 @@ await photon.users
 //   .connect('comment-id')
 ```
 
-<!--
 ## TODO: `withPageInfo`
 
 ```ts
@@ -335,16 +380,32 @@ await photon.users
 const bobsPostsWithPageInfo: PageInfo<Post> = await photon.users
   .find('bobs-id')
   .posts({ first: 50 })
-  .withPageInfo()
+  .loadWithPageInfo()
 
 type PageInfo<Data> = {
   data: Data[]
   hasNext: boolean
   hasPrev: boolean
 }
+
+const [bobsPosts, meta]: [Post[], Meta] = await photon.users
+  .find('bobs-id')
+  .posts({ first: 50 })
+  .loadWithMeta({ pageInfo: true })
 ```
 
+- Meta
+  - pageinfo
+  - traces/performance
+- Strategies
+
+  - By extending load API + return object
+  - Return extra meta object
+
 - Can be applied to every paginable list and stream
+
+<!--
+## Operation/Query optimization
 
 ## Aggregations
 
@@ -753,6 +814,7 @@ await photon.disconnect()
 - [ ] Connection management when used with embedded query engine
 - [ ] Force indexes
 - [ ] Rethink raw API fallbacks
+- [ ] Rename `where` to Criteria
 - [ ] How to query records that were "touched" during nested writes
 - [ ] Fluent API: Null behavior https://github.com/prisma/photonjs/issues/89#issuecomment-508509486
   - [ ] Should we have `photon.users.find('bob').
