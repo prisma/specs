@@ -1,6 +1,6 @@
 import React from 'react'
 import { Terminal } from 'xterm'
-import { FitAddon } from 'xterm-addon-fit'
+import { FitAddon } from 'xterm-addon-fit/out/FitAddon'
 import ansiEscapes from 'ansi-escapes'
 
 export default class TerminalComponent extends React.Component<{
