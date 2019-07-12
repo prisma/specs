@@ -30,7 +30,7 @@ const terminalStyles = {
   lineHeight: 1.5,
   padding: 14,
   fontSize: 13,
-  maxWidth: 700
+  maxWidth: 740
 }
 
 const topBarStyles = {

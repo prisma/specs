@@ -6,16 +6,31 @@
   "dependencies": {
     "@mdx-js/mdx": "^1.0.21",
     "@mdx-js/react": "^1.0.21",
-    "figures": "^3.0.0",
     "gatsby": "^2.0.0",
     "gatsby-mdx": "^0.6.3",
     "gatsby-plugin-typescript": "^2.1.0",
     "normalize.css": "^8.0.1",
+    "@types/node": "12.6.1",
+    "@types/react": "16.8.23",
+    "@types/react-dom": "16.8.4",
+    "ansi-escapes": "^4.2.0",
+    "charm": "^1.0.2",
+    "eventemitter3": "^4.0.0",
+    "figures": "^3.0.0",
+    "ink": "^2.3.0",
+    "ink-divider": "^2.0.0",
+    "ink-multi-select": "^1.0.3",
+    "ink-select-input": "^3.1.1",
+    "ink-spinner": "^3.0.1",
+    "ink-text-input": "^3.2.0",
     "react": "^16.5.1",
     "react-dom": "^16.5.1",
+    "string-width": "^4.1.0",
     "remark-slug": "^5.1.2",
     "typeface-open-sans": "^0.0.54",
-    "typeface-roboto-mono": "^0.0.54"
+    "typeface-roboto-mono": "^0.0.54",
+    "xterm": "^3.14.4",
+    "xterm-addon-fit": "^0.1.0"
   },
   "keywords": [
     "gatsby"
@@ -24,9 +39,12 @@
   "scripts": {
     "build": "gatsby build",
     "start": "gatsby develop",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "patch-package"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "patch-package": "^6.1.2"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/gatsbyjs/gatsby-starter-default"
