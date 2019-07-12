@@ -1,5 +1,6 @@
 import React from 'react'
 import { Terminal } from 'xterm'
+// NOTE special path needed for gatsby to build because of `window`
 import { FitAddon } from 'xterm-addon-fit/out/FitAddon'
 import ansiEscapes from 'ansi-escapes'
 
