@@ -187,10 +187,8 @@ const replacedUserByEmail: User = await photon.users
   })
   .load()
 
-const upsertedUser: User = await photon.users
+const maybeNewUser: User = await photon.users
   .find('alice-id')
-  // or `replace`
-  .update({ firstName:'Alice' })
   .orCreate({
     firstName: 'Alice',
     lastName: 'Doe',
@@ -199,8 +197,10 @@ const upsertedUser: User = await photon.users
   })
   .load()
 
-const maybeNewUser: User = await photon.users
+const upsertedUser: User = await photon.users
   .find('alice-id')
+  // or `replace`
+  .update({ firstName:'Alice' })
   .orCreate({
     firstName: 'Alice',
     lastName: 'Doe',
