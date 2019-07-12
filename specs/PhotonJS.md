@@ -189,15 +189,13 @@ const replacedUserByEmail: User = await photon.users
 
 const upsertedUser: User = await photon.users
   .find('alice-id')
-  .upsert({
-    update: { firstName: 'Alice' },
-    // or `replace`
-    create: {
-      firstName: 'Alice',
-      lastName: 'Doe',
-      email: 'alice@prisma.io',
-      profile: { imageUrl: 'http://...', imageSize: 100 },
-    },
+  // or `replace`
+  .update({ firstName:'Alice' })
+  .orCreate({
+    firstName: 'Alice',
+    lastName: 'Doe',
+    email: 'alice@prisma.io',
+    profile: { imageUrl: 'http://...', imageSize: 100 },
   })
   .load()
 
