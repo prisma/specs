@@ -1,4 +1,5 @@
 module.exports = {
+  pathPrefix: '/cli',
   siteMetadata: {
     title: 'Gatsby Default Starter',
   },
