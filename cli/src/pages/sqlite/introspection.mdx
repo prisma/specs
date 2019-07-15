@@ -1,0 +1,349 @@
+import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Success, Command, TextInput, Introspection } from '../../components/cli'
+
+# SQLite - Introspection
+
+---
+
+### S.2 File path
+
+Previous selections: 
+
+1. SQLite
+1. Use existing SQLite file
+
+<Terminal>
+  $ prisma2 init hello-world
+  <Spacer height={20} />
+  <Title primary="Enter the path to your SQLite database file." />
+  <Spacer height={8} />
+  <span>Prisma will introspect the database to generate your initial data model.</span>
+  <Spacer height={16} />  
+  <Line />
+  <Spacer height={16} />
+  <TextInput label="File path" placeholder="./my.db" isSelected />
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Button label="Introspect" href="#s21-introspection" />
+  <Button icon="back" label="Back" description="(Database options)" href="./sqlite" />
+</Terminal>
+
+In this view, it would be great if the trailing `.db` could somehow be fixed since every SQLite DB file has the file extension.
+
+### S.2.1 Introspection
+
+Previous selections: 
+
+1. SQLite
+1. Use existing SQLite file
+1. _entered file path_
+
+<Terminal>
+  $ prisma2 init hello-world
+  <Spacer height={20} />
+  <Introspection progress={26.5}>Introspecting SQLite database file at <b>./my.db</b> ...</Introspection>
+</Terminal>
+
+### S.2.2 Tool selection
+
+Previous selections: 
+
+1. SQLite
+1. Use existing SQLite file
+1. _entered file path_
+1. _introspected DB_
+
+<Terminal>
+  $ prisma2 init hello-world
+  <Spacer height={20} />
+  <Title primary="Select the Prisma tool(s) you want to use." />
+  <Spacer height={8} />
+  <span>Use the <b>SPACE</b> key to select/unselect a tool.</span>
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Checkbox label="Photon" description="Type-safe database client" labelWidth={80} isChecked isSelected />
+  <Checkbox label="Lift" description="Declarative data modeling & migrations" labelWidth={80} />
+  <Spacer height={8} />
+  <span>Learn more about the tools at: https://github.com/prisma/prisma2</span>
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Button label="Confirm" />
+  <Button icon="back" label="Back" description="(Database file path)" href="#s2-file-path" />
+</Terminal>
+
+In this view, Photon and Lift should be checked by default.
+
+### S.3.1 Language selection
+
+Previous selections: 
+
+1. SQLite
+1. Use existing SQLite file
+1. _entered file path_
+1. _introspected DB_
+1. Photon
+
+<Terminal>
+  $ prisma2 init hello-world
+  <Spacer height={20} />
+  <Title primary="Select the programming language to access your database with Photon." />
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Button label="JavaScript" labelWidth={100} isSelected href="#s41-boilerplate-selection" />
+  <Button label="TypeScript" labelWidth={100} href="#s41-boilerplate-selection" />
+  <Button label="Go" description="(Coming soon)" isDisabled />
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Button icon="back" label="Back" description="(Tool selection)"  href="#s22-tool-selection" />
+</Terminal>
+
+<br/>
+
+### S.4.1 Boilerplate selection
+
+Previous selections: 
+
+1. SQLite
+1. Use existing SQLite file
+1. _entered file path_
+1. _introspected DB_
+1. Photon
+1. JavaScript/TypeScript
+
+<Terminal>
+  $ prisma2 init hello-world
+  <Spacer height={20} />
+  <Title primary="Select a boilerplate or start with just the Prisma schema." />
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Button label="Basic boilerplate" description="Simple script with API examples" labelWidth={200} isSelected  href="#s51-success"/>
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Button label="No boilerplate" description="(Just generate the Prisma schema)"/>
+  <Button icon="back" label="Back" description="(Language selection)" href="#s31-language-selection" />
+</Terminal>
+
+### S.5.1 Success
+
+Previous selections: 
+
+1. SQLite
+1. Use existing SQLite file
+1. _entered file path_
+1. _introspected DB_
+1. Photon
+1. JavaScript/TypeScript
+1. Basic boilerplate
+
+<Terminal>
+  $ prisma2 init hello-world
+  <Spacer height={20} />
+  <Success message="You're all set!" />
+  <Spacer height={20} />
+  <Title primary="Introspection was successful."></Title>
+  <Spacer height={8} />
+  <span>Result: <b>11 tables</b> have been found in your SQLite database file.</span>
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Title primary="What files were created?"></Title>
+  <Spacer height={8} />
+  <span>The following files have been created inside the <b>hello-world</b> directory:</span><br />
+  <ul>
+    <li><b>prisma/schema.prisma</b></li>
+    <li><b>src/index.ts</b></li>
+    <li><b>tsconfig.json</b></li>
+    <li><b>package.json</b></li>
+    <li><b>node_modules/</b></li>
+  </ul>
+  <span>Note that <b>src/index.ts</b> contains sample read operations of the Photon API.</span><br />
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Title primary="What next?"></Title>
+  <Spacer height={8} />
+  <span>Run the following commands to continue:</span >
+  <Spacer height={8} />
+  <Command>cd hello-world</Command>
+  <Spacer height={4} />
+  <Command>yarn start</Command>
+  <Spacer height={16} />
+  <span>To evolve your application you need to:</span >
+  <ol>
+    <li>Migrate your database</li>
+    <li>Re-introspect your database to update the data model: <Command>prisma2 introspect</Command></li>
+    <li>Re-generate Photon with: <Command>prisma2 introspect</Command></li>
+  </ol>
+  <Spacer height={8} />
+  <Command>prisma dev</Command>
+  <Spacer height={16} />
+  <div>This starts Prisma's development mode which automatically migrates your database and regenerates Photon when you save changes to your data model in <b>prisma/schema.prisma</b>.</div >
+  <Spacer height={4} />
+  <div>Learn more: https://github.com/prisma/prisma2/blob/master/docs/development-mode.md</div>
+  <Spacer height={4} />
+</Terminal>
+
+### S.3.2 Language selection
+
+Previous selections: 
+
+1. SQLite
+1. Use existing SQLite file
+1. _entered file path_
+1. _introspected DB_
+1. Photon + Lift
+
+<Terminal>
+  $ prisma2 init hello-world
+  <Spacer height={20} />
+  <Title primary="Select the programming language to access your database with Photon." />
+  <Spacer height={8} />
+  <span>This decision doesn't impact the usage of Lift in your project.</span>
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Button label="JavaScript" labelWidth={100} isSelected href="#s42-boilerplate-selection" />
+  <Button label="TypeScript" labelWidth={100} href="#s42-boilerplate-selection" />
+  <Button label="Go" description="(Coming soon)" isDisabled />
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Button icon="back" label="Back" description="(Tool selection)" href="#s22-tool-selection" />
+</Terminal>
+
+<br/>
+
+### S.4.2 Boilerplate selection 
+
+Previous selections: 
+
+1. SQLite
+1. Use existing SQLite file
+1. _entered file path_
+1. _introspected DB_
+1. Photon + Lift
+1. JavaScript/TypeScript
+
+<Terminal>
+  $ prisma2 init hello-world
+  <Spacer height={20} />
+  <Title primary="Select a boilerplate or start with just the Prisma schema." />
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Button label="Basic boilerplate" description="Simple script with API examples" labelWidth={200} isSelected href="#s52-success" />
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Button label="No boilerplate" description="(Just generate the Prisma schema)"/>
+  <Button icon="back" label="Back" description="(Language selection)" href="#s32-language-selection" />
+</Terminal>
+
+### S.5.2 Success
+
+1. SQLite
+1. Use existing SQLite file
+1. _entered file path_
+1. _introspected DB_
+1. Photon + Lift
+1. JavaScript/TypeScript
+1. Basic boilerplate
+
+<Terminal>
+  $ prisma2 init hello-world
+  <Spacer height={20} />
+  <Success message="You're all set!" />
+  <Spacer height={20} />
+  <Title primary="Introspection was successful."></Title>
+  <Spacer height={8} />
+  <span>Result: <b>11 tables</b> have been found in your SQLite database file.</span>
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Title primary="What files were created?"></Title>
+  <Spacer height={8} />
+  <span>The following files have been created inside the <b>hello-world</b> directory:</span><br />
+  <ul>
+    <li><b>prisma/schema.prisma</b></li>
+    <li><b>src/index.ts</b></li>
+    <li><b>tsconfig.json</b></li>
+    <li><b>package.json</b></li>
+    <li><b>node_modules/</b></li>
+  </ul>
+  <span>Note that <b>src/index.ts</b> contains sample read operations of the Photon API.</span><br />
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Title primary="What next?"></Title>
+  <Spacer height={8} />
+  <span>Run the following commands to continue:</span >
+  <Spacer height={8} />
+  <Command label="cd hello-world" />
+  <Spacer height={4} />
+  <Command label="yarn start" />
+  <Spacer height={16} />
+  <div>This invokes the script at <b>src/index.ts</b> which performs some sample read operations against your database and prints the results to the terminal.</div >
+  <Spacer height={8} />
+  <span>To evolve your application, run:</span >
+  <Spacer height={8} />
+  <Command label="prisma dev" />
+  <Spacer height={16} />
+  <div>This starts Prisma's development mode which automatically migrates your database and regenerates Photon when you save changes to your data model in <b>prisma/schema.prisma</b>.</div >
+  <Spacer height={4} />
+  <div>Learn more: https://github.com/prisma/prisma2/blob/master/docs/development-mode.md</div>
+  <Spacer height={4} />
+</Terminal>
+
+
+
+### S.5.3 Success
+
+Previous selections: 
+
+1. SQLite
+1. Use existing SQLite file
+1. _entered file path_
+1. _introspected DB_
+1. Lift
+
+<Terminal>
+  $ prisma2 init hello-world
+  <Spacer height={20} />
+  <Success message="You're all set!" />
+  <Spacer height={20} />
+  <Title primary="Introspection was successful."></Title>
+  <Spacer height={8} />
+  <span>Result: <b>11 tables</b> have been found in your SQLite database file.</span>
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Title primary="What files were created?"></Title>
+  <Spacer height={8} />
+  <span>The Prisma schema file for your project has been created.</span><br />
+  <br />
+  <span>You can find it in <b>hello-world/schema.prisma</b>.</span>
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Title primary="What next?"></Title>
+  <Spacer height={8} />
+  <span>Run the following commands to continue:</span >
+  <Spacer height={8} />
+  <Command label="cd hello-world" />
+  <Spacer height={4} />
+  <Command label="prisma dev" />
+  <Spacer height={16} />
+  <div>This starts Prisma's development mode which automatically migrates your database when you save changes to your data model in <b>hello-world/schema.prisma</b>.</div >
+  <Spacer height={4} />
+  <div>Learn more: https://github.com/prisma/prisma2/blob/master/docs/development-mode.md</div>
+</Terminal>
+
+<br />
+<br />
+<br />

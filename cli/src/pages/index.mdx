@@ -1,0 +1,28 @@
+import { Terminal, Title, Spacer, Button, Line } from '../components/cli'
+
+# `prisma2 init`
+
+---
+
+## Flows
+
+<img src="https://prisma-specs.prisma.now.sh/cli/figma-proxy?id=822:4" width="100%" />
+
+## Selecting a Database
+
+<Terminal>
+  $ prisma2 init hello-world
+  <Spacer height={20} />
+  <Title primary="Select the database you want to use" />
+  <Spacer height={8} />
+  <Line />
+  <Spacer height={16} />
+  <Button label="SQLite" description="Easiest to set up" href="./sqlite/sqlite" labelWidth={100} isSelected />
+  <Button label="MySQL" description="Requires running a MySQL database" href="./mysql" labelWidth={100} />
+  <Button label="PostgreSQL" description="Requires running a PostreSQL database" href="./postgresql" labelWidth={100} />
+  <Button label="MongoDB" description="(Coming soon)" labelWidth={100} isDisabled />
+</Terminal>
+
+## Todo
+
+- [ ] Success screen for introspection: Spec out how `main.ts` (and other languages) should be generated @nikolasburk

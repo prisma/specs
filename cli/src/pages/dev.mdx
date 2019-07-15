@@ -1,0 +1,143 @@
+import { Terminal, Title, Spacer, Button, Line, Status, Actions, Action } from '../components/cli'
+
+# Prisma Dev
+
+<Terminal>
+  $ prisma2 dev
+  <Spacer height={20} />
+  <Title primary="Watching for changes in datamodel.prisma" />
+  <Spacer height={4} />
+  <span>Last changed at 14:24:40</span>
+  <Spacer height={24} />
+  <Title primary="Generator" />
+  <Spacer height={8} />
+  <Line />
+  <Spacer height={16} />
+  <Status type="success" primary="Photon JS Client" secondary="generated at 14:21:44" labelWidth={160} />
+  <Spacer height={4} />
+  <Status type="success" primary="Nexus Client" secondary="generated at 14:21:48" labelWidth={160} />
+  <Spacer height={24} />
+  <Title primary="Migrations" />
+  <Spacer height={8} />
+  <Line />
+  <Spacer height={16} />
+  <Status type="success" primary="Database successfully migrated" />
+  <Spacer height={4} />
+  <span>To save changes into a migration file, run prisma lift create</span>
+  <Spacer height={200} />
+  <Title primary="Admin endpoint:" secondary={<u style="color:white">http://localhost:5555/admin</u>} />
+  <Spacer height={8} />
+  <Line />
+  <Spacer height={16} />
+  <Actions>
+    {/* <Action keyStroke="r" label="reset"/> */}
+    {/* <Action keyStroke="s" label="seed"/> */}
+    <Action keyStroke="h" label="history"/>
+  </Actions>
+</Terminal>
+
+<br/>
+<br/>
+
+<Terminal>
+  $ prisma2 dev
+  <Spacer height={20} />
+  <Title primary="Watching for changes in datamodel.prisma" />
+  <Spacer height={4} />
+  <span>Last changed at 14:24:40</span>
+  <Spacer height={24} />
+  <Title primary="Generator" />
+  <Spacer height={8} />
+  <Line />
+  <Spacer height={16} />
+  <Status type="pending" primary="Photon JS Client" secondary="Generating..." labelWidth={160} />
+  <Spacer height={4} />
+  <Status type="error" primary="Nexus Client" secondary="Failed to generate" labelWidth={160} />
+  <Spacer height={24} />
+  <Title primary="Migrations" />
+  <Spacer height={8} />
+  <Line />
+  <Spacer height={16} />
+  <Status type="pending" primary="Migrating the database..." />
+  <Spacer height={4} />
+  <span>To save changes into a migration file, run prisma lift create</span>
+  <Spacer height={200} />
+  <Title primary="Admin endpoint:" secondary={<u style="color:white">http://localhost:5555/admin</u>} />
+  <Spacer height={8} />
+  <Line />
+  <Spacer height={16} />
+  <Actions>
+    {/* <Action keyStroke="r" label="reset"/> */}
+    {/* <Action keyStroke="s" label="seed"/> */}
+    {/* <Action keyStroke="d" label="diff"/> */}
+    <Action keyStroke="h" label="history"/>
+  </Actions>
+</Terminal>
+
+<br/>
+<br/>
+
+<Terminal>
+  $ prisma2 dev
+  <Spacer height={20} />
+  <Title primary="History of recent activity" />
+  <Spacer height={8} />
+  <Line />
+  <Spacer height={16} />
+  <Status type="success" primary="22:07:05" secondary="Generated Photon.js client" />
+  <Status type="success" primary="22:07:03" secondary="Lift migrated the database" />
+  <Status type="success" primary="22:04:23" secondary="Generated Photon.js Client" />
+  <Status type="success" primary="22:04:23" secondary="Generated Nexus Client" />
+  <Status type="success" primary="22:04:21" secondary="Lift migrated the database" />
+  <Status type="error" primary="22:03:01" secondary="Lift failed to migrate the database" />
+  <Status type="success" primary="22:07:05" secondary="Generated Photon.js Client" />
+  <Status type="success" primary="22:07:03" secondary="Lift migrated the database" />
+  <Status type="success" primary="22:04:23" secondary="Generated Nexus Client" />
+  <Status type="success" primary="22:04:21" secondary="Lift migrated the database" />
+  <Status type="error" primary="22:03:01" secondary="Lift failed to migrate the database" />
+  <Status type="error" primary="22:03:01" secondary="Failed to generate Photon.js Client" />
+  <Status type="error" primary="22:03:01" secondary="Failed to generate Photon.js Client" />
+
+  <Spacer height={100} />
+  <Line />
+  <Spacer height={16} />
+  <Actions>
+    {/* <Action keyStroke="r" label="reset"/> */}
+    {/* <Action keyStroke="s" label="seed"/> */}
+    <Action keyStroke="b" label="back"/>
+  </Actions>
+</Terminal>
+
+<br/>
+<br/>
+
+<Terminal>
+  $ prisma2 dev
+  <Spacer height={20} />
+  <Title primary="History of recent activity" />
+  <Spacer height={8} />
+  <Line />
+  <Spacer height={16} />
+  <Status type="success" secondary="22:07:05" primary="Generated Photon.js client" labelWidth={300} />
+  <Status type="success" secondary="22:07:03" primary="Lift migrated the database" labelWidth={300} />
+  <Status type="success" secondary="22:04:23" primary="Generated Photon.js Client" labelWidth={300} />
+  <Status type="success" secondary="22:04:23" primary="Generated Nexus Client" labelWidth={300} />
+  <Status type="success" secondary="22:04:21" primary="Lift migrated the database" labelWidth={300} />
+  <Status type="error" secondary="22:03:01" primary="Lift failed to migrate the database" labelWidth={300} />
+  <Status type="success" secondary="22:07:05" primary="Generated Photon.js Client" labelWidth={300} />
+  <Status type="success" secondary="22:07:03" primary="Lift migrated the database" labelWidth={300} />
+  <Status type="success" secondary="22:04:23" primary="Generated Nexus Client" labelWidth={300} />
+  <Status type="success" secondary="22:04:21" primary="Lift migrated the database" labelWidth={300} />
+  <Status type="error" secondary="22:03:01" primary="Lift failed to migrate the database" labelWidth={300} />
+  <Status type="error" secondary="22:03:01" primary="Failed to generate Photon.js Client" labelWidth={300} />
+  <Status type="error" secondary="22:03:01" primary="Failed to generate Photon.js Client" labelWidth={300} />
+
+  <Spacer height={100} />
+  <Line />
+  <Spacer height={16} />
+  <Actions>
+    {/* <Action keyStroke="r" label="reset"/> */}
+    {/* <Action keyStroke="s" label="seed"/> */}
+    <Action keyStroke="b" label="back"/>
+  </Actions>
+</Terminal>

@@ -1,0 +1,35 @@
+import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Success, TextInput, Command, Introspection } from '../../components/cli'
+
+# SQLite
+
+---
+
+## Flows
+
+<img src="https://prisma-specs.prisma.now.sh/cli/figma-proxy?id=858:87" width="100%" />
+
+## 1 Database options
+
+Previous selections:
+
+1. SQLite
+
+<Terminal>
+  $ prisma2 init hello-world
+  <Spacer height={20} />
+  <Title primary="How do you want to proceed?" />
+  <Spacer height={8} />
+  <span></span>
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Button label="Create new SQLite file" description="Easy setup to start from scratch" labelWidth={200} isSelected href="./from-scratch" />
+  <Button label="Use existing SQLite file" description="Requires the path to the file" labelWidth={200} href="./introspection" />
+  <Spacer height={16} />
+  <Line />
+  <Spacer height={16} />
+  <Button icon="back" label="Back" href="../" description="(Database selection)" />
+</Terminal>
+
+<br/>
+

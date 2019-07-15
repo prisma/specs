@@ -32,7 +32,7 @@
       - [@unique](#unique)
       - [@map(\_ name: String)](#map_-name-string)
       - [@default(\_ expr: Expr)](#default_-expr-expr)
-      - [@relation(\_ name?: String, references?: Identifier[], onDelete?: CascadeEnum)](#relation_-name-string-references-identifier-ondelete-cascadeenum)
+      - [`@relation(\_ name?: String, references?: Identifier[], onDelete?: CascadeEnum)`](#relation_-name-string-references-identifier-ondelete-cascadeenum)
       - [@updatedAt](#updatedat)
     - [Block Attributes](#block-attributes)
     - [Core Block Attributes](#core-block-attributes)
@@ -49,11 +49,9 @@
   - [Generate Behavior](#generate-behavior)
   - [Switching Datasources based on Environments](#switching-datasources-based-on-environments)
 - [Function](#function)
-- [Configuration Layout](#configuration-layout)
-  - [Soloists](#soloists)
-  - [Team](#team)
-    - [Multiple .prisma in the same directory get concatenated](#multiple-prisma-in-the-same-directory-get-concatenated)
-    - [Multiple directories for different environments](#multiple-directories-for-different-environments)
+- [Importing schemas](#importing-schemas)
+  - [Importing from other endpoints](#importing-from-other-endpoints)
+  - [Conflict Resolution](#conflict-resolution)
 - [Auto Formatting](#auto-formatting)
   - [Formatting Rules](#formatting-rules)
     - [Configuration blocks are align by their `=` sign.](#configuration-blocks-are-align-by-their--sign)
@@ -295,7 +293,7 @@ model User {
 
 Lists can also be optional and will give the list a 3rd state, null:
 
-- `Blog[]`: empty list or non-empty list of blogs (default: [])
+- `Blog[]`: empty list or non-empty list of blogs (default: `[]`)
 - `Blog[]?`: null, empty list or non-empty list of blogs (default: null)
 
 The default value for a required list is an empty list. The default value for an optional list is null.
@@ -906,7 +904,7 @@ The schema can require certain environment expectations to be met. The purpose o
 - Keeps secrets out of the schema
 - Improve portability of the schema
 
-````groovy
+```groovy
 datasource pg {
   provider = "postgres"
   url      = env("POSTGRES_URL")
@@ -922,7 +920,7 @@ $ prisma deploy
 ! required POSTGRES_URL variable not provided
 
 $ POSTGRES_URL="postgres://user:secret@rds.amazon.com:4321/db" prisma deploy
-````
+```
 
 ### Introspect Behavior
 
@@ -1016,66 +1014,102 @@ Functions will always be provided at the Prisma level by the query engine.
 The data types that these functions return will be defined by the connectors. For example, `now()` in Postgres will return a `timestamp with time zone`, while
 `now()` with a JSON connector would return an `ISOString`.
 
-## Configuration Layout
+## Importing schemas
 
-> Note: This section is still WIP
+A team may have a lot of configuration or many different models. They may also have many environments they need to deploy to. We support an `import <string>`
+function that will concatenate schemas together and join their contents.
 
-Our prisma schema is designed to serve the requirements of a variety of consumers.
+**schema.prisma**
 
-### Soloists
+```groovy
+import "./post.prisma"
 
-Single developer just wants to shove everything in a single file. They don't want to clutter their application up with your configuration. This is supported by
-using the same language for configuration and your schema.
-
-```sh
-/app
-  schema.prisma
+model User {
+	posts Post[]
+}
 ```
 
-### Team
+**post.prisma**
 
-A team may have a lot of configuration or many different models. They may also have many environments they need to deploy to. We support a couple options to
-break up the schema.
-
-#### Multiple .prisma in the same directory get concatenated
-
-```sh
-/app
-  /prisma
-    user.prisma
-    post.prisma
-    comment.prisma
+```groovy
+model Post {
+	title String @pg.varchar(42)
+	body  String
+}
 ```
 
-The above could also address the preference to separate configuration from the schema. For example:
+Resolves to:
 
-```sh
-/app
-  /prisma
-    schema.prisma
-    connectors.prisma
-    generators.prisma
+```groovy
+model Post {
+	title String @pg.varchar(42)
+	body  String
+}
+
+model User {
+	posts Post[]
+}
 ```
 
-#### Multiple directories for different environments
+### Importing from other endpoints
 
-If your environment widely vary, you can separate environment by directory. You can use symlinks or the `import` block to share configuration:
+We also support fetching schemas from Github, NPM, HTTP and can add more as desired. We were inspired by Hashicorp's
+[go-getter](https://github.com/hashicorp/go-getter).
 
-```sh
-/app
-  /prisma
-    /production
-      user.prisma
-      post.prisma
-      comment.prisma
-    /development
-      user.prisma
-      post.prisma
-      comment.prisma
+Here are some possibilities:
+
+```
+import "https://Aladdin:OpenSesame@www.example.com/index.html"
+import "github://prisma/project/post.schema"
+import "npm://prisma/app/comments.schema"
 ```
 
-You should only reach for this capability if you absolutely need it. [Twelve-Factor App](https://12factor.net/config?S_TACT=105AGX28) encourages you to only
-manage environment differences inside environment variables. We supports this use case very well with `env` blocks.
+### Conflict Resolution
+
+Often times you'll import a schema that has conflicting models. In this case we take the union of all fields and attributes:
+
+**post.prisma**
+
+```groovy
+model Post {
+  id    Int    @id
+	title String @pg.varchar(42)
+	body  String
+  @@unique([id,title])
+}
+```
+
+**schema.prisma**
+
+```groovy
+import "./post.prisma"
+
+model User {
+	posts: Post[]
+}
+
+model Post {
+	title String @unique
+}
+```
+
+Resolves to:
+
+```groovy
+model User {
+	posts: Post[]
+}
+
+model Post {
+  id    Int    @id
+	title String @pg.varchar(42)
+	body  String
+  @@unique([id,title])
+}
+```
+
+- **Open Question:** What happens if the field types differ?
+- **Open Question:** Do we want to take the union? Is there some other approach that's more clear?
 
 ## Auto Formatting
 
