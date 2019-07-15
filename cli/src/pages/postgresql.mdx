@@ -1,4 +1,21 @@
-import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Success, TextInput, Introspection, Command } from '../components/cli'
+import TerminalApp from '../components/TerminalApp'
+import {
+  multiSelectItemComponent,
+  multiSelectIndicatorComponent,
+  multiSelectCheckboxComponent,
+  selectInputItemComponent,
+  selectInputIndicatorComponent,
+  Divider,
+} from '../components/inkHelpers'
+import MultiSelect from 'ink-multi-select'
+import SelectInput from 'ink-select-input'
+import TextInput from 'ink-text-input'
+// import ProgressBar from 'ink-progress-bar'
+import { Box, Text, Color } from 'ink'
+import figures from 'figures'
+
+
+import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Success, TextInput as MockTextInput, Introspection, Command } from '../components/cli'
 
 # PostgreSQL
 
@@ -8,225 +25,362 @@ import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Succes
 
 <img src="https://prisma-specs.prisma.now.sh/cli/figma-proxy?id=858:398" width="100%" />
 
-## (P.1) Enter Database Credentials
-<Terminal>
-  ~/my-app prisma init
-  <Spacer height={20} />
-  <Title primary="Enter PostgreSQL credentials" />
-  <Spacer height={4} />
-  <span>Learn how to set up a PostgreSQL database: <u>prisma.io/docs</u></span>
-  <Spacer height={16} />
-  <Line />
-  <Spacer height={16} />
-  <Title primary="We found a local PostgreSQL database on port 5432. Do you want to use this database?" />
-  <Spacer height={4} />
-  <Button label="Yes, autofill credentials of mocal Postgres database" />
-  <Spacer height={16} />
-  <Line />
-  <Spacer height={16} />
-  <TextInput label="Host" placeholder="127.0.0.1" />
-  <TextInput label="Port" placeholder="5432" />
-  <TextInput label="User" value="admin" />
-  <TextInput label="Password" value="super-secret-123" />
-  <TextInput label="Database" isSelected />
-  <TextInput label="Schema (optional)" />
-  <Spacer height={16} />
-  <Checkbox label="Use SSL"/>
-  <Spacer height={16} />
-  <Line />
-  <Spacer height={16} />
-  <TextInput label="Or URL" placeholder="postgresql://localhost:5432/admin" />
-  <Spacer height={16} />
-  <Line />
-  <Spacer height={16} />
-  <Button label="Connect" />
-  <Button icon="back" label="Back" description="(Database selection)" />
-</Terminal>
+## (1) Enter Database Credentials
+<TerminalApp>
+  <Box flexDirection="column">
+    <Text bold>Enter PostgreSQL credentials</Text>
+    <Color white>Learn how to set up a PostgreSQL database: <Text underline>prisma.io/docs</Text></Color>
+  </Box>
+  <Divider />
+  <Box flexDirection="column" paddingTop={1} paddingBottom={1}>
+    <Text bold>We found a local PostgreSQL database on port 5432. Do you want to use this database?</Text>
+    <Box>
+      <Color gray>{figures.pointer} </Color>
+      <Text>Yes, autofill credentials of local PostgreSQL database</Text>
+    </Box>
+  </Box>
+  <Divider />
+  <Box flexDirection="column" paddingTop={1} paddingBottom={1}>
+    <Box marginLeft={2}>
+      <Box marginRight={1}>Host:</Box>
+      <TextInput value="" placeholder="127.0.0.1" />
+    </Box>
+    <Box marginLeft={2}>
+      <Box marginRight={1}>Port:</Box>
+      <TextInput value="" placeholder="5432" />
+    </Box>
+    <Box marginLeft={2}>
+      <Box marginRight={1}>User:</Box>
+      <TextInput value="" />
+    </Box>
+    <Box marginLeft={2}>
+      <Box marginRight={1}>Password:</Box>
+      <TextInput value="" />
+    </Box>
+    <Box marginLeft={2}>
+      <Box marginRight={1}>Database:</Box>
+      <TextInput value="" />
+    </Box>
+    <Box marginLeft={2}>
+      <Box marginRight={1}>Schema (optional):</Box>
+      <TextInput value="" />
+    </Box>
+    <Box marginTop={1}>
+      <MultiSelect
+        focus={false}
+        items={[{ label: 'Use SSL', value: 'use-ssl' }]}
+        itemComponent={multiSelectItemComponent}
+        indicatorComponent={multiSelectIndicatorComponent}
+        checkboxComponent={multiSelectCheckboxComponent} />
+    </Box>
+  </Box>
+  <Divider />
+  <Box flexDirection="column" paddingTop={1} paddingBottom={1}>
+    <Box marginLeft={2}>
+      <Box marginRight={1}>Or URL:</Box>
+      <TextInput value="" placeholder="postgres://localhost:5432/admin" />
+    </Box>
+  </Box>
+  <Divider />
+  <Box>
+    <Color gray>{figures.pointer} </Color>
+    <Text bold>Connect</Text>
+  </Box>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color gray> (Database selection)</Color>
+  </Box>
+</TerminalApp>
 
-## (P.2) Choose Existing or New Schema
-<Terminal>
-  ~/my-app prisma init
-  <Spacer height={20} />
-  <Success message="Connected to PostgreSQL server as admin" />
-  <Spacer height={20} />
-  <Title primary="Schema options" />
-  <Spacer height={4} />
-  <span>Learn how to set up a PostgreSQL database: <u>prisma.io/docs</u></span>
-  <Spacer height={16} />
-  <Line />
-  <Spacer height={16} />
-  <Button label="Create new PostgreSQL schema" description="Beginner's choice" labelWidth={240}/>
-  <Button label="Use existing PostgreSQL schema" description="Found 5 schemas" labelWidth={240} isSelected />
-  <Spacer height={16} />
-  <Line />
-  <Spacer height={16} />
-  <Button icon="back" label="Back" description="(Database credentials)" />
-</Terminal>
+## (2) Choose Existing or New Database
+<TerminalApp>
+  <Color greenBright>
+    {figures.tick} Connected to PostgreSQL server as admin
+  </Color>
+  <Box flexDirection="column" marginTop={1}>
+    <Text bold>Database options</Text>
+    <Color white>Learn how to set up a PostgreSQL database: <Text underline>prisma.io/docs</Text></Color>
+  </Box>
+  <Divider />
+  <Box paddingBottom={1} paddingTop={1}>
+    <Box width={40}>
+      <SelectInput
+        items={[
+          { label: 'Create new PostgreSQL schema', value: 'new-schema' },
+          { label: 'Use existing PostgreSQL schema', value: 'existing-schema' }
+        ]}
+        itemComponent={selectInputItemComponent}
+        indicatorComponent={selectInputIndicatorComponent} />
+    </Box>
+    <Box flexDirection="column">
+      <Color gray>Beginner's choice</Color>
+      <Color gray>Found 5 databases</Color>
+    </Box>
+  </Box>
+  <Divider />
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color gray> (Database credentials)</Color>
+  </Box>
+</TerminalApp>
 
-## (P.2.1) Set Schema Name
-<Terminal>
-  ~/my-app prisma init
-  <Spacer height={20} />
-  <TextInput label="Enter schema name" placeholder="my-app" isSelected />
-  <Spacer height={16} />
-  <Line />
-  <Spacer height={16} />
-  <Button label="Create" />
-  <Button icon="back" label="Back" description="(Schema options)" />
-</Terminal>
+## (2.1) Set Database Name
+<TerminalApp>
+  <Box flexDirection="column">
+    <Text bold>Database options</Text>
+  </Box>
+  <Divider />
+  <Box marginLeft={2} paddingTop={1} paddingBottom={1}>
+    <Box marginRight={1}>Enter schema name:</Box>
+    <TextInput value="" placeholder="my-app" />
+  </Box>
+  <Divider />
+  <Box>
+    <Color gray>{figures.pointer} </Color>
+    <Text bold>Create</Text>
+  </Box>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color gray> (Database options)</Color>
+  </Box>
+</TerminalApp>
 
-## (P.3) Choose a Schema
-<Terminal>
-  ~/my-app prisma init
-  <Spacer height={20} />
-  <Success message="Connected to PostgreSQL server as admin" />
-  <Spacer height={20} />
-  <Title primary="Select a PostgreSQL schema" />
-  <Spacer height={8} />
-  <span>Select an empty schema to start a new project or introspect a non-empty one to generate your data model definition. </span>
-  <Spacer height={16} />
-  <Line />
-  <Spacer height={16} />
-  <Title primary="Empty schemas" secondary="(Start a new project)" />
-  <Spacer height={8} />
-  <Button label="public" description="Created a year ago" labelWidth={140}/>
-  <Spacer height={16} />
-  <Line />
-  <Spacer height={16} />
-  <Title primary="Non-empty schemas" secondary="(Introspect to generate initial data model)" />
-  <Spacer height={8} />
-  <Button label="management" description="2 tables, 1,113KB" labelWidth={140} isSelected />
-  <Button label="default$default" description="5 tables, 3,424KB" labelWidth={140}/>
-  <Button label="idkHowCommonThatIsButHeresABigassSchemaNameToTestTheLimits" description="5 tables, 3,424KB"/>
-  <Spacer height={16} />
-  <Line />
-  <Spacer height={16} />
-  <Button icon="back" label="Back" description="(Schema options)" />
-</Terminal>
+## (3) Choose a Schema
+<TerminalApp>
+  <Color greenBright>
+    {figures.tick} Connected to PostgreSQL server as admin
+  </Color>
+  <Box flexDirection="column" marginTop={1}>
+    <Text bold>Select a PostgreSQL schema</Text>
+    <Color white>Select an empty schema to start a new project or introspect a non-empty one to generate your data model definition.</Color>
+  </Box>
+  <Box marginTop={2}>
+    <Text bold>Empty schemas</Text>
+    <Color gray> (Start a new project)</Color>
+  </Box>
+  <Divider />
+  <Box paddingBottom={1} paddingTop={1}>
+    <Box width={25}>
+      <SelectInput
+        items={[{ label: 'public', value: 'public' }]}
+        itemComponent={selectInputItemComponent}
+        indicatorComponent={selectInputIndicatorComponent} />
+    </Box>
+    <Box flexDirection="column">
+      <Color gray>Created a year ago</Color>
+    </Box>
+  </Box>
+  <Box marginTop={1}>
+    <Text bold>Non-empty schemas</Text>
+    <Color gray> (Introspect to generate initial data model)</Color>
+  </Box>
+  <Divider />
+  <Box paddingBottom={1} paddingTop={1}>
+    <Box width={25}>
+      <SelectInput
+        items={[
+          { label: 'management', value: 'management' },
+          { label: 'default$default', value: 'default' },
+          { label: 'staging', value: 'staging' },
+        ]}
+        itemComponent={selectInputItemComponent}
+        indicatorComponent={selectInputIndicatorComponent} />
+    </Box>
+    <Box flexDirection="column">
+      <Color gray>2 tables, 1,341KB</Color>
+      <Color gray>5 tables, 1,341KB</Color>
+      <Color gray>1 table, 2,341KB</Color>
+    </Box>
+  </Box>
+  <Divider />
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color gray> (Database credentials)</Color>
+  </Box>
+</TerminalApp>
 
-## (P.3.1) Introspection
+## (3.1) Introspection
 <Terminal>
   ~/my-app prisma init
   <Spacer height={20} />
   <Introspection progress={26.5}>Introspecting <b>management</b> schema...</Introspection>
+  {/* <ProgressBar percent={26.5} /> */}
 </Terminal>
 
-## (P.3.2) Select Tools
-<Terminal>
-  $ prisma2 init hello-world
-  <Spacer height={20} />
-  <Title primary="Which parts of Prisma do you want to use?" />
-  <Spacer height={4} />
-  <span>Learn more about the tools at: github.com/prisma/prisma2</span>
-  <Spacer height={16} />
-  <Line />
-  <Spacer height={16} />
-  <Checkbox label="Photon" description="Type-safe database client" labelWidth={80} isChecked isSelected />
-  <Checkbox label="Lift" description="Declarative data modeling & migrations" labelWidth={80} />
-  <Spacer height={16} />
-  <Line />
-  <Spacer height={16} />
-  <Button label="Confirm" />
-</Terminal>
+## (3.2) Select Tools
+<TerminalApp>
+  <Box flexDirection="column" marginTop={1}>
+    <Text bold>Which parts of Prisma do you want to use?</Text>
+    <Color white>Learn more about the tools at: <Text underline>github.com/prisma/prisma2</Text></Color>
+  </Box>
+  <Divider />
+  <Box paddingBottom={1} paddingTop={1}>
+    <Box width={15}>
+      <MultiSelect
+        focus={false}
+        items={[
+          { label: 'Photon', value: 'photon' },
+          { label: 'Lift', value: 'lift' },
+        ]}
+        itemComponent={multiSelectItemComponent}
+        indicatorComponent={multiSelectIndicatorComponent}
+        checkboxComponent={multiSelectCheckboxComponent} />
+    </Box>
+    <Box flexDirection="column">
+      <Color gray>Type-safe database client</Color>
+      <Color gray>Declarative data modeling & migrations</Color>
+    </Box>
+  </Box>
+  <Divider />
+  <Box>
+    <Color gray>{figures.pointer} </Color>
+    <Text bold>Confirm</Text>
+  </Box>
+</TerminalApp>
 
-## (P.4) Select Language
-<Terminal>
-  $ prisma2 init hello-world
-  <Spacer height={20} />
-  <Title primary="Which programming language do you want to use?" />
-  <Spacer height={4} />
-  <span>Learn more about the tools at: github.com/prisma/prisma2</span>
-  <Spacer height={16} />
-  <Line />
-  <Spacer height={16} />
-  <Button label="JavaScript" labelWidth={100} isSelected />
-  <Button label="TypeScript" labelWidth={100} />
-  <Button label="Go" description="(Coming soon)" isDisabled />
-  <Spacer height={16} />
-  <Line />
-  <Spacer height={16} />
-  <Button icon="back" label="Back" description="(Tool selection)" />
-</Terminal>
+## (4) Select Language
+<TerminalApp>
+  <Text bold>Which programming language do you want to use?</Text>
+  <Divider />
+  <Box flexDirection="column" paddingBottom={1} paddingTop={1}>
+    <SelectInput
+      items={[
+        { label: 'JavaScript', value: 'javascript' },
+        { label: 'TypeScript', value: 'typescript' }
+      ]}
+      itemComponent={selectInputItemComponent}
+      indicatorComponent={selectInputIndicatorComponent} />
+    <Box marginLeft={2}>Go <Color gray>(Coming soon)</Color></Box>
+  </Box>
+  <Divider />
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color gray> (Tool selection)</Color>
+  </Box>
+</TerminalApp>
 
-## (P.4.1) Select Language for Photon (Photon)
-<Terminal>
-  $ prisma2 init hello-world
-  <Spacer height={20} />
-  <Title primary="Which programming language do you want to use to access your database with Photon?" />
-  <Spacer height={16} />
-  <Line />
-  <Spacer height={16} />
-  <Button label="JavaScript" labelWidth={100} isSelected />
-  <Button label="TypeScript" labelWidth={100} />
-  <Button label="Go" description="(Coming soon)" isDisabled />
-  <Spacer height={16} />
-  <Line />
-  <Spacer height={16} />
-  <Button icon="back" label="Back" description="(Tool selection)" />
-</Terminal>
+## (4.1) Select Language for Photon (Photon)
+<TerminalApp>
+  <Text bold>Which programming language do you want to use to access your database with Photon?</Text>
+  <Divider />
+  <Box flexDirection="column" paddingBottom={1} paddingTop={1}>
+    <SelectInput
+      items={[
+        { label: 'JavaScript', value: 'javascript' },
+        { label: 'TypeScript', value: 'typescript' }
+      ]}
+      itemComponent={selectInputItemComponent}
+      indicatorComponent={selectInputIndicatorComponent} />
+    <Box marginLeft={2}>Go <Color gray>(Coming soon)</Color></Box>
+  </Box>
+  <Divider />
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color gray> (Tool selection)</Color>
+  </Box>
+</TerminalApp>
 
-## (P.4.2) Select Language for Photon (Lift+Photon)
-<Terminal>
-  $ prisma2 init hello-world
-  <Spacer height={20} />
-  <Title primary="Which programming language do you want to use to access your database with Photon?" />
-  <Spacer height={16} />
-  <Line />
-  <Spacer height={16} />
-  <Button label="JavaScript" labelWidth={100} isSelected />
-  <Button label="TypeScript" labelWidth={100} />
-  <Button label="Go" description="(Coming soon)" isDisabled />
-  <Spacer height={16} />
-  <Line />
-  <Spacer height={16} />
-  <Button icon="back" label="Back" description="(Tool selection)" />
-</Terminal>
+## (4.2) Select Language for Photon (Lift+Photon)
+<TerminalApp>
+  <Text bold>Which programming language do you want to use to access your database with Photon?</Text>
+  <Divider />
+  <Box flexDirection="column" paddingBottom={1} paddingTop={1}>
+    <SelectInput
+      items={[
+        { label: 'JavaScript', value: 'javascript' },
+        { label: 'TypeScript', value: 'typescript' }
+      ]}
+      itemComponent={selectInputItemComponent}
+      indicatorComponent={selectInputIndicatorComponent} />
+    <Box marginLeft={2}>Go <Color gray>(Coming soon)</Color></Box>
+  </Box>
+  <Divider />
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color gray> (Tool selection)</Color>
+  </Box>
+</TerminalApp>
 
-## (P.5) Select Boilerplate
-<Terminal>
-  $ prisma2 init hello-world
-  <Spacer height={20} />
-  <Title primary="Do you want to use a boilerplate or explore Prisma from scratch?" />
-  <Spacer height={16} />
-  <Line />
-  <Spacer height={16} />
-  <Button label="From scratch" description="Simple script with API examples" labelWidth={200} isSelected />
-  <Button label="GraphQL boilerplate" description="GraphQL server example" labelWidth={200} />
-  <Button label="REST boilerplate" description="REST API example (using express.js)" labelWidth={200} />
-  <Button label="gRPC boilerplate" description="gRPC API example (client + server)" labelWidth={200} />
-  <Button label="No boilerplate" description="Just generate the Prisma schema" labelWidth={200} />
-  <Spacer height={16} />
-  <Line />
-  <Spacer height={16} />
-  <Button icon="back" label="Back" description="(Language selection)" />
-</Terminal>
+## (5) Select Boilerplate
+<TerminalApp>
+  <Text bold>Do you want to use a boilerplate or explore Prisma from scratch?</Text>
+  <Divider />
+  <Box flexDirection="row" paddingBottom={1} paddingTop={1}>
+    <Box width={25}>
+      <SelectInput
+        items={[
+          { label: 'From scratch', value: 'scratch' },
+          { label: 'GraphQL boilerplate', value: 'graphql-boilerplate' },
+          { label: 'REST boilerplate', value: 'rest-boilerplate' },
+          { label: 'gRPC boilerplate', value: 'grpc-boilerplate' },
+          { label: 'No boilerplate', value: 'no-boilerplate' }
+        ]}
+        itemComponent={selectInputItemComponent}
+        indicatorComponent={selectInputIndicatorComponent} />
+    </Box>
+    <Box flexDirection="column">
+      <Color gray>Simple script with API examples</Color>
+      <Color gray>GraphQL server example</Color>
+      <Color gray>REST API example (using express.js)</Color>
+      <Color gray>gRPC API example (client + server)</Color>
+      <Color gray>Just generate the Prisma schema</Color>
+    </Box>
+  </Box>
+  <Divider />
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color gray> (Language selection)</Color>
+  </Box>
+</TerminalApp>
 
-## (P.6) Success (Boilerplate)
-<Terminal>
-  $ prisma2 init hello-world
-  <Spacer height={20} />
-  <Success message="You're all set!" />
-  <Spacer height={16} />
-  <Line />
-  <Spacer height={16} />
-  <Title primary="We created the following files for you:" />
-  <Spacer height={16} />
-  <Button icon="" label="schema.prisma" description="The datamodel describes your database schema" labelWidth={140} />
-  <Button icon="" label="main.ts" description="A simple script to get you started" labelWidth={140} />
-  <Button icon="" label="tsconfig.json" description="TypeScript configuration" labelWidth={140} />
-  <Button icon="" label="node_modules/" description="Required Node dependencies (includes Photon)" labelWidth={140} />
-  <Spacer height={16} />
-  <Line />
-  <Spacer height={16} />
-  <Title primary="Run the following commands to start developing:" />
-  <Spacer height={16} />
-  <Command label="cd hello-world" />
-  <Spacer height={4} />
-  <Command label="prisma dev" />
-  <Spacer height={16} />
-  <div>Learn more about using Photon and Lift at https://www.prisma.io/docs/</div>
-</Terminal>
+## (6) Success (Boilerplate)
+<TerminalApp>
+  <Color greenBright>
+    {figures.tick} You're all set!
+  </Color>
+  <Box marginTop={1}>
+    <Text bold>We created the following files for you:</Text>
+  </Box>
+  <Divider />
+  <Box paddingBottom={1} paddingTop={1}>
+    <Box width={25} flexDirection="column">
+      <Text>schema.prisma</Text>
+      <Text>main.ts</Text>
+      <Text>tsconfig.json</Text>
+      <Text>node_modules/</Text>
+    </Box>
+    <Box flexDirection="column">
+      <Color gray>The datamodel describes your database schema</Color>
+      <Color gray>A simple script to get you started</Color>
+      <Color gray>TypeScript configuration</Color>
+      <Color gray>Required Node dependencies (includes Photon)</Color>
+    </Box>
+  </Box>
+  <Box marginTop={1}>
+    <Text bold>Run the following commands to start developing</Text>
+  </Box>
+  <Divider />
+  <Box flexDirection="column" paddingBottom={1} paddingTop={1}>
+    <Box>
+      <Color gray>$ </Color>
+      <Text>cd hello-world</Text>
+    </Box>
+    <Box>
+      <Color gray>$ </Color>
+      <Text>prisma dev</Text>
+    </Box>
+  </Box>
+  <Color gray>Learn more about using Photon and Lift at <Text underline>prisma.io/docs/</Text></Color>
+</TerminalApp>
 
-## (P.6.1) Success (Photon)
-## (P.6.2) Success (Lift+Photon)
-## (P.6.3) Success (Lift)
+## (M.6.1) Success (Photon)
+## (M.6.2) Success (Lift+Photon)
+## (M.6.3) Success (Lift)

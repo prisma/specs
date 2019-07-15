@@ -1,27 +1,53 @@
-import { Terminal, Title, Spacer, Button, Line } from '../components/cli'
+import TerminalApp from '../components/TerminalApp'
+import {
+  selectInputItemComponent,
+  selectInputIndicatorComponent,
+  Divider,
+} from '../components/inkHelpers'
+import SelectInput from 'ink-select-input'
+import { Box, Text, Color } from 'ink'
 
-# `prisma2 init`
+# Prisma Init
 
 ---
 
 ## Flows
 
-<img src="https://prisma-specs.prisma.now.sh/cli/figma-proxy?id=822:4" width="100%" />
+<img
+  src="https://prisma-specs.prisma.now.sh/cli/figma-proxy?id=822:4"
+  width="100%"
+/>
 
-## Selecting a Database
+## Database options
 
-<Terminal>
-  $ prisma2 init hello-world
-  <Spacer height={20} />
-  <Title primary="Select the database you want to use" />
-  <Spacer height={8} />
-  <Line />
-  <Spacer height={16} />
-  <Button label="SQLite" description="Easiest to set up" href="./sqlite/sqlite" labelWidth={100} isSelected />
-  <Button label="MySQL" description="Requires running a MySQL database" href="./mysql" labelWidth={100} />
-  <Button label="PostgreSQL" description="Requires running a PostreSQL database" href="./postgresql" labelWidth={100} />
-  <Button label="MongoDB" description="(Coming soon)" labelWidth={100} isDisabled />
-</Terminal>
+<TerminalApp>
+  <Box flexDirection="column">
+    <Text bold>Select the database you want to use</Text>
+    <Divider />
+  </Box>
+  <Box marginBottom={10}>
+    <Box width={20} flexDirection="column">
+      <SelectInput
+        items={[
+          { label: 'SQLite', value: 'sqlite' },
+          { label: 'MySQL', value: 'mysql' },
+          { label: 'PostgreSQL', value: 'postgresql' },
+        ]}
+        itemComponent={selectInputItemComponent}
+        indicatorComponent={selectInputIndicatorComponent}
+      />
+      <Box marginLeft={2}>
+        <Color gray>MongoDB</Color>
+      </Box>
+    </Box>
+    <Box flexDirection="column">
+      <Color gray>Easies to set up</Color>
+      <Color gray>Requires running a MySQL database</Color>
+      <Color gray>Requires running a PostgreSQL database</Color>
+      <Color gray>(Coming soon)</Color>
+    </Box>
+  </Box>
+</TerminalApp>
 
 ## Todo
 
