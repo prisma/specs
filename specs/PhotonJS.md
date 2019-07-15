@@ -86,6 +86,7 @@ const alice: User = await photon.users.find({ email: 'alice@prisma.io' })
 const alice: User = await photon.users.findOrThrow('user-id')
 
 // Find using composite/multi-field unique indexes
+// Note: This example is not compatible with the example schema above.
 const john: User = await photon.users.find({
   name: { firstName: 'John', lastName: 'Doe' },
 })
@@ -112,7 +113,6 @@ await photon.users.findMany({ where: { email: { contains: '@gmail.com' } } })
 await photon.users.findMany({
   where: { email: { containsInsensitive: '@gmail.com' } },
 })
-await photon.users.findMany({})
 
 // Exists
 const userFound: boolean = await photon.users.find('bobs-id').exists()
@@ -224,7 +224,7 @@ const upreplacedUser: User = await photon.users
   })
   .load()
 
-// Delete operation doesn't return any data
+// Delete operation doesn't support `.load()`
 const result: undefined = await photon.users.find('bobs-id').delete()
 ```
 
@@ -319,11 +319,18 @@ await photon.posts
   - write operation: single vs multi-record operation
   - Alternative: explicit fetch/query
 - TODO: tradeoff multi-record-operations -> return count by default but can be adjusted to return actual data -> how?
+- TODO: Document transactional behavior
 
 ```ts
 const bobsPosts: Post[] = await photon.users
   .find('bobs-id')
   .posts({ first: 50 })
+
+// Nested arrays are flat-mapped
+const comments: Comment[] = await.photon
+  .find('bobs-id')
+  .posts()
+  .comments()
 
 type DynamicResult3 = (Post & { comments: Comment[] })[]
 
@@ -340,7 +347,6 @@ const updatedPosts: Post[] = await photon.posts
   .load()
 
 // Supports chaining multiple write operations
-// TODO: Is this a transaction? -> probably
 const updatedPosts2: Post[] = await photon.users
   .find('user-id')
   .update({ email: 'new@email.com' })
@@ -658,12 +664,6 @@ const userWithPostsAndFriends2 = await photon.users.find({
 })
 ```
 
-## `$exec`
-
-```ts
-const usersQueryWithTimeout = await photon.users.$exec({ timeout: 1000 })
-```
-
 ## Batching
 
 ```ts
@@ -691,6 +691,13 @@ const [u2, p2]: [User, Post] = await photon.batch([
 // Batching with transaction
 await photon.batch([m1, m2], { transaction: true })
 ```
+
+## Options arg
+
+- request
+  - timeout
+- response
+  - performance
 
 ## Pagination / Streaming
 
@@ -822,27 +829,44 @@ await photon.disconnect()
 
 # Unresolved questions
 
-- [ ] edge concept in schema
-- [ ] find by unique relation
-- [ ] Connection management when used with embedded query engine
-- [ ] Force indexes
+## Figured out but needs spec
+
+- [ ] Error handling
+- [ ] OCC (also for nested operations)
+- [ ] Implicit back relations
+
+## Bigger todos
+
+- [ ] Aggregrations
+- [ ] Group by
 - [ ] Rethink raw API fallbacks
+- [ ] Meta responses
+  - [ ] How to query records that were "touched" during nested writes
+- [ ] edge concept in schema
+- [ ] Operation Expressions
+  - [ ] API for atomic operations
+  - [ ] Update(many) API to use existing values
+- [ ] Validate API with planned supported data sources
+- [ ] Modifiers
+- [ ] Batching and Unit of work
+
+## Small & self-contained
+
+- [ ] Force indexes
+- [ ] Options argument
 - [ ] Rename `where` to Criteria
-- [ ] How to query records that were "touched" during nested writes
+- [ ] Streaming
 - [ ] Fluent API: Null behavior https://github.com/prisma/photonjs/issues/89#issuecomment-508509486
   - [ ] Should we have `photon.users.find('bob').
-- Validate API with planned supported data sources
 
 ## Ugly parts
 
-- Select/Include API: Chainable `.select()` vs nested `{ select: { } }` API
-- Upsert, findOrCreate, ...
+- [x] Select/Include API: Chainable `.select()` vs nested `{ select: { } }` API
+- [x] Upsert, findOrCreate, ...
+- [ ] Line between main arg vs options arg
 
 # Future topics
 
 - [ ] Non-CRUD API operations
 - [ ] Real-time API (subscriptions/live queries)
-- [ ] Operation Expressions
-  - [ ] API for atomic operations
-  - [ ] Update(many) API to use existing values
 - [ ] Silent mutations [prisma/prisma#4075](https://github.com/prisma/prisma/issues/4075)
