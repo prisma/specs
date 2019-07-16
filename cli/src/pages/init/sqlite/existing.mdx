@@ -1,4 +1,10 @@
-import TerminalApp from '../../components/TerminalApp'
+---
+navGroup: init
+navOrder: 2
+navLabel: Existing
+---
+
+import Terminal from '../../../components/Terminal/Terminal'
 import {
   multiSelectItemComponent,
   multiSelectIndicatorComponent,
@@ -6,15 +12,13 @@ import {
   selectInputItemComponent,
   selectInputIndicatorComponent,
   Divider,
-} from '../../components/inkHelpers'
+} from '../../../components/inkHelpers'
 import MultiSelect from 'ink-multi-select'
 import SelectInput from 'ink-select-input'
 import TextInput from 'ink-text-input'
 // import ProgressBar from 'ink-progress-bar'
 import { Box, Text, Color } from 'ink'
 import figures from 'figures'
-
-import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Success, TextInput as MockTextInput, Introspection, Command } from '../../components/cli'
 
 # SQLite - Introspection
 
@@ -27,7 +31,7 @@ Previous selections:
 1. SQLite
 2. Use existing SQLite file
 
-<TerminalApp>
+<Terminal>
   <Box flexDirection="column">
     <Text bold>Enter the path to your SQLite database file</Text>
     <Color>Prisma will introspect the database to generate your initial data model</Color>
@@ -47,7 +51,7 @@ Previous selections:
     <Text bold>Back</Text>
     <Color gray> (Database options)</Color>
   </Box>
-</TerminalApp>
+</Terminal>
 
 In this view, it would be great if the trailing `.db` could somehow be fixed since every SQLite DB file has the file extension.
 
@@ -74,7 +78,7 @@ Previous selections:
 3. _entered file path_
 4. _introspected DB_
 
-<TerminalApp>
+<Terminal>
   <Box flexDirection="column" marginTop={1}>
     <Text bold>Select the Prisma tool(s) you want to use</Text>
     <Color white>Use the <Text bold>SPACE</Text> key to select/unselect a tool</Color>
@@ -110,7 +114,7 @@ Previous selections:
     <Text bold>Back</Text>
     <Color gray> (Database file path)</Color>
   </Box>
-</TerminalApp>
+</Terminal>
 
 In this view, Photon and Lift should be checked by default.
 
@@ -124,7 +128,7 @@ Previous selections:
 4. _introspected DB_
 5. Photon
 
-<TerminalApp>
+<Terminal>
   <Box marginTop={1}>
     <Text bold>Select the programming language to access your database with Photon</Text>
   </Box>
@@ -145,7 +149,7 @@ Previous selections:
     <Text bold>Back</Text>
     <Color gray> (Database file path)</Color>
   </Box>
-</TerminalApp>
+</Terminal>
 
 <br/>
 
@@ -160,7 +164,7 @@ Previous selections:
 5. Photon
 6. JavaScript/TypeScript
 
-<TerminalApp>
+<Terminal>
   <Box marginTop={1}>
     <Text bold>Select a boilerplate or start with just the Prisma schema</Text>
   </Box>
@@ -189,7 +193,7 @@ Previous selections:
     <Text bold>Back</Text>
     <Color gray> (Language selection)</Color>
   </Box>
-</TerminalApp>
+</Terminal>
 
 ### 5.1 Success
 
@@ -203,7 +207,7 @@ Previous selections:
 6. JavaScript/TypeScript
 7. Basic boilerplate
 
-<TerminalApp>
+<Terminal>
   <Color greenBright>
     {figures.tick} Introspection was successful
   </Color>
@@ -252,7 +256,7 @@ Previous selections:
 
   <Box marginBottom={1}>This starts Prisma's development mode which automatically migrates your database and regenerates Photon when you save changes to your data model in prisma/schema.prisma.</Box>
   <Color gray>Learn more: <Text underline>prisma.io/docs/</Text></Color>
-</TerminalApp>
+</Terminal>
 
 ### 3.2 Language selection
 
@@ -264,7 +268,7 @@ Previous selections:
 4. _introspected DB_
 5. Photon + Lift
 
-<TerminalApp>
+<Terminal>
   <Box flexDirection="column" marginTop={1}>
     <Text bold>Select the programming language to access your database with Photon</Text>
     <Text>This decision doesn't impact the usage of Lift in your project</Text>
@@ -286,7 +290,7 @@ Previous selections:
     <Text bold>Back</Text>
     <Color gray> (Database file path)</Color>
   </Box>
-</TerminalApp>
+</Terminal>
 
 <br/>
 
@@ -301,7 +305,7 @@ Previous selections:
 5. Photon + Lift
 6. JavaScript/TypeScript
 
-<TerminalApp>
+<Terminal>
   <Box marginTop={1}>
     <Text bold>Select a boilerplate or start with just the Prisma schema</Text>
   </Box>
@@ -330,7 +334,7 @@ Previous selections:
     <Text bold>Back</Text>
     <Color gray> (Language selection)</Color>
   </Box>
-</TerminalApp>
+</Terminal>
 
 
 ### 5.2 Success
@@ -343,7 +347,7 @@ Previous selections:
 6. JavaScript/TypeScript
 7. Basic boilerplate
 
-<TerminalApp>
+<Terminal>
   <Color greenBright>{figures.tick} Introspection was successful</Color>
   <Text>Result: 11 tables have been found in your SQLite database file</Text>
   <Box flexDirection="column" marginTop={1}>
@@ -385,7 +389,7 @@ Previous selections:
   </Box>
   <Box marginBottom={1}>This starts Prisma's development mode which automatically migrates your database and regenerates Photon when you save changes to your data model in prisma/schema.prisma.</Box>
   <Color gray>Learn more: <Text underline>prisma.io/docs/</Text></Color>
-</TerminalApp>
+</Terminal>
 
 
 
@@ -399,7 +403,7 @@ Previous selections:
 4. _introspected DB_
 5. Lift
 
-<TerminalApp>
+<Terminal>
   <Color greenBright>{figures.tick} Introspection was successful</Color>
   <Text>Result: 11 tables have been found in your SQLite database file</Text>
   <Box flexDirection="column" marginTop={1}>
@@ -427,4 +431,4 @@ Previous selections:
   </Box>
   <Box marginBottom={1}>This starts Prisma's development mode which automatically migrates your database when you save changes to your data model in hello-world/schema.prisma</Box>
   <Color gray>Learn more: <Text underline>prisma.io/docs/</Text></Color>
-</TerminalApp>
+</Terminal>

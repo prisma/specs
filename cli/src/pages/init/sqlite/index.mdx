@@ -1,9 +1,15 @@
-import TerminalApp from '../../components/TerminalApp'
+---
+navGroup: init
+navOrder: 0
+navLabel: SQLite
+---
+
+import Terminal from '../../../components/Terminal/Terminal'
 import {
   selectInputItemComponent,
   selectInputIndicatorComponent,
   Divider,
-} from '../../components/inkHelpers'
+} from '../../../components/inkHelpers'
 import SelectInput from 'ink-select-input'
 import { Box, Text, Color } from 'ink'
 
@@ -19,7 +25,7 @@ Previous selections:
 
 1. SQLite
 
-<TerminalApp>
+<Terminal>
   <Box flexDirection="column">
     <Text bold>How do you want to proceed?</Text>
     <Divider />
@@ -48,4 +54,4 @@ Previous selections:
     <Text bold>Back</Text>
     <Color gray> (Database selection)</Color>
   </Box>
-</TerminalApp>
+</Terminal>

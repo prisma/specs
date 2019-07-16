@@ -4,15 +4,18 @@ import { Terminal } from 'xterm'
 import { FitAddon } from 'xterm-addon-fit/out/FitAddon'
 import ansiEscapes from 'ansi-escapes'
 
-export default class TerminalComponent extends React.Component<{
+// Terminal Wrapper
+export default class TerminalWrapper extends React.Component<{
   style?: React.CSSProperties
   getTerminal?: (terminal: Terminal) => void
 }> {
   ref: any
   terminal?: Terminal
+
   setRef = (ref: any) => {
     this.ref = ref
   }
+
   componentDidMount() {
     if (this.ref) {
       this.terminal = new Terminal()
@@ -23,6 +26,7 @@ export default class TerminalComponent extends React.Component<{
       this.props.getTerminal && this.props.getTerminal(this.terminal)
     }
   }
+
   write() {
     if (this.props.children) {
       if (this.props.children) {
@@ -31,11 +35,13 @@ export default class TerminalComponent extends React.Component<{
       }
     }
   }
+
   componentDidUpdate() {
     if (this.terminal) {
       this.write()
     }
   }
+
   render() {
     return <div style={this.props.style} ref={this.setRef} />
   }

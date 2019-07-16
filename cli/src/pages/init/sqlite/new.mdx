@@ -1,4 +1,10 @@
-import TerminalApp from '../../components/TerminalApp'
+---
+navGroup: init
+navOrder: 1
+navLabel: New
+---
+
+import Terminal from '../../../components/Terminal/Terminal'
 import {
   multiSelectItemComponent,
   multiSelectIndicatorComponent,
@@ -6,15 +12,13 @@ import {
   selectInputItemComponent,
   selectInputIndicatorComponent,
   Divider,
-} from '../../components/inkHelpers'
+} from '../../../components/inkHelpers'
 import MultiSelect from 'ink-multi-select'
 import SelectInput from 'ink-select-input'
 import TextInput from 'ink-text-input'
 // import ProgressBar from 'ink-progress-bar'
 import { Box, Text, Color } from 'ink'
 import figures from 'figures'
-
-import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Success, TextInput as MockTextInput, Introspection, Command } from '../../components/cli'
 
 # SQLite - New Database
 
@@ -27,7 +31,7 @@ Previous selections:
 1. SQLite
 1. Create new SQLite file
 
-<TerminalApp>
+<Terminal>
   <Text bold>Select the programming language to access your database with Photon?</Text>
   <Divider />
   <Box flexDirection="column" paddingBottom={1} paddingTop={1}>
@@ -46,7 +50,7 @@ Previous selections:
     <Text bold>Back</Text>
     <Color gray> (Database options)</Color>
   </Box>
-</TerminalApp>
+</Terminal>
 
 ### 4 Boilerplate selection
 
@@ -56,7 +60,7 @@ Previous selections:
 1. Create new SQLite file
 1. JavaScript/TypeScript
 
-<TerminalApp>
+<Terminal>
   <Text bold>Do you want to use a boilerplate or explore Prisma from scratch?</Text>
   <Divider />
   <Box flexDirection="row" paddingBottom={1} paddingTop={1}>
@@ -86,7 +90,7 @@ Previous selections:
     <Text bold>Back</Text>
     <Color gray> (Language selection)</Color>
   </Box>
-</TerminalApp>
+</Terminal>
 
 When a boilerplate is selected, the CLI should:
 
@@ -104,7 +108,7 @@ Previous selections:
 1. JavaScript/TypeScript
 1. Any boilerplate (example uses GraphQL)
 
-<TerminalApp>
+<Terminal>
   <Color greenBright>
     {figures.tick} You're all set!
   </Color>
@@ -143,7 +147,7 @@ Previous selections:
   </Box>
   <Color gray>Learn more about this example:</Color>
   <Color gray>https://github.com/prisma/photonjs/tree/master/examples/typescript/graphql</Color>
-</TerminalApp>
+</Terminal>
 
 The created files are created dynamically based on which example was selected. The "Learn more"-link also needs to be adjusted dynamically based on the example.
 
@@ -154,7 +158,7 @@ The created files are created dynamically based on which example was selected. T
 1. JavaScript/TypeScript
 1. No boilerplate
 
-<TerminalApp>
+<Terminal>
   <Color greenBright>
     {figures.tick} You're all set!
   </Color>
@@ -185,4 +189,4 @@ The created files are created dynamically based on which example was selected. T
     <Color gray>This starts Prisma's development mode which automatically migrates your database and regenerates Photon when you save changes to your data model in hello-world/schema.prisma</Color>
   </Box>
   <Color gray>Learn more: https://github.com/prisma/prisma2/blob/master/docs/development-mode.md</Color>
-</TerminalApp>
+</Terminal>

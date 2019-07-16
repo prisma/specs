@@ -1,4 +1,10 @@
-import TerminalApp from '../components/TerminalApp'
+---
+navGroup: init
+navOrder: 2
+navLabel: PostgreSQL
+---
+
+import Terminal from '../../components/Terminal/Terminal'
 import {
   multiSelectItemComponent,
   multiSelectIndicatorComponent,
@@ -6,16 +12,13 @@ import {
   selectInputItemComponent,
   selectInputIndicatorComponent,
   Divider,
-} from '../components/inkHelpers'
+} from '../../components/inkHelpers'
 import MultiSelect from 'ink-multi-select'
 import SelectInput from 'ink-select-input'
 import TextInput from 'ink-text-input'
 // import ProgressBar from 'ink-progress-bar'
 import { Box, Text, Color } from 'ink'
 import figures from 'figures'
-
-
-import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Success, TextInput as MockTextInput, Introspection, Command } from '../components/cli'
 
 # PostgreSQL
 
@@ -26,7 +29,7 @@ import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Succes
 <img src="https://prisma-specs.prisma.now.sh/cli/figma-proxy?id=858:398" width="100%" />
 
 ## (1) Enter Database Credentials
-<TerminalApp>
+<Terminal>
   <Box flexDirection="column">
     <Text bold>Enter PostgreSQL credentials</Text>
     <Color white>Learn how to set up a PostgreSQL database: <Text underline>prisma.io/docs</Text></Color>
@@ -91,10 +94,10 @@ import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Succes
     <Text bold>Back</Text>
     <Color gray> (Database selection)</Color>
   </Box>
-</TerminalApp>
+</Terminal>
 
 ## (2) Choose Existing or New Database
-<TerminalApp>
+<Terminal>
   <Color greenBright>
     {figures.tick} Connected to PostgreSQL server as admin
   </Color>
@@ -124,10 +127,10 @@ import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Succes
     <Text bold>Back</Text>
     <Color gray> (Database credentials)</Color>
   </Box>
-</TerminalApp>
+</Terminal>
 
 ## (2.1) Set Database Name
-<TerminalApp>
+<Terminal>
   <Box flexDirection="column">
     <Text bold>Database options</Text>
   </Box>
@@ -146,10 +149,10 @@ import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Succes
     <Text bold>Back</Text>
     <Color gray> (Database options)</Color>
   </Box>
-</TerminalApp>
+</Terminal>
 
 ## (3) Choose a Schema
-<TerminalApp>
+<Terminal>
   <Color greenBright>
     {figures.tick} Connected to PostgreSQL server as admin
   </Color>
@@ -201,7 +204,7 @@ import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Succes
     <Text bold>Back</Text>
     <Color gray> (Database credentials)</Color>
   </Box>
-</TerminalApp>
+</Terminal>
 
 ## (3.1) Introspection
 <Terminal>
@@ -212,7 +215,7 @@ import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Succes
 </Terminal>
 
 ## (3.2) Select Tools
-<TerminalApp>
+<Terminal>
   <Box flexDirection="column" marginTop={1}>
     <Text bold>Which parts of Prisma do you want to use?</Text>
     <Color white>Learn more about the tools at: <Text underline>github.com/prisma/prisma2</Text></Color>
@@ -240,10 +243,10 @@ import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Succes
     <Color gray>{figures.pointer} </Color>
     <Text bold>Confirm</Text>
   </Box>
-</TerminalApp>
+</Terminal>
 
 ## (4) Select Language
-<TerminalApp>
+<Terminal>
   <Text bold>Which programming language do you want to use?</Text>
   <Divider />
   <Box flexDirection="column" paddingBottom={1} paddingTop={1}>
@@ -262,10 +265,10 @@ import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Succes
     <Text bold>Back</Text>
     <Color gray> (Tool selection)</Color>
   </Box>
-</TerminalApp>
+</Terminal>
 
 ## (4.1) Select Language for Photon (Photon)
-<TerminalApp>
+<Terminal>
   <Text bold>Which programming language do you want to use to access your database with Photon?</Text>
   <Divider />
   <Box flexDirection="column" paddingBottom={1} paddingTop={1}>
@@ -284,10 +287,10 @@ import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Succes
     <Text bold>Back</Text>
     <Color gray> (Tool selection)</Color>
   </Box>
-</TerminalApp>
+</Terminal>
 
 ## (4.2) Select Language for Photon (Lift+Photon)
-<TerminalApp>
+<Terminal>
   <Text bold>Which programming language do you want to use to access your database with Photon?</Text>
   <Divider />
   <Box flexDirection="column" paddingBottom={1} paddingTop={1}>
@@ -306,10 +309,10 @@ import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Succes
     <Text bold>Back</Text>
     <Color gray> (Tool selection)</Color>
   </Box>
-</TerminalApp>
+</Terminal>
 
 ## (5) Select Boilerplate
-<TerminalApp>
+<Terminal>
   <Text bold>Do you want to use a boilerplate or explore Prisma from scratch?</Text>
   <Divider />
   <Box flexDirection="row" paddingBottom={1} paddingTop={1}>
@@ -339,10 +342,10 @@ import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Succes
     <Text bold>Back</Text>
     <Color gray> (Language selection)</Color>
   </Box>
-</TerminalApp>
+</Terminal>
 
 ## (6) Success (Boilerplate)
-<TerminalApp>
+<Terminal>
   <Color greenBright>
     {figures.tick} You're all set!
   </Color>
@@ -379,7 +382,7 @@ import { Terminal, Title, Spacer, Select, Option, Button, Line, Checkbox, Succes
     </Box>
   </Box>
   <Color gray>Learn more about using Photon and Lift at <Text underline>prisma.io/docs/</Text></Color>
-</TerminalApp>
+</Terminal>
 
 ## (M.6.1) Success (Photon)
 ## (M.6.2) Success (Lift+Photon)
