@@ -35,6 +35,7 @@ model User {
   friends      User[]    @relation("friends")
   profile      Profile
   bestFriend   User?     @relation("bestFriend") @unique
+  version      Int
 }
 
 embed Profile {
@@ -65,6 +66,7 @@ type User = {
   lastName: string
   email: string
   profile: Profile
+  version: number
 }
 
 type Profile = {
@@ -77,45 +79,45 @@ type Profile = {
 
 ```ts
 // Find single record by @id field
-const alice: User = await photon.user('user-id')
+const alice: User = await photon.user.find('user-id')
 
 // Find single record by other unique field
-const alice: User = await photon.user({ email: 'alice@prisma.io' })
+const alice: User = await photon.user.find({ email: 'alice@prisma.io' })
 
 // Find using composite/multi-field unique indexes
 // Note: This example is not compatible with the example schema above.
-const john: User = await photon.user({
+const john: User = await photon.user.find({
   name: { firstName: 'John', lastName: 'Doe' },
 })
 
 // Find using unique relation
-const bob: User = await photon.user({
+const bob: User = await photon.user.find({
   bestFriend: { email: 'alice@prisma.io' },
 })
 
 // Get many nodes
-const allUsers: User[] = await photon.users()
-const first100Users: User[] = await photon.users({ first: 100 })
+const allUsers: User[] = await photon.user.findMany()
+const first100Users: User[] = await photon.user.findMany({ first: 100 })
 
 // Ordering
-const usersByEmail = await photon.users({ orderBy: { email: 'ASC' } })
-const usersByEmailAndName = await photon.users({
+const usersByEmail = await photon.user.findMany({ orderBy: { email: 'ASC' } })
+const usersByEmailAndName = await photon.user.findMany({
   orderBy: [{ email: 'ASC' }, { name: 'DESC' }],
 })
-const usersByProfile = await photon.users({
+const usersByProfile = await photon.user.findMany({
   orderBy: { profile: { imageSize: 'ASC' } },
 })
 
 // Where / filtering
-await photon.users({ where: { email: { contains: '@gmail.com' } } })
-await photon.users({
+await photon.user.findMany({ where: { email: { contains: '@gmail.com' } } })
+await photon.user.findMany({
   where: { email: { containsInsensitive: '@gmail.com' } },
 })
 
 // Exists
-const userFound: boolean = await photon.user('bobs-id').exists()
-const foundAtLeastOneUser: boolean = await photon
-  .users({ email: { containsInsensitive: '@gmail.com' } })
+const userFound: boolean = await photon.user.find('bobs-id').exists()
+const foundAtLeastOneUser: boolean = await photon.user
+  .findMany({ email: { containsInsensitive: '@gmail.com' } })
   .exists()
 ```
 
@@ -146,7 +148,6 @@ const foundAtLeastOneUser: boolean = await photon
   - `orCreate`
   - `update`
   - `replace`
-  - `upsert`
   - `delete`
 - Collection of records
   - `updateMany`
@@ -154,8 +155,8 @@ const foundAtLeastOneUser: boolean = await photon
   - `replaceMany`
 
 ```ts
-const newUser: User = await photon
-  .userCreate({
+const newUser: User = await photon.user
+  .create({
     firstName: 'Alice',
     lastName: 'Doe',
     email: 'alice@prisma.io',
@@ -163,20 +164,20 @@ const newUser: User = await photon
   })
   .load()
 
-const updatedUser: User = await photon
-  .user('bobs-id')
+const updatedUser: User = await photon.user
+  .find('bobs-id')
   .update({ firstName: 'Alice' })
   .load()
 
-const updatedUserByEmail: User = await photon
-  .user({ email: 'bob@prisma.io' })
+const updatedUserByEmail: User = await photon.user
+  .find({ email: 'bob@prisma.io' })
   .update({ firstName: 'Alice' })
   .load()
 
 // Like `update` but replaces entire record. Requires all required fields like `create`.
 // Resets all connections.
-const replacedUserByEmail: User = await photon
-  .user({ email: 'bob@prisma.io' })
+const replacedUserByEmail: User = await photon.user
+  .find({ email: 'bob@prisma.io' })
   .replace({
     firstName: 'Alice',
     lastName: 'Doe',
@@ -185,8 +186,8 @@ const replacedUserByEmail: User = await photon
   })
   .load()
 
-const maybeNewUser: User = await photon
-  .user('alice-id')
+const maybeNewUser: User = await photon.user
+  .find('alice-id')
   .orCreate({
     firstName: 'Alice',
     lastName: 'Doe',
@@ -195,8 +196,8 @@ const maybeNewUser: User = await photon
   })
   .load()
 
-const upsertedUser: User = await photon
-  .user('alice-id')
+const upsertedUser: User = await photon.user
+  .find('alice-id')
   .update({ firstName: 'Alice' })
   .orCreate({
     firstName: 'Alice',
@@ -206,8 +207,8 @@ const upsertedUser: User = await photon
   })
   .load()
 
-const upreplacedUser: User = await photon
-  .user('alice-id')
+const upreplacedUser: User = await photon.user
+  .find('alice-id')
   .replace({
     firstName: 'Alice',
     lastName: 'Doe',
@@ -223,7 +224,7 @@ const upreplacedUser: User = await photon
   .load()
 
 // Delete operation doesn't support `.load()`
-const result: undefined = await photon.user('bobs-id').delete()
+const result: undefined = await photon.user.find('bobs-id').delete()
 ```
 
 ### Nested writes
@@ -233,7 +234,7 @@ const result: undefined = await photon.user('bobs-id').delete()
 
 ```ts
 // Nested create
-await photon.userCreate({
+await photon.user.create({
   firstName: 'Alice',
   posts: {
     create: { title: 'New post', body: 'Hello world', published: true },
@@ -242,7 +243,7 @@ await photon.userCreate({
 
 // TODO: How to return data from nested writes
 // xxx
-// await photon.users
+// await photon.user
 //   .create({
 //     firstName: 'Alice',
 //     posts: {
@@ -252,7 +253,7 @@ await photon.userCreate({
 //   .load({ select: { posts: { newOnly: true } } })
 
 // Nested write with connect
-await photon.userCreate({
+await photon.user.create({
   firstName: 'Alice',
   lastName: 'Doe',
   email: 'alice@prisma.io',
@@ -261,15 +262,15 @@ await photon.userCreate({
 })
 
 // How to get newly created posts?
-await photon.user('bobs-id').update({
+await photon.user.find('bobs-id').update({
   posts: {
     create: { title: 'New post', body: 'Hello world', published: true },
   },
 })
 
-// await photon.users
+// await photon.user
 //   .find('bobs-id')
-//   .posts()
+//   .post()
 //   .update({
 //     create: { title: 'New post', body: 'Hello world', published: true },
 //   })
@@ -289,8 +290,8 @@ type DynamicResult1 = {
   friends: User[]
 }[]
 
-const userWithPostsAndFriends: DynamicResult1 = await photon
-  .user('bobs-id')
+const userWithPostsAndFriends: DynamicResult1 = await photon.user
+  .find('bobs-id')
   .load({ select: { posts: { select: { comments: true } }, friends: true } })
 
 type DynamicResult2 = (User & {
@@ -298,12 +299,12 @@ type DynamicResult2 = (User & {
   friends: User[]
 })[]
 
-const userWithPostsAndFriends: DynamicResult2 = await photon
-  .user('bobs-id')
+const userWithPostsAndFriends: DynamicResult2 = await photon.user
+  .find('bobs-id')
   .load({ include: { posts: { include: { comments: true } }, friends: true } })
 
-await photon
-  .posts({ where: { published: true } })
+await photon.post
+  .findMany({ where: { published: true } })
   .updateMany({ comments: { connect: 'comment-id' } })
 ```
 
@@ -320,33 +321,33 @@ await photon
 - TODO: Document transactional behavior
 
 ```ts
-const bobsPosts: Post[] = await photon.user('bobs-id').posts({ first: 50 })
+const bobsPosts: Post[] = await photon.user.find('bobs-id').post({ first: 50 })
 
 // Nested arrays are flat-mapped
-const comments: Comment[] = await.photon
-  .user('bobs-id')
-  .posts()
+const comments: Comment[] = await.photon.user
+  .find('bobs-id')
+  .post()
   .comments()
 
 type DynamicResult3 = (Post & { comments: Comment[] })[]
 
-const bobsPosts: DynamicResult3 = await photon
-  .user('bobs-id')
-  .posts({ first: 50 })
+const bobsPosts: DynamicResult3 = await photon.user
+  .find('bobs-id')
+  .post({ first: 50 })
   .load({ include: { comments: true } })
 
-const updatedPosts: Post[] = await photon
-  .post('id')
+const updatedPosts: Post[] = await photon.post
+  .find('id')
   .comments({ where: { text: { startsWith: 'Hello' } } })
   .media({ where: { url: 'exact-url' }, first: 100 })
   .updateMany({ uploaded: true })
   .load()
 
 // Supports chaining multiple write operations
-const updatedPosts2: Post[] = await photon
-  .user('user-id')
+const updatedPosts2: Post[] = await photon.user
+  .find('user-id')
   .update({ email: 'new@email.com' })
-  .posts({ where: { published: true } })
+  .post({ where: { published: true } })
   .updateMany({ comments: { connect: 'comment-id' } })
   .load()
 ```
@@ -363,7 +364,7 @@ const updatedPosts2: Post[] = await photon
 
 ```ts
 // Declarative
-await photon.user('bob-id').update({
+await photon.user.find('bob-id').update({
   email: 'new@email.com',
   posts: {
     updateMany: {
@@ -374,27 +375,29 @@ await photon.user('bob-id').update({
 })
 
 // Fluent
-await photon
-  .user('user-id')
+await photon.user
+  .find('user-id')
   .update({ email: 'new@email.com' })
-  .posts({ where: { published: true } })
+  .post({ where: { published: true } })
   .updateMany({ comments: { connect: 'comment-id' } })
 
-// await photon.users
+// await photon.user
 //   .find('user-id')
 //   .update({ email: 'new@email.com' })
-//   .posts({ where: { published: true } })
+//   .post({ where: { published: true } })
 //   .comments()
 //   .connect('comment-id')
 ```
+
+## Mental model: Graph traversal
 
 ## TODO: `withPageInfo`
 
 ```ts
 // PageInfo
-const bobsPostsWithPageInfo: PageInfo<Post> = await photon
-  .user('bobs-id')
-  .posts({ first: 50 })
+const bobsPostsWithPageInfo: PageInfo<Post> = await photon.user
+  .find('bobs-id')
+  .post({ first: 50 })
   .loadWithPageInfo()
 
 type PageInfo<Data> = {
@@ -403,9 +406,9 @@ type PageInfo<Data> = {
   hasPrev: boolean
 }
 
-const [bobsPosts, meta]: [Post[], Meta] = await photon
-  .user('bobs-id')
-  .posts({ first: 50 })
+const [bobsPosts, meta]: [Post[], Meta] = await photon.user
+  .find('bobs-id')
+  .post({ first: 50 })
   .loadWithMeta({ pageInfo: true })
 ```
 
@@ -419,34 +422,119 @@ const [bobsPosts, meta]: [Post[], Meta] = await photon
 
 - Can be applied to every paginable list and stream
 
-<!--
-## Operation/Query optimization
+## Optimistic Concurrency Control / Optimistic Offline Lock
+
+- TODO Needs to be specced out for nested Graph API
+
+### Supported operations
+
+- `update`
+- `replace`
+- `delete`
+- `updateMany`
+- `replaceMany`
+- `deleteMany`
+
+```ts
+await photon.user
+  .find('alice-id')
+  .update({ firstName: 'Alice' }, { if: { version: 12 } })
+
+await photon.user
+  .find('alice-id')
+  .update({ firstName: 'Alice' }, { if: { version: 12 } })
+  .orCreate({
+    /* ... */
+  })
+
+await photon.user.find('bobs-id').delete({ if: { version: 12 } })
+
+// Global condition
+await photon.user
+  .find('bobs-id')
+  .delete({ if: { version: 12 } })
+  .if([{ model: 'User', where: 'bobs-id', if: { name: 'Bob' } }])
+```
+
+## Distinct
+
+```ts
+// TODO: Do we really need this API?
+const values: string[] = await photon.post.findMany().title({ distinct: true })
+
+const values: string[] = await photon.post
+  .findMany()
+  .distinct({ title: true })
+  .title()
+
+type SubSet = { published: boolean; title: string }
+const values: SubSet[] = await photon.post
+  .findMany()
+  .distinct({ published: true, title: true })
+
+const distinctCount: number = await photon.post
+  .findMany()
+  .distinct({ published: true, title: true })
+  .count()
+
+// TODO count distinctly grouped value -> see aggregations
+```
+
+## Design decisions
+
+- Choose boolean-based nested object syntax instead of array
 
 ## Aggregations
 
 - distinct
+  - count each distinct value
 - related: select, sort, filtering, groupBy, ...
 - big question: completely separate feature or integrated?
   - if separate: enable simple things in query API
+- expressions DSL
 
 ```ts
 type DynamicResult2 = (User & { aggregate: { age: { avg: number } } })[]
-const dynamicResult2: DynamicResult2 = await photon.users({
-  select: { aggregate: { age: { avg: true } } },
-})
+const dynamicResult2: DynamicResult2 = await photon.user
+  .findMany()
+  .load({ select: { aggregate: { age: { avg: true } } } })
 
 type DynamicResult3 = User & {
   posts: (Post & { aggregate: { count: number } })[]
 }
-const dynamicResult3: DynamicResult3 = await photon.user({
-  where: 'bobs-id',
-  select: { posts: { select: { aggregate: { count: true } } } },
-})
+const dynamicResult3: DynamicResult3 = await photon.user
+  .find('bobs-id')
+  .load({ select: { posts: { select: { aggregate: { count: true } } } } })
 
-const deletedCount: number = await photon.users.deleteMany()
+// ???
+const deletedCount: number = await photon.user.deleteMany().count()
 ```
 
-## Implicit back relations
+- total or record level
+
+### Expressions
+
+- raw API
+- optionally type-safe response
+
+```ts
+const result = myFn<{ sel1: number; sel2: string }>({
+  sel1: ``,
+  sel2: ``,
+  title: true,
+})
+```
+
+- fluent based shortcuts
+
+```ts
+const someAgg: number = await photon.post.findMany().agg<number>(`SUM(*)`)
+```
+
+<!--
+## TODO: Operation/Query optimization
+
+## TODO: Implicit back relations
 
 - See https://github.com/prisma/prisma2/issues/81
 
@@ -464,42 +552,6 @@ const nestedResult = await photon.query({
 })
 ```
 
-## Optimistic Concurrency Control / Optimistic Offline Lock
-
-```ts
-const updatedUserOCC: User = await photon.users.update({
-  where: 'bobs-id',
-  if: { version: 12 },
-  data: { firstName: 'Alice' },
-})
-
-const upsertedUserOCC: User = await photon.users.upsert({
-  where: 'bobs-id',
-  if: { version: 12 },
-  update: { firstName: 'Alice' },
-  create: { id: '...', firstName: 'Alice' },
-})
-
-const deletedUserOCC: User = await photon.users.delete({
-  if: { version: 12 },
-  where: 'bobs-id',
-})
-
-// Ensure that user with name Bob has been created successfully
-// If not, roll back the first step
-await photon.batch([
-  photon.createUser({ name: 'Bob' }),
-  {
-    checkCurrent: [
-      {
-        User: {
-          name: 'Bob',
-        },
-      },
-    ],
-  },
-])
-```
 
 ## Embeds
 
@@ -580,7 +632,7 @@ type DynamicResult4 = {
   records: User[]
   aggregate: { age: { avg: number } }
 }
-const groupByResult: DynamicResult4 = await photon.users.groupBy({
+const groupByResult: DynamicResult4 = await photon.user.groupBy({
   key: 'lastName',
   having: { age: { avgGt: 10 } },
   where: { isActive: true },
@@ -597,7 +649,7 @@ type DynamicResult5 = {
   records: User[]
   aggregate: { age: { avg: number } }
 }
-const groupByResult2: DynamicResult5 = await photon.users.groupBy({
+const groupByResult2: DynamicResult5 = await photon.user.groupBy({
   raw: { key: 'firstName || lastName', having: 'AVG(age) > 50' },
   select: {
     records: { $first: 100 },
@@ -609,7 +661,7 @@ const groupByResult2: DynamicResult5 = await photon.users.groupBy({
 ## `raw` fallbacks
 
 ```ts
-await photon.users({
+await photon.user.findMany({
   where: { email: { contains: '@gmail.com' } },
   orderBy: {
     raw: 'age + postsViewCount DESC',
@@ -617,7 +669,7 @@ await photon.users({
 })
 
 const someEmail = 'bob@prisma.io'
-await photon.users({
+await photon.user.findMany({
   orderBy: {
     raw: 'age + postsViewCount DESC',
   },
@@ -627,7 +679,7 @@ await photon.users({
 })
 
 // Raw: Knex & Prisma
-const userWithPostsAndFriends1 = await photon.user({
+const userWithPostsAndFriends1 = await photon.user.find({
   where: knex.whereBuilderInSelecet(
     knex.fields.User.name,
     knex.queryMany.Post({ title: 'Alice' }, kx.fields.Post.title),
@@ -636,7 +688,7 @@ const userWithPostsAndFriends1 = await photon.user({
 })
 
 // Raw: SQL & Prisma
-const userWithPostsAndFriends2 = await photon.user({
+const userWithPostsAndFriends2 = await photon.user.find({
   where: {
     raw: 'User.name != "n/a"',
   },
@@ -669,8 +721,8 @@ const userWithPostsAndFriends2 = await photon.user({
 
 ```ts
 // Batching, don't get the results with $noData
-const m1 = photon.users.create({ firstName: 'Alice' }).select(false)
-const m2 = photon.posts.create({ title: 'Hello world' }).select(false)
+const m1 = photon.user.create({ firstName: 'Alice' }).select(false)
+const m2 = photon.post.create({ title: 'Hello world' }).select(false)
 const [u1, p1]: [User, Post] = await photon.batch([m1, m2])
 
 // Batching with "check consistent" or "check current"
@@ -695,42 +747,49 @@ await photon.batch([m1, m2], { transaction: true })
 
 ## Options arg
 
+See `options` at https://docs.mongodb.com/manual/reference/method/db.collection.aggregate/#db.collection.aggregate
+
 - request
   - timeout
+  - debug / explain
+  - transaction boundary
+  - geolocation
+  - force index / hints
 - response
-  - performance (via debug)
+  - performance (via debug/explain)
+
 
 ## Pagination / Streaming
 
 ```ts
-for await (const post of photon.posts().$stream()) {
+for await (const post of photon.post().$stream()) {
   console.log(post)
 }
 
 const postStreamWithPageInfo = await prisma
-  .posts()
+  .post()
   .$stream()
   .$withPageInfo()
 
-for await (const posts of photon.user('bobs-id')
-  .posts({ first: 50 })
+for await (const posts of photon.user.find('bobs-id')
+  .post({ first: 50 })
   .batch({ batchSize: 100 })) {
   console.log(posts) // 100 posts
 }
 
 // Configure streaming chunkSize and fetchThreshold
 photon
-  .posts({ first: 10000 })
+  .post({ first: 10000 })
   .$stream({ chunkSize: 100, fetchThreshold: 0.5 /*, tailable: true*/ })
 
 // Buffering
 const posts = await prisma
-  .posts({ first: 100000 })
+  .post({ first: 100000 })
   .$stream()
   .toArray()
 
 // Shortcut for count
-const userCount = await photon.users.count({
+const userCount = await photon.user.count({
   where: {
     age: {
       gt: 18,
@@ -767,12 +826,11 @@ const prisma = new Photon({
 })
 ```
 
-### Events (non-blocking)
+### Events (non.find('bobs-id')-blocking)
 
-```ts
 const photon = new Photon()
 photon.on('User:beforeCreate', user => {
-  stripe.createUser(user)
+  stripe.user.create(user)
 })
 ```
 
@@ -784,17 +842,17 @@ You can find the possible error codes that we have in Prisma 1 [here](https://gi
 ### Where
 
 ```ts
-photon.users.deleteMany('id')
-photon.users.deleteMany(['id1', 'id2'])
+photon.user.deleteMany('id')
+photon.user.deleteMany(['id1', 'id2'])
 
-photon.users({
+photon.user.findMany({
   where: {
     id: ['id1', 'id2'], // instead of `_in` or `OR`
     email: { endsWith: '@gmail.com' },
   },
 })
 
-photon.users({
+photon.user.findMany({
   where: {
     name: { contains: 'Bob' },
     email: { contains: ['photon.io', 'gmail.com'] }, // instead of `_in` or `OR`
@@ -863,6 +921,7 @@ await photon.disconnect()
 
 ## Small & self-contained
 
+- [ ] Distinct
 - [ ] Force indexes
 - [ ] `Photon` constructor API
 - [ ] Options argument
@@ -870,7 +929,7 @@ await photon.disconnect()
 - [ ] Rename `where` to Criteria (filter/unique criteria)
 - [ ] Streaming
 - [ ] Fluent API: Null behavior https://github.com/prisma/photonjs/issues/89#issuecomment-508509486
-  - [ ] Should we have `photon.user('bob').
+  - [ ] Should we have `photon.user.find('bob').
 - [ ] Connection handling
 
 ## Ugly parts
@@ -879,7 +938,11 @@ await photon.disconnect()
 - [x] Upsert, findOrCreate, ...
 - [ ] Line between main arg vs options arg
 
-# Future topics
+## Related
+
+- [ ] OCC needs triggers
+
+## Future topics
 
 - [ ] Non-CRUD API operations
 - [ ] Silent mutations [prisma/prisma#4075](https://github.com/prisma/prisma/issues/4075)
