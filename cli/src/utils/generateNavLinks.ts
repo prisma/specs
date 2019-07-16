@@ -1,6 +1,6 @@
 const generateNavLinks = (pagesData) => {
   const navLinks = pagesData.reduce((links, page) => {
-    if (page.node.context.frontmatter !== null && page.node.context.frontmatter.navLabel !== null) {
+    if (page.node.context !== null && page.node.context.frontmatter !== null && page.node.context.frontmatter.navLabel !== null) {
       const link = {
         url: page.node.path,
         category: page.node.context.frontmatter.navGroup,
