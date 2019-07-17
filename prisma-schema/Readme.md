@@ -32,7 +32,7 @@
       - [@unique](#unique)
       - [@map(\_ name: String)](#map_-name-string)
       - [@default(\_ expr: Expr)](#default_-expr-expr)
-      - [`@relation(\_ name?: String, references?: Identifier[], onDelete?: CascadeEnum)`](#relation_-name-string-references-identifier-ondelete-cascadeenum)
+      - [@relation(\_ name?: String, references?: Identifier[], onDelete?: CascadeEnum)](#relation_-name-string-references-identifier-ondelete-cascadeenum)
       - [@updatedAt](#updatedat)
     - [Block Attributes](#block-attributes)
     - [Core Block Attributes](#core-block-attributes)

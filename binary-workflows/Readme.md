@@ -47,7 +47,7 @@ The workflows are powered by the `prisma2 generate` command, which runs the foll
 |         Alpine         |       linux-musl        |      ✓       |           | https://github.com/prisma/prisma2/issues/2  |
 |        Windows         |         windows         |              |           | https://github.com/prisma/prisma2/issues/4  |
 |      Code Sandbox      |       linux-glibc       |      ✓       |           |                      ✓                      |
-|         Heroku         |       linux-glibc            |              |           | https://github.com/prisma/prisma2/issues/84 |
+|         Heroku         |       linux-glibc       |              |           | https://github.com/prisma/prisma2/issues/84 |
 |   Cloudflare Workers   |            ?            |              |           | https://github.com/prisma/prisma2/issues/85 |
 | Google Cloud Functions |            ?            |              |           | https://github.com/prisma/prisma2/issues/87 |
 
@@ -83,16 +83,16 @@ generator photon {
 
 #### Platforms and their URLs
 
-|      **Platform**       | **Status**  |                                 **URL or Issue**                                  |
-| :---------------------: | :---------: | :-------------------------------------------------------------------------------: |
-|         darwin          |      ✓      |    https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/darwin/prisma    |
+|      **Platform**       | **Status**  |                                   **URL or Issue**                                   |
+| :---------------------: | :---------: | :----------------------------------------------------------------------------------: |
+|         darwin          |      ✓      |     https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/darwin/prisma      |
 |      linux-lambda       | todo remove | https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-lambda/prisma.gz |
 |       linux-zeit        | todo remove |  https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-zeit/prisma.gz  |
-|       linux-glibc       |      ✓      | https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc/prisma  |
-|       linux-musl        |      ✓      |  https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl/prisma  |
-|         windows         |             |                    https://github.com/prisma/prisma2/issues/4                     |
-| linux-glibc-libssl1.0.1 |             |                    https://github.com/prisma/prisma2/issues/97                    |
-| linux-glibc-libssl1.0.2 |             |                    https://github.com/prisma/prisma2/issues/97                    |
+|       linux-glibc       |      ✓      |   https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc/prisma   |
+|       linux-musl        |      ✓      |   https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl/prisma    |
+|         windows         |             |                      https://github.com/prisma/prisma2/issues/4                      |
+| linux-glibc-libssl1.0.1 |             |                     https://github.com/prisma/prisma2/issues/97                      |
+| linux-glibc-libssl1.0.2 |             |                     https://github.com/prisma/prisma2/issues/97                      |
 
 Alternatively, this can be done via an environment variable:
 
