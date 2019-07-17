@@ -1,0 +1,57 @@
+---
+navGroup: init
+navOrder: 0
+navLabel: SQLite
+---
+
+import Terminal from '../../../components/Terminal/Terminal'
+import {
+  selectInputItemComponent,
+  selectInputIndicatorComponent,
+  Divider,
+} from '../../../components/inkHelpers'
+import SelectInput from 'ink-select-input'
+import { Box, Text, Color } from 'ink'
+
+# SQLite
+
+<img src="https://prisma-specs.prisma.now.sh/cli/figma-proxy?id=858:87" width="100%" />
+
+## (1) Current or new database
+
+---
+
+Previous selections:
+
+1. SQLite
+
+<Terminal>
+  <Box flexDirection="column">
+    <Text bold>How do you want to proceed?</Text>
+    <Divider />
+  </Box>
+
+  <Box paddingBottom={1} paddingTop={1}>
+    <Box width={40}>
+      <SelectInput
+        items={[
+          { label: 'Create new SQLite file', value: 'new-sqlite' },
+          { label: 'Use existing SQLite file', value: 'existing-sqlite' }
+        ]}
+        itemComponent={selectInputItemComponent}
+        indicatorComponent={selectInputIndicatorComponent} />
+    </Box>
+    <Box flexDirection="column">
+      <Color gray>Easy setup to start from scratch</Color>
+      <Color gray>Requires the path to the file</Color>
+    </Box>
+  </Box>
+
+  <Divider />
+
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color gray> (Database selection)</Color>
+  </Box>
+</Terminal>
