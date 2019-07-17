@@ -76,9 +76,9 @@ const GlobalStyles = createGlobalStyle`
     border: 1px solid ${p => p.theme.gray300};
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  /* h1, h2, h3, h4, h5, h6 {
     margin: 0;
-  }
+  } */
 
   h1, h2, h3 {
     font-family: var(--headline-font);
@@ -105,6 +105,7 @@ const GlobalStyles = createGlobalStyle`
 // Styles
 const Wrapper = styled.div`
   display: flex;
+  min-height: 100vh;
 `
 
 const Main = styled.div`

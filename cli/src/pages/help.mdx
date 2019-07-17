@@ -19,7 +19,45 @@ import { Box, Text, Color } from 'ink'
 
 <Terminal>
   <Box flexDirection="column">
-    <Text bold>Help</Text>
+    <Text>Prisma makes your data easy prisma.io</Text>
+    <Text bold>Commands</Text>
     <Divider />
+    <Box marginBottom={1} marginTop={1}>
+      <Box flexDirection="column" width={15}>
+        <Text>init</Text>
+        <Text>lift</Text>
+        <Text>convert</Text>
+        <Text>introspect</Text>
+        <Text>generate</Text>
+        <Text>seed</Text>
+      </Box>
+      <Box flexDirection="column">
+        <Text>Setup Prisma for your app</Text>
+        <Text>Migrate your datamodel</Text>
+        <Text>Converts a datamodel 1 to datamodel 2</Text>
+        <Text>Get the datamodel of your database</Text>
+        <Text>Generate Photon</Text>
+        <Text>Seed data into your database</Text>
+      </Box>
+    </Box>
+    <Text bold>Examples</Text>
+    <Divider />
+    <Box flexDirection="column">
+      <Text>Initialize files for a new Prisma project</Text>
+      <Box marginBottom={1}>
+        <Color gray>$ </Color>
+        <Text>prisma2 init</Text>
+      </Box>
+      <Text>Start developing and auto migrating your changes locally</Text>
+      <Box marginBottom={1}>
+        <Color gray>$ </Color>
+        <Text>prisma2 dev</Text>
+      </Box>
+      <Text>Save your changes into a migration</Text>
+      <Box>
+        <Color gray>$ </Color>
+        <Text>prisma2 lift save</Text>
+      </Box>
+    </Box>
   </Box>
 </Terminal>

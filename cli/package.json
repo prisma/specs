@@ -21,6 +21,7 @@
     "gatsby-plugin-typescript": "^2.1.0",
     "gatsby-source-filesystem": "^2.1.5",
     "ink": "^2.3.0",
+    "ink-box": "^1.0.0",
     "ink-divider": "^2.0.0",
     "ink-multi-select": "^1.0.3",
     "ink-progress-bar": "^3.0.0",

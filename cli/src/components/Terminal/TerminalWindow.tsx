@@ -39,6 +39,7 @@ const Dot = styled.div`
   height: 12px;
   border-radius: 12px;
   margin-right: 6px;
+  background: ${p => p.color};
 `
 
 const Title = styled.div`
