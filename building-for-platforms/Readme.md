@@ -8,7 +8,7 @@ Currently, we download the binary for the platform being used right now without 
 
 This spec documents the ideas on how such a feature can be provided. Roughly, the requirements are:
 
-- Minimal configuration, easy mental model.
+- Minimal configuration, simple mental model.
 - Easy setup of development/deployment workflows.
 - Possibility of a deterministic binary resolution both locally and production setup.
 
