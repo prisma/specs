@@ -167,7 +167,7 @@ platform in production is different, like `AWS lambda`, `now`, etc.
 In the scenario where `platforms` field is defined but no `pinnedPlatform` field is defined, we resolve the binary at runtime by detecting the platform. This
 can be achieved by generating code similar to this pseudo-code in Photon.
 
-```
+```ts
 function detectPlatform(): string { ... }
 
 const binaries = {
