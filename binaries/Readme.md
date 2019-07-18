@@ -231,9 +231,6 @@ To download the binary, replace `${package}` with a package (e.g. `darwin`) and 
 
 # Unresolved questions
 
-- Naming of platforms as per the [binary workflows spec](https://github.com/prisma/specs/tree/master/binary-workflows). This spec uses simpler names like
-  `lambda` for now.
-
 - Some platforms [tally `package.json` with the actual contents of `node_modules`](https://github.com/prisma/photonjs/issues/117), this spec does not address
   that issue.
 
