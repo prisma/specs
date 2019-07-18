@@ -27,7 +27,7 @@ export const useGitHubURL = (path: string) => {
   const pagesPath = data.site.siteMetadata.directory
   const relativePath = componentPath.slice(pagesPath.length)
   const githubUrl =
-    'https://github.com/prisma/specs/blob/master/cli' + relativePath
+    'https://github.com/prisma/specs/edit/master/cli' + relativePath
   return githubUrl
 }
 
