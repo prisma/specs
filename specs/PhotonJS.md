@@ -717,6 +717,12 @@ const userWithPostsAndFriends2 = await photon.user.find({
 })
 ```
 
+## Constructor
+
+- data sources
+- query engine binary
+- debug
+
 ## Batching
 
 ```ts
@@ -897,6 +903,7 @@ await photon.disconnect()
 - [ ] Implicit back relations
 - [ ] Name clashes / `$` pre-fixing
 - [ ] Pluralization
+- [ ] Criteria API
 
 ## Bigger todos
 
