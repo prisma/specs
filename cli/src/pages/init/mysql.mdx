@@ -141,8 +141,7 @@ import figures from 'figures'
   </Box>
 </Terminal>
 
-<br/>
-
+## (1) Enter Database Credentials (Found local database)
 <Terminal>
   <Box flexDirection="column" marginLeft={2}>
     <Text bold>Log into your database</Text>
@@ -283,181 +282,200 @@ import figures from 'figures'
   </Box>
 </Terminal>
 
-<br/>
-
-<Terminal>
-  <Box flexDirection="column">
-    <Text bold>Enter MySQL credentials</Text>
-    <Color white>Learn how to set up a MySQL database: <Text underline>prisma.io/docs</Text></Color>
-  </Box>
-  <Text>
-  </Text>
-  <Divider />
-  <Box flexDirection="column" paddingTop={1} paddingBottom={1}>
-    <Text bold>We found a local MySQL database on port 3306. Do you want to use this database?</Text>
-    <Box>
-      <Color gray>{figures.pointer} </Color>
-      <Text>Yes, autofill credentials of local MySQL database</Text>
-    </Box>
-  </Box>
-  <Divider />
-  <Box flexDirection="column" paddingTop={1} paddingBottom={1}>
-    <Box marginLeft={2}>
-      <Box marginRight={1}>Host:</Box>
-      <TextInput value="" placeholder="127.0.0.1" />
-    </Box>
-    <Box marginLeft={2}>
-      <Box marginRight={1}>Port:</Box>
-      <TextInput value="" placeholder="3306" />
-    </Box>
-    <Box marginLeft={2}>
-      <Box marginRight={1}>User:</Box>
-      <TextInput value="" />
-    </Box>
-    <Box marginLeft={2}>
-      <Box marginRight={1}>Password:</Box>
-      <TextInput value="" />
-    </Box>
-    <Box marginLeft={2}>
-      <Box marginRight={1}>Database (optional):</Box>
-      <TextInput value="" />
-    </Box>
-
-    <Box marginTop={1}>
-      <MultiSelect
-        focus={false}
-        items={[{ label: 'Use SSL', value: 'use-ssl' }]}
-        itemComponent={multiSelectItemComponent}
-        indicatorComponent={multiSelectIndicatorComponent}
-        checkboxComponent={multiSelectCheckboxComponent} />
-    </Box>
-  </Box>
-  <Divider />
-  <Box flexDirection="column" paddingTop={1} paddingBottom={1}>
-    <Box marginLeft={2}>
-      <Box marginRight={1}>Or URL:</Box>
-      <TextInput value="" placeholder="mysql://localhost:3306/admin" />
-    </Box>
-  </Box>
-  <Divider />
-  <Box>
-    <Color gray>{figures.pointer} </Color>
-    <Text bold>Connect</Text>
-  </Box>
-  <Box>
-    <Color gray>❮ </Color>
-    <Text bold>Back</Text>
-    <Color gray> (Database selection)</Color>
-  </Box>
-</Terminal>
-
 ## (2) Choose Existing or New Database
 <Terminal>
   <Color greenBright>
-    {figures.tick} Connected to MySQL server as admin
+    {figures.tick } Connected to MySQL server as <Text bold>admin</Text>
   </Color>
-  <Box flexDirection="column" marginTop={1}>
-    <Text bold>Database options</Text>
-    <Color white>Learn how to set up a MySQL database: <Text underline>prisma.io/docs</Text></Color>
-  </Box>
-  <Divider />
-  <Box paddingBottom={1} paddingTop={1}>
-    <Box width={40}>
-      <SelectInput
-        items={[
-          { label: 'Create new MySQL database', value: 'new-mysql' },
-          { label: 'Use existing MySQL database', value: 'existing-mysql' }
-        ]}
-        itemComponent={selectInputItemComponent}
-        indicatorComponent={selectInputIndicatorComponent} />
+
+  <Box flexDirection="column" paddingTop={1} paddingBottom={1}>
+    <Box>
+      <Color gray>┌──</Color>
+      <Text bold> Select a database </Text>
+      <Color gray>───────────────────────────────────────┐</Color>
     </Box>
-    <Box flexDirection="column">
-      <Color gray>Beginner's choice</Color>
-      <Color gray>Found 5 databases</Color>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color cyanBright>
+        <Box width={30}>
+          <Text bold>{figures.pointer} Create new MySQL database</Text>
+        </Box>
+        <Color dim>  Beginner's choice</Color>
+      </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│   </Color>
+      <Color whiteBright>
+        <Box width={30}>
+          <Text>Use existing MySQL database</Text>
+        </Box>
+        <Color dim>Found 5 databases</Color>
+      </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
     </Box>
   </Box>
-  <Divider />
   <Box>
     <Color gray>❮ </Color>
     <Text bold>Back</Text>
-    <Color gray> (Database credentials)</Color>
+    <Color whiteBright dim> (Database credentials)</Color>
   </Box>
 </Terminal>
 
 ## (2.1) Set Database Name
 <Terminal>
-  <Box flexDirection="column">
-    <Text bold>Database options</Text>
-  </Box>
-  <Divider />
-  <Box marginLeft={2} paddingTop={1} paddingBottom={1}>
-    <Box marginRight={1}>Enter database name:</Box>
-    <TextInput value="" placeholder="my-app" />
-  </Box>
-  <Divider />
-  <Box>
-    <Color gray>{figures.pointer} </Color>
-    <Text bold>Create</Text>
+  <Color greenBright>
+    {figures.tick } Connected to MySQL server as <Text bold>admin</Text>
+  </Color>
+
+  <Box flexDirection="column" paddingTop={1} paddingBottom={1}>
+    <Box>
+      <Color gray>┌──</Color>
+      <Text bold> Enter a name for new database </Text>
+      <Color gray>───────────────────────────┐</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color cyanBright>
+        <Text bold>{figures.pointer} Name:</Text>
+        <Color dim> my-app</Color>
+      </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
+    </Box>
   </Box>
   <Box>
     <Color gray>❮ </Color>
     <Text bold>Back</Text>
-    <Color gray> (Database options)</Color>
+    <Color whiteBright dim> (Database selection)</Color>
   </Box>
 </Terminal>
 
 ## (3) Choose a Database
 <Terminal>
   <Color greenBright>
-    {figures.tick} Connected to MySQL server as admin
+    {figures.tick } Connected to MySQL server as <Text bold>admin</Text>
   </Color>
-  <Box flexDirection="column" marginTop={1}>
+
+  <Box flexDirection="column" marginLeft={2} marginTop={1}>
     <Text bold>Select a MySQL database</Text>
-    <Color white>Select an empty database to start a new project or introspect a non-empty one to generate your data model definition.</Color>
+    <Color whiteBright dim>Select an empty database to start a new project or introspect a non-empty one to generate your data model definition.</Color>
   </Box>
-  <Box marginTop={2}>
-    <Text bold>Empty databases</Text>
-    <Color gray> (Start a new project)</Color>
-  </Box>
-  <Divider />
-  <Box paddingBottom={1} paddingTop={1}>
-    <Box width={25}>
-      <SelectInput
-        items={[{ label: 'public', value: 'public' }]}
-        itemComponent={selectInputItemComponent}
-        indicatorComponent={selectInputIndicatorComponent} />
+
+  <Box flexDirection="column" paddingTop={2}>
+    <Box>
+      <Color gray>┌──</Color>
+      <Text bold> Empty databases </Text>
+      <Color whiteBright dim>(Start a new project)</Color>
+      <Color gray> ───────────────────┐</Color>
     </Box>
-    <Box flexDirection="column">
-      <Color gray>Created a year ago</Color>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
     </Box>
-  </Box>
-  <Box marginTop={1}>
-    <Text bold>Non-empty databases</Text>
-    <Color gray> (Introspect to generate initial data model)</Color>
-  </Box>
-  <Divider />
-  <Box paddingBottom={1} paddingTop={1}>
-    <Box width={25}>
-      <SelectInput
-        items={[
-          { label: 'management', value: 'management' },
-          { label: 'default$default', value: 'default' },
-          { label: 'staging', value: 'staging' },
-        ]}
-        itemComponent={selectInputItemComponent}
-        indicatorComponent={selectInputIndicatorComponent} />
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color cyanBright>
+        <Box width={20}>
+          <Text>{figures.pointer} public</Text>
+        </Box>
+        <Color dim>Created a year ago</Color>
+      </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
     </Box>
-    <Box flexDirection="column">
-      <Color gray>2 tables, 1,341KB</Color>
-      <Color gray>5 tables, 1,341KB</Color>
-      <Color gray>1 table, 2,341KB</Color>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
     </Box>
   </Box>
-  <Divider />
+
+  <Box flexDirection="column" paddingTop={2} paddingBottom={1}>
+    <Box>
+      <Color gray>┌── </Color>
+      <Text bold>Non-empty databases </Text>
+      <Color whiteBright dim>(Introspect existing database)</Color>
+      <Color gray> ──────┐</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20} marginLeft={2}>
+        <Text>management</Text>
+      </Box>
+      <Color dim>2 tables, 1,341KB</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20} marginLeft={2}>
+        <Text>default$default</Text>
+      </Box>
+      <Color dim>5 tables, 1,341KB</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20} marginLeft={2}>
+        <Text>staging</Text>
+      </Box>
+      <Color dim>1 tables, 2,341KB</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
+    </Box>
+  </Box>
+
   <Box>
     <Color gray>❮ </Color>
     <Text bold>Back</Text>
-    <Color gray> (Database credentials)</Color>
+    <Color whiteBright dim> (Database selection)</Color>
   </Box>
 </Terminal>
 
@@ -471,172 +489,418 @@ import figures from 'figures'
 
 ## (3.2) Select Tools
 <Terminal>
-  <Box flexDirection="column" marginTop={1}>
+  <Box flexDirection="column" marginLeft={2}>
     <Text bold>Which parts of Prisma do you want to use?</Text>
-    <Color white>Learn more about the tools at: <Text underline>github.com/prisma/prisma2</Text></Color>
+    <Color whiteBright dim>Learn more about the tools at https://github.com/prisma/prisma2</Color>
   </Box>
-  <Divider />
-  <Box paddingBottom={1} paddingTop={1}>
-    <Box width={15}>
-      <MultiSelect
-        focus={false}
-        items={[
-          { label: 'Photon', value: 'photon' },
-          { label: 'Lift', value: 'lift' },
-        ]}
-        itemComponent={multiSelectItemComponent}
-        indicatorComponent={multiSelectIndicatorComponent}
-        checkboxComponent={multiSelectCheckboxComponent} />
+
+  <Box flexDirection="column" paddingTop={2} paddingBottom={1}>
+    <Box>
+      <Color gray>┌──</Color>
+      <Text bold> Tools </Text>
+      <Color gray>───────────────────────────────────────────────────┐</Color>
     </Box>
-    <Box flexDirection="column">
-      <Color gray>Type-safe database client</Color>
-      <Color gray>Declarative data modeling & migrations</Color>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color cyanBright>
+        <Box width={10}>{figures.pointer} {figures.squareSmallFilled} Photon</Box>
+        <Color dim>  Type-safe database client</Color>
+      </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={10} marginLeft={2}>{figures.squareSmall} Lift</Box>
+      <Color dim>Declarative data modeling & migrations</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
     </Box>
   </Box>
-  <Divider />
   <Box>
     <Color gray>{figures.pointer} </Color>
     <Text bold>Confirm</Text>
+  </Box>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color whiteBright dim> (Database selection)</Color>
   </Box>
 </Terminal>
 
 ## (4) Select Language
 <Terminal>
-  <Text bold>Which programming language do you want to use?</Text>
-  <Divider />
-  <Box flexDirection="column" paddingBottom={1} paddingTop={1}>
-    <SelectInput
-      items={[
-        { label: 'JavaScript', value: 'javascript' },
-        { label: 'TypeScript', value: 'typescript' }
-      ]}
-      itemComponent={selectInputItemComponent}
-      indicatorComponent={selectInputIndicatorComponent} />
-    <Box marginLeft={2}>Go <Color gray>(Coming soon)</Color></Box>
+  <Box flexDirection="column" marginLeft={2}>
+    <Text bold>Which programming language do you want to use?</Text>
+    <Color whiteBright dim>Learn more about the tools at https://github.com/prisma/prisma2</Color>
   </Box>
-  <Divider />
+
+  <Box flexDirection="column" paddingTop={2} paddingBottom={1}>
+    <Box>
+      <Color gray>┌──</Color>
+      <Text bold> Languages </Text>
+      <Color gray>───────────────────────────────────────────────┐</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color cyanBright>
+        {figures.pointer} <Text bold>JavaScript</Text>
+      </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box marginLeft={2}>TypeScript</Box>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box marginLeft={2}>Go <Color whiteBright dim>(Coming soon)</Color></Box>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
+    </Box>
+  </Box>
   <Box>
     <Color gray>❮ </Color>
     <Text bold>Back</Text>
-    <Color gray> (Tool selection)</Color>
+    <Color whiteBright dim> (Tool selection)</Color>
   </Box>
 </Terminal>
 
 ## (4.1) Select Language for Photon (Photon)
 <Terminal>
-  <Text bold>Which programming language do you want to use to access your database with Photon?</Text>
-  <Divider />
-  <Box flexDirection="column" paddingBottom={1} paddingTop={1}>
-    <SelectInput
-      items={[
-        { label: 'JavaScript', value: 'javascript' },
-        { label: 'TypeScript', value: 'typescript' }
-      ]}
-      itemComponent={selectInputItemComponent}
-      indicatorComponent={selectInputIndicatorComponent} />
-    <Box marginLeft={2}>Go <Color gray>(Coming soon)</Color></Box>
+  <Box flexDirection="column" marginLeft={2}>
+    <Text bold>Which programming language do you want to use?</Text>
+    <Color whiteBright dim>Learn more about the tools at https://github.com/prisma/prisma2</Color>
   </Box>
-  <Divider />
+
+  <Box flexDirection="column" paddingTop={2} paddingBottom={1}>
+    <Box>
+      <Color gray>┌──</Color>
+      <Text bold> Languages </Text>
+      <Color gray>───────────────────────────────────────────────┐</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color cyanBright>
+        {figures.pointer} <Text bold>JavaScript</Text>
+      </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box marginLeft={2}>TypeScript</Box>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box marginLeft={2}>Go <Color whiteBright dim>(Coming soon)</Color></Box>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
+    </Box>
+  </Box>
   <Box>
     <Color gray>❮ </Color>
     <Text bold>Back</Text>
-    <Color gray> (Tool selection)</Color>
+    <Color whiteBright dim> (Tool selection)</Color>
   </Box>
 </Terminal>
 
 ## (4.2) Select Language for Photon (Lift+Photon)
 <Terminal>
-  <Text bold>Which programming language do you want to use to access your database with Photon?</Text>
-  <Divider />
-  <Box flexDirection="column" paddingBottom={1} paddingTop={1}>
-    <SelectInput
-      items={[
-        { label: 'JavaScript', value: 'javascript' },
-        { label: 'TypeScript', value: 'typescript' }
-      ]}
-      itemComponent={selectInputItemComponent}
-      indicatorComponent={selectInputIndicatorComponent} />
-    <Box marginLeft={2}>Go <Color gray>(Coming soon)</Color></Box>
+  <Box flexDirection="column" marginLeft={2}>
+    <Text bold>Which programming language do you want to use?</Text>
+    <Color whiteBright dim>Learn more about the tools at https://github.com/prisma/prisma2</Color>
   </Box>
-  <Divider />
+
+  <Box flexDirection="column" paddingTop={2} paddingBottom={1}>
+    <Box>
+      <Color gray>┌──</Color>
+      <Text bold> Languages </Text>
+      <Color gray>───────────────────────────────────────────────┐</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color cyanBright>
+        {figures.pointer} <Text bold>JavaScript</Text>
+      </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box marginLeft={2}>TypeScript</Box>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box marginLeft={2}>Go <Color whiteBright dim>(Coming soon)</Color></Box>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
+    </Box>
+  </Box>
   <Box>
     <Color gray>❮ </Color>
     <Text bold>Back</Text>
-    <Color gray> (Tool selection)</Color>
+    <Color whiteBright dim> (Tool selection)</Color>
   </Box>
 </Terminal>
 
 ## (5) Select Boilerplate
 <Terminal>
-  <Text bold>Do you want to use a boilerplate or explore Prisma from scratch?</Text>
-  <Divider />
-  <Box flexDirection="row" paddingBottom={1} paddingTop={1}>
-    <Box width={25}>
-      <SelectInput
-        items={[
-          { label: 'From scratch', value: 'scratch' },
-          { label: 'GraphQL boilerplate', value: 'graphql-boilerplate' },
-          { label: 'REST boilerplate', value: 'rest-boilerplate' },
-          { label: 'gRPC boilerplate', value: 'grpc-boilerplate' },
-          { label: 'No boilerplate', value: 'no-boilerplate' }
-        ]}
-        itemComponent={selectInputItemComponent}
-        indicatorComponent={selectInputIndicatorComponent} />
+  <Box flexDirection="column" marginLeft={2}>
+    <Text bold>Do you want to use a boilerplate or explore Prisma from scratch?</Text>
+    <Color whiteBright dim>Find all boilerplates at https://github.com/prisma/prisma-examples</Color>
+  </Box>
+
+  <Box flexDirection="column" paddingTop={2} paddingBottom={1}>
+    <Box>
+      <Color gray>┌──</Color>
+      <Text bold> Boilerplates </Text>
+      <Color gray>────────────────────────────────────────────┐</Color>
     </Box>
-    <Box flexDirection="column">
-      <Color gray>Simple script with API examples</Color>
-      <Color gray>GraphQL server example</Color>
-      <Color gray>REST API example (using express.js)</Color>
-      <Color gray>gRPC API example (client + server)</Color>
-      <Color gray>Just generate the Prisma schema</Color>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color cyanBright>
+        <Box width={20}>
+          {figures.pointer} <Text bold>From scratch</Text>
+        </Box>
+        <Color dim>  Simple script with API examples</Color>
+      </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20} marginLeft={2}>
+        GraphQL boilerplate
+      </Box>
+      <Color dim>GraphQL server example</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20} marginLeft={2}>
+        REST boilerplate
+      </Box>
+      <Color dim>REST API example (using express.js)</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20} marginLeft={2}>
+        gRPC boilerplate
+      </Box>
+      <Color dim>gRPC API example (client + server)</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>├────────────────────────────────────────────────────────────┤</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20} marginLeft={2}>
+        No boilerplate
+      </Box>
+      <Color dim>Just generate the Prisma schema</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
     </Box>
   </Box>
-  <Divider />
   <Box>
     <Color gray>❮ </Color>
     <Text bold>Back</Text>
-    <Color gray> (Language selection)</Color>
+    <Color whiteBright dim> (Language selection)</Color>
   </Box>
 </Terminal>
 
 ## (6) Success (Boilerplate)
 <Terminal>
-  <Color greenBright>
-    {figures.tick} You're all set!
-  </Color>
-  <Box marginTop={1}>
-    <Text bold>We created the following files for you:</Text>
+  <Box>
+    <Color greenBright>{figures.tick } You're all set!</Color>
   </Box>
-  <Divider />
-  <Box paddingBottom={1} paddingTop={1}>
-    <Box width={25} flexDirection="column">
-      <Text>schema.prisma</Text>
-      <Text>main.ts</Text>
-      <Text>tsconfig.json</Text>
-      <Text>node_modules/</Text>
-    </Box>
-    <Box flexDirection="column">
-      <Color gray>The datamodel describes your database schema</Color>
-      <Color gray>A simple script to get you started</Color>
-      <Color gray>TypeScript configuration</Color>
-      <Color gray>Required Node dependencies (includes Photon)</Color>
-    </Box>
-  </Box>
-  <Box marginTop={1}>
-    <Text bold>Run the following commands to start developing</Text>
-  </Box>
-  <Divider />
-  <Box flexDirection="column" paddingBottom={1} paddingTop={1}>
+
+  <Box flexDirection="column" paddingTop={1}>
     <Box>
-      <Color gray>$ </Color>
-      <Text>cd hello-world</Text>
+      <Color gray>┌──</Color>
+      <Text bold> We created the following files </Text>
+      <Color gray>──────────────────────────┐</Color>
     </Box>
-    <Box>
-      <Color gray>$ </Color>
-      <Text>prisma dev</Text>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20}>
+        <Text><Color dim>┌</Color> schema.prisma</Text>
+      </Box>
+      <Color dim>Your database schema</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20}>
+        <Text><Color dim>├</Color> main.ts</Text>
+      </Box>
+      <Color dim>A simple starting script</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20}>
+        <Text><Color dim>├</Color> tsconfig.json</Text>
+      </Box>
+      <Color dim>TypeScript configuration</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20}>
+        <Text><Color dim>└ node_modules/</Color></Text>
+      </Box>
+      <Color dim>Required dependencies</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
     </Box>
   </Box>
-  <Color gray>Learn more about using Photon and Lift at <Text underline>prisma.io/docs/</Text></Color>
+
+  <Box flexDirection="column" paddingTop={1} paddingBottom={1}>
+    <Box>
+      <Color gray>┌──</Color>
+      <Text bold> Run the following commands to get started </Text>
+      <Color gray>───────────────┐</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={15}>
+        <Text><Color dim>$</Color> cd hello</Text>
+      </Box>
+      <Color dim>Move to your project folder</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={15}>
+        <Text><Color dim>$</Color> prisma dev</Text>
+      </Box>
+      <Color dim>Start the Prisma development enviroment</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
+    </Box>
+  </Box>
+  <Box marginLeft={2}>
+    <Color whiteBright dim>Learn more about using Photon and Lift at https://www.prisma.io/docs</Color>
+  </Box>
 </Terminal>
 
 ## (M.6.1) Success (Photon)

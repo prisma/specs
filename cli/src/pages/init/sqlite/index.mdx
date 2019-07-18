@@ -12,6 +12,7 @@ import {
 } from '../../../components/inkHelpers'
 import SelectInput from 'ink-select-input'
 import { Box, Text, Color } from 'ink'
+import figures from 'figures'
 
 # SQLite
 
@@ -24,34 +25,46 @@ import { Box, Text, Color } from 'ink'
 Previous selections:
 
 1. SQLite
-
 <Terminal>
-  <Box flexDirection="column">
-    <Text bold>How do you want to proceed?</Text>
-    <Divider />
-  </Box>
-
-  <Box paddingBottom={1} paddingTop={1}>
-    <Box width={40}>
-      <SelectInput
-        items={[
-          { label: 'Create new SQLite file', value: 'new-sqlite' },
-          { label: 'Use existing SQLite file', value: 'existing-sqlite' }
-        ]}
-        itemComponent={selectInputItemComponent}
-        indicatorComponent={selectInputIndicatorComponent} />
+  <Box flexDirection="column" paddingBottom={1}>
+    <Box>
+      <Color gray>┌──</Color>
+      <Text bold> Select a database </Text>
+      <Color gray>───────────────────────────────────────┐</Color>
     </Box>
-    <Box flexDirection="column">
-      <Color gray>Easy setup to start from scratch</Color>
-      <Color gray>Requires the path to the file</Color>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color cyanBright>
+        <Box width={30}>{figures.pointer} <Text bold>Create new SQLite file</Text></Box>
+        <Color dim>  Start from scratch</Color>
+      </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={30} marginLeft={2}>Use existing SQLite file</Box>
+      <Color dim>Find path to the file</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
     </Box>
   </Box>
-
-  <Divider />
-
   <Box>
     <Color gray>❮ </Color>
     <Text bold>Back</Text>
-    <Color gray> (Database selection)</Color>
+    <Color whiteBright dim> (Tool selection)</Color>
   </Box>
 </Terminal>
