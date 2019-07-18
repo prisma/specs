@@ -39,8 +39,6 @@ const Sidebar = ({ links, pathName, pageContext }) => (
         <span>CLI Docs</span>
       </SidebarTitle>
 
-      <GroupLink link={{ label: 'Home', url: '/' }} />
-
       <GroupTitle>
         <Faded>$</Faded> prisma init
       </GroupTitle>
