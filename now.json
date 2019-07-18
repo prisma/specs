@@ -2,5 +2,8 @@
   "version": 2,
   "name": "prisma-specs",
   "builds": [{ "src": "cli/now/figma-proxy.ts", "use": "@now/node" }],
-  "routes": [{ "src": "/cli/figma-proxy", "dest": "cli/now/figma-proxy.ts" }]
+  "routes": [{ "src": "/cli/figma-proxy", "dest": "cli/now/figma-proxy.ts" }],
+  "github": {
+    "silent": true
+  }
 }
