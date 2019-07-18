@@ -4,9 +4,11 @@ import styled from 'styled-components'
 import GithubIcon from '../../vectors/GithubIcon'
 import SidebarIcon from '../../vectors/SidebarIcon'
 
-const getGithubLink = (pathName = '') => {
+const getGithubLink = (pathName) => {
   const githubUrl = 'https://github.com/prisma/specs/blob/master/cli/src/pages'
-  const path = pathName.endsWith('/') ? pathName.slice(0, -1) : pathName
+  let path = pathName
+  path = path.endsWith('/') ? pathName.slice(0, -1) : path
+  path = path.startsWith('/cli') ? path.slice(4) : path
   return githubUrl + path + '.mdx'
 }
 
