@@ -102,7 +102,7 @@ const first100Users: User[] = await photon.user.findMany({ first: 100 })
 // Ordering
 const usersByEmail = await photon.user.findMany({ orderBy: { email: 'ASC' } })
 const usersByEmailAndName = await photon.user.findMany({
-  orderBy: [{ email: 'ASC' }, { name: 'DESC' }],
+  orderBy: { email: 'ASC', name: 'DESC' },
 })
 const usersByProfile = await photon.user.findMany({
   orderBy: { profile: { imageSize: 'ASC' } },
@@ -223,7 +223,7 @@ const upreplacedUser: User = await photon.user
   })
   .load()
 
-// Delete operation doesn't support `.load()`
+// Note: Delete operation sends query BEFORE record is deleted
 const result: undefined = await photon.user.find('bobs-id').delete()
 ```
 
