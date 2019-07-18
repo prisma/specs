@@ -30,10 +30,126 @@ import figures from 'figures'
 
 ## (1) Enter Database Credentials
 <Terminal>
+  <Box flexDirection="column" marginLeft={2}>
+    <Text bold>Log into your database</Text>
+    <Color whiteBright dim>Learn how to set up a MySQL database: https://www.prisma.io/docs</Color>
+  </Box>
+
+  <Box flexDirection="column" paddingTop={2} paddingBottom={1}>
+    <Box>
+      <Color gray>┌──</Color>
+      <Text bold> Enter MySQL credentials </Text>
+      <Color gray>─────────────────────────────────┐</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color gray>  </Color>
+      <Text>Host: </Text>
+      <TextInput value="" placeholder="127.0.0.1" showCursor={false} />
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color gray>  </Color>
+      <Text>Port: </Text>
+      <TextInput value="" placeholder="3306" showCursor={false} />
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color gray>  </Color>
+      <Text>User: </Text>
+      <TextInput value="admin" showCursor={false} />
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color cyanBright>{figures.pointer} </Color>
+      <Color cyanBright>
+        <Text bold>Password: </Text>
+        <TextInput value="password" showCursor={false} />
+      </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color gray>  </Color>
+      <Text>Database (optional): </Text>
+      <TextInput value="" showCursor={false} />
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color gray>  </Color>
+      <Text>{figures.squareSmall} Use SSL </Text>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>├────────────────────────────────────────────────────────────┤</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color gray>  </Color>
+      <Text>Or URL: </Text>
+      <TextInput value="" placeholder="mysql://localhost:3306/admin" showCursor={false} />
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
+    </Box>
+  </Box>
+  <Box>
+    <Color gray>{figures.pointer} </Color>
+    <Text bold>Connect</Text>
+  </Box>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color whiteBright dim> (Database selection)</Color>
+  </Box>
+</Terminal>
+
+<br/>
+
+<Terminal>
   <Box flexDirection="column">
     <Text bold>Enter MySQL credentials</Text>
     <Color white>Learn how to set up a MySQL database: <Text underline>prisma.io/docs</Text></Color>
   </Box>
+  <Text>
+  </Text>
   <Divider />
   <Box flexDirection="column" paddingTop={1} paddingBottom={1}>
     <Text bold>We found a local MySQL database on port 3306. Do you want to use this database?</Text>
@@ -64,6 +180,7 @@ import figures from 'figures'
       <Box marginRight={1}>Database (optional):</Box>
       <TextInput value="" />
     </Box>
+
     <Box marginTop={1}>
       <MultiSelect
         focus={false}
