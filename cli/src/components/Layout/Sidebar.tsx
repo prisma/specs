@@ -1,10 +1,12 @@
 import React from 'react'
-import { Link as GatsbyLink } from 'gatsby'
+import { Link as GatsbyLink, graphql, useStaticQuery } from 'gatsby'
+import * as path from 'path'
+
 import styled from 'styled-components'
 import GithubIcon from '../../vectors/GithubIcon'
 import SidebarIcon from '../../vectors/SidebarIcon'
 
-const getGithubLink = (pathName) => {
+const getGithubLink = pathName => {
   const githubUrl = 'https://github.com/prisma/specs/blob/master/cli/src/pages'
   let path = pathName
   path = path.endsWith('/') ? pathName.slice(0, -1) : path
@@ -12,36 +14,87 @@ const getGithubLink = (pathName) => {
   return githubUrl + path + '.mdx'
 }
 
-const Sidebar = ({ links, pathName }) => (
-  <Wrapper>
-    <Sticky>
-      <SidebarTitle>
-        <SidebarIcon />
-        <span>CLI Docs</span>
-      </SidebarTitle>
+export const useGitHubURL = () => {
+  const data = useStaticQuery(
+    graphql`
+      query {
+        allSitePage {
+          nodes {
+            componentPath
+            path
+          }
+        }
+        site {
+          pathPrefix
+          siteMetadata {
+            directory
+          }
+        }
+      }
+    `
+  )
+  const activePath = window.location.pathname.replace(/^\/cli/, '/')
+  const { componentPath } = data.allSitePage.nodes.find(
+    n => n.path === activePath
+  )
+  const pagesPath = data.site.siteMetadata.directory
+  const relativePath = componentPath.slice(pagesPath.length)
+  const githubUrl =
+    'https://github.com/prisma/specs/blob/master/cli' + relativePath
+  return githubUrl
+}
 
-      <GroupTitle><Faded>$</Faded> prisma init</GroupTitle>
-      <GroupLinks>{ links['init'].map(link => <GroupLink link={link} />) }</GroupLinks>
+const Sidebar = ({ links, pathName }) => {
+  const githubUrl = useGitHubURL()
+  return (
+    <Wrapper>
+      <Sticky>
+        <SidebarTitle>
+          <SidebarIcon />
+          <span>CLI Docs</span>
+        </SidebarTitle>
 
-      <Divider />
+        <GroupTitle>
+          <Faded>$</Faded> prisma init
+        </GroupTitle>
+        <GroupLinks>
+          {links['init'].map(link => (
+            <GroupLink link={link} />
+          ))}
+        </GroupLinks>
 
-      <GroupTitle><Faded>$</Faded> prisma dev</GroupTitle>
-      <GroupLinks>{ links['dev'].map(link => <GroupLink link={link} />) }</GroupLinks>
+        <Divider />
 
-      <Divider />
+        <GroupTitle>
+          <Faded>$</Faded> prisma dev
+        </GroupTitle>
+        <GroupLinks>
+          {links['dev'].map(link => (
+            <GroupLink link={link} />
+          ))}
+        </GroupLinks>
 
-      <GroupTitle><Faded>$</Faded> prisma help</GroupTitle>
-      <GroupLinks>{ links['help'].map(link => <GroupLink link={link} />) }</GroupLinks>
+        <Divider />
 
-      <Divider />
+        <GroupTitle>
+          <Faded>$</Faded> prisma help
+        </GroupTitle>
+        <GroupLinks>
+          {links['help'].map(link => (
+            <GroupLink link={link} />
+          ))}
+        </GroupLinks>
 
-      <GithubLink href={getGithubLink(pathName)} target="_blank">
-        <GithubIcon />
-        <span>Edit on Github</span>
-      </GithubLink>
-    </Sticky>
-  </Wrapper>
-)
+        <Divider />
+
+        <GithubLink href={useGitHubURL()} target="_blank">
+          <GithubIcon />
+          <span>Edit on Github</span>
+        </GithubLink>
+      </Sticky>
+    </Wrapper>
+  )
+}
 
 const GroupLink = ({ link }) => (
   <Link to={link.url} activeClassName="isActive">
@@ -114,7 +167,9 @@ const Link = styled(GatsbyLink)`
   color: ${p => p.theme.gray800};
 
   &:hover,
-  &.isActive { color: ${p => p.theme.purple500}; }
+  &.isActive {
+    color: ${p => p.theme.purple500};
+  }
 `
 
 const GithubLink = styled.a`
@@ -125,7 +180,9 @@ const GithubLink = styled.a`
   color: ${p => p.theme.gray500};
 
   &:hover,
-  &.isActive { color: ${p => p.theme.purple500}; }
+  &.isActive {
+    color: ${p => p.theme.purple500};
+  }
 
   svg {
     height: 20px;
@@ -135,3 +192,17 @@ const GithubLink = styled.a`
 `
 
 export default Sidebar
+
+export const query = graphql`
+  query {
+    sitePage(path: { eq: "/" }) {
+      componentPath
+    }
+    site {
+      pathPrefix
+      siteMetadata {
+        directory
+      }
+    }
+  }
+`
