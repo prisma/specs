@@ -34,7 +34,7 @@ export const useGitHubURL = (path: string) => {
 const Sidebar = ({ links, pathName, pageContext }) => (
   <Wrapper>
     <Sticky>
-      <SidebarTitle>
+      <SidebarTitle to='/'>
         <SidebarIcon />
         <span>CLI Docs</span>
       </SidebarTitle>
@@ -109,7 +109,7 @@ const Divider = styled.div`
   margin: 24px 0;
 `
 
-const SidebarTitle = styled.div`
+const SidebarTitle = styled(GatsbyLink)`
   color: ${p => p.theme.gray800};
   font-weight: 700;
   display: flex;
