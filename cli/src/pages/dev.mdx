@@ -13,186 +13,378 @@ import {
 import SelectInput from 'ink-select-input'
 import { Box, Text, Color } from 'ink'
 import figures from 'figures'
-// import InkBox from 'ink-box'
 
 # Prisma Dev
 
 ---
 
 ## Success
-
 <Terminal>
-  {/*
-  <InkBox borderStyle="round" borderColor="cyan" float="center" padding={1}>
-    <Text bold>Hello from box</Text>
-  </InkBox>
-  */}
-  <Box flexDirection="column" marginBottom={2}>
+  <Box flexDirection="column" marginLeft={2}>
     <Text bold>Watching for changes in datamodel.prisma</Text>
     <Color whiteBright dim>Last changed at 14:24:40</Color>
   </Box>
 
-  <Text bold>Generator</Text>
-  <Divider />
-  <Box marginBottom={2}>
-    <Box flexDirection="column" marginRight={4}>
-      <Color greenBright>
-        <Box marginRight={1}>{figures.tick}</Box>
-        <Text>Photon JS Client</Text>
-      </Color>
-      <Color greenBright>
-        <Box marginRight={1}>{figures.tick}</Box>
-        <Text>Nexus Client</Text>
-      </Color>
-    </Box>
-    <Box flexDirection="column">
-      <Color greenBright dim>generated at 14:24:40</Color>
-      <Color greenBright dim>generated at 14:22:16</Color>
-    </Box>
-  </Box>
-
-  <Text bold>Migrations</Text>
-  <Divider />
-  <Box flexDirection="column" marginBottom={1}>
+  <Box flexDirection="column" paddingTop={2} paddingBottom={1}>
     <Box>
-      <Color greenBright>
-        <Box marginRight={1}>{figures.tick}</Box>
-        <Text>Database successfully migrated</Text>
-      </Color>
+      <Color gray>┌──</Color>
+      <Text bold> Generators </Text>
+      <Color gray>──────────────────────────────────────────────┐</Color>
     </Box>
-    <Color whiteBright dim>To save changes into a migration file, run prisma lift create</Color>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color greenBright>
+        <Box width={25}>{figures.tick} Photon JS Client</Box>
+        <Color dim>Generated at 14:24:12</Color>
+      </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color greenBright>
+        <Box width={25}>{figures.tick} Nexus Client</Box>
+        <Color dim>Generated at 14:24:12</Color>
+      </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
+    </Box>
   </Box>
 
-  <Box marginTop={5}>
-    <Text bold>Admin endpoint: </Text>
-    <Text underline>http://localhost:5555/admin</Text>
+  <Box flexDirection="column" paddingBottom={1}>
+    <Box>
+      <Color gray>┌──</Color>
+      <Text bold> Migrations </Text>
+      <Color gray>──────────────────────────────────────────────┐</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color greenBright>{figures.tick} Database successfully migrated</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│   </Color>
+      <Color dim>Save changes into a file with `prisma lift create`</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
+    </Box>
   </Box>
-  <Divider />
-  <Box>
+
+  <Box flexDirection="column" paddingBottom={1}>
+    <Box>
+      <Color gray>┌──</Color>
+      <Text bold> Admin endpoint </Text>
+      <Color gray>──────────────────────────────────────────┐</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│   </Color>
+      <Text>http://localhost:5555/admin</Text>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
+    </Box>
+  </Box>
+
+  <Box marginLeft={2}>
     <Box marginRight={2}>
       <Text bold>h: </Text>
-      <Color white>history</Color>
+      <Color whiteBright dim>history</Color>
     </Box>
     <Box marginRight={2}>
       <Text bold>s: </Text>
-      <Color white>seed</Color>
+      <Color whiteBright dim>seed</Color>
     </Box>
   </Box>
 </Terminal>
 
 ## Progress States
-
 <Terminal>
-  <Box flexDirection="column" marginBottom={2}>
+  <Box flexDirection="column" marginLeft={2}>
     <Text bold>Watching for changes in datamodel.prisma</Text>
     <Color whiteBright dim>Last changed at 14:24:40</Color>
   </Box>
 
-  <Text bold>Generator</Text>
-  <Divider />
-  <Box marginBottom={2}>
-    <Box flexDirection="column" marginRight={4}>
-      <Color yellowBright>
-        <Box marginRight={1}>⣷</Box>
-        <Text>Photon JS Client</Text>
-      </Color>
-      <Color yellowBright>
-        <Box marginRight={1}>⣷</Box>
-        <Text>Nexus Client</Text>
-      </Color>
-    </Box>
-    <Box flexDirection="column">
-      <Color yellowBright dim>Generating...</Color>
-      <Color yellowBright dim>Generating...</Color>
-    </Box>
-  </Box>
-
-  <Text bold>Migrations</Text>
-  <Divider />
-  <Box flexDirection="column" marginBottom={1}>
+  <Box flexDirection="column" paddingTop={2} paddingBottom={1}>
     <Box>
-      <Color redBright>
-        <Box marginRight={1}>{figures.cross}</Box>
-        <Text>Database failed to migrate</Text>
-      </Color>
+      <Color gray>┌──</Color>
+      <Text bold> Generators </Text>
+      <Color gray>──────────────────────────────────────────────┐</Color>
     </Box>
-    <Color whiteBright dim>To save changes into a migration file, run prisma lift create</Color>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color yellowBright>
+        <Box width={25}>⣷ Photon JS Client</Box>
+        <Color dim>Generating...</Color>
+      </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color yellowBright>
+        <Box width={25}>⣷ Nexus Client</Box>
+        <Color dim>Generating...</Color>
+      </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
+    </Box>
   </Box>
 
-  <Box marginTop={5}>
-    <Text bold>Admin endpoint: </Text>
-    <Text underline>http://localhost:5555/admin</Text>
+  <Box flexDirection="column" paddingBottom={1}>
+    <Box>
+      <Color gray>┌──</Color>
+      <Text bold> Migrations </Text>
+      <Color gray>──────────────────────────────────────────────┐</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color redBright>{figures.cross} Database failed to migrate</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│   </Color>
+      <Color dim>Save changes into a file with `prisma lift create`</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
+    </Box>
   </Box>
-  <Divider />
-  <Box>
+
+  <Box flexDirection="column" paddingBottom={1}>
+    <Box>
+      <Color gray>┌──</Color>
+      <Text bold> Admin endpoint </Text>
+      <Color gray>──────────────────────────────────────────┐</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│   </Color>
+      <Text>http://localhost:5555/admin</Text>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
+    </Box>
+  </Box>
+
+  <Box marginLeft={2}>
     <Box marginRight={2}>
       <Text bold>h: </Text>
-      <Color white>history</Color>
+      <Color whiteBright dim>history</Color>
     </Box>
     <Box marginRight={2}>
       <Text bold>s: </Text>
-      <Color white>seed</Color>
+      <Color whiteBright dim>seed</Color>
     </Box>
   </Box>
 </Terminal>
 
 ## History
-
 <Terminal>
-  <Text bold>History of recent activty</Text>
-  <Divider />
-  <Box marginBottom={5}>
-    <Box flexDirection="column" marginRight={1}>
-      <Color greenBright>{figures.tick}</Color>
-      <Color greenBright>{figures.tick}</Color>
-      <Color greenBright>{figures.tick}</Color>
-      <Color yellowBright>{figures.warning}</Color>
-      <Color redBright>{figures.cross}</Color>
-      <Color greenBright>{figures.tick}</Color>
-      <Color greenBright>{figures.tick}</Color>
-      <Color greenBright>{figures.tick}</Color>
-      <Color redBright>{figures.cross}</Color>
+  <Box flexDirection="column" marginLeft={2}>
+    <Text bold>Watching for changes in datamodel.prisma</Text>
+    <Color whiteBright dim>Last changed at 14:24:40</Color>
+  </Box>
+
+  <Box flexDirection="column" paddingTop={2} paddingBottom={1}>
+    <Box>
+      <Color gray>┌──</Color>
+      <Text bold> History of recent activity </Text>
+      <Color gray>──────────────────────────────┐</Color>
     </Box>
-    <Box flexDirection="column" marginRight={4}>
-      <Color greenBright>Migrated</Color>
-      <Color greenBright>Generated</Color>
-      <Color greenBright>Generated</Color>
-      <Color yellowBright>Warning</Color>
-      <Color redBright>Failed</Color>
-      <Color greenBright>Migrated</Color>
-      <Color greenBright>Generated</Color>
-      <Color greenBright>Generated</Color>
-      <Color redBright>Failed</Color>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
     </Box>
-    <Box flexDirection="column" marginRight={4}>
-      <Color whiteBright dim>Lift migrated the database</Color>
-      <Color whiteBright dim>Generated Nexus Client</Color>
-      <Color whiteBright dim>Generated Photon.js Client</Color>
-      <Color whiteBright dim>Generating Photon.js Client timed out</Color>
-      <Color redBright>Failed to migrate the database</Color>
-      <Color whiteBright dim>Lift migrated the database</Color>
-      <Color whiteBright dim>Generated Nexus Client</Color>
-      <Color whiteBright dim>Generated Photon.js Client</Color>
-      <Color redBright>Failed to generate Photon.js Client</Color>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color greenBright>
+        <Box width={12}>{figures.tick} 22:04:12</Box>
+      </Color>
+      <Text dim>Lift migrated the database</Text>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
     </Box>
-    <Box flexDirection="column">
-      <Color whiteBright dim>22:07:05</Color>
-      <Color whiteBright dim>22:07:02</Color>
-      <Color whiteBright dim>22:07:02</Color>
-      <Color whiteBright dim>22:04:22</Color>
-      <Color redBright>22:03:51</Color>
-      <Color whiteBright dim>22:02:03</Color>
-      <Color whiteBright dim>22:02:01</Color>
-      <Color whiteBright dim>22:02:01</Color>
-      <Color redBright>22:03:51</Color>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color greenBright>
+        <Box width={12}>{figures.tick} 22:04:14</Box>
+      </Color>
+      <Text dim>Generated Nexus Client</Text>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color greenBright>
+        <Box width={12}>{figures.tick} 22:04:18</Box>
+      </Color>
+      <Text dim>Generated Photon.js Client</Text>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color yellowBright>
+        <Box width={12}>{figures.warning} 22:04:20</Box>
+      </Color>
+      <Text dim>Generating Photon.js Client timed out</Text>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color redBright>
+        <Box width={12}>{figures.cross} 22:04:24</Box>
+        <Text dim>Failed to migrate the database</Text>
+      </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color greenBright>
+        <Box width={12}>{figures.tick} 22:04:12</Box>
+      </Color>
+      <Text dim>Lift migrated the database</Text>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color greenBright>
+        <Box width={12}>{figures.tick} 22:04:14</Box>
+      </Color>
+      <Text dim>Generated Nexus Client</Text>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color greenBright>
+        <Box width={12}>{figures.tick} 22:04:18</Box>
+      </Color>
+      <Text dim>Generated Photon.js Client</Text>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color redBright>
+        <Box width={12}>{figures.cross} 22:04:24</Box>
+        <Text dim>Failed to migrate the database</Text>
+      </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color yellowBright>
+        <Box width={12}>{figures.warning} 22:04:20</Box>
+      </Color>
+      <Text dim>Generating Photon.js Client timed out</Text>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color redBright>
+        <Box width={12}>{figures.cross} 22:04:24</Box>
+        <Text dim>Failed to migrate the database</Text>
+      </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
     </Box>
   </Box>
 
-  <Divider />
-  <Box>
+  <Box marginLeft={2}>
     <Box marginRight={2}>
       <Text bold>b: </Text>
-      <Color white>back</Color>
+      <Color whiteBright dim>back</Color>
     </Box>
   </Box>
 </Terminal>
