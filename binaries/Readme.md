@@ -2,6 +2,27 @@
 
 <!-- toc -->
 
+    + [Terminology:](#terminology)
+- [Basic Example](#basic-example)
+- [Motivation](#motivation)
+- [Detailed Design](#detailed-design)
+    + [Scenarios](#scenarios)
+        * [Approach 1:](#approach-1)
+        * [Approach 2](#approach-2)
+    + [Configuration](#configuration)
+    + [Runtime](#runtime)
+        * [Runtime binary resolution](#runtime-binary-resolution)
+- [Drawbacks](#drawbacks)
+- [How we teach this](#how-we-teach-this)
+- [Table of Binaries](#table-of-binaries)
+  * [URL Scheme](#url-scheme)
+  * [Common Cloud Platforms](#common-cloud-platforms)
+    + [Tier 1](#tier-1)
+    + [Tier 2](#tier-2)
+- [Unresolved questions](#unresolved-questions)
+
+<!-- tocstop -->
+
 Currently, we download the binary for the platform being used right now without a public API to change the binary to target a different platform or use a custom
 binary.
 
