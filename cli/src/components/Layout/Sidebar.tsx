@@ -1,20 +1,10 @@
 import React from 'react'
 import { Link as GatsbyLink, graphql, useStaticQuery } from 'gatsby'
-import * as path from 'path'
-
 import styled from 'styled-components'
 import GithubIcon from '../../vectors/GithubIcon'
 import SidebarIcon from '../../vectors/SidebarIcon'
 
-const getGithubLink = pathName => {
-  const githubUrl = 'https://github.com/prisma/specs/blob/master/cli/src/pages'
-  let path = pathName
-  path = path.endsWith('/') ? pathName.slice(0, -1) : path
-  path = path.startsWith('/cli') ? path.slice(4) : path
-  return githubUrl + path + '.mdx'
-}
-
-export const useGitHubURL = () => {
+export const useGitHubURL = (path: string) => {
   const data = useStaticQuery(
     graphql`
       query {
@@ -33,10 +23,7 @@ export const useGitHubURL = () => {
       }
     `
   )
-  const activePath = window.location.pathname.replace(/^\/cli/, '/')
-  const { componentPath } = data.allSitePage.nodes.find(
-    n => n.path === activePath
-  )
+  const { componentPath } = data.allSitePage.nodes.find(n => n.path === path)
   const pagesPath = data.site.siteMetadata.directory
   const relativePath = componentPath.slice(pagesPath.length)
   const githubUrl =
@@ -44,57 +31,54 @@ export const useGitHubURL = () => {
   return githubUrl
 }
 
-const Sidebar = ({ links, pathName }) => {
-  const githubUrl = useGitHubURL()
-  return (
-    <Wrapper>
-      <Sticky>
-        <SidebarTitle>
-          <SidebarIcon />
-          <span>CLI Docs</span>
-        </SidebarTitle>
+const Sidebar = ({ links, pathName, pageContext }) => (
+  <Wrapper>
+    <Sticky>
+      <SidebarTitle>
+        <SidebarIcon />
+        <span>CLI Docs</span>
+      </SidebarTitle>
 
-        <GroupTitle>
-          <Faded>$</Faded> prisma init
-        </GroupTitle>
-        <GroupLinks>
-          {links['init'].map(link => (
-            <GroupLink link={link} key={link.url} />
-          ))}
-        </GroupLinks>
+      <GroupTitle>
+        <Faded>$</Faded> prisma init
+      </GroupTitle>
+      <GroupLinks>
+        {links['init'].map(link => (
+          <GroupLink link={link} key={link.url} />
+        ))}
+      </GroupLinks>
 
-        <Divider />
+      <Divider />
 
-        <GroupTitle>
-          <Faded>$</Faded> prisma dev
-        </GroupTitle>
-        <GroupLinks>
-          {links['dev'].map(link => (
-            <GroupLink link={link} key={link.url} />
-          ))}
-        </GroupLinks>
+      <GroupTitle>
+        <Faded>$</Faded> prisma dev
+      </GroupTitle>
+      <GroupLinks>
+        {links['dev'].map(link => (
+          <GroupLink link={link} key={link.url} />
+        ))}
+      </GroupLinks>
 
-        <Divider />
+      <Divider />
 
-        <GroupTitle>
-          <Faded>$</Faded> prisma help
-        </GroupTitle>
-        <GroupLinks>
-          {links['help'].map(link => (
-            <GroupLink link={link} key={link.url} />
-          ))}
-        </GroupLinks>
+      <GroupTitle>
+        <Faded>$</Faded> prisma help
+      </GroupTitle>
+      <GroupLinks>
+        {links['help'].map(link => (
+          <GroupLink link={link} key={link.url} />
+        ))}
+      </GroupLinks>
 
-        <Divider />
+      <Divider />
 
-        <GithubLink href={useGitHubURL()} target="_blank">
-          <GithubIcon />
-          <span>Edit on Github</span>
-        </GithubLink>
-      </Sticky>
-    </Wrapper>
-  )
-}
+      <GithubLink href={useGitHubURL(pageContext.pagePath)} target="_blank">
+        <GithubIcon />
+        <span>Edit on Github</span>
+      </GithubLink>
+    </Sticky>
+  </Wrapper>
+)
 
 const GroupLink = ({ link }) => (
   <Link to={link.url} activeClassName="isActive">

@@ -5,10 +5,11 @@ import Sidebar from './Sidebar'
 import generateNavLinks from '../../utils/generateNavLinks'
 import theme from '../../utils/theme'
 
-const Layout = ({ children, location }) => (
+const Layout = ({ children, location, pageContext }) => (
   <StaticQuery
     query={query}
     render={data => {
+      console.log({ pageContext })
       const pagesData = data.allSitePage.edges
       const navLinks = generateNavLinks(pagesData)
 
@@ -16,13 +17,17 @@ const Layout = ({ children, location }) => (
         <ThemeProvider theme={theme}>
           <Wrapper>
             <GlobalStyles />
-            <Sidebar links={navLinks} pathName={location.pathname} />
-            <Main>
-              {children}
-            </Main>
+            <Sidebar
+              links={navLinks}
+              pathName={location.pathname}
+              pageContext={pageContext}
+            />
+            <Main>{children}</Main>
           </Wrapper>
         </ThemeProvider>
-    )}} />
+      )
+    }}
+  />
 )
 
 // Query
