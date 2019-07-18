@@ -1,12 +1,20 @@
 import React from 'react'
 import { Link as GatsbyLink } from 'gatsby'
 import styled from 'styled-components'
+import GithubIcon from '../../vectors/GithubIcon'
+import SidebarIcon from '../../vectors/SidebarIcon'
 
-const Sidebar = ({ links }) => (
+const getGithubLink = (pathName = '') => {
+  const githubUrl = 'https://github.com/prisma/specs/blob/master/cli/src/pages'
+  const path = pathName.endsWith('/') ? pathName.slice(0, -1) : pathName
+  return githubUrl + path + '.mdx'
+}
+
+const Sidebar = ({ links, pathName }) => (
   <Wrapper>
     <Sticky>
       <SidebarTitle>
-        <SidebarTitleIcon />
+        <SidebarIcon />
         <span>CLI Docs</span>
       </SidebarTitle>
 
@@ -22,15 +30,15 @@ const Sidebar = ({ links }) => (
 
       <GroupTitle><Faded>$</Faded> prisma help</GroupTitle>
       <GroupLinks>{ links['help'].map(link => <GroupLink link={link} />) }</GroupLinks>
+
+      <Divider />
+
+      <GithubLink href={getGithubLink(pathName)} target="_blank">
+        <GithubIcon />
+        <span>Edit on Github</span>
+      </GithubLink>
     </Sticky>
   </Wrapper>
-)
-
-const SidebarTitleIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-  <rect width="24" height="24" rx="4" fill="currentColor"/>
-  <path d="M7 7L10.9802 10.9802L7 14.9604M11.5 16.5H16.5" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
 )
 
 const GroupLink = ({ link }) => (
@@ -105,6 +113,23 @@ const Link = styled(GatsbyLink)`
 
   &:hover,
   &.isActive { color: ${p => p.theme.purple500}; }
+`
+
+const GithubLink = styled.a`
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 14px;
+  color: ${p => p.theme.gray500};
+
+  &:hover,
+  &.isActive { color: ${p => p.theme.purple500}; }
+
+  svg {
+    height: 20px;
+    width: auto;
+    margin-right: 8px;
+  }
 `
 
 export default Sidebar

@@ -5,7 +5,7 @@ import Sidebar from './Sidebar'
 import generateNavLinks from '../../utils/generateNavLinks'
 import theme from '../../utils/theme'
 
-const Layout = ({ children }) => (
+const Layout = ({ children, location }) => (
   <StaticQuery
     query={query}
     render={data => {
@@ -16,7 +16,7 @@ const Layout = ({ children }) => (
         <ThemeProvider theme={theme}>
           <Wrapper>
             <GlobalStyles />
-            <Sidebar links={navLinks} />
+            <Sidebar links={navLinks} pathName={location.pathname} />
             <Main>
               {children}
             </Main>
@@ -32,6 +32,7 @@ const query = graphql`
       edges {
         node {
           path
+          componentPath
           context {
             frontmatter {
               navGroup
