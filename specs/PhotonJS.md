@@ -302,10 +302,6 @@ type DynamicResult2 = (User & {
 const userWithPostsAndFriends: DynamicResult2 = await photon.user
   .find('bobs-id')
   .load({ include: { posts: { include: { comments: true } }, friends: true } })
-
-await photon.post
-  .findMany({ where: { published: true } })
-  .updateMany({ comments: { connect: 'comment-id' } })
 ```
 
 ## Fluent API
@@ -904,6 +900,7 @@ await photon.disconnect()
 - [ ] Name clashes / `$` pre-fixing
 - [ ] Pluralization
 - [ ] Criteria API
+- [ ] File layout of generated node package
 
 ## Bigger todos
 
@@ -931,6 +928,8 @@ await photon.disconnect()
 - [ ] Distinct
 - [ ] Force indexes
 - [ ] `Photon` constructor API
+- [ ] API when using with Prisma server
+- [ ] Generator/binary versioning
 - [ ] Options argument
 - [ ] Exec
 - [ ] Rename `where` to Criteria (filter/unique criteria)
