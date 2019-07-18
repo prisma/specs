@@ -32,23 +32,55 @@ Previous selections:
 1. Create new SQLite file
 
 <Terminal>
-  <Text bold>Select the programming language to access your database with Photon?</Text>
-  <Divider />
-  <Box flexDirection="column" paddingBottom={1} paddingTop={1}>
-    <SelectInput
-      items={[
-        { label: 'JavaScript', value: 'javascript' },
-        { label: 'TypeScript', value: 'typescript' }
-      ]}
-      itemComponent={selectInputItemComponent}
-      indicatorComponent={selectInputIndicatorComponent} />
-    <Box marginLeft={2}>Go <Color gray>(Coming soon)</Color></Box>
+  <Box flexDirection="column" marginLeft={2}>
+    <Text bold>Which programming language do you want to use?</Text>
+    <Color whiteBright dim>Learn more about the tools at https://github.com/prisma/prisma2</Color>
   </Box>
-  <Divider />
+
+  <Box flexDirection="column" paddingTop={2} paddingBottom={1}>
+    <Box>
+      <Color gray>┌──</Color>
+      <Text bold> Languages </Text>
+      <Color gray>───────────────────────────────────────────────┐</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color cyanBright>
+        {figures.pointer} <Text bold>JavaScript</Text>
+      </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box marginLeft={2}>TypeScript</Box>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box marginLeft={2}>Go <Color whiteBright dim>(Coming soon)</Color></Box>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
+    </Box>
+  </Box>
   <Box>
     <Color gray>❮ </Color>
     <Text bold>Back</Text>
-    <Color gray> (Database options)</Color>
+    <Color whiteBright dim> (Tool selection)</Color>
   </Box>
 </Terminal>
 
@@ -61,34 +93,95 @@ Previous selections:
 1. JavaScript/TypeScript
 
 <Terminal>
-  <Text bold>Do you want to use a boilerplate or explore Prisma from scratch?</Text>
-  <Divider />
-  <Box flexDirection="row" paddingBottom={1} paddingTop={1}>
-    <Box width={25}>
-      <SelectInput
-        items={[
-          { label: 'From scratch', value: 'scratch' },
-          { label: 'GraphQL boilerplate', value: 'graphql-boilerplate' },
-          { label: 'REST boilerplate', value: 'rest-boilerplate' },
-          { label: 'gRPC boilerplate', value: 'grpc-boilerplate' },
-          { label: 'No boilerplate', value: 'no-boilerplate' }
-        ]}
-        itemComponent={selectInputItemComponent}
-        indicatorComponent={selectInputIndicatorComponent} />
+  <Box flexDirection="column" marginLeft={2}>
+    <Text bold>Do you want to use a boilerplate or explore Prisma from scratch?</Text>
+    <Color whiteBright dim>Find all boilerplates at https://github.com/prisma/prisma-examples</Color>
+  </Box>
+
+  <Box flexDirection="column" paddingTop={2} paddingBottom={1}>
+    <Box>
+      <Color gray>┌──</Color>
+      <Text bold> Boilerplates </Text>
+      <Color gray>────────────────────────────────────────────┐</Color>
     </Box>
-    <Box flexDirection="column">
-      <Color gray>Simple script with API examples</Color>
-      <Color gray>GraphQL server example</Color>
-      <Color gray>REST API example (using express.js)</Color>
-      <Color gray>gRPC API example (client + server)</Color>
-      <Color gray>Just generate the Prisma schema</Color>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color cyanBright>
+        <Box width={20}>
+          {figures.pointer} <Text bold>From scratch</Text>
+        </Box>
+        <Color dim>  Simple script with API examples</Color>
+      </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20} marginLeft={2}>
+        GraphQL boilerplate
+      </Box>
+      <Color dim>GraphQL server example</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20} marginLeft={2}>
+        REST boilerplate
+      </Box>
+      <Color dim>REST API example (using express.js)</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20} marginLeft={2}>
+        gRPC boilerplate
+      </Box>
+      <Color dim>gRPC API example (client + server)</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>├────────────────────────────────────────────────────────────┤</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20} marginLeft={2}>
+        No boilerplate
+      </Box>
+      <Color dim>Just generate the Prisma schema</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
     </Box>
   </Box>
-  <Divider />
   <Box>
     <Color gray>❮ </Color>
     <Text bold>Back</Text>
-    <Color gray> (Language selection)</Color>
+    <Color whiteBright dim> (Language selection)</Color>
   </Box>
 </Terminal>
 
@@ -109,44 +202,166 @@ Previous selections:
 1. Any boilerplate (example uses GraphQL)
 
 <Terminal>
-  <Color greenBright>
-    {figures.tick} You're all set!
-  </Color>
-  <Box flexDirection="column" marginTop={1}>
-    <Text bold>What files were created?</Text>
-    <Text>The following files have been created inside the hello-world directory:</Text>
+  <Color greenBright>{figures.tick } You're all set!</Color>
+
+  <Box marginTop={1} marginLeft={2} flexDirection="column">
+    <Text>We created the following files in the hello-world directory.</Text>
+    <Box>Your database has also been seeded with the operations in <Text bold>prisma/seed.ts</Text></Box>
   </Box>
-  <Divider />
-  <Box flexDirection="column" paddingBottom={1} paddingTop={1}>
-    <Text>prisma/schema.prisma</Text>
-    <Text>prisma/seed.ts</Text>
-    <Text>src/index.ts</Text>
-    <Text>src/schema.graphql</Text>
-    <Text>src/types.ts</Text>
-    <Text>tsconfig.json</Text>
-    <Text>package.json</Text>
-    <Text>node_modules/</Text>
-  </Box>
-  <Box marginTop={1}>
-    <Color gray>Note that your database has been seeded with the operations in prisma/seed.ts</Color>
-  </Box>
-  <Box flexDirection="column" marginTop={1}>
-    <Text bold>What next?</Text>
-    <Text>Run the following commands to continue:</Text>
-  </Box>
-  <Divider />
-  <Box flexDirection="column" paddingBottom={1} paddingTop={1}>
+
+  <Box flexDirection="column" paddingTop={2}>
     <Box>
-      <Color gray>$ </Color>
-      <Text>cd hello-world</Text>
+      <Color gray>┌──</Color>
+      <Text bold> Files created </Text>
+      <Color gray>───────────────────────────────────────────┐</Color>
     </Box>
-    <Box>
-      <Color gray>$ </Color>
-      <Text>yarn start</Text>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20}>
+        <Text><Color dim>┌</Color> prisma/</Text>
+      </Box>
+      <Color dim>Your database schema</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20}>
+        <Text><Color dim>│ ├ </Color>schema.ts</Text>
+      </Box>
+      <Color dim>File description</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20}>
+        <Text><Color dim>│ └ </Color>seed.ts</Text>
+      </Box>
+      <Color dim>File description</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20}>
+        <Text><Color dim>├ </Color>src/</Text>
+      </Box>
+      <Color dim>Folder description</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20}>
+        <Text><Color dim>│ ├ </Color>index.ts</Text>
+      </Box>
+      <Color dim>File description</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20}>
+        <Text><Color dim>│ ├ </Color>schema.graphql</Text>
+      </Box>
+      <Color dim>File description</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20}>
+        <Text><Color dim>│ └ </Color>types.ts</Text>
+      </Box>
+      <Color dim>File description</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20}>
+        <Text><Color dim>├</Color> tsconfig.json</Text>
+      </Box>
+      <Color dim>TypeScript configuration</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20}>
+        <Text><Color dim>├</Color> package.json</Text>
+      </Box>
+      <Color dim>File description</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20}>
+        <Text><Color dim>└ node_modules/</Color></Text>
+      </Box>
+      <Color dim>Required dependencies</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
     </Box>
   </Box>
-  <Color gray>Learn more about this example:</Color>
-  <Color gray>https://github.com/prisma/photonjs/tree/master/examples/typescript/graphql</Color>
+
+  <Box flexDirection="column" paddingTop={1} paddingBottom={1}>
+    <Box>
+      <Color gray>┌──</Color>
+      <Text bold> Run the following commands to get started </Text>
+      <Color gray>───────────────┐</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20}>
+        <Text><Color dim>$</Color> cd hello-world</Text>
+      </Box>
+      <Color dim>Move to your project folder</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20}>
+        <Text><Color dim>$ </Color>yarn start</Text>
+      </Box>
+      <Color dim>Start the app</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
+    </Box>
+  </Box>
+  <Box marginLeft={2} flexDirection="column">
+    <Color whiteBright dim>Learn more about this example:</Color>
+    <Color whiteBright dim>https://github.com/prisma/photonjs/tree/master/examples/typescript/graphql</Color>
+  </Box>
 </Terminal>
 
 The created files are created dynamically based on which example was selected. The "Learn more"-link also needs to be adjusted dynamically based on the example.
@@ -159,34 +374,82 @@ The created files are created dynamically based on which example was selected. T
 1. No boilerplate
 
 <Terminal>
-  <Color greenBright>
-    {figures.tick} You're all set!
-  </Color>
-  <Box flexDirection="column" marginTop={1}>
-    <Text bold>What files were created?</Text>
-    <Text>The Prisma schema file has been created inside the hello-world directory:</Text>
+  <Color greenBright>{figures.tick } You're all set!</Color>
+
+  <Box marginTop={1} marginLeft={2} flexDirection="column">
+    We created the following files in the hello-world directory.
   </Box>
-  <Divider />
-  <Box flexDirection="column" paddingBottom={1} paddingTop={1}>
-    <Text>schema.prisma</Text>
-  </Box>
-  <Box flexDirection="column" marginTop={1}>
-    <Text bold>What next?</Text>
-    <Text>Run the following commands to continue:</Text>
-  </Box>
-  <Divider />
-  <Box flexDirection="column" paddingBottom={1} paddingTop={1}>
+
+  <Box flexDirection="column" paddingTop={2}>
     <Box>
-      <Color gray>$ </Color>
-      <Text>cd hello-world</Text>
+      <Color gray>┌──</Color>
+      <Text bold> Files created </Text>
+      <Color gray>───────────────────────────────────────────┐</Color>
     </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20}>
+        <Text><Color dim>-</Color> schema.prisma</Text>
+      </Box>
+      <Color dim>File description</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
+    </Box>
+  </Box>
+
+  <Box flexDirection="column" paddingTop={1} paddingBottom={1}>
     <Box>
-      <Color gray>$ </Color>
-      <Text>prisma dev</Text>
+      <Color gray>┌──</Color>
+      <Text bold> Run the following commands to get started </Text>
+      <Color gray>───────────────┐</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20}>
+        <Text><Color dim>$</Color> cd hello-world</Text>
+      </Box>
+      <Color dim>Move to your project folder</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20}>
+        <Text><Color dim>$ </Color>prisma dev</Text>
+      </Box>
+      <Color dim>Start the app</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
     </Box>
   </Box>
-  <Box paddingBottom={1}>
-    <Color gray>This starts Prisma's development mode which automatically migrates your database and regenerates Photon when you save changes to your data model in hello-world/schema.prisma</Color>
+  <Box marginLeft={2} flexDirection="column">
+    <Color whiteBright dim>Learn more about this example:</Color>
+    <Color whiteBright dim>https://github.com/prisma/photonjs/tree/master/examples/typescript/graphql</Color>
   </Box>
-  <Color gray>Learn more: https://github.com/prisma/prisma2/blob/master/docs/development-mode.md</Color>
 </Terminal>
