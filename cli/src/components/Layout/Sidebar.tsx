@@ -39,6 +39,8 @@ const Sidebar = ({ links, pathName, pageContext }) => (
         <span>CLI Docs</span>
       </SidebarTitle>
 
+      <GroupLink link={{ label: 'Home', url: '/' }} />
+
       <GroupTitle>
         <Faded>$</Faded> prisma init
       </GroupTitle>
@@ -80,7 +82,7 @@ const Sidebar = ({ links, pathName, pageContext }) => (
   </Wrapper>
 )
 
-const GroupLink = ({ link }) => (
+const GroupLink = ({ link }: { link: { url: string; label: string } }) => (
   <Link to={link.url} activeClassName="isActive">
     {link.label}
   </Link>
