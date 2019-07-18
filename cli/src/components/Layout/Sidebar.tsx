@@ -59,7 +59,7 @@ const Sidebar = ({ links, pathName }) => {
         </GroupTitle>
         <GroupLinks>
           {links['init'].map(link => (
-            <GroupLink link={link} />
+            <GroupLink link={link} key={link.url} />
           ))}
         </GroupLinks>
 
@@ -70,7 +70,7 @@ const Sidebar = ({ links, pathName }) => {
         </GroupTitle>
         <GroupLinks>
           {links['dev'].map(link => (
-            <GroupLink link={link} />
+            <GroupLink link={link} key={link.url} />
           ))}
         </GroupLinks>
 
@@ -81,7 +81,7 @@ const Sidebar = ({ links, pathName }) => {
         </GroupTitle>
         <GroupLinks>
           {links['help'].map(link => (
-            <GroupLink link={link} />
+            <GroupLink link={link} key={link.url} />
           ))}
         </GroupLinks>
 
