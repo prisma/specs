@@ -1,16 +1,17 @@
 import React from 'react'
-import { Terminal } from 'xterm'
+import { Terminal as XTerminal } from 'xterm'
 // NOTE special path needed for gatsby to build because of `window`
 import { FitAddon } from 'xterm-addon-fit/out/FitAddon'
 import ansiEscapes from 'ansi-escapes'
+import { getActiveTheme } from '../../utils/themeStore'
 
 // Terminal Wrapper
 export default class TerminalWrapper extends React.Component<{
   style?: React.CSSProperties
-  getTerminal?: (terminal: Terminal) => void
+  getTerminal?: (terminal: XTerminal) => void
 }> {
   ref: any
-  terminal?: Terminal
+  terminal?: XTerminal
 
   setRef = (ref: any) => {
     this.ref = ref
@@ -18,7 +19,10 @@ export default class TerminalWrapper extends React.Component<{
 
   componentDidMount() {
     if (this.ref) {
-      this.terminal = new Terminal()
+      this.terminal = new XTerminal({
+        theme: getActiveTheme().theme,
+      })
+
       this.terminal.focus()
       this.terminal.loadAddon(new FitAddon())
       this.terminal.open(this.ref)

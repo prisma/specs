@@ -1,8 +1,13 @@
 import React from 'react'
 import { Link as GatsbyLink, graphql, useStaticQuery } from 'gatsby'
 import styled from 'styled-components'
+import * as themes from '../../utils/themes'
 import GithubIcon from '../../vectors/GithubIcon'
 import SidebarIcon from '../../vectors/SidebarIcon'
+import {
+  saveActiveThemeAndReload,
+  getActiveThemeKey,
+} from '../../utils/themeStore'
 
 export const useGitHubURL = (path: string) => {
   const data = useStaticQuery(
@@ -78,6 +83,16 @@ const Sidebar = ({ links, pathName, pageContext }) => (
         <GithubIcon />
         <span>Edit on Github</span>
       </GithubLink>
+      <select
+        onChange={e => saveActiveThemeAndReload(e.target.value)}
+        defaultValue={getActiveThemeKey()}
+      >
+        {Object.keys(themes).map(themeKey => (
+          <option key={themeKey} value={themeKey}>
+            {themes[themeKey].name}
+          </option>
+        ))}
+      </select>
     </Sticky>
   </Wrapper>
 )
