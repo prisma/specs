@@ -1,5 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
+import * as themes from '../../utils/themes'
+import { getActiveThemeKey } from '../../utils/themeStore'
+
+const currentTheme = themes[getActiveThemeKey()].theme
 
 // Terminal Window
 const TerminalWindow = ({ children }) => (
@@ -18,8 +22,8 @@ const TerminalWindow = ({ children }) => (
 
 // Styles
 const Terminal = styled.div`
-  background: #000;
-  color: #B9BFCA;
+  background: ${currentTheme.background};
+  color: ${currentTheme.foreground};
   border-radius: 6px;
   font-family: 'Roboto Mono', monospace;
   line-height: 1.5;
