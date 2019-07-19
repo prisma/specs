@@ -9,7 +9,6 @@ const Layout = ({ children, location, pageContext }) => (
   <StaticQuery
     query={query}
     render={data => {
-      console.log({ pageContext })
       const pagesData = data.allSitePage.edges
       const navLinks = generateNavLinks(pagesData)
 
