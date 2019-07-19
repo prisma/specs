@@ -3,7 +3,12 @@ import * as themes from './themes'
 
 const storageKey = 'selected-theme'
 
-const localStorage = typeof window !== 'undefined' && window.localStorage
+const localStorageFallback = {
+  getItem: () => '',
+  setItem: () => '',
+}
+const localStorage =
+  typeof window !== 'undefined' ? window.localStorage : localStorageFallback
 
 export function getActiveThemeKey(): string {
   return localStorage.getItem(storageKey) || 'defaultTheme'
