@@ -78,20 +78,20 @@ type Profile = {
 ## Basic Queries
 
 ```ts
-// Find single record by @id field
-const alice: User = await photon.user.find('user-id')
+// Find single record by @id field. Returns nullable result
+const alice: User | null = await photon.user.find('user-id')
 
 // Find single record by other unique field
-const alice: User = await photon.user.find({ email: 'alice@prisma.io' })
+const alice: User | null = await photon.user.find({ email: 'alice@prisma.io' })
 
 // Find using composite/multi-field unique indexes
 // Note: This example is not compatible with the example schema above.
-const john: User = await photon.user.find({
+const john: User | null = await photon.user.find({
   name: { firstName: 'John', lastName: 'Doe' },
 })
 
 // Find using unique relation
-const bob: User = await photon.user.find({
+const bob: User | null = await photon.user.find({
   bestFriend: { email: 'alice@prisma.io' },
 })
 
@@ -100,11 +100,13 @@ const allUsers: User[] = await photon.user.findMany()
 const first100Users: User[] = await photon.user.findMany({ first: 100 })
 
 // Ordering
-const usersByEmail = await photon.user.findMany({ orderBy: { email: 'ASC' } })
-const usersByEmailAndName = await photon.user.findMany({
+const usersByEmail: User[] = await photon.user.findMany({
+  orderBy: { email: 'ASC' },
+})
+const usersByEmailAndName: User[] = await photon.user.findMany({
   orderBy: { email: 'ASC', name: 'DESC' },
 })
-const usersByProfile = await photon.user.findMany({
+const usersByProfile: User[] = await photon.user.findMany({
   orderBy: { profile: { imageSize: 'ASC' } },
 })
 
@@ -113,6 +115,11 @@ await photon.user.findMany({ where: { email: { contains: '@gmail.com' } } })
 await photon.user.findMany({
   where: { email: { containsInsensitive: '@gmail.com' } },
 })
+
+// Get first of many
+const user: User | null = await photon.user
+  .findMany({ where: { lastName: 'Doe' } })
+  .first()
 
 // Exists
 const userFound: boolean = await photon.user.find('bobs-id').exists()
