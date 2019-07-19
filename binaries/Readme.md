@@ -71,7 +71,7 @@ generator photon {
 
 # Examples
 
-## 1. Development machine is Mac but the deployment platform is AWS lambda.
+### 1. Development machine is Mac but the deployment platform is AWS lambda.
 
 We can use `platforms` **without** a `pinnedPlatform`. `pinnedPlatform` will be resolved at runtime, see [Runtime binary resolution](#runtime-binary-resolution)
 for more details.
@@ -83,7 +83,7 @@ generator photon {
 }
 ```
 
-## 2. Deterministically choose the platform based a runtime environment variable
+### 2. Deterministically choose the platform based a runtime environment variable
 
 We can use `platforms` **and** `pinnedPlatform`. We set an environment variable
 
@@ -97,7 +97,7 @@ generator photon {
 
 We define the platforms and pin one of the platforms.
 
-## 3. Development machine is Mac but we need a custom binary in production
+### 3. Development machine is Mac but we need a custom binary in production
 
 In `platforms`, we can use a custom path to `./custom-prisma-binary`.
 
@@ -113,7 +113,7 @@ generator photon {
 
 Both `platforms` and `pinnedPlatform` fields are optional, scenarios:
 
-## 1. Both `platforms` and `pinnedPlatform` are not provided.
+### 1. Both `platforms` and `pinnedPlatform` are not provided.
 
 ```groovy
 generator photon {
@@ -123,7 +123,7 @@ generator photon {
 
 We download and use the binary for the current platform.
 
-## 2. Field `platforms` provided with multiple values and `pinnedPlatform` is not provided.
+### 2. Field `platforms` provided with multiple values and `pinnedPlatform` is not provided.
 
 ```groovy
 generator photon {
@@ -134,7 +134,7 @@ generator photon {
 
 Since we do not pin the platform here using `pinnedPlatform`, we need to resolve the binary at runtime, see [Runtime binary resolution] for more details.
 
-## 3. Field `platforms` provided with multiple values and `pinnedPlatform` is also provided.
+### 3. Field `platforms` provided with multiple values and `pinnedPlatform` is also provided.
 
 ```groovy
 generator photon {
