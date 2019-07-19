@@ -64,7 +64,8 @@ generator photon {
 - `"native"` is a special keyword for your local development platform. `native` may be different for different developers, depending on their machine. If you're
   on OSX, this would be `mac`. If you're on a common linux distro, it would detect the appropriate binary for your environment. See the
   [Table of Binaries](#table-of-binaries) below for a reference.
-- `env("PLATFORM")` allows you to switch between the platforms via `PLATFORM` environment variable.
+- `env("PLATFORM")` allows you to switch between the platforms via `PLATFORM` environment variable. This environment variable will be generated into code as an
+  environment variable to be used at runtime. In Node, this statement would look like this: `process.env.PLATFORM`.
 
 # Scenarios
 
