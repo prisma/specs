@@ -32,7 +32,7 @@ import figures from 'figures'
 <Terminal>
   <Box flexDirection="column" marginLeft={2}>
     <Text bold>Log into your database</Text>
-    <Color whiteBright dim>Learn how to set up a PostgreSQL database: https://www.prisma.io/docs</Color>
+    <Color  dim>Learn how to set up a PostgreSQL database: https://www.prisma.io/docs</Color>
   </Box>
 
   <Box flexDirection="column" paddingTop={2} paddingBottom={1}>
@@ -72,8 +72,8 @@ import figures from 'figures'
     </Box>
     <Box width={100}>
       <Color gray>│ </Color>
-      <Color cyanBright>{figures.pointer} </Color>
-      <Color cyanBright>
+      <Color cyan>{figures.pointer} </Color>
+      <Color cyan>
         <Text bold>Password: </Text>
         <TextInput value="password" showCursor={false} />
       </Color>
@@ -145,7 +145,7 @@ import figures from 'figures'
   <Box>
     <Color gray>❮ </Color>
     <Text bold>Back</Text>
-    <Color whiteBright dim> (Database selection)</Color>
+    <Color  dim> (Database selection)</Color>
   </Box>
 </Terminal>
 
@@ -153,7 +153,7 @@ import figures from 'figures'
 <Terminal>
   <Box flexDirection="column" marginLeft={2}>
     <Text bold>Log into your database</Text>
-    <Color whiteBright dim>Learn how to set up a PostgreSQL database: https://www.prisma.io/docs</Color>
+    <Color  dim>Learn how to set up a PostgreSQL database: https://www.prisma.io/docs</Color>
   </Box>
 
   <Box flexDirection="column" paddingTop={2}>
@@ -169,8 +169,8 @@ import figures from 'figures'
     </Box>
     <Box width={100}>
       <Color gray>│ </Color>
-      <Color cyanBright>{figures.pointer} </Color>
-      <Color cyanBright>
+      <Color cyan>{figures.pointer} </Color>
+      <Color cyan>
         <Text bold>Autofill credentials</Text>
       </Color>
       <Box flexGrow={1}></Box>
@@ -294,13 +294,13 @@ import figures from 'figures'
   <Box>
     <Color gray>❮ </Color>
     <Text bold>Back</Text>
-    <Color whiteBright dim> (Database selection)</Color>
+    <Color  dim> (Database selection)</Color>
   </Box>
 </Terminal>
 
 ## (2) Choose Existing or New Database
 <Terminal>
-  <Color greenBright>
+  <Color green>
     {figures.tick } Connected to PostgreSQL server as <Text bold>admin</Text>
   </Color>
 
@@ -317,7 +317,7 @@ import figures from 'figures'
     </Box>
     <Box width={100}>
       <Color gray>│ </Color>
-      <Color cyanBright>
+      <Color cyan>
         <Box width={30}>
           <Text bold>{figures.pointer} Create new PostgreSQL schema</Text>
         </Box>
@@ -328,7 +328,7 @@ import figures from 'figures'
     </Box>
     <Box width={100}>
       <Color gray>│   </Color>
-      <Color whiteBright>
+      <Color >
         <Box width={30}>
           <Text>Use existing PostgreSQL schema</Text>
         </Box>
@@ -349,13 +349,13 @@ import figures from 'figures'
   <Box>
     <Color gray>❮ </Color>
     <Text bold>Back</Text>
-    <Color whiteBright dim> (Database credentials)</Color>
+    <Color  dim> (Database credentials)</Color>
   </Box>
 </Terminal>
 
 ## (2.1) Set Database Name
 <Terminal>
-  <Color greenBright>
+  <Color green>
     {figures.tick } Connected to PostgreSQL server as <Text bold>admin</Text>
   </Color>
 
@@ -372,7 +372,7 @@ import figures from 'figures'
     </Box>
     <Box width={100}>
       <Color gray>│ </Color>
-      <Color cyanBright>
+      <Color cyan>
         <Text bold>{figures.pointer} Name:</Text>
         <Color dim> my-schmema</Color>
       </Color>
@@ -391,26 +391,26 @@ import figures from 'figures'
   <Box>
     <Color gray>❮ </Color>
     <Text bold>Back</Text>
-    <Color whiteBright dim> (Schema selection)</Color>
+    <Color  dim> (Schema selection)</Color>
   </Box>
 </Terminal>
 
 ## (3) Choose a Database
 <Terminal>
-  <Color greenBright>
+  <Color green>
     {figures.tick } Connected to PostgreSQL server as <Text bold>admin</Text>
   </Color>
 
   <Box flexDirection="column" marginLeft={2} marginTop={1}>
     <Text bold>Select a PostgreSQL schema</Text>
-    <Color whiteBright dim>Select an empty schema to start a new project or introspect a non-empty one to generate your data model definition.</Color>
+    <Color  dim>Select an empty schema to start a new project or introspect a non-empty one to generate your data model definition.</Color>
   </Box>
 
   <Box flexDirection="column" paddingTop={2}>
     <Box>
       <Color gray>┌──</Color>
       <Text bold> Empty schemas </Text>
-      <Color whiteBright dim>(Start a new project)</Color>
+      <Color  dim>(Start a new project)</Color>
       <Color gray> ─────────────────────┐</Color>
     </Box>
     <Box width={100}>
@@ -420,7 +420,7 @@ import figures from 'figures'
     </Box>
     <Box width={100}>
       <Color gray>│ </Color>
-      <Color cyanBright>
+      <Color cyan>
         <Box width={20}>
           <Text>{figures.pointer} public</Text>
         </Box>
@@ -443,7 +443,7 @@ import figures from 'figures'
     <Box>
       <Color gray>┌── </Color>
       <Text bold>Non-empty schemas </Text>
-      <Color whiteBright dim>(Introspect existing schema)</Color>
+      <Color  dim>(Introspect existing schema)</Color>
       <Color gray> ──────────┐</Color>
     </Box>
     <Box width={100}>
@@ -491,7 +491,7 @@ import figures from 'figures'
   <Box>
     <Color gray>❮ </Color>
     <Text bold>Back</Text>
-    <Color whiteBright dim> (Schema selection)</Color>
+    <Color  dim> (Schema selection)</Color>
   </Box>
 </Terminal>
 
@@ -507,7 +507,7 @@ import figures from 'figures'
 <Terminal>
   <Box flexDirection="column" marginLeft={2}>
     <Text bold>Which parts of Prisma do you want to use?</Text>
-    <Color whiteBright dim>Learn more about the tools at https://github.com/prisma/prisma2</Color>
+    <Color  dim>Learn more about the tools at https://github.com/prisma/prisma2</Color>
   </Box>
 
   <Box flexDirection="column" paddingTop={2} paddingBottom={1}>
@@ -523,7 +523,7 @@ import figures from 'figures'
     </Box>
     <Box width={100}>
       <Color gray>│ </Color>
-      <Color cyanBright>
+      <Color cyan>
         <Box width={10}>{figures.pointer} {figures.squareSmallFilled} Photon</Box>
         <Color dim>  Type-safe database client</Color>
       </Color>
@@ -553,7 +553,7 @@ import figures from 'figures'
   <Box>
     <Color gray>❮ </Color>
     <Text bold>Back</Text>
-    <Color whiteBright dim> (Schema selection)</Color>
+    <Color  dim> (Schema selection)</Color>
   </Box>
 </Terminal>
 
@@ -561,7 +561,7 @@ import figures from 'figures'
 <Terminal>
   <Box flexDirection="column" marginLeft={2}>
     <Text bold>Which programming language do you want to use?</Text>
-    <Color whiteBright dim>Learn more about the tools at https://github.com/prisma/prisma2</Color>
+    <Color  dim>Learn more about the tools at https://github.com/prisma/prisma2</Color>
   </Box>
 
   <Box flexDirection="column" paddingTop={2} paddingBottom={1}>
@@ -577,7 +577,7 @@ import figures from 'figures'
     </Box>
     <Box width={100}>
       <Color gray>│ </Color>
-      <Color cyanBright>
+      <Color cyan>
         {figures.pointer} <Text bold>JavaScript</Text>
       </Color>
       <Box flexGrow={1}></Box>
@@ -591,7 +591,7 @@ import figures from 'figures'
     </Box>
     <Box width={100}>
       <Color gray>│ </Color>
-      <Box marginLeft={2}>Go <Color whiteBright dim>(Coming soon)</Color></Box>
+      <Box marginLeft={2}>Go <Color  dim>(Coming soon)</Color></Box>
       <Box flexGrow={1}></Box>
       <Color gray> │</Color>
     </Box>
@@ -607,7 +607,7 @@ import figures from 'figures'
   <Box>
     <Color gray>❮ </Color>
     <Text bold>Back</Text>
-    <Color whiteBright dim> (Tool selection)</Color>
+    <Color  dim> (Tool selection)</Color>
   </Box>
 </Terminal>
 
@@ -615,7 +615,7 @@ import figures from 'figures'
 <Terminal>
   <Box flexDirection="column" marginLeft={2}>
     <Text bold>Which programming language do you want to use?</Text>
-    <Color whiteBright dim>Learn more about the tools at https://github.com/prisma/prisma2</Color>
+    <Color  dim>Learn more about the tools at https://github.com/prisma/prisma2</Color>
   </Box>
 
   <Box flexDirection="column" paddingTop={2} paddingBottom={1}>
@@ -631,7 +631,7 @@ import figures from 'figures'
     </Box>
     <Box width={100}>
       <Color gray>│ </Color>
-      <Color cyanBright>
+      <Color cyan>
         {figures.pointer} <Text bold>JavaScript</Text>
       </Color>
       <Box flexGrow={1}></Box>
@@ -645,7 +645,7 @@ import figures from 'figures'
     </Box>
     <Box width={100}>
       <Color gray>│ </Color>
-      <Box marginLeft={2}>Go <Color whiteBright dim>(Coming soon)</Color></Box>
+      <Box marginLeft={2}>Go <Color  dim>(Coming soon)</Color></Box>
       <Box flexGrow={1}></Box>
       <Color gray> │</Color>
     </Box>
@@ -661,7 +661,7 @@ import figures from 'figures'
   <Box>
     <Color gray>❮ </Color>
     <Text bold>Back</Text>
-    <Color whiteBright dim> (Tool selection)</Color>
+    <Color  dim> (Tool selection)</Color>
   </Box>
 </Terminal>
 
@@ -669,7 +669,7 @@ import figures from 'figures'
 <Terminal>
   <Box flexDirection="column" marginLeft={2}>
     <Text bold>Which programming language do you want to use?</Text>
-    <Color whiteBright dim>Learn more about the tools at https://github.com/prisma/prisma2</Color>
+    <Color  dim>Learn more about the tools at https://github.com/prisma/prisma2</Color>
   </Box>
 
   <Box flexDirection="column" paddingTop={2} paddingBottom={1}>
@@ -685,7 +685,7 @@ import figures from 'figures'
     </Box>
     <Box width={100}>
       <Color gray>│ </Color>
-      <Color cyanBright>
+      <Color cyan>
         {figures.pointer} <Text bold>JavaScript</Text>
       </Color>
       <Box flexGrow={1}></Box>
@@ -699,7 +699,7 @@ import figures from 'figures'
     </Box>
     <Box width={100}>
       <Color gray>│ </Color>
-      <Box marginLeft={2}>Go <Color whiteBright dim>(Coming soon)</Color></Box>
+      <Box marginLeft={2}>Go <Color  dim>(Coming soon)</Color></Box>
       <Box flexGrow={1}></Box>
       <Color gray> │</Color>
     </Box>
@@ -715,7 +715,7 @@ import figures from 'figures'
   <Box>
     <Color gray>❮ </Color>
     <Text bold>Back</Text>
-    <Color whiteBright dim> (Tool selection)</Color>
+    <Color  dim> (Tool selection)</Color>
   </Box>
 </Terminal>
 
@@ -723,7 +723,7 @@ import figures from 'figures'
 <Terminal>
   <Box flexDirection="column" marginLeft={2}>
     <Text bold>Do you want to use a boilerplate or explore Prisma from scratch?</Text>
-    <Color whiteBright dim>Find all boilerplates at https://github.com/prisma/prisma-examples</Color>
+    <Color  dim>Find all boilerplates at https://github.com/prisma/prisma-examples</Color>
   </Box>
 
   <Box flexDirection="column" paddingTop={2} paddingBottom={1}>
@@ -739,7 +739,7 @@ import figures from 'figures'
     </Box>
     <Box width={100}>
       <Color gray>│ </Color>
-      <Color cyanBright>
+      <Color cyan>
         <Box width={20}>
           {figures.pointer} <Text bold>From scratch</Text>
         </Box>
@@ -809,14 +809,14 @@ import figures from 'figures'
   <Box>
     <Color gray>❮ </Color>
     <Text bold>Back</Text>
-    <Color whiteBright dim> (Language selection)</Color>
+    <Color  dim> (Language selection)</Color>
   </Box>
 </Terminal>
 
 ## (6) Success (Boilerplate)
 <Terminal>
   <Box>
-    <Color greenBright>{figures.tick } You're all set!</Color>
+    <Color green>{figures.tick } You're all set!</Color>
   </Box>
 
   <Box flexDirection="column" paddingTop={1}>
@@ -915,7 +915,7 @@ import figures from 'figures'
     </Box>
   </Box>
   <Box marginLeft={2}>
-    <Color whiteBright dim>Learn more about using Photon and Lift at https://www.prisma.io/docs</Color>
+    <Color  dim>Learn more about using Photon and Lift at https://www.prisma.io/docs</Color>
   </Box>
 </Terminal>
 
