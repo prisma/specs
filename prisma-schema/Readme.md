@@ -766,7 +766,7 @@ For example, a ts generator might choose to interpret the type of the `name` fie
 
 ```groovy
 model User {
-	name  String  @pg.varchar(8)
+	name  pg.varchar(n: 8)
 }
 ```
 
@@ -815,12 +815,14 @@ model Customer {}
 Type definitions can be used to consolidate various type specifications into one type.
 
 ```groovy
-type Numeric Float @pg.numeric(precision: 5, scale: 2)
-                   @ms.decimal(precision: 5, scale: 2)
+type Numeric {
+  precision Int @bound(gte: 1, lte: 131072)
+  scale Int @bound(gte: 0, lte: 16383)
+}
 
 model User {
   id       Int      @id
-  weight   Numeric
+  weight   Numeric(precision: 5, scale: 20)
 }
 ```
 
@@ -838,19 +840,20 @@ type BigInt Int @raw("bigint") @bound(gte: -9223372036854775808, lte: 9223372036
 type Money Float @raw("money") @bound(gte: -92233720368547758.08, lte: 92233720368547758.07)
 
 type Numeric {
-  Precision Int @bound(gte: 1, lte: 131072)
-  Scale Int @bound(gte: 0, lte: 16383)
+  @@raw("numeric(precision, scale)")
+  precision Int @bound(gte: 1, lte: 131072)
+  scale Int @bound(gte: 0, lte: 16383)
 }
 
 type Point {
-  @@raw("point")
-  X Float @bound(gte: -3.4E38, lte: 3.4E38)
-  Y Float @bound(gte: -3.4E38, lte: 3.4E38)
+  @@raw("point(x, y)")
+  x Float @bound(gte: -3.4E38, lte: 3.4E38)
+  y Float @bound(gte: -3.4E38, lte: 3.4E38)
 }
 
 type Varchar {
-  @@raw("varchar")
-  N Int @bound(gte: 1, lte: 1000000000)
+  @@raw("varchar(n)")
+  n Int @bound(gte: 1, lte: 1000000000)
 }
 ```
 
@@ -865,8 +868,8 @@ datasource pg {
 model Customer {
   age      pg.SmallInt
   amount   pg.Money
-  name     pg.Varchar(N: 10)
-  location pg.Point(Y: 5, X: 6)
+  name     pg.Varchar(n: 10)
+  location pg.Point(y: 5, x: 6)
 }
 ```
 
@@ -1073,7 +1076,7 @@ model User {
 
 ```groovy
 model Post {
-	title String @pg.varchar(42)
+	title pg.varchar(n: 42)
 	body  String
 }
 ```
@@ -1082,7 +1085,7 @@ Resolves to:
 
 ```groovy
 model Post {
-	title String @pg.varchar(42)
+	title pg.varchar(n: 42)
 	body  String
 }
 
@@ -1116,7 +1119,7 @@ Often times you'll import a schema that has conflicting models. In this case we 
 ```groovy
 model Post {
   id    Int    @id
-	title pg.Varchar(42)
+	title pg.Varchar(n: 42)
 	body  String
   @@unique([id,title])
 }
@@ -1145,7 +1148,7 @@ model User {
 
 model Post {
   id    Int    @id
-	title pg.Varchar(42)
+	title pg.Varchar(n: 42)
 	body  String
   @@unique([id,title])
 }
