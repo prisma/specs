@@ -911,51 +911,46 @@ datasource pg {
 }
 ```
 
-In this case `env` represents the outside environment. Tools will be expected to
-provide this environment variable when they perform operations based on the
-schema. For example:
-
-```sh
-$ prisma deploy
-! required POSTGRES_URL variable not provided
-
-$ POSTGRES_URL="postgres://user:secret@rds.amazon.com:4321/db" prisma deploy
-```
+In this case `env` represents the outside environment.
 
 ### Introspect Behavior
 
-Environment variables will most often be used to connect to a datasource.
+Introspection time will require the environment variable to be present:
 
-Therefore, we check and resolve environment variables before connecting and running introspection algorithms.
+```sh
+$ prisma instrospect
+! required POSTGRES_URL variable not found
+
+$ export POSTGRES_URL="postgres://user:secret@rds.amazon.com:4321/db"
+$ prisma introspect
+```
 
 ### Migrate Behavior
 
-Environment variables will most often be used to connect to a datasource.
+Migration time will require the environment variable to be present:
 
-Therefore, we check and resolve environment variables before connecting and running our migrations.
+```sh
+$ prisma lift up
+! required POSTGRES_URL variable not found
+
+$ export POSTGRES_URL="postgres://user:secret@rds.amazon.com:4321/db"
+$ prisma lift up
+```
 
 ### Generate Behavior
 
-Environment variables will most often be used to connect to a datasource. When we're generating source code, we don't need to connect to the datasource, but
-rather when we run the source code.
+Generation time will **not** require the environment variable:
 
-Therefore, we will detect the use of an environment variable in the connector's configuration and copy it into the generated code. The generators will decide
-how to generate these environment variable entrypoints.
-
-Here's an example:
-
-```groovy
-datasource pg {
-  url = env("POSTGRES_URL")
-}
+```sh
+$ prisma generate
 ```
 
-```ts
-childProcess.spawn("./query_engine", {
-  env: {
-    url: process.env.POSTGRES_URL
-  }
-});
+But runtime will:
+
+```js
+import Photon from '@generated/photon'
+const photon = new Photon()
+// Thrown: required `POSTGRES_URL` variable not found
 ```
 
 ### Switching Datasources based on Environments
