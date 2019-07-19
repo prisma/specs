@@ -3,6 +3,8 @@ import * as themes from './themes'
 
 const storageKey = 'selected-theme'
 
+const localStorage = typeof window !== 'undefined' && window.localStorage
+
 export function getActiveThemeKey(): string {
   return localStorage.getItem(storageKey) || 'defaultTheme'
 }
