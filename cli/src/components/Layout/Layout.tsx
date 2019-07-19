@@ -14,7 +14,7 @@ const StateProvider = ({ reducer, initialState, children }) => (
 )
 export const useStateValue: any = () => useContext(StateContext)
 
-const storageKey = 'selected-theme'
+const storageKey = 'selectedTheme'
 const localStorageFallback = {
   getItem: () => null,
   setItem: () => {},

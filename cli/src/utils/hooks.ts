@@ -1,6 +1,6 @@
 import * as themes from './themes'
 
-const defaultThemeKey = 'defaultTheme'
+const defaultThemeKey = 'verminal'
 
 export const useActiveThemeKey = useActiveThemeKeyState => {
   const [value, setValue] = useActiveThemeKeyState({ theme: defaultThemeKey })
