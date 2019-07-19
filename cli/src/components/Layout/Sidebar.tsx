@@ -4,10 +4,8 @@ import styled from 'styled-components'
 import * as themes from '../../utils/themes'
 import GithubIcon from '../../vectors/GithubIcon'
 import SidebarIcon from '../../vectors/SidebarIcon'
-import {
-  useActiveThemeKey, useActiveTheme,
-} from '../../utils/hooks'
-import { useStateValue } from './Layout';
+import { useActiveThemeKey } from '../../utils/hooks'
+import { useStateValue } from './Layout'
 
 export const useGitHubURL = (path: string) => {
   const data = useStaticQuery(
