@@ -989,23 +989,6 @@ Generation time will **not** require the environment variable:
 $ prisma generate
 ```
 
-<<<<<<< HEAD
-<<<<<<< HEAD But runtime will:
-
-````js
-import Photon from '@generated/photon'
-const photon = new Photon()
-// Thrown: required `POSTGRES_URL` variable not found
-=======
-```ts
-childProcess.spawn('./query_engine', {
-  env: {
-    url: process.env.POSTGRES_URL,
-  },
-})
->>>>>>> start the type definitions
-````
-=======
 But runtime will:
 
 ```js
@@ -1013,7 +996,6 @@ import Photon from '@generated/photon'
 const photon = new Photon()
 // Thrown: required `POSTGRES_URL` variable not found
 ```
->>>>>>> updates
 
 ### Switching Datasources based on Environments
 
