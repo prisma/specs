@@ -36,8 +36,7 @@ export const useGitHubURL = (path: string) => {
   return githubUrl
 }
 
-const Sidebar = ({ links, pathName, pageContext }) => {
-  // const [themeKey, setThemeKey] = useActiveThemeKey()
+const Sidebar = ({ links, pageContext }) => {
   const [useActiveThemeKeyState] = useStateValue()
   const [themeKey, setThemeKey] = useActiveThemeKey(useActiveThemeKeyState)
   return (

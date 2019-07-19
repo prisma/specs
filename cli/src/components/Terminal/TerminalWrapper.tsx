@@ -6,11 +6,13 @@ import ansiEscapes from 'ansi-escapes'
 import { Theme } from '../../types'
 
 // Terminal Wrapper
-export default class TerminalWrapper extends React.Component<{
+type Props = {
   style?: React.CSSProperties
   theme: Theme
   getTerminal?: (terminal: XTerminal) => void
-}> {
+  children: any
+}
+export default class TerminalWrapper extends React.Component<Props> {
   ref: any
   terminal?: XTerminal
 
