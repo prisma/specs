@@ -5,7 +5,7 @@ const storageKey = 'selected-theme'
 
 const localStorageFallback = {
   getItem: () => null,
-  setItem: () => '',
+  setItem: () => {},
 }
 const localStorage =
   typeof window !== 'undefined' ? window.localStorage : localStorageFallback
