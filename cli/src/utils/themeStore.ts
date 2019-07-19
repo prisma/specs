@@ -4,7 +4,7 @@ import * as themes from './themes'
 const storageKey = 'selected-theme'
 
 const localStorageFallback = {
-  getItem: () => '',
+  getItem: () => null,
   setItem: () => '',
 }
 const localStorage =
