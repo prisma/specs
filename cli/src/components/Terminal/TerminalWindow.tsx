@@ -1,29 +1,27 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import * as themes from '../../utils/themes'
-import { getActiveThemeKey } from '../../utils/themeStore'
-
-const currentTheme = themes[getActiveThemeKey()].theme
+import { getActiveTheme } from '../../utils/themeStore'
 
 // Terminal Window
-const TerminalWindow = ({ children }) => (
-  <Terminal>
-    <TopBar>
-      <Dot color="#EB5757" />
-      <Dot color="#F2C94C" />
-      <Dot color="#6FCF97" />
-      <Title>bash</Title>
-    </TopBar>
-    <Main>
-      {children}
-    </Main>
-  </Terminal>
-)
+const TerminalWindow = ({ children }) => {
+  const [currentTheme] = useState(() => getActiveTheme())
+  return (
+    <Terminal theme={currentTheme.theme}>
+      <TopBar>
+        <Dot color="#EB5757" />
+        <Dot color="#F2C94C" />
+        <Dot color="#6FCF97" />
+        <Title>bash</Title>
+      </TopBar>
+      <Main>{children}</Main>
+    </Terminal>
+  )
+}
 
 // Styles
 const Terminal = styled.div`
-  background: ${currentTheme.background};
-  color: ${currentTheme.foreground};
+  background: ${props => props.theme.background};
+  color: ${props => props.theme.foreground};
   border-radius: 6px;
   font-family: 'Roboto Mono', monospace;
   line-height: 1.5;

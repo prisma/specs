@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link as GatsbyLink, graphql, useStaticQuery } from 'gatsby'
 import styled from 'styled-components'
 import * as themes from '../../utils/themes'
@@ -39,7 +39,7 @@ export const useGitHubURL = (path: string) => {
 const Sidebar = ({ links, pathName, pageContext }) => (
   <Wrapper>
     <Sticky>
-      <SidebarTitle to='/'>
+      <SidebarTitle to="/">
         <SidebarIcon />
         <span>CLI Docs</span>
       </SidebarTitle>
@@ -83,7 +83,7 @@ const Sidebar = ({ links, pathName, pageContext }) => (
       </GithubLink>
       <select
         onChange={e => saveActiveThemeAndReload(e.target.value)}
-        defaultValue={getActiveThemeKey()}
+        defaultValue={useState(() => getActiveThemeKey())[0]}
       >
         {Object.keys(themes).map(themeKey => (
           <option key={themeKey} value={themeKey}>
