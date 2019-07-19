@@ -36,6 +36,7 @@
     "typeface-montserrat": "^0.0.75",
     "typeface-open-sans": "^0.0.75",
     "typeface-roboto-mono": "^0.0.75",
+    "use-persisted-state": "^0.3.0",
     "xterm": "^3.14.4",
     "xterm-addon-fit": "^0.1.0"
   },

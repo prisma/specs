@@ -5,9 +5,9 @@ import * as themes from '../../utils/themes'
 import GithubIcon from '../../vectors/GithubIcon'
 import SidebarIcon from '../../vectors/SidebarIcon'
 import {
-  saveActiveThemeAndReload,
-  getActiveThemeKey,
-} from '../../utils/themeStore'
+  useActiveThemeKey, useActiveTheme,
+} from '../../utils/hooks'
+import { useStateValue } from './Layout';
 
 export const useGitHubURL = (path: string) => {
   const data = useStaticQuery(
@@ -36,64 +36,69 @@ export const useGitHubURL = (path: string) => {
   return githubUrl
 }
 
-const Sidebar = ({ links, pathName, pageContext }) => (
-  <Wrapper>
-    <Sticky>
-      <SidebarTitle to="/">
-        <SidebarIcon />
-        <span>CLI Docs</span>
-      </SidebarTitle>
+const Sidebar = ({ links, pathName, pageContext }) => {
+  // const [themeKey, setThemeKey] = useActiveThemeKey()
+  const [useActiveThemeKeyState] = useStateValue()
+  const [themeKey, setThemeKey] = useActiveThemeKey(useActiveThemeKeyState)
+  return (
+    <Wrapper>
+      <Sticky>
+        <SidebarTitle to="/">
+          <SidebarIcon />
+          <span>CLI Docs</span>
+        </SidebarTitle>
 
-      <GroupTitle>
-        <Faded>$</Faded> prisma init
-      </GroupTitle>
-      <GroupLinks>
-        {links['init'].map(link => (
-          <GroupLink link={link} key={link.url} />
-        ))}
-      </GroupLinks>
+        <GroupTitle>
+          <Faded>$</Faded> prisma init
+        </GroupTitle>
+        <GroupLinks>
+          {links['init'].map(link => (
+            <GroupLink link={link} key={link.url} />
+          ))}
+        </GroupLinks>
 
-      <Divider />
+        <Divider />
 
-      <GroupTitle>
-        <Faded>$</Faded> prisma dev
-      </GroupTitle>
-      <GroupLinks>
-        {links['dev'].map(link => (
-          <GroupLink link={link} key={link.url} />
-        ))}
-      </GroupLinks>
+        <GroupTitle>
+          <Faded>$</Faded> prisma dev
+        </GroupTitle>
+        <GroupLinks>
+          {links['dev'].map(link => (
+            <GroupLink link={link} key={link.url} />
+          ))}
+        </GroupLinks>
 
-      <Divider />
+        <Divider />
 
-      <GroupTitle>
-        <Faded>$</Faded> prisma help
-      </GroupTitle>
-      <GroupLinks>
-        {links['help'].map(link => (
-          <GroupLink link={link} key={link.url} />
-        ))}
-      </GroupLinks>
+        <GroupTitle>
+          <Faded>$</Faded> prisma help
+        </GroupTitle>
+        <GroupLinks>
+          {links['help'].map(link => (
+            <GroupLink link={link} key={link.url} />
+          ))}
+        </GroupLinks>
 
-      <Divider />
+        <Divider />
 
-      <GithubLink href={useGitHubURL(pageContext.pagePath)} target="_blank">
-        <GithubIcon />
-        <span>Edit on Github</span>
-      </GithubLink>
-      <select
-        onChange={e => saveActiveThemeAndReload(e.target.value)}
-        defaultValue={useState(() => getActiveThemeKey())[0]}
-      >
-        {Object.keys(themes).map(themeKey => (
-          <option key={themeKey} value={themeKey}>
-            {themes[themeKey].name}
-          </option>
-        ))}
-      </select>
-    </Sticky>
-  </Wrapper>
-)
+        <GithubLink href={useGitHubURL(pageContext.pagePath)} target="_blank">
+          <GithubIcon />
+          <span>Edit on Github</span>
+        </GithubLink>
+        <select
+          onChange={e => setThemeKey(e.target.value)}
+          defaultValue={themeKey}
+        >
+          {Object.keys(themes).map(themeKey => (
+            <option key={themeKey} value={themeKey}>
+              {themes[themeKey].name}
+            </option>
+          ))}
+        </select>
+      </Sticky>
+    </Wrapper>
+  )
+}
 
 const GroupLink = ({ link }: { link: { url: string; label: string } }) => (
   <Link to={link.url} activeClassName="isActive">

@@ -12,6 +12,7 @@ declare module 'ink-multi-select'
 declare module 'ink-select-input'
 declare module 'ink-progress-bar'
 declare module 'ink-box'
+declare module 'use-persisted-state'
 
 export type Theme = {
   name: string

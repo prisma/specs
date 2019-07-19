@@ -1,9 +1,26 @@
-import React from 'react'
+import React, { useContext, useReducer } from 'react'
 import styled, { createGlobalStyle, ThemeProvider } from 'styled-components'
 import { StaticQuery, graphql } from 'gatsby'
 import Sidebar from './Sidebar'
 import generateNavLinks from '../../utils/generateNavLinks'
 import theme from '../../utils/theme'
+import createPersistedState from 'use-persisted-state'
+
+const StateContext = React.createContext(null)
+const StateProvider = ({ reducer, initialState, children }) => (
+  <StateContext.Provider value={useReducer(reducer, initialState)}>
+    {children}
+  </StateContext.Provider>
+)
+export const useStateValue: any = () => useContext(StateContext)
+
+const storageKey = 'selected-theme'
+const localStorageFallback = {
+  getItem: () => null,
+  setItem: () => {},
+}
+const localStorage =
+  typeof window !== 'undefined' ? window.localStorage : localStorageFallback
 
 const Layout = ({ children, location, pageContext }) => (
   <StaticQuery
@@ -12,18 +29,25 @@ const Layout = ({ children, location, pageContext }) => (
       const pagesData = data.allSitePage.edges
       const navLinks = generateNavLinks(pagesData)
 
+      const useActiveThemeKeyState = createPersistedState(
+        storageKey,
+        localStorage
+      )
+
       return (
-        <ThemeProvider theme={theme}>
-          <Wrapper>
-            <GlobalStyles />
-            <Sidebar
-              links={navLinks}
-              pathName={location.pathname}
-              pageContext={pageContext}
-            />
-            <Main>{children}</Main>
-          </Wrapper>
-        </ThemeProvider>
+        <StateProvider initialState={useActiveThemeKeyState} reducer={() => {}}>
+          <ThemeProvider theme={theme}>
+            <Wrapper>
+              <GlobalStyles />
+              <Sidebar
+                links={navLinks}
+                pathName={location.pathname}
+                pageContext={pageContext}
+              />
+              <Main>{children}</Main>
+            </Wrapper>
+          </ThemeProvider>
+        </StateProvider>
       )
     }}
   />
