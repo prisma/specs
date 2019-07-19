@@ -69,7 +69,7 @@ generator photon {
   [Table of Binaries](#table-of-binaries) below for a reference.
 - `env("PLATFORM")` allows you to switch between the platforms via `PLATFORM` environment variable. So depending on if you're
 
-# Examples
+# Scenarios
 
 ### 1. Development machine is Mac but the deployment platform is AWS lambda.
 
@@ -83,7 +83,7 @@ generator photon {
 }
 ```
 
-### 2. Deterministically choose the platform based a runtime environment variable
+### 2. Deterministically choose the binary based a runtime environment variable
 
 We can use `platforms` **and** `pinnedPlatform`. We set an environment variable
 
