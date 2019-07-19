@@ -47,7 +47,7 @@ This spec introduces two new fields on the `generator` block:
 | `platforms`      | _(optional)_ An array of binaries that are required by the application, string for known platforms and path for custom binaries. | Declarative way to download the required binaries. |
 | `pinnedPlatform` | _(optional)_ A string that points to the name of an object in the `platforms` field, usually an environment variable             | Declarative way to choose the runtime binary       |
 
-- Both `platforms` and `pinnedPlatform` fields are optional, however when a custom binary is provided, `pinnedPlatform` is required.
+- Both `platforms` and `pinnedPlatform` fields are optional, **however** when a custom binary is provided the `pinnedPlatform` is required.
 
 # Basic Example
 
@@ -64,7 +64,7 @@ generator photon {
 - `"native"` is a special keyword for your local development platform. `native` may be different for different developers, depending on their machine. If you're
   on OSX, this would be `mac`. If you're on a common linux distro, it would detect the appropriate binary for your environment. See the
   [Table of Binaries](#table-of-binaries) below for a reference.
-- `env("PLATFORM")` allows you to switch between the platforms via `PLATFORM` environment variable. So depending on if you're
+- `env("PLATFORM")` allows you to switch between the platforms via `PLATFORM` environment variable.
 
 # Scenarios
 
