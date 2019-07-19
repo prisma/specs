@@ -825,6 +825,33 @@ model User {
 
 You can attach any field attribute to a type definition.
 
+### Type Definitions provided by Connectors
+
+Connectors can bring their own type definitions allowing you to use these types in your own schemas.
+
+**postgres.prisma (in-memory)**
+
+```groovy
+type SmallInt Int @raw("smallint") @constraint(gte: -32768, lte: 32767)
+type BigInt Int @raw("bigint")
+type Numeric Int @raw("numeric")
+type Money Int @raw("money")
+```
+
+**schema.prisma**
+
+```groovy
+datasource pg {
+  provider = "postgres"
+  url = "postgres://localhost:5432/db"
+}
+
+model Customer {
+  age pg.SmallInt
+  amount pg.Money
+}
+```
+
 ## Enum Block
 
 ```groovy
@@ -945,13 +972,21 @@ Generation time will **not** require the environment variable:
 $ prisma generate
 ```
 
-But runtime will:
+<<<<<<< HEAD But runtime will:
 
-```js
+````js
 import Photon from '@generated/photon'
 const photon = new Photon()
 // Thrown: required `POSTGRES_URL` variable not found
-```
+=======
+```ts
+childProcess.spawn('./query_engine', {
+  env: {
+    url: process.env.POSTGRES_URL,
+  },
+})
+>>>>>>> start the type definitions
+````
 
 ### Switching Datasources based on Environments
 
@@ -1059,7 +1094,9 @@ import "github://prisma/project/post.schema"
 import "npm://prisma/app/comments.schema"
 ```
 
-### Conflict Resolution
+### Merging Models
+
+In order for our type system to be , we'll need to base core types and types specifications on
 
 Often times you'll import a schema that has conflicting models. In this case we take the union of all fields and attributes:
 
@@ -1105,6 +1142,8 @@ model Post {
 
 - **Open Question:** What happens if the field types differ?
 - **Open Question:** Do we want to take the union? Is there some other approach that's more clear?
+
+* **Relevant CUE language research**: https://github.com/prisma/specs/blob/cue/cue/Readme.md#application-2-safe-merging-of-models-with-the-same-name
 
 ## Auto Formatting
 
