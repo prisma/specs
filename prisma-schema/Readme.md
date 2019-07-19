@@ -40,6 +40,7 @@
   - [Why do we enforce the Core Prisma Primitive Type, even when there is a type specification?](#why-do-we-enforce-the-core-prisma-primitive-type-even-when-there-is-a-type-specification)
 - [Comments](#comments)
 - [Type Definition](#type-definition)
+  - [Type Definitions provided by Connectors](#type-definitions-provided-by-connectors)
 - [Enum Block](#enum-block)
 - [Embed Block](#embed-block)
   - [Inline Embeds](#inline-embeds)
@@ -51,7 +52,7 @@
 - [Function](#function)
 - [Importing schemas](#importing-schemas)
   - [Importing from other endpoints](#importing-from-other-endpoints)
-  - [Conflict Resolution](#conflict-resolution)
+  - [Merging Models](#merging-models)
 - [Auto Formatting](#auto-formatting)
   - [Formatting Rules](#formatting-rules)
     - [Configuration blocks are align by their `=` sign.](#configuration-blocks-are-align-by-their--sign)
@@ -1105,7 +1106,8 @@ import "npm://prisma/app/comments.schema"
 
 ### Merging Models
 
-In order for our type system to be , we'll need to base core types and types specifications on
+This is based on our [Research into Cue](https://github.com/prisma/specs/blob/cue/cue/Readme.md#application-2-safe-merging-of-models-with-the-same-name). We
+want to safely merge models in a clear way.
 
 Often times you'll import a schema that has conflicting models. In this case we take the union of all fields and attributes:
 
@@ -1114,7 +1116,7 @@ Often times you'll import a schema that has conflicting models. In this case we 
 ```groovy
 model Post {
   id    Int    @id
-	title String @pg.varchar(42)
+	title pg.Varchar(42)
 	body  String
   @@unique([id,title])
 }
@@ -1143,16 +1145,16 @@ model User {
 
 model Post {
   id    Int    @id
-	title String @pg.varchar(42)
+	title pg.Varchar(42)
 	body  String
   @@unique([id,title])
 }
 ```
 
-- **Open Question:** What happens if the field types differ?
-- **Open Question:** Do we want to take the union? Is there some other approach that's more clear?
+Since our [type definitions are provided by connectors](#type-definitions-provided-by-connectors) we can use a constraint system to safely merge two datatypes
+and take the intersection of those two types.
 
-* **Relevant CUE language research**: https://github.com/prisma/specs/blob/cue/cue/Readme.md#application-2-safe-merging-of-models-with-the-same-name
+**Open Question:** How will this work for non data-type related attributes like `@unique`?
 
 ## Auto Formatting
 
