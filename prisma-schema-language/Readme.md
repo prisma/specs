@@ -11,8 +11,8 @@
   - [Data Types](#data-types)
     - [Core Data Type to Connector](#core-data-type-to-connector)
     - [Core Data Type to Generator](#core-data-type-to-generator)
-    - [Optional Types](#optional-types)
     - [List Types](#list-types)
+    - [Optional Types](#optional-types)
     - [Relations](#relations)
       - [One-to-One (1:1) Relationships](#one-to-one-11-relationships)
       - [One-to-Many (1:N) Relationships](#one-to-many-1n-relationships)
@@ -942,8 +942,8 @@ $ prisma generate
 But runtime will:
 
 ```js
-import Photon from '@generated/photon'
-const photon = new Photon()
+import Photon from "@generated/photon";
+const photon = new Photon();
 // Thrown: required `POSTGRES_URL` variable not found
 ```
 
