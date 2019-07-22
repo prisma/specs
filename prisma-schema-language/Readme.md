@@ -259,13 +259,28 @@ Here's how some of the databases we're tracking map to the core types:
 | Float    | number  | float64   |
 | Datetime | Date    | time.Time |
 
-#### Optional Types
+#### List Types
 
-All field types support optional fields. By default, fields are required, but if you want to make them optional, you add a `?` at the end.
+All primitive `types`, `enums`, `relations` and `embeds` natively support lists. Lists are denoted with `[]` at the end of the type.
 
 ```groovy
 model User {
-  names    String[]?
+  names    String[]
+  ages     Int[]
+  heights  Float[]
+}
+```
+
+The default value for a required list is an empty list.
+
+#### Optional Types
+
+Most field types also support optional fields. By default, fields are required, but if you want to make them optional, you add a `?` at the end. Currently, the
+only field type that is not nullable is the [List Type](#list-types.
+
+```groovy
+model User {
+  names    String[]
   ages     Int?
   heights  Float?
   card     Card?
@@ -279,27 +294,6 @@ enum Card {
 
 The default output for a nullable field is null.
 
-#### List Types
-
-All primitive `types`, `enums`, `relations` and `embeds` natively support lists. Lists are denoted with `[]` at the end of the type.
-
-```groovy
-model User {
-  names    String[]
-  ages     Int[]
-  heights  Float[]
-}
-```
-
-Lists can also be optional and will give the list a 3rd state, null:
-
-- `Blog[]`: empty list or non-empty list of blogs (default: `[]`)
-- `Blog[]?`: null, empty list or non-empty list of blogs (default: null)
-
-The default value for a required list is an empty list. The default value for an optional list is null.
-
-For `Blog[]?`, we'll plan for this from an implementation perspective, but not expose it publicly for now.
-
 #### Relations
 
 Prisma provides a high-level syntax for defining relationships.
@@ -309,8 +303,8 @@ for `m-n` relations.
 
 Prisma core provides explicit support for all 3 relation types and connectors must ensure that their guarantees are upheld:
 
-- `1-1` The return value on both sides is a nullable single value. Prisma prevents accidentally storing multiple records in the relation.
-- `1-m` The return value on one side is a optional single value, on the other side a list that might be empty.
+- `1-1` The return value on both sides is a single model, either optional or required. Prisma prevents accidentally storing multiple records in the relation.
+- `1-m` The return value on one side is a single model, either optional or required. On the other side is a list that might be empty.
 - `m-n` The return value on both sides is a list that might be empty. This is an improvement over the standard implementation in relational databases that
   require the application developer to deal with implementation details such as an intermediate table / join table. In Prisma, each connector will implement
   this concept in the way that is most efficient on the given storage engine and expose an API that hides the implementation details.
