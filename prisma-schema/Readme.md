@@ -766,7 +766,7 @@ For example, a ts generator might choose to interpret the type of the `name` fie
 
 ```groovy
 model User {
-	name  pg.varchar(n: 8)
+	name  pg.Varchar(n: 8)
 }
 ```
 
@@ -1076,7 +1076,7 @@ model User {
 
 ```groovy
 model Post {
-	title pg.varchar(n: 42)
+	title pg.Varchar(n: 42)
 	body  String
 }
 ```
@@ -1085,7 +1085,7 @@ Resolves to:
 
 ```groovy
 model Post {
-	title pg.varchar(n: 42)
+	title pg.Varchar(n: 42)
 	body  String
 }
 
