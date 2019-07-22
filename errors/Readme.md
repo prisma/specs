@@ -47,8 +47,7 @@
 
 # Philosophy
 
-Whenever we show an error, we should always show a path forward towards resolution. If we don't know the path forward, we should atleast link to a place to get
-help.
+Whenever we show an error, we should always show a path forward towards resolution. If we don't know the path forward, we should atleast link to a place to get help.
 
 ## Error Format
 
