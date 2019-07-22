@@ -3,22 +3,23 @@
 <!-- toc -->
 
     + [Terminology:](#terminology)
+
 - [Basic Example](#basic-example)
 - [Motivation](#motivation)
 - [Detailed Design](#detailed-design)
-    + [Scenarios](#scenarios)
-        * [Approach 1:](#approach-1)
-        * [Approach 2](#approach-2)
-    + [Configuration](#configuration)
-    + [Runtime](#runtime)
-        * [Runtime binary resolution](#runtime-binary-resolution)
+  - [Scenarios](#scenarios)
+    - [Approach 1:](#approach-1)
+    - [Approach 2](#approach-2)
+  - [Configuration](#configuration)
+  - [Runtime](#runtime)
+    - [Runtime binary resolution](#runtime-binary-resolution)
 - [Drawbacks](#drawbacks)
 - [How we teach this](#how-we-teach-this)
 - [Table of Binaries](#table-of-binaries)
-  * [URL Scheme](#url-scheme)
-  * [Common Cloud Platforms](#common-cloud-platforms)
-    + [Tier 1](#tier-1)
-    + [Tier 2](#tier-2)
+  - [URL Scheme](#url-scheme)
+  - [Common Cloud Platforms](#common-cloud-platforms)
+    - [Tier 1](#tier-1)
+    - [Tier 2](#tier-2)
 - [Unresolved questions](#unresolved-questions)
 
 <!-- tocstop -->
@@ -223,7 +224,6 @@ generator photon {
 | linux-musl-libssl1.0.2  |       Alpine        |          ✓          | [query-engine](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.0.2/query-engine.gz)  | [migration-engine](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.0.2/migration-engine.gz)  | [prisma-fmt](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.0.2/prisma-fmt.gz)  |
 | linux-musl-libssl1.1.0  |       Alpine        |          ✓          | [query-engine](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.1.0/query-engine.gz)  | [migration-engine](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.1.0/migration-engine.gz)  | [prisma-fmt](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.1.0/prisma-fmt.gz)  |
 | linux-musl-libssl1.1.1  |       Alpine        |          ✓          | [query-engine](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.1.1/query-engine.gz)  | [migration-engine](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.1.1/migration-engine.gz)  | [prisma-fmt](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.1.1/prisma-fmt.gz)  |
-
 
 ## URL Scheme
 
