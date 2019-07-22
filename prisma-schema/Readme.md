@@ -1,4 +1,4 @@
-# Prisma Schema
+# Prisma Schema Language (PSL)
 
 <!-- toc -->
 
