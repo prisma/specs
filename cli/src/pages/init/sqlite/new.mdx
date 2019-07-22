@@ -1,7 +1,7 @@
 ---
 navGroup: init
 navOrder: 2
-navLabel: New
+navLabel: New DB
 ---
 
 import Terminal from '../../../components/Terminal/Terminal'
@@ -24,7 +24,7 @@ import figures from 'figures'
 
 ---
 
-### 3 Language selection
+### (3) Language selection
 
 Previous selections:
 
@@ -32,9 +32,10 @@ Previous selections:
 1. Create new SQLite file
 
 <Terminal>
+  <Box marginBottom={1}><Color dim>~/Code $</Color> prisma init hello-world</Box>
+
   <Box flexDirection="column" marginLeft={2}>
-    <Text bold>Which programming language do you want to use?</Text>
-    <Color  dim>Learn more about the tools at https://github.com/prisma/prisma2</Color>
+    <Text bold>Select the programming language you want to use</Text>
   </Box>
 
   <Box flexDirection="column" paddingTop={2} paddingBottom={1}>
@@ -64,7 +65,7 @@ Previous selections:
     </Box>
     <Box width={100}>
       <Color gray>│ </Color>
-      <Box marginLeft={2}>Go <Color  dim>(Coming soon)</Color></Box>
+      <Box marginLeft={2}><Color  dim>Go (Coming soon)</Color></Box>
       <Box flexGrow={1}></Box>
       <Color gray> │</Color>
     </Box>
@@ -80,11 +81,11 @@ Previous selections:
   <Box>
     <Color gray>❮ </Color>
     <Text bold>Back</Text>
-    <Color  dim> (Tool selection)</Color>
+    <Color  dim> (SQLite file options)</Color>
   </Box>
 </Terminal>
 
-### 4 Boilerplate selection
+### (4) Example selection
 
 Previous selections:
 
@@ -93,16 +94,18 @@ Previous selections:
 1. JavaScript/TypeScript
 
 <Terminal>
+  <Box marginBottom={1}><Color dim>~/Code $</Color> prisma init hello-world</Box>
+
   <Box flexDirection="column" marginLeft={2}>
-    <Text bold>Do you want to use a boilerplate or explore Prisma from scratch?</Text>
-    <Color  dim>Find all boilerplates at https://github.com/prisma/prisma-examples</Color>
+    <Text bold>Select a starter example or explore Prisma from scratch</Text>
+    {/* <Color  dim>Find all boilerplates at https://github.com/prisma/prisma-examples</Color> */}
   </Box>
 
   <Box flexDirection="column" paddingTop={2} paddingBottom={1}>
     <Box>
       <Color gray>┌──</Color>
-      <Text bold> Boilerplates </Text>
-      <Color gray>────────────────────────────────────────────┐</Color>
+      <Text bold> Starter examples </Text>
+      <Color gray>────────────────────────────────────────┐</Color>
     </Box>
     <Box width={100}>
       <Color gray>│ </Color>
@@ -112,8 +115,8 @@ Previous selections:
     <Box width={100}>
       <Color gray>│ </Color>
       <Color cyan>
-        <Box width={20}>
-          {figures.pointer} <Text bold>From scratch</Text>
+        <Box width={14}>
+          {figures.pointer} <Text bold>Script</Text>
         </Box>
         <Color dim>  Simple script with API examples</Color>
       </Color>
@@ -122,8 +125,8 @@ Previous selections:
     </Box>
     <Box width={100}>
       <Color gray>│ </Color>
-      <Box width={20} marginLeft={2}>
-        GraphQL boilerplate
+      <Box width={14} marginLeft={2}>
+        GraphQL
       </Box>
       <Color dim>GraphQL server example</Color>
       <Box flexGrow={1}></Box>
@@ -131,8 +134,8 @@ Previous selections:
     </Box>
     <Box width={100}>
       <Color gray>│ </Color>
-      <Box width={20} marginLeft={2}>
-        REST boilerplate
+      <Box width={14} marginLeft={2}>
+        REST
       </Box>
       <Color dim>REST API example (using express.js)</Color>
       <Box flexGrow={1}></Box>
@@ -140,8 +143,8 @@ Previous selections:
     </Box>
     <Box width={100}>
       <Color gray>│ </Color>
-      <Box width={20} marginLeft={2}>
-        gRPC boilerplate
+      <Box width={14} marginLeft={2}>
+        gRPC
       </Box>
       <Color dim>gRPC API example (client + server)</Color>
       <Box flexGrow={1}></Box>
@@ -162,8 +165,8 @@ Previous selections:
     </Box>
     <Box width={100}>
       <Color gray>│ </Color>
-      <Box width={20} marginLeft={2}>
-        No boilerplate
+      <Box width={14} marginLeft={2}>
+        No starter
       </Box>
       <Color dim>Just generate the Prisma schema</Color>
       <Box flexGrow={1}></Box>
@@ -185,14 +188,105 @@ Previous selections:
   </Box>
 </Terminal>
 
-When a boilerplate is selected, the CLI should:
+### (5.1) Success - Static
+
+1. SQLite
+1. Create new SQLite file
+1. JavaScript/TypeScript
+1. No boilerplate
+
+<Terminal>
+  <Box marginBottom={1}><Color dim>~/Code $</Color> prisma init hello-world</Box>
+
+  <Color green>{figures.tick } You're all set!</Color>
+
+  <Box marginTop={1} marginLeft={2}>
+    We created the following files in the <Text bold>hello-world</Text> directory.
+  </Box>
+
+  <Box flexDirection="column" paddingTop={2}>
+    <Box>
+      <Color gray>┌──</Color>
+      <Text bold> Files created </Text>
+      <Color gray>───────────────────────────────────────────┐</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20}>
+        <Text><Color dim>-</Color> schema.prisma</Text>
+      </Box>
+      <Color dim>File description</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
+    </Box>
+  </Box>
+
+  <Box flexDirection="column" paddingTop={1} paddingBottom={1}>
+    <Box>
+      <Color gray>┌──</Color>
+      <Text bold> Run the following commands to get started </Text>
+      <Color gray>───────────────┐</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20}>
+        <Text><Color dim>$</Color> cd hello-world</Text>
+      </Box>
+      <Color dim>Move to your project folder</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20}>
+        <Text><Color dim>$ </Color>prisma dev</Text>
+      </Box>
+      <Color dim>Start Prisma's development mode</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
+    </Box>
+  </Box>
+  <Box marginLeft={2} flexDirection="column">
+    <Color  dim>Explore the docs to learn what to do next:</Color>
+    <Color  dim>https://github.com/prisma/prisma2</Color>
+  </Box>
+</Terminal>
+
+<!-- 
+### (5.1) Success - Dynamic
+
+When a starter example is selected, the CLI should:
 
 1. replace the data source config in schema.prisma with the DB credentials initially provided (noop for SQLite)
 1. generate Photon
 1. install npm dependencies
 1. seed the DB
-
-### 5.1 Success
 
 Previous selections:
 
@@ -202,6 +296,8 @@ Previous selections:
 1. Any boilerplate (example uses GraphQL)
 
 <Terminal>
+  <Box marginBottom={1}><Color dim>~/Code $</Color> prisma init hello-world</Box>
+
   <Color green>{figures.tick } You're all set!</Color>
 
   <Box marginTop={1} marginLeft={2} flexDirection="column">
@@ -364,92 +460,4 @@ Previous selections:
   </Box>
 </Terminal>
 
-The created files are created dynamically based on which example was selected. The "Learn more"-link also needs to be adjusted dynamically based on the example.
-
-### 5.2 Success
-
-1. SQLite
-1. Create new SQLite file
-1. JavaScript/TypeScript
-1. No boilerplate
-
-<Terminal>
-  <Color green>{figures.tick } You're all set!</Color>
-
-  <Box marginTop={1} marginLeft={2} flexDirection="column">
-    We created the following files in the hello-world directory.
-  </Box>
-
-  <Box flexDirection="column" paddingTop={2}>
-    <Box>
-      <Color gray>┌──</Color>
-      <Text bold> Files created </Text>
-      <Color gray>───────────────────────────────────────────┐</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box width={20}>
-        <Text><Color dim>-</Color> schema.prisma</Text>
-      </Box>
-      <Color dim>File description</Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
-    </Box>
-  </Box>
-
-  <Box flexDirection="column" paddingTop={1} paddingBottom={1}>
-    <Box>
-      <Color gray>┌──</Color>
-      <Text bold> Run the following commands to get started </Text>
-      <Color gray>───────────────┐</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box width={20}>
-        <Text><Color dim>$</Color> cd hello-world</Text>
-      </Box>
-      <Color dim>Move to your project folder</Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box width={20}>
-        <Text><Color dim>$ </Color>prisma dev</Text>
-      </Box>
-      <Color dim>Start the app</Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
-    </Box>
-  </Box>
-  <Box marginLeft={2} flexDirection="column">
-    <Color  dim>Learn more about this example:</Color>
-    <Color  dim>https://github.com/prisma/photonjs/tree/master/examples/typescript/graphql</Color>
-  </Box>
-</Terminal>
+The created files are created dynamically based on which example was selected. The "Learn more"-link also needs to be adjusted dynamically based on the example. -->

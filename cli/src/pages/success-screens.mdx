@@ -1,0 +1,40 @@
+---
+navGroup: init
+navOrder: 6
+navLabel: Success screens
+---
+
+# Success screens for `prisma2 init`
+
+## Overview
+
+A success screen should contain (at least) the following three elements:
+
+1. What did the command do? E.g. what files were created, what was the introspection result, ...
+1. What to do next?
+1. Where to find more info?
+
+### 1. What did the command do?
+
+Print a list of files and, if helpful, a short description of what the main files are. If there's more contextual information to the command, this should be included in this section as well, e.g. the result of an introspection ("11 tables found in the database").
+
+### 2. What to do next?
+
+This should be a call-to-action for the users who ran the command. Most of the time, this will be a list of additional CLI commands to run next.
+
+Note that no matter which path in `prisma2 init` is taken, the first instruction to be printed should be to run `prisma dev`!
+
+### 3. Where to find more info?
+
+Link to a part in the docs for the user to learn more about potential next steps.
+
+## Static vs dynamic success messages
+
+The messages on the success screen of the `prisma2 init` command highly depends on the user's individual choices during the CLI flow and needs to be tailored to every scenario.
+
+However, there is one major distinction of success messages:
+
+- **Dynamic** success messages are used when the user selects Photon with an example project.
+- **Static** success messages are used for all other cases.
+
+Dynamic success messages are needed to ensure consistency with the examples.

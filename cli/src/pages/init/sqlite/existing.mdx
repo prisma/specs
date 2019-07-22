@@ -1,7 +1,7 @@
 ---
 navGroup: init
 navOrder: 3
-navLabel: Existing
+navLabel: Existing DB
 ---
 
 import Terminal from '../../../components/Terminal/Terminal'
@@ -24,12 +24,14 @@ import figures from 'figures'
 
 ---
 
-### 2 File path
+### (2) File path
 
 Previous selections:
 
 1. SQLite
 2. Use existing SQLite file
+
+#### Happy path
 
 <Terminal>
   <Box marginLeft={2} flexDirection="column">
@@ -40,8 +42,8 @@ Previous selections:
   <Box flexDirection="column" paddingTop={2} paddingBottom={1}>
     <Box>
       <Color gray>┌── </Color>
-      <Text bold>Database</Text>
-      <Color gray> ────────────────────────────────────────────────┐</Color>
+      <Text bold>SQLite database file</Text>
+      <Color gray> ────────────────────────────────────┐</Color>
     </Box>
     <Box width={100}>
       <Color gray>│ </Color>
@@ -77,9 +79,67 @@ Previous selections:
   </Box>
 </Terminal>
 
-In this view, it would be great if the trailing `.db` could somehow be fixed since every SQLite DB file has the file extension.
+In this view, it would be great if the trailing `.db` could somehow be fixed since every SQLite DB file has this file extension.
 
-### 2.1 Introspection
+#### ERROR: Invalid file path provided
+
+<Terminal>
+  <Box marginLeft={2} flexDirection="column">
+    <Text bold>Enter the path to your SQLite database file</Text>
+    <Color dim>Prisma will introspect the database to generate your initial data model</Color>
+  </Box>
+
+  <Box flexDirection="column" paddingTop={2} paddingBottom={1}>
+    <Box>
+      <Color gray>┌── </Color>
+      <Text bold>SQLite database file</Text>
+      <Color gray> ────────────────────────────────────┐</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color cyan>
+        <Text bold>{figures.pointer} File path:</Text>
+        <Color dim> ./my.db</Color>
+      </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
+    </Box>
+  </Box>
+
+  <Box flexDirection="column" paddingTop={1} paddingBottom={1}>
+    <Box>
+      <Color red><Text bold>ERROR: Could not find your database</Text></Color>
+    </Box>
+    <Box>
+      <Color red></Color>
+    </Box>
+  </Box>
+
+  <Box>
+    <Color gray>{figures.pointer} </Color>
+    <Text bold>Introspect</Text>
+  </Box>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color  dim> (Database selection)</Color>
+  </Box>
+</Terminal>
+
+### (2.1) Introspection
 
 Previous selections:
 
@@ -93,7 +153,7 @@ Previous selections:
   <Introspection progress={26.5}>Introspecting SQLite database file at <b>./my.db</b> ...</Introspection>
 </Terminal>
 
-### 2.2 Tool selection
+### (2.2) Tool selection
 
 Previous selections:
 
@@ -157,7 +217,7 @@ Previous selections:
 
 In this view, Photon and Lift should be checked by default.
 
-### 3.1 Language selection
+### (3.1) Language selection
 
 Previous selections:
 
@@ -222,7 +282,7 @@ Previous selections:
 
 <br/>
 
-### 4.1 Boilerplate selection
+### (4.1) Boilerplate selection
 
 Previous selections:
 
@@ -299,7 +359,7 @@ Previous selections:
   </Box>
 </Terminal>
 
-### 5.1 Success
+### (5.1) Success
 
 Previous selections:
 
@@ -499,7 +559,7 @@ Previous selections:
   </Box>
 </Terminal>
 
-### 3.2 Language selection
+### (3.2) Language selection
 
 Previous selections:
 
@@ -564,7 +624,7 @@ Previous selections:
 
 <br/>
 
-### 4.2 Boilerplate selection
+### (4.2) Boilerplate selection
 
 Previous selections:
 
@@ -642,7 +702,7 @@ Previous selections:
 </Terminal>
 
 
-### 5.2 Success
+### (5.2) Success
 
 1. SQLite
 2. Use existing SQLite file
@@ -806,7 +866,7 @@ Previous selections:
   </Box>
 </Terminal>
 
-### 5.3 Success
+### (5.3) Success
 
 Previous selections:
 
