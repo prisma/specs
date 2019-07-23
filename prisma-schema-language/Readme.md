@@ -942,8 +942,8 @@ $ prisma generate
 But runtime will:
 
 ```js
-import Photon from '@generated/photon'
-const photon = new Photon()
+import Photon from "@generated/photon";
+const photon = new Photon();
 // Thrown: required `POSTGRES_URL` variable not found
 ```
 
