@@ -156,6 +156,10 @@ ${stacktrace}
 
 ${uname -a}
 
+## Browser info
+
+${browserInfo}
+
 **Prisma 2 CLI version**:
 
 ${prisma2 -v}
