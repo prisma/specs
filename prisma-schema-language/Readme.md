@@ -905,7 +905,7 @@ datasource pg {
 }
 ```
 
-In this case `env` represents the outside environment.
+In this case `env` represents the outside environment. The `provider` must be static and cannot be an environment variable.
 
 ### Introspect Behavior
 
@@ -942,8 +942,8 @@ $ prisma generate
 But runtime will:
 
 ```js
-import Photon from "@generated/photon";
-const photon = new Photon();
+import Photon from '@generated/photon'
+const photon = new Photon()
 // Thrown: required `POSTGRES_URL` variable not found
 ```
 
