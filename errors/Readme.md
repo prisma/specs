@@ -6,44 +6,274 @@
 
 <!-- toc -->
 
+- [Unknown Errors](#unknown-errors)
 - [Philosophy](#philosophy)
-  - [Error Format](#error-format)
-    - [`error_code`](#error_code)
-    - [`error_category`](#error_category)
+  * [Error Format](#error-format)
+    + [`error_code`](#error_code)
+    + [`error_category`](#error_category)
       - [Different Layers](#different-layers)
-    - [`how_to_proceed`](#how_to_proceed)
-    - [`best_guess`](#best_guess)
+    + [`how_to_proceed`](#how_to_proceed)
+    + [`best_guess`](#best_guess)
+    + [`stack_trace`](#stack_trace)
+      - [Credential Masking](#credential-masking)
 - [Error Handbook](#error-handbook)
-  - [Photon JS / Photon Go](#photon-js--photon-go)
-    - [Generation: Datamodel Syntax or Semantic Error](#generation-datamodel-syntax-or-semantic-error)
-    - [Runtime: Binary built for the wrong platform](#runtime-binary-built-for-the-wrong-platform)
-    - [Runtime: Permissions](#runtime-permissions)
-    - [Runtime: Connection failed](#runtime-connection-failed)
-  - [Query Engine](#query-engine)
-    - [`UniqueConstraintViolation: Unique constraint failed: ${field_name}`](#uniqueconstraintviolation-unique-constraint-failed-field_name)
-    - [`NullConstraintViolation: Null constraint failed: ${field_name}`](#nullconstraintviolation-null-constraint-failed-field_name)
-    - [`RecordDoesNotExist: Record does not exist`](#recorddoesnotexist-record-does-not-exist)
-    - [`ColumnDoesNotExist: Column does not exist`](#columndoesnotexist-column-does-not-exist)
-    - [`ConnectionError: Error creating a database connection`](#connectionerror-error-creating-a-database-connection)
-    - [`QueryError: Error querying the database`](#queryerror-error-querying-the-database)
-    - [`InvalidConnectionArguments: The provided arguments are not supported.`](#invalidconnectionarguments-the-provided-arguments-are-not-supported)
-    - [`ColumnReadFailure: The column value was different from the model`](#columnreadfailure-the-column-value-was-different-from-the-model)
-    - [`FieldCannotBeNull: Field cannot be null: ${field}`](#fieldcannotbenull-field-cannot-be-null-field)
-    - [`DomainError`](#domainerror)
-    - [`RecordNotFoundForWhere: Record not found`](#recordnotfoundforwhere-record-not-found)
-    - [`RelationViolation: Violating a relation ${relation_name} between ${model_a_name} and ${model_b_name}`](#relationviolation-violating-a-relation-relation_name-between-model_a_name-and-model_b_name)
-    - [`RecordsNotConnected: The relation ${} has no record for the model {} connected to a record for the model {} on your write path.`](#recordsnotconnected-the-relation--has-no-record-for-the-model--connected-to-a-record-for-the-model--on-your-write-path)
-    - [`ConversionError: Conversion error`](#conversionerror-conversion-error)
-    - [`DatabaseCreationError: Database creation error: ${error}`](#databasecreationerror-database-creation-error-error)
-  - [Migration Engine](#migration-engine)
-    - [`DataModelErrors`](#datamodelerrors)
-    - [`InitializationError`](#initializationerror)
-    - [`Generic`](#generic)
-    - [`ConnectorError`](#connectorerror)
-    - [`MigrationError`](#migrationerror)
-    - [`RollbackFailure`](#rollbackfailure)
+  * [Photon JS / Photon Go](#photon-js--photon-go)
+    + [Generation: Datamodel Syntax or Semantic Error](#generation-datamodel-syntax-or-semantic-error)
+    + [Runtime: Binary built for the wrong platform](#runtime-binary-built-for-the-wrong-platform)
+    + [Runtime: Permissions](#runtime-permissions)
+    + [Runtime: Connection failed](#runtime-connection-failed)
+  * [Query Engine](#query-engine)
+    + [`UniqueConstraintViolation: Unique constraint failed: ${field_name}`](#uniqueconstraintviolation-unique-constraint-failed-field_name)
+    + [`NullConstraintViolation: Null constraint failed: ${field_name}`](#nullconstraintviolation-null-constraint-failed-field_name)
+    + [`RecordDoesNotExist: Record does not exist`](#recorddoesnotexist-record-does-not-exist)
+    + [`ColumnDoesNotExist: Column does not exist`](#columndoesnotexist-column-does-not-exist)
+    + [`ConnectionError: Error creating a database connection`](#connectionerror-error-creating-a-database-connection)
+    + [`QueryError: Error querying the database`](#queryerror-error-querying-the-database)
+    + [`InvalidConnectionArguments: The provided arguments are not supported.`](#invalidconnectionarguments-the-provided-arguments-are-not-supported)
+    + [`ColumnReadFailure: The column value was different from the model`](#columnreadfailure-the-column-value-was-different-from-the-model)
+    + [`FieldCannotBeNull: Field cannot be null: ${field}`](#fieldcannotbenull-field-cannot-be-null-field)
+    + [`DomainError`](#domainerror)
+    + [`RecordNotFoundForWhere: Record not found`](#recordnotfoundforwhere-record-not-found)
+    + [`RelationViolation: Violating a relation ${relation_name} between ${model_a_name} and ${model_b_name}`](#relationviolation-violating-a-relation-relation_name-between-model_a_name-and-model_b_name)
+    + [`RecordsNotConnected: The relation ${} has no record for the model {} connected to a record for the model {} on your write path.`](#recordsnotconnected-the-relation--has-no-record-for-the-model--connected-to-a-record-for-the-model--on-your-write-path)
+    + [`ConversionError: Conversion error`](#conversionerror-conversion-error)
+    + [`DatabaseCreationError: Database creation error: ${error}`](#databasecreationerror-database-creation-error-error)
+  * [Migration Engine](#migration-engine)
+    + [`DataModelErrors`](#datamodelerrors)
+    + [`InitializationError`](#initializationerror)
+    + [`Generic`](#generic)
+    + [`ConnectorError`](#connectorerror)
+    + [`MigrationError`](#migrationerror)
+    + [`RollbackFailure`](#rollbackfailure)
 
 <!-- tocstop -->
+
+## Unknown Errors
+
+### Known vs Unknown Errors
+
+As Prisma 2 is still early, we're not yet aware of all error cases that can occur. While the remainder of this document describes all _known_ error cases and how to deal with them, this section explains what should happen when Prisma encounters an _unknown_ error.
+
+An error can occur in any of the following tools that currently make up Prisma 2's developer surface area:
+
+- Prisma 2 CLI
+- Prisma Studio
+- Photon JS
+
+Since unknown errors can't be handled in a way that suggests a fix to the user, the primary goal when an unknown error occurs is to get the user to report it by creating a new GitHub issue. Therefore the error message should include clear guidelines for the users where to report the issue and what information to include. The following sections provide the templates for these error message per tool.
+
+### Unknown Error Templates
+
+Additionally to showing the the error message directly to the user by printing it to the console, we also want to provide rich error reports that users can use to report the issue. These error reports are stored as markdown files on the file system. Therefore, each tool has two templates: 
+
+- **Logging output** directly shown to the user
+- **Error report** (Markdown) stored on the file system
+
+The error report generally is more exhaustive than the logging output (e.g. it also contains the Prisma schema which would be overkill if printed to the terminal as well). It is also written in Markdown enabling the user to copy and paste the report as a GitHub issue directly.
+
+#### Prisma 2 CLI
+
+##### Logging output
+
+```
+Oops, ... an error occured. This was most likely our fault! Please help us fix the problem by opening an issue here: https://github.com/prisma/prisma2/issues
+
+When opening the issue, please include the information below.
+
+**Stack trace**:
+
+${stacktrace}
+
+**System info**:
+
+${uname -a}
+
+**Prisma 2 CLI version**:
+
+${prisma2 -v}
+
+Please also include your **Prisma schema** and ideally a minimal reproduction of the problem. You can find more info in the generated error file **prisma-error-TIMESTAMP.md**.
+
+Thanks for helping us making Prisma 2 more stable! 🙏
+```
+
+> Note: Text enclosed by the double-asterisk `**` means the text should be printed in **bold**.
+
+##### Error report
+
+File name: `prisma-error-TIMESTAMP.md` where `TIMESTAMP` is a placeholder for the current timestamp.
+
+```md
+# Error report (Prisma 2 CLI | July 23, 2019 | 14:42:23 h)
+
+This is an exhaustive report containing all relevant information we could collect about the error. 
+
+**Please post this report as a GitHub issue so we can fix the problem: https://github.com/prisma/prisma2/issues** 🙏
+
+## Stack trace
+
+${stacktrace}
+
+## System info
+
+${uname -a}
+
+## Affected components
+
+- [x] Prisma 2 CLI
+- [ ] Photon JS
+- [ ] Prisma Studio
+
+## Prisma 2 CLI version
+
+${prisma2 -v}
+
+## Prisma schema file
+
+${schema.prisma}
+```
+
+> Note: Is the `Affected components` section useful? Can we extend it, e.g. with `Query engine`, `Migration engine`, `MySQL connector`, ...?
+
+#### Prisma Studio
+
+##### Logging output
+
+```
+Oops, ... an error occured. This was most likely our fault! Please help us fix the problem by opening an issue here: https://github.com/prisma/prisma2/issues
+
+When opening the issue, please include the information below.
+
+**Stack trace**:
+
+${stacktrace}
+
+**System info**:
+
+${uname -a}
+
+**Prisma 2 CLI version**:
+
+${prisma2 -v}
+
+Please also include your **Prisma schema** and ideally a minimal reproduction of the problem. You can find more info in the generated error file **prisma-error-TIMESTAMP.md**.
+
+Thanks for helping us making Prisma 2 more stable! 🙏
+```
+
+> Note: Text enclosed by the double-asterisk `**` means the text should be printed in **bold**.
+
+##### Error report
+
+File name: `prisma-error-TIMESTAMP.md` where `TIMESTAMP` is a placeholder for the current timestamp.
+
+```md
+# Error report (Prisma Studio | July 23, 2019 | 14:42:23 h)
+
+This is an exhaustive report containing all relevant information we could collect about the error. 
+
+**Please post this report as a GitHub issue so we can fix the problem: https://github.com/prisma/prisma2/issues** 🙏
+
+## Stack trace
+
+${stacktrace}
+
+## System info
+
+${uname -a}
+
+## Browser info
+
+${browserInfo}
+
+## Affected components
+
+- [ ] Prisma 2 CLI
+- [ ] Photon JS
+- [x] Prisma Studio
+
+## Prisma 2 CLI version
+
+${prisma2 -v}
+
+## Prisma schema file
+
+${schema.prisma}
+```
+
+> Note: Is the `Affected components` section useful? Can we extend it, e.g. with `Query engine`, `Migration engine`, `MySQL connector`, ...?
+
+#### Photon JS
+
+##### Logging output
+
+```
+Oops, ... an error occured. This was most likely our fault! Please help us fix the problem by opening an issue here: https://github.com/prisma/prisma2/issues
+
+When opening the issue, please include the information below.
+
+**Stack trace**:
+
+${stacktrace}
+
+**System info**:
+
+${uname -a}
+
+**Prisma 2 CLI version**:
+
+${prisma2 -v}
+
+Please also include your **Prisma schema** and ideally a minimal reproduction of the problem. You can find more info in the generated error file **prisma-error-TIMESTAMP.md**.
+
+Thanks for helping us making Prisma 2 more stable! 🙏
+```
+
+> Note: Text enclosed by the double-asterisk `**` means the text should be printed in **bold**.
+
+##### Error report
+
+File name: `prisma-error-TIMESTAMP.md` where `TIMESTAMP` is a placeholder for the current timestamp.
+
+```md
+# Error report (Photon JS | July 23, 2019 | 14:42:23 h)
+
+This is an exhaustive report containing all relevant information we could collect about the error. 
+
+**Please post this report as a GitHub issue so we can fix the problem: https://github.com/prisma/prisma2/issues** 🙏
+
+## Stack trace
+
+${stacktrace}
+
+## System info
+
+${uname -a}
+
+## Browser info
+
+${browserInfo}
+
+## Affected components
+
+- [ ] Prisma 2 CLI
+- [x] Photon JS
+- [ ] Prisma Studio
+
+## Prisma 2 CLI version
+
+${prisma2 -v}
+
+## Prisma schema file
+
+${schema.prisma}
+
+## Generated Photon JS code
+
+${index.d.ts}
+```
+
+> Note: Is the `Affected components` section useful? Can we extend it, e.g. with `Query engine`, `Migration engine`, `MySQL connector`, ...?
 
 # Philosophy
 
@@ -124,17 +354,13 @@ error in the stack is the most helpful and should be bubbled up unwraped.
 
 **required**
 
-Whenever an error occurs, we should always show the user a path out of their current predicament. The more time they spend debugging, the less time they have
-building things on top of Prisma and telling their friends about it.
+Whenever an error occurs, we should always show the user a path out of their current predicament. The more time they spend debugging, the less time they have building things on top of Prisma and telling their friends about it.
 
 We will try to be as helpful as we can here:
 
 - **required** tell them where they can post a question or create an issue.
-
   - e.g. "You can post an question or issue here: https://github.com/prisma/photonjs/issues"
-
 - **encouraged** If we have documentation for this error, provide a URL to that documentation
-
   - e.g. "You can find `ConnectionError` documentation here: https://prisma.io/docs/xxx"
 
 ### `best_guess`
@@ -173,7 +399,7 @@ This isn't an exhaustive list, but should give you a good idea of what kind of e
 
 |   Query Engine Binary   |                      OSX                      |                                   ubuntu:latest (w/ `apt install openssl`)                                    |
 | :---------------------: | :-------------------------------------------: | :-----------------------------------------------------------------------------------------------------------: |
-|         darwin          |                      ok                       |                                 cannot execute binary file: Exec format error                                 |
+|         darwin          |                      ok                       |    cannot execute binary file: Exec format error                                 |
 |       linux-glibc       | cannot execute binary file: Exec format error |                                                      ok                                                       |
 | linux-glibc-libssl1.0.1 | cannot execute binary file: Exec format error | error while loading shared libraries: libssl.so.10: cannot open shared object file: No such file or directory |
 | linux-glibc-libssl1.0.2 | cannot execute binary file: Exec format error | error while loading shared libraries: libssl.so.10: cannot open shared object file: No such file or directory |
@@ -487,3 +713,7 @@ match unapply_result {
     }
 }
 ```
+
+## Unexpected Errors
+
+There migth be errors that can _not_ be [categorized](#error_category) when they're thrown. These kinds of unexpected errors:
