@@ -481,7 +481,7 @@ model BlogsWriters {
   blog      Blog
   author    Writer
   is_owner  Boolean
-  @@unique(author, blog)
+  @@unique([author, blog])
 }
 ```
 
