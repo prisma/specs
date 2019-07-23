@@ -2461,6 +2461,14 @@ cli-truncate@^1.1.0:
     slice-ansi "^1.0.0"
     string-width "^2.0.0"
 
+cli-truncate@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/cli-truncate/-/cli-truncate-2.0.0.tgz#68ff6aaa53b203b52ad89b8b1a80f1f61ad1e1d5"
+  integrity sha512-C4hp+8GCIFVsUUiXcw+ce+7wexVWImw8rQrgMBFsqerx9LvvcGlwm6sMjQYAEmV/Xb87xc1b5Ttx505MSpZVqg==
+  dependencies:
+    slice-ansi "^2.1.0"
+    string-width "^4.1.0"
+
 cli-width@^2.0.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/cli-width/-/cli-width-2.2.0.tgz#ff19ede8a9a5e579324147b0c11f0fbcbabed639"

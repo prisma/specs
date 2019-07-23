@@ -34,10 +34,8 @@ export default class TerminalWrapper extends React.Component<Props> {
 
   write() {
     if (this.props.children) {
-      if (this.props.children) {
-        this.terminal!.write(ansiEscapes.cursorTo(0, 0))
-        this.terminal!.writeln(this.props.children.toString())
-      }
+      this.terminal!.write(ansiEscapes.cursorTo(0, 0))
+      this.terminal!.writeln(this.props.children.toString())
     }
   }
 

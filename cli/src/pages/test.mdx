@@ -1,0 +1,65 @@
+---
+navGroup: dev
+navOrder: 2
+navLabel: Dashboard
+---
+
+import Terminal from '../components/Terminal/Terminal'
+import BorderBox from '../components/Terminal/BorderBox'
+import {
+  selectInputItemComponent,
+  selectInputIndicatorComponent,
+  Divider,
+} from '../components/inkHelpers'
+import SelectInput from 'ink-select-input'
+import { Box, Text, Color } from 'ink'
+import figures from 'figures'
+import chalk from 'chalk'
+
+# BorderBox test
+
+---
+
+## You can use `extension={true}`
+
+<Terminal>
+  <BorderBox
+    flexDirection="column"
+    height={4}
+    title={`${chalk.bold('Hi')} ${chalk.dim.yellow('- this is yellow')}`}
+    justifyContent="space-between"
+  >
+    <Box>This is a box</Box>
+    <Box>This is another box</Box>
+  </BorderBox>
+  <BorderBox
+    flexDirection="column"
+    height={4}
+    title={`${chalk.bold('Hi')} ${chalk.dim.yellow('- this is yellow')}`}
+    justifyContent="space-between"
+    extension={true}
+  >
+    <Box>This is a box</Box>
+    <Box>This is another box</Box>
+  </BorderBox>
+  <BorderBox
+    flexDirection="column"
+    height={4}
+    title={`${chalk.bold('Hi')} ${chalk.dim.yellow('- this is yellow')}`}
+    justifyContent="space-between"
+    extension={true}
+  >
+    <Box>This is a box</Box>
+    <Box>This is another box</Box>
+  </BorderBox>
+  <BorderBox
+    flexDirection="column"
+    height={4}
+    title={`${chalk.bold('Hi')} ${chalk.dim.yellow('- this is yellow')}`}
+    justifyContent="space-between"
+    marginTop={1}
+  >
+    <Box>This is a box</Box>
+    <Box>This is another box</Box>
+  </BorderBox>
+</Terminal>

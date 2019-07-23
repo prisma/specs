@@ -41,7 +41,8 @@ class Terminal extends React.Component<{ theme: Theme }> {
   }
 }
 
-const Wrapper = ({ children }) => {
+const Wrapper = data => {
+  const { children } = data
   const [useActiveThemeKeyState] = useStateValue()
   const [theme] = useActiveTheme(useActiveThemeKeyState)
   return <Terminal theme={theme}>{children}</Terminal>
