@@ -8,43 +8,43 @@
 
 - [Unknown Errors](#unknown-errors)
 - [Philosophy](#philosophy)
-  * [Error Format](#error-format)
-    + [`error_code`](#error_code)
-    + [`error_category`](#error_category)
+  - [Error Format](#error-format)
+    - [`error_code`](#error_code)
+    - [`error_category`](#error_category)
       - [Different Layers](#different-layers)
-    + [`how_to_proceed`](#how_to_proceed)
-    + [`best_guess`](#best_guess)
-    + [`stack_trace`](#stack_trace)
+    - [`how_to_proceed`](#how_to_proceed)
+    - [`best_guess`](#best_guess)
+    - [`stack_trace`](#stack_trace)
       - [Credential Masking](#credential-masking)
 - [Error Handbook](#error-handbook)
-  * [Photon JS / Photon Go](#photon-js--photon-go)
-    + [Generation: Datamodel Syntax or Semantic Error](#generation-datamodel-syntax-or-semantic-error)
-    + [Runtime: Binary built for the wrong platform](#runtime-binary-built-for-the-wrong-platform)
-    + [Runtime: Permissions](#runtime-permissions)
-    + [Runtime: Connection failed](#runtime-connection-failed)
-  * [Query Engine](#query-engine)
-    + [`UniqueConstraintViolation: Unique constraint failed: ${field_name}`](#uniqueconstraintviolation-unique-constraint-failed-field_name)
-    + [`NullConstraintViolation: Null constraint failed: ${field_name}`](#nullconstraintviolation-null-constraint-failed-field_name)
-    + [`RecordDoesNotExist: Record does not exist`](#recorddoesnotexist-record-does-not-exist)
-    + [`ColumnDoesNotExist: Column does not exist`](#columndoesnotexist-column-does-not-exist)
-    + [`ConnectionError: Error creating a database connection`](#connectionerror-error-creating-a-database-connection)
-    + [`QueryError: Error querying the database`](#queryerror-error-querying-the-database)
-    + [`InvalidConnectionArguments: The provided arguments are not supported.`](#invalidconnectionarguments-the-provided-arguments-are-not-supported)
-    + [`ColumnReadFailure: The column value was different from the model`](#columnreadfailure-the-column-value-was-different-from-the-model)
-    + [`FieldCannotBeNull: Field cannot be null: ${field}`](#fieldcannotbenull-field-cannot-be-null-field)
-    + [`DomainError`](#domainerror)
-    + [`RecordNotFoundForWhere: Record not found`](#recordnotfoundforwhere-record-not-found)
-    + [`RelationViolation: Violating a relation ${relation_name} between ${model_a_name} and ${model_b_name}`](#relationviolation-violating-a-relation-relation_name-between-model_a_name-and-model_b_name)
-    + [`RecordsNotConnected: The relation ${} has no record for the model {} connected to a record for the model {} on your write path.`](#recordsnotconnected-the-relation--has-no-record-for-the-model--connected-to-a-record-for-the-model--on-your-write-path)
-    + [`ConversionError: Conversion error`](#conversionerror-conversion-error)
-    + [`DatabaseCreationError: Database creation error: ${error}`](#databasecreationerror-database-creation-error-error)
-  * [Migration Engine](#migration-engine)
-    + [`DataModelErrors`](#datamodelerrors)
-    + [`InitializationError`](#initializationerror)
-    + [`Generic`](#generic)
-    + [`ConnectorError`](#connectorerror)
-    + [`MigrationError`](#migrationerror)
-    + [`RollbackFailure`](#rollbackfailure)
+  - [Photon JS / Photon Go](#photon-js--photon-go)
+    - [Generation: Datamodel Syntax or Semantic Error](#generation-datamodel-syntax-or-semantic-error)
+    - [Runtime: Binary built for the wrong platform](#runtime-binary-built-for-the-wrong-platform)
+    - [Runtime: Permissions](#runtime-permissions)
+    - [Runtime: Connection failed](#runtime-connection-failed)
+  - [Query Engine](#query-engine)
+    - [`UniqueConstraintViolation: Unique constraint failed: ${field_name}`](#uniqueconstraintviolation-unique-constraint-failed-field_name)
+    - [`NullConstraintViolation: Null constraint failed: ${field_name}`](#nullconstraintviolation-null-constraint-failed-field_name)
+    - [`RecordDoesNotExist: Record does not exist`](#recorddoesnotexist-record-does-not-exist)
+    - [`ColumnDoesNotExist: Column does not exist`](#columndoesnotexist-column-does-not-exist)
+    - [`ConnectionError: Error creating a database connection`](#connectionerror-error-creating-a-database-connection)
+    - [`QueryError: Error querying the database`](#queryerror-error-querying-the-database)
+    - [`InvalidConnectionArguments: The provided arguments are not supported.`](#invalidconnectionarguments-the-provided-arguments-are-not-supported)
+    - [`ColumnReadFailure: The column value was different from the model`](#columnreadfailure-the-column-value-was-different-from-the-model)
+    - [`FieldCannotBeNull: Field cannot be null: ${field}`](#fieldcannotbenull-field-cannot-be-null-field)
+    - [`DomainError`](#domainerror)
+    - [`RecordNotFoundForWhere: Record not found`](#recordnotfoundforwhere-record-not-found)
+    - [`RelationViolation: Violating a relation ${relation_name} between ${model_a_name} and ${model_b_name}`](#relationviolation-violating-a-relation-relation_name-between-model_a_name-and-model_b_name)
+    - [`RecordsNotConnected: The relation ${} has no record for the model {} connected to a record for the model {} on your write path.`](#recordsnotconnected-the-relation--has-no-record-for-the-model--connected-to-a-record-for-the-model--on-your-write-path)
+    - [`ConversionError: Conversion error`](#conversionerror-conversion-error)
+    - [`DatabaseCreationError: Database creation error: ${error}`](#databasecreationerror-database-creation-error-error)
+  - [Migration Engine](#migration-engine)
+    - [`DataModelErrors`](#datamodelerrors)
+    - [`InitializationError`](#initializationerror)
+    - [`Generic`](#generic)
+    - [`ConnectorError`](#connectorerror)
+    - [`MigrationError`](#migrationerror)
+    - [`RollbackFailure`](#rollbackfailure)
 
 <!-- tocstop -->
 
@@ -64,7 +64,7 @@ Since unknown errors can't be handled in a way that suggests a fix to the user, 
 
 ### Unknown Error Templates
 
-Additionally to showing the the error message directly to the user by printing it to the console, we also want to provide rich error reports that users can use to report the issue. These error reports are stored as markdown files on the file system. Therefore, each tool has two templates: 
+Additionally to showing the the error message directly to the user by printing it to the console, we also want to provide rich error reports that users can use to report the issue. These error reports are stored as markdown files on the file system. Therefore, each tool has two templates:
 
 - **Logging output** directly shown to the user
 - **Error report** (Markdown) stored on the file system
@@ -106,17 +106,17 @@ File name: `prisma-error-TIMESTAMP.md` where `TIMESTAMP` is a placeholder for th
 ```md
 # Error report (Prisma 2 CLI | July 23, 2019 | 14:42:23 h)
 
-This is an exhaustive report containing all relevant information we could collect about the error. 
+This is an exhaustive report containing all relevant information we could collect about the error.
 
 **Please post this report as a GitHub issue so we can fix the problem: https://github.com/prisma/prisma2/issues** 🙏
 
 ## Stack trace
 
-${stacktrace}
+\${stacktrace}
 
 ## System info
 
-${uname -a}
+\${uname -a}
 
 ## Affected components
 
@@ -126,11 +126,11 @@ ${uname -a}
 
 ## Prisma 2 CLI version
 
-${prisma2 -v}
+\${prisma2 -v}
 
 ## Prisma schema file
 
-${schema.prisma}
+\${schema.prisma}
 ```
 
 > Note: Is the `Affected components` section useful? Can we extend it, e.g. with `Query engine`, `Migration engine`, `MySQL connector`, ...?
@@ -170,21 +170,21 @@ File name: `prisma-error-TIMESTAMP.md` where `TIMESTAMP` is a placeholder for th
 ```md
 # Error report (Prisma Studio | July 23, 2019 | 14:42:23 h)
 
-This is an exhaustive report containing all relevant information we could collect about the error. 
+This is an exhaustive report containing all relevant information we could collect about the error.
 
 **Please post this report as a GitHub issue so we can fix the problem: https://github.com/prisma/prisma2/issues** 🙏
 
 ## Stack trace
 
-${stacktrace}
+\${stacktrace}
 
 ## System info
 
-${uname -a}
+\${uname -a}
 
 ## Browser info
 
-${browserInfo}
+\${browserInfo}
 
 ## Affected components
 
@@ -194,11 +194,11 @@ ${browserInfo}
 
 ## Prisma 2 CLI version
 
-${prisma2 -v}
+\${prisma2 -v}
 
 ## Prisma schema file
 
-${schema.prisma}
+\${schema.prisma}
 ```
 
 > Note: Is the `Affected components` section useful? Can we extend it, e.g. with `Query engine`, `Migration engine`, `MySQL connector`, ...?
@@ -238,21 +238,21 @@ File name: `prisma-error-TIMESTAMP.md` where `TIMESTAMP` is a placeholder for th
 ```md
 # Error report (Photon JS | July 23, 2019 | 14:42:23 h)
 
-This is an exhaustive report containing all relevant information we could collect about the error. 
+This is an exhaustive report containing all relevant information we could collect about the error.
 
 **Please post this report as a GitHub issue so we can fix the problem: https://github.com/prisma/prisma2/issues** 🙏
 
 ## Stack trace
 
-${stacktrace}
+\${stacktrace}
 
 ## System info
 
-${uname -a}
+\${uname -a}
 
 ## Browser info
 
-${browserInfo}
+\${browserInfo}
 
 ## Affected components
 
@@ -262,15 +262,15 @@ ${browserInfo}
 
 ## Prisma 2 CLI version
 
-${prisma2 -v}
+\${prisma2 -v}
 
 ## Prisma schema file
 
-${schema.prisma}
+\${schema.prisma}
 
 ## Generated Photon JS code
 
-${index.d.ts}
+\${index.d.ts}
 ```
 
 > Note: Is the `Affected components` section useful? Can we extend it, e.g. with `Query engine`, `Migration engine`, `MySQL connector`, ...?
@@ -399,7 +399,7 @@ This isn't an exhaustive list, but should give you a good idea of what kind of e
 
 |   Query Engine Binary   |                      OSX                      |                                   ubuntu:latest (w/ `apt install openssl`)                                    |
 | :---------------------: | :-------------------------------------------: | :-----------------------------------------------------------------------------------------------------------: |
-|         darwin          |                      ok                       |    cannot execute binary file: Exec format error                                 |
+|         darwin          |                      ok                       |                                 cannot execute binary file: Exec format error                                 |
 |       linux-glibc       | cannot execute binary file: Exec format error |                                                      ok                                                       |
 | linux-glibc-libssl1.0.1 | cannot execute binary file: Exec format error | error while loading shared libraries: libssl.so.10: cannot open shared object file: No such file or directory |
 | linux-glibc-libssl1.0.2 | cannot execute binary file: Exec format error | error while loading shared libraries: libssl.so.10: cannot open shared object file: No such file or directory |
