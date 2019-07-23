@@ -73,7 +73,7 @@ The error report generally is more exhaustive than the logging output (e.g. it a
 
 #### Prisma 2 CLI
 
-##### Logging output
+<Details><Summary>Logging output</Summary>
 
 ```
 Oops, ... an error occured. This was most likely our fault! Please help us fix the problem by opening an issue here: https://github.com/prisma/prisma2/issues
@@ -99,7 +99,9 @@ Thanks for helping us making Prisma 2 more stable! 🙏
 
 > Note: Text enclosed by the double-asterisk `**` means the text should be printed in **bold**.
 
-##### Error report
+</Details>
+
+<Details><Summary>Error report</Summary>
 
 File name: `prisma-error-TIMESTAMP.md` where `TIMESTAMP` is a placeholder for the current timestamp.
 
@@ -135,9 +137,11 @@ This is an exhaustive report containing all relevant information we could collec
 
 > Note: Is the `Affected components` section useful? Can we extend it, e.g. with `Query engine`, `Migration engine`, `MySQL connector`, ...?
 
+</Details>
+
 #### Prisma Studio
 
-##### Logging output
+<Details><Summary>Logging output</Summary>
 
 ```
 Oops, ... an error occured. This was most likely our fault! Please help us fix the problem by opening an issue here: https://github.com/prisma/prisma2/issues
@@ -163,7 +167,9 @@ Thanks for helping us making Prisma 2 more stable! 🙏
 
 > Note: Text enclosed by the double-asterisk `**` means the text should be printed in **bold**.
 
-##### Error report
+</Details>
+
+<Details><Summary>Error report</Summary>
 
 File name: `prisma-error-TIMESTAMP.md` where `TIMESTAMP` is a placeholder for the current timestamp.
 
@@ -203,9 +209,11 @@ This is an exhaustive report containing all relevant information we could collec
 
 > Note: Is the `Affected components` section useful? Can we extend it, e.g. with `Query engine`, `Migration engine`, `MySQL connector`, ...?
 
+</Details>
+
 #### Photon JS
 
-##### Logging output
+<Details><Summary>Logging output</Summary>
 
 ```
 Oops, ... an error occured. This was most likely our fault! Please help us fix the problem by opening an issue here: https://github.com/prisma/prisma2/issues
@@ -231,7 +239,9 @@ Thanks for helping us making Prisma 2 more stable! 🙏
 
 > Note: Text enclosed by the double-asterisk `**` means the text should be printed in **bold**.
 
-##### Error report
+</Details>
+
+<Details><Summary>Error report</Summary>
 
 File name: `prisma-error-TIMESTAMP.md` where `TIMESTAMP` is a placeholder for the current timestamp.
 
@@ -274,6 +284,8 @@ This is an exhaustive report containing all relevant information we could collec
 ```
 
 > Note: Is the `Affected components` section useful? Can we extend it, e.g. with `Query engine`, `Migration engine`, `MySQL connector`, ...?
+
+</Details>
 
 # Philosophy
 
