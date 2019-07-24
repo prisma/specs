@@ -82,24 +82,30 @@ The error report generally is more exhaustive than the logging output (e.g. it a
 
 <Details><Summary>Logging output</Summary>
 
+## Non-lift commands
+
 ```
-Oops, ... an error occured. This was most likely our fault! Please help us fix the problem by opening an issue here: https://github.com/prisma/prisma2/issues
+Oops, ... an error occured! Find more info in the error report: 
+**prisma-error-TIMESTAMP.md**
 
-When opening the issue, please include the information below.
+Please help us fix the problem!
 
-**Stack trace**:
+Copy the error report and paste it as a GitHub issue here:
+**https://www.github.com/prisma/prisma2/issues**
 
-${stacktrace}
+Thanks for helping us making Prisma 2 more stable! 🙏
+```
 
-**System info**:
+## Lift commands
 
-${uname -a}
+```
+Oops, ... an error occured! Find more info in the error report: 
+**prisma-error-TIMESTAMP.md**
 
-**Prisma 2 CLI version**:
+Please help us fix the problem!
 
-${prisma2 -v}
-
-Please also include your **Prisma schema** and ideally a minimal reproduction of the problem. You can find more info in the generated error file **prisma-error-TIMESTAMP.md**.
+Copy the error report and paste it as a GitHub issue here:
+**https://www.github.com/prisma/lift/issues**
 
 Thanks for helping us making Prisma 2 more stable! 🙏
 ```
@@ -110,39 +116,67 @@ Thanks for helping us making Prisma 2 more stable! 🙏
 
 <Details><Summary>Error report</Summary>
 
+## Non-lift commands
+
 File name: `prisma-error-TIMESTAMP.md` where `TIMESTAMP` is a placeholder for the current timestamp.
 
-```md
+```
 # Error report (Prisma 2 CLI | July 23, 2019 | 14:42:23 h)
 
-This is an exhaustive report containing all relevant information we could collect about the error.
+This is an exhaustive report containing all relevant information about the error.
 
 **Please post this report as a GitHub issue so we can fix the problem: https://github.com/prisma/prisma2/issues** 🙏
 
 ## Stack trace
 
-\${stacktrace}
+${stacktrace}
 
 ## System info
 
-\${uname -a}
-
-## Affected components
-
-- [x] Prisma 2 CLI
-- [ ] Photon JS
-- [ ] Prisma Studio
+${uname -a}
 
 ## Prisma 2 CLI version
 
-\${prisma2 -v}
+${prisma2 -v}
 
 ## Prisma schema file
 
-\${schema.prisma}
+${schema.prisma}
 ```
 
-> Note: Is the `Affected components` section useful? Can we extend it, e.g. with `Query engine`, `Migration engine`, `MySQL connector`, ...?
+> **Note**: The connection strings for the data sources in the Prisma schema file must be obscured!
+
+## Lift commands
+
+File name: `prisma-error-TIMESTAMP.md` where `TIMESTAMP` is a placeholder for the current timestamp.
+
+```
+# Error report (Prisma 2 CLI (Lift) | July 23, 2019 | 14:42:23 h)
+
+This is an exhaustive report containing all relevant information about the error.
+
+**Please post this report as a GitHub issue so we can fix the problem: https://github.com/prisma/lift/issues** 🙏
+
+## Stack trace
+
+ ${stacktrace}
+
+## System info
+
+${uname -a}
+
+## Prisma 2 CLI version
+
+${prisma2 -v}
+
+## Prisma schema file
+
+${schema.prisma}
+```
+
+> **Note**: The connection strings for the data sources in the Prisma schema file must be obscured!
+
+> **Question**: Should/can we also include info about the DB? E.g. which version of MySQL/PostgreSQL is being used?
 
 </Details>
 
@@ -151,27 +185,13 @@ This is an exhaustive report containing all relevant information we could collec
 <Details><Summary>Logging output</Summary>
 
 ```
-Oops, ... an error occured. This was most likely our fault! Please help us fix the problem by opening an issue here: https://github.com/prisma/prisma2/issues
+Oops, ... an error occured! Find more info in the error report: 
+**prisma-error-TIMESTAMP.md**
 
-When opening the issue, please include the information below.
+Please help us fix the problem!
 
-**Stack trace**:
-
-${stacktrace}
-
-**System info**:
-
-${uname -a}
-
-## Browser info
-
-${browserInfo}
-
-**Prisma 2 CLI version**:
-
-${prisma2 -v}
-
-Please also include your **Prisma schema** and ideally a minimal reproduction of the problem. You can find more info in the generated error file **prisma-error-TIMESTAMP.md**.
+Copy the error report and paste it as a GitHub issue here:
+**https://www.github.com/prisma/prisma2/issues**
 
 Thanks for helping us making Prisma 2 more stable! 🙏
 ```
@@ -184,41 +204,35 @@ Thanks for helping us making Prisma 2 more stable! 🙏
 
 File name: `prisma-error-TIMESTAMP.md` where `TIMESTAMP` is a placeholder for the current timestamp.
 
-```md
+```
 # Error report (Prisma Studio | July 23, 2019 | 14:42:23 h)
 
-This is an exhaustive report containing all relevant information we could collect about the error.
+This is an exhaustive report containing all relevant information about the error.
 
 **Please post this report as a GitHub issue so we can fix the problem: https://github.com/prisma/prisma2/issues** 🙏
 
 ## Stack trace
 
-\${stacktrace}
+${stacktrace}
 
 ## System info
 
-\${uname -a}
+${uname -a}
 
 ## Browser info
 
-\${browserInfo}
-
-## Affected components
-
-- [ ] Prisma 2 CLI
-- [ ] Photon JS
-- [x] Prisma Studio
+${browserInfo}
 
 ## Prisma 2 CLI version
 
-\${prisma2 -v}
+${prisma2 -v}
 
 ## Prisma schema file
 
-\${schema.prisma}
+${schema.prisma}
 ```
 
-> Note: Is the `Affected components` section useful? Can we extend it, e.g. with `Query engine`, `Migration engine`, `MySQL connector`, ...?
+> **Note**: The connection strings for the data sources in the Prisma schema file must be obscured!
 
 </Details>
 
@@ -227,25 +241,15 @@ This is an exhaustive report containing all relevant information we could collec
 <Details><Summary>Logging output</Summary>
 
 ```
-Oops, ... an error occured. This was most likely our fault! Please help us fix the problem by opening an issue here: https://github.com/prisma/prisma2/issues
+Oops, ... an error occured! Find more info in the error report: 
+**prisma-error-TIMESTAMP.md**
 
-When opening the issue, please include the information below.
+Please help us fix the problem!
 
-**Stack trace**:
+Copy the error report and paste it as a GitHub issue here:
+**https://www.github.com/prisma/photonjs/issues**
 
-${stacktrace}
-
-**System info**:
-
-${uname -a}
-
-**Prisma 2 CLI version**:
-
-${prisma2 -v}
-
-Please also include your **Prisma schema** and ideally a minimal reproduction of the problem. You can find more info in the generated error file **prisma-error-TIMESTAMP.md**.
-
-Thanks for helping us making Prisma 2 more stable! 🙏
+Thanks for helping us making Photon JS more stable! 🙏
 ```
 
 > Note: Text enclosed by the double-asterisk `**` means the text should be printed in **bold**.
@@ -256,45 +260,35 @@ Thanks for helping us making Prisma 2 more stable! 🙏
 
 File name: `prisma-error-TIMESTAMP.md` where `TIMESTAMP` is a placeholder for the current timestamp.
 
-```md
+```
 # Error report (Photon JS | July 23, 2019 | 14:42:23 h)
 
-This is an exhaustive report containing all relevant information we could collect about the error.
+This is an exhaustive report containing all relevant information about the error.
 
 **Please post this report as a GitHub issue so we can fix the problem: https://github.com/prisma/prisma2/issues** 🙏
 
 ## Stack trace
 
-\${stacktrace}
+${stacktrace}
 
 ## System info
 
-\${uname -a}
-
-## Browser info
-
-\${browserInfo}
-
-## Affected components
-
-- [ ] Prisma 2 CLI
-- [x] Photon JS
-- [ ] Prisma Studio
+${uname -a}
 
 ## Prisma 2 CLI version
 
-\${prisma2 -v}
+${prisma2 -v}
 
 ## Prisma schema file
 
-\${schema.prisma}
+${schema.prisma}
 
 ## Generated Photon JS code
 
-\${index.d.ts}
+${index.d.ts}
 ```
 
-> Note: Is the `Affected components` section useful? Can we extend it, e.g. with `Query engine`, `Migration engine`, `MySQL connector`, ...?
+> **Note**: The connection strings for the data sources in the Prisma schema file must be obscured!
 
 </Details>
 
