@@ -4,16 +4,16 @@ navOrder: 1
 navLabel: SQLite
 ---
 
-import Terminal from '../../../components/Terminal/Terminal'
+import Terminal from '../../components/Terminal/Terminal'
 import {
   selectInputItemComponent,
   selectInputIndicatorComponent,
   Divider,
-} from '../../../components/inkHelpers'
+} from '../../components/inkHelpers'
 import SelectInput from 'ink-select-input'
 import { Box, Text, Color } from 'ink'
 import figures from 'figures'
-import BorderBox from '../../../components/Terminal/BorderBox'
+import BorderBox from '../../components/Terminal/BorderBox'
 import chalk from 'chalk'
 
 # SQLite
@@ -110,7 +110,7 @@ Previous selections:
 <Terminal>
   <Box flexDirection="column" marginLeft={2} marginBottom={1}>
     <Text bold>Select an example or start from scratch</Text>
-    <Color dim>Find all examples at https://github.com/prisma/photonjs/</Color>
+    <Color dim>All examples: https://github.com/prisma/photonjs/</Color>
   </Box>
   <BorderBox
     flexDirection="column"
@@ -358,7 +358,7 @@ Previous selections:
 2. Use existing SQLite file
 3. _entered file path_
 4. _introspected DB_
-5. Photon
+5. Photon or Photon + Lift
 
 <Terminal>
   <Box flexDirection="column" marginLeft={2} marginBottom={1}>
@@ -394,7 +394,6 @@ Previous selections:
   </Box>
 </Terminal>
 
-
 ### (4.1) & (4.2) Example selection
 
 Previous selections:
@@ -409,7 +408,7 @@ Previous selections:
 <Terminal>
   <Box flexDirection="column" marginLeft={2} marginBottom={1}>
     <Text bold>Select an example or start from scratch</Text>
-    <Color dim>Example is generated based on your database schema</Color>
+    <Color dim>Examples are generated for your database schema</Color>
   </Box>
   <BorderBox
     flexDirection="column"
@@ -527,3 +526,11 @@ Previous selections:
     </Box>
   </Box>
 </Terminal> 
+
+### (5.2) 
+
+TODO
+
+### (5.3) 
+
+TODO
