@@ -20,33 +20,141 @@ import chalk from 'chalk'
 
 ---
 
+### (4.1) Example selection
+
+Previous selections:
+
+1. SQLite
+2. Use existing SQLite file
+3. _entered file path_
+4. _introspected DB_
+5. Photon
+6. JavaScript/TypeScript
+
 <Terminal>
-  <Box marginLeft={2} flexDirection="column" marginBottom={1}>
-    <Text bold>Enter the path to your SQLite database file</Text>
-    <Color dim>Prisma will introspect the database</Color>
+  <Box flexDirection="column" marginLeft={2} marginBottom={1}>
+    <Text bold>Select an example or start from scratch</Text>
+    <Color dim>Example is generated based on your database schema</Color>
   </Box>
   <BorderBox
     flexDirection="column"
-    title={`${chalk.bold('SQLite database file')}`}
+    title={`${chalk.bold('Examples to get you started')}`}
     marginBottom={1}
   >
-   <Box width={100}>
+    <Box width={100}>
       <Color cyan>
-        <Text bold>{figures.pointer} File path:</Text>
-        <Color dim> ./my.db</Color>
+        <Box width={20}>
+          {figures.pointer} <Text bold>Script</Text>
+        </Box>
+        <Color dim>  Simple script with API examples</Color>
       </Color>
       <Box flexGrow={1}></Box>
+    </Box>
+    <Box width={100}>
+      <Box width={20} marginLeft={2}>
+        No boilerplate
+      </Box>
+      <Color dim>Just generate the Prisma schema</Color>
+      <Box flexGrow={1} />
     </Box>
   </BorderBox>
   <Box>
     <Color gray>❮ </Color>
     <Text bold>Back</Text>
-    <Color dim> (Database options)</Color>
+    <Color dim> (Language selection)</Color>
   </Box>
 </Terminal>
 
+**TODO**: There needs to be a separate box inside the border box, like this:
 
-<!-- ## You can use `extension={true}`
+<Terminal>
+  <Box flexDirection="column" paddingTop={2} paddingBottom={1}>
+    <Box>
+      <Color gray>┌──</Color>
+      <Text bold> Boilerplates </Text>
+      <Color gray>────────────────────────────────────────────┐</Color>
+    </Box>
+    <Box width={100}>
+      <Box flexGrow={1} />
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color cyan>
+        <Box width={20}>
+          {figures.pointer} <Text bold>From scratch</Text>
+        </Box>
+        <Color dim> Simple script with API examples</Color>
+      </Color>
+      <Box flexGrow={1} />
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20} marginLeft={2}>
+        GraphQL boilerplate
+      </Box>
+      <Color dim>GraphQL server example</Color>
+      <Box flexGrow={1} />
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20} marginLeft={2}>
+        REST boilerplate
+      </Box>
+      <Color dim>REST API example (using express.js)</Color>
+      <Box flexGrow={1} />
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20} marginLeft={2}>
+        gRPC boilerplate
+      </Box>
+      <Color dim>gRPC API example (client + server)</Color>
+      <Box flexGrow={1} />
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1} />
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>
+        ├────────────────────────────────────────────────────────────┤
+      </Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1} />
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20} marginLeft={2}>
+        No boilerplate
+      </Box>
+      <Color dim>Just generate the Prisma schema</Color>
+      <Box flexGrow={1} />
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1} />
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>
+        └────────────────────────────────────────────────────────────┘
+      </Color>
+    </Box>
+  </Box>
+</Terminal> 
+
+<!-- 
+## You can use `extension={true}`
 
 <Terminal>
   <BorderBox

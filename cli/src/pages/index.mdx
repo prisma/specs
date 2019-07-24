@@ -3,8 +3,27 @@
 ## Design Principles
 
 - [Gatsby CLI design principles](https://docs.google.com/document/d/1rv7tBUeqHN4t_UecuEAKVCWAVzQoCmcDoONBmf3HggI/edit#)
+- [Language](#language)
 
-### Language
+## Open Questions
+
+- [ ] Preserve scrollablity (e.g. `docker-compose`)
+- [ ] Single terminal dev mode
+- [ ] Sync between CLI/Studio
+- [ ] `--no-colors` / `PRISMA_CLI_NO_COLORS` to disable colors
+- [ ] progress indicator for entire flow / step counter (e.g. step 2/6); since steps are dynamic based on selection, how can the progress be calculcated?
+- [ ] figure out "generated example" after introspection with existing DB
+
+## Notes
+
+When an example is selected, the CLI should:
+
+1. replace the data source config in schema.prisma with the DB credentials initially provided (noop for SQLite)
+1. generate Photon
+1. install npm dependencies
+1. seed the DB
+
+## Language
 
 #### Active vs Passive voice
 
@@ -45,19 +64,3 @@ Which programming language do you want to use
 ```
 
 _**Rationale**_: Imperative is more concise and clear. 
-
-## Open Questions
-
-- [ ] Preserve scrollablity (e.g. `docker-compose`)
-- [ ] Single terminal dev mode
-- [ ] Sync between CLI/Studio
-- [ ] `--no-colors` / `PRISMA_CLI_NO_COLORS` to disable colors
-
-## Notes
-
-When an example is selected, the CLI should:
-
-1. replace the data source config in schema.prisma with the DB credentials initially provided (noop for SQLite)
-1. generate Photon
-1. install npm dependencies
-1. seed the DB
