@@ -6,152 +6,57 @@ navLabel: Dashboard
 
 import Terminal from '../components/Terminal/Terminal'
 import BorderBox from '../components/Terminal/BorderBox'
+import figures from 'figures'
+import chalk from 'chalk'
 import {
+  multiSelectItemComponent,
+  multiSelectIndicatorComponent,
+  multiSelectCheckboxComponent,
   selectInputItemComponent,
   selectInputIndicatorComponent,
   Divider,
 } from '../components/inkHelpers'
+import MultiSelect from 'ink-multi-select'
 import SelectInput from 'ink-select-input'
+import TextInput from 'ink-text-input'
+// import ProgressBar from 'ink-progress-bar'
 import { Box, Text, Color } from 'ink'
-import figures from 'figures'
-import chalk from 'chalk'
 
 # BorderBox test
 
 ---
 
-### (4.1) Example selection
 
-Previous selections:
-
-1. SQLite
-2. Use existing SQLite file
-3. _entered file path_
-4. _introspected DB_
-5. Photon
-6. JavaScript/TypeScript
 
 <Terminal>
-  <Box flexDirection="column" marginLeft={2} marginBottom={1}>
-    <Text bold>Select an example or start from scratch</Text>
-    <Color dim>Example is generated based on your database schema</Color>
+  <Box marginLeft={2} flexDirection="column" marginBottom={1}>
+    <Text bold>Enter name for the new database</Text>
+    <Color dim>The database will be created by Prisma</Color>
   </Box>
   <BorderBox
     flexDirection="column"
-    title={`${chalk.bold('Examples to get you started')}`}
+    title={`${chalk.bold('MySQL database name')}`}
     marginBottom={1}
   >
-    <Box width={100}>
+   <Box width={100}>
       <Color cyan>
-        <Box width={20}>
-          {figures.pointer} <Text bold>Script</Text>
-        </Box>
-        <Color dim>  Simple script with API examples</Color>
+        <Text bold>{figures.pointer} Name:</Text>
+        <Color dim> my-db</Color>
       </Color>
       <Box flexGrow={1}></Box>
     </Box>
-    <Box width={100}>
-      <Box width={20} marginLeft={2}>
-        No boilerplate
-      </Box>
-      <Color dim>Just generate the Prisma schema</Color>
-      <Box flexGrow={1} />
-    </Box>
   </BorderBox>
+  <Box>
+    <Color gray>{figures.pointer} </Color>
+    <Text bold>Create</Text>
+  </Box>
   <Box>
     <Color gray>❮ </Color>
     <Text bold>Back</Text>
-    <Color dim> (Language selection)</Color>
+    <Color dim> (Database options)</Color>
   </Box>
 </Terminal>
 
-**TODO**: There needs to be a separate box inside the border box, like this:
-
-<Terminal>
-  <Box flexDirection="column" paddingTop={2} paddingBottom={1}>
-    <Box>
-      <Color gray>┌──</Color>
-      <Text bold> Boilerplates </Text>
-      <Color gray>────────────────────────────────────────────┐</Color>
-    </Box>
-    <Box width={100}>
-      <Box flexGrow={1} />
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Color cyan>
-        <Box width={20}>
-          {figures.pointer} <Text bold>From scratch</Text>
-        </Box>
-        <Color dim> Simple script with API examples</Color>
-      </Color>
-      <Box flexGrow={1} />
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box width={20} marginLeft={2}>
-        GraphQL boilerplate
-      </Box>
-      <Color dim>GraphQL server example</Color>
-      <Box flexGrow={1} />
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box width={20} marginLeft={2}>
-        REST boilerplate
-      </Box>
-      <Color dim>REST API example (using express.js)</Color>
-      <Box flexGrow={1} />
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box width={20} marginLeft={2}>
-        gRPC boilerplate
-      </Box>
-      <Color dim>gRPC API example (client + server)</Color>
-      <Box flexGrow={1} />
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1} />
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>
-        ├────────────────────────────────────────────────────────────┤
-      </Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1} />
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box width={20} marginLeft={2}>
-        No boilerplate
-      </Box>
-      <Color dim>Just generate the Prisma schema</Color>
-      <Box flexGrow={1} />
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1} />
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>
-        └────────────────────────────────────────────────────────────┘
-      </Color>
-    </Box>
-  </Box>
-</Terminal> 
 
 <!-- 
 ## You can use `extension={true}`

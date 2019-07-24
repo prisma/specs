@@ -19,26 +19,98 @@ import TextInput from 'ink-text-input'
 // import ProgressBar from 'ink-progress-bar'
 import { Box, Text, Color } from 'ink'
 import figures from 'figures'
+import chalk from 'chalk'
+import BorderBox from '../../components/Terminal/BorderBox'
 
 # MySQL
 
 ---
 
-## Flows
-
 <img src="https://prisma-specs.prisma.now.sh/cli/figma-proxy?id=858:190" width="100%" />
 
-## (1) Enter Database Credentials
-<Terminal>
-  <Box flexDirection="column" marginLeft={2}>
-    <Text bold>Log into your database</Text>
-    <Color dim>Learn how to set up a MySQL database: https://www.prisma.io/docs</Color>
-  </Box>
+---
 
-  <Box flexDirection="column" paddingTop={2} paddingBottom={1}>
+### (1) Enter database credentials
+
+Previous selections:
+
+1. MySQL
+
+<Terminal>
+  <Box flexDirection="column" marginLeft={2} marginBottom={1}>
+    <Text bold>Connect to your MySQL database server</Text>
+    <Color dim>https://github.com/prisma/prisma2/blob/master/docs/core/connectors/mysql.md</Color>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={`${chalk.bold('MySQL database credentials')}`}
+    marginBottom={1}
+  >
+    
+  <Box width={100}>
+      <Color gray>  </Color>
+      <Text>Host: </Text>
+      <TextInput value="" placeholder="127.0.0.1" showCursor={false} />
+      <Box flexGrow={1}></Box>
+    </Box>
+    <Box width={100}>
+      <Color gray>  </Color>
+      <Text>Port: </Text>
+      <TextInput value="" placeholder="3306" showCursor={false} />
+      <Box flexGrow={1}></Box>
+    </Box>
+    <Box width={100}>
+      <Color gray>  </Color>
+      <Text>User: </Text>
+      <TextInput value="admin" showCursor={false} />
+      <Box flexGrow={1}></Box>
+    </Box>
+    <Box width={100}>
+      <Color cyan>{figures.pointer} </Color>
+      <Color cyan>
+        <Text bold>Password: </Text>
+        <TextInput value="********" showCursor={false} />
+      </Color>
+      <Box flexGrow={1}></Box>
+    </Box>
+    <Box width={100}>
+      <Color gray>  </Color>
+      <Text>Database (optional): </Text>
+      <TextInput value="" showCursor={false} />
+      <Box flexGrow={1}></Box>
+    </Box>
+    <Box width={100}>
+      <Box flexGrow={1}></Box>
+    </Box>
+    <Box width={100}>
+      <Color gray>  </Color>
+      <Text>{figures.squareSmall} Use SSL </Text>
+    </Box>
+    <Box width={100}>
+      <Color gray>  </Color>
+      <Text>Or URL: </Text>
+      <TextInput value="" placeholder="mysql://localhost:3306/admin" showCursor={false} />
+      <Box flexGrow={1}></Box>
+    </Box>
+  </BorderBox>
+  <Box>
+    <Color gray>{figures.pointer} </Color>
+    <Text bold>Connect</Text>
+  </Box>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Database selection)</Color>
+  </Box>
+</Terminal>
+
+**TODO**: There needs to be a separate box inside the border box, like this:
+
+<Terminal>
+  <Box flexDirection="column" paddingBottom={1}>
     <Box>
       <Color gray>┌──</Color>
-      <Text bold> Enter MySQL credentials </Text>
+      <Text bold> MySQL credentials </Text>
       <Color gray>─────────────────────────────────┐</Color>
     </Box>
     <Box width={100}>
@@ -141,7 +213,16 @@ import figures from 'figures'
   </Box>
 </Terminal>
 
-## (1) Enter Database Credentials (Found local database)
+## (1) Enter database credentials (Found local database)
+
+Previous selections:
+
+1. MySQL
+
+**TODO**
+
+<!-- 
+
 <Terminal>
   <Box flexDirection="column" marginLeft={2}>
     <Text bold>Log into your database</Text>
@@ -282,104 +363,95 @@ import figures from 'figures'
   </Box>
 </Terminal>
 
-## (2) Choose Existing or New Database
+ -->
+
+## (2) Select database or create a new one
+
+Previous selections:
+
+1. MySQL
+2. _entered DB credentials_ (optional DB not provided)
+3. _connection succesful_
+
 <Terminal>
   <Color green>
-    {figures.tick } Connected to MySQL server as <Text bold>admin</Text>
+    {figures.tick } Connected to MySQL database server as <Text bold>admin</Text>
   </Color>
-
-  <Box flexDirection="column" paddingTop={1} paddingBottom={1}>
-    <Box>
-      <Color gray>┌──</Color>
-      <Text bold> Select a database </Text>
-      <Color gray>───────────────────────────────────────┐</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
+  <Box 
+    flexDirection="column" 
+    marginLeft={2} 
+    marginTop={1}
+    marginBottom={1}
+  >
+    <Text bold>Create a new MySQL database or use an existing one</Text>
+    <Color dim>A MySQL database server can host multiple databases</Color>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={`${chalk.bold('Database options')}`}
+    marginBottom={1}
+  >
+     <Box width={100}>
       <Color cyan>
         <Box width={30}>
           <Text bold>{figures.pointer} Create new MySQL database</Text>
         </Box>
-        <Color dim>  Beginner's choice</Color>
+        <Color dim>Start from scratch</Color>
       </Color>
       <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
     </Box>
     <Box width={100}>
-      <Color gray>│   </Color>
       <Color >
         <Box width={30}>
+          <Color gray>  </Color>
           <Text>Use existing MySQL database</Text>
         </Box>
         <Color dim>Found 5 databases</Color>
       </Color>
       <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
     </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
-    </Box>
-  </Box>
+  </BorderBox>
   <Box>
     <Color gray>❮ </Color>
     <Text bold>Back</Text>
-    <Color  dim> (Database credentials)</Color>
+    <Color dim> (Database credentials)</Color>
   </Box>
 </Terminal>
 
-## (2.1) Set Database Name
-<Terminal>
-  <Color green>
-    {figures.tick } Connected to MySQL server as <Text bold>admin</Text>
-  </Color>
 
-  <Box flexDirection="column" paddingTop={1} paddingBottom={1}>
-    <Box>
-      <Color gray>┌──</Color>
-      <Text bold> Enter a name for new database </Text>
-      <Color gray>───────────────────────────┐</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
+## (2.1) Set database name
+
+<Terminal>
+  <Box marginLeft={2} flexDirection="column" marginBottom={1}>
+    <Text bold>Enter name for the new database</Text>
+    <Color dim>The database will be created by Prisma</Color>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={`${chalk.bold('MySQL database name')}`}
+    marginBottom={1}
+  >
+   <Box width={100}>
       <Color cyan>
         <Text bold>{figures.pointer} Name:</Text>
-        <Color dim> my-app</Color>
+        <Color dim> my-db</Color>
       </Color>
       <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
     </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
-    </Box>
+  </BorderBox>
+  <Box>
+    <Color gray>{figures.pointer} </Color>
+    <Text bold>Create</Text>
   </Box>
   <Box>
     <Color gray>❮ </Color>
     <Text bold>Back</Text>
-    <Color  dim> (Database selection)</Color>
+    <Color dim> (Database options)</Color>
   </Box>
 </Terminal>
 
-## (3) Choose a Database
+## (3) Select a database
+
 <Terminal>
   <Color green>
     {figures.tick } Connected to MySQL server as <Text bold>admin</Text>
@@ -905,4 +977,4 @@ import figures from 'figures'
 
 ## (M.6.1) Success (Photon)
 ## (M.6.2) Success (Lift+Photon)
-## (M.6.3) Success (Lift)
+## (M.6.3) Success (Lift) 
