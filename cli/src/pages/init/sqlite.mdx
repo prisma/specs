@@ -11,6 +11,7 @@ import {
   Divider,
 } from '../../components/inkHelpers'
 import SelectInput from 'ink-select-input'
+import ProgressBar from 'ink-progress-bar'
 import { Box, Text, Color } from 'ink'
 import figures from 'figures'
 import BorderBox from '../../components/Terminal/BorderBox'
@@ -36,22 +37,17 @@ Previous selections:
 <Terminal>
   <BorderBox
     flexDirection="column"
-    title={`${chalk.bold('Database options')}`}
+    title={chalk.bold('Database options')}
     marginBottom={1}
   >
-    <Box width={100}>
+    <Box>
       <Color cyan>
-        <Box width={30}>
-          {figures.pointer} <Text bold>Create new SQLite file</Text>
-        </Box>
-        <Color dim> Start from scratch</Color>
+        <Box width={28} marginRight={2}>{figures.pointer} <Text bold>Create new SQLite file</Text></Box>
+        <Color dim>Start from scratch</Color>
       </Color>
-      <Box flexGrow={1} />
     </Box>
-    <Box width={100}>
-      <Box width={30} marginLeft={2}>
-        Use existing SQLite file
-      </Box>
+    <Box>
+      <Box width={28} marginLeft={2}>Use existing SQLite file</Box>
       <Color dim>Requires path to SQLite file</Color>
     </Box>
   </BorderBox>
@@ -76,24 +72,19 @@ Previous selections:
   </Box>
   <BorderBox
     flexDirection="column"
-    title={`${chalk.bold('Photon is available in these languages')}`}
+    title={chalk.bold('Photon is available in these languages')}
     marginBottom={1}
   >
-    <Box width={100}>
-      <Color cyan>
-        {figures.pointer} <Text bold>JavaScript</Text>
-      </Color>
-      <Box flexGrow={1} />
+    <Box>
+      <Color cyan>{figures.pointer} <Text bold>JavaScript</Text></Color>
     </Box>
-    <Box width={100}>
+    <Box>
       <Box marginLeft={2}>TypeScript</Box>
-      <Box flexGrow={1} />
     </Box>
-    <Box width={100}>
+    <Box>
       <Box marginLeft={2}>
         Go <Color dim>(Coming soon)</Color>
       </Box>
-      <Box flexGrow={1} />
     </Box>
   </BorderBox>
   <Box>
@@ -118,140 +109,40 @@ Previous selections:
   </Box>
   <BorderBox
     flexDirection="column"
-    title={`${chalk.bold('Examples to get you started')}`}
-    marginBottom={1}
+    title={chalk.bold('Examples to get you started')}
   >
-    <Box width={100}>
+    <Box>
       <Color cyan>
-        <Box width={20}>
-          {figures.pointer} <Text bold>Script</Text>
-        </Box>
-        <Color dim> Simple script with API examples</Color>
+        <Box width={13} marginRight={2}>{figures.pointer} <Text bold>Script</Text></Box>
+        <Color dim>Simple script with API examples</Color>
       </Color>
-      <Box flexGrow={1} />
     </Box>
-    <Box width={100}>
-      <Box width={20} marginLeft={2}>
-        GraphQL
-      </Box>
+    <Box>
+      <Box width={13} marginLeft={2}>GraphQL</Box>
       <Color dim>GraphQL server example</Color>
-      <Box flexGrow={1} />
     </Box>
-    <Box width={100}>
-      <Box width={20} marginLeft={2}>
-        REST
-      </Box>
+    <Box>
+      <Box width={13} marginLeft={2}>REST</Box>
       <Color dim>REST API example (using express.js)</Color>
-      <Box flexGrow={1} />
     </Box>
-    <Box width={100}>
-      <Box width={20} marginLeft={2}>
-        gRPC
-      </Box>
+    <Box>
+      <Box width={13} marginLeft={2}>gRPC</Box>
       <Color dim>gRPC API example (client + server)</Color>
-      <Box flexGrow={1} />
     </Box>
-    <Box width={100}>
-      <Box width={20} marginLeft={2}>
-        No example
-      </Box>
+  </BorderBox>
+  <BorderBox
+    marginBottom={1}
+    extension
+  >
+    <Box>
+      <Box width={13} marginLeft={2}>No example</Box>
       <Color dim>Just generate the Prisma schema</Color>
-      <Box flexGrow={1} />
     </Box>
   </BorderBox>
   <Box>
     <Color gray>❮ </Color>
     <Text bold>Back</Text>
     <Color dim> (Language selection)</Color>
-  </Box>
-</Terminal>
-
-**TODO**: There needs to be a separate box inside the border box, like this:
-
-<Terminal>
-  <Box flexDirection="column" paddingTop={2} paddingBottom={1}>
-    <Box>
-      <Color gray>┌──</Color>
-      <Text bold> Boilerplates </Text>
-      <Color gray>────────────────────────────────────────────┐</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1} />
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Color cyan>
-        <Box width={20}>
-          {figures.pointer} <Text bold>Script</Text>
-        </Box>
-        <Color dim> Simple script with API examples</Color>
-      </Color>
-      <Box flexGrow={1} />
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box width={20} marginLeft={2}>
-        GraphQL
-      </Box>
-      <Color dim>GraphQL server example</Color>
-      <Box flexGrow={1} />
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box width={20} marginLeft={2}>
-        REST
-      </Box>
-      <Color dim>REST API example (using express.js)</Color>
-      <Box flexGrow={1} />
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box width={20} marginLeft={2}>
-        gRPC
-      </Box>
-      <Color dim>gRPC API example (client + server)</Color>
-      <Box flexGrow={1} />
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1} />
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>
-        ├────────────────────────────────────────────────────────────┤
-      </Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1} />
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box width={20} marginLeft={2}>
-        No example
-      </Box>
-      <Color dim>Just generate the Prisma schema</Color>
-      <Box flexGrow={1} />
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1} />
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>
-        └────────────────────────────────────────────────────────────┘
-      </Color>
-    </Box>
   </Box>
 </Terminal>
 
@@ -272,17 +163,13 @@ Previous selections:
     <Color dim>Prisma will introspect the database</Color>
   </Box>
   <BorderBox
-    flexDirection="column"
-    title={`${chalk.bold('SQLite database file')}`}
+    title={chalk.bold('SQLite database file')}
     marginBottom={1}
   >
-   <Box width={100}>
-      <Color cyan>
-        <Text bold>{figures.pointer} File path:</Text>
-        <Color dim> ./my.db</Color>
-      </Color>
-      <Box flexGrow={1}></Box>
-    </Box>
+    <Color cyan>
+      <Text bold>{figures.pointer} File path:</Text>
+      <Color dim> ./my.db</Color>
+    </Color>
   </BorderBox>
   <Box>
     <Color gray>{figures.pointer} </Color>
@@ -306,9 +193,16 @@ Previous selections:
 3. _entered file path_
 
 <Terminal>
-  $ prisma2 init hello-world
-  <Spacer height={20} />
-  <Introspection progress={26.5}>Introspecting SQLite database file at <b>./my.db</b> ...</Introspection>
+  {/* <Box marginBottom={1}><Color dim>~/Code/app $</Color> prisma init</Box> */}
+  {/* <Introspection progress={26.5}>Introspecting SQLite database file at <b>./my.db</b> ...</Introspection> */}
+<BorderBox title={chalk.bold('Introspection')} flexDirection="column">
+  <Box marginLeft={1} marginBottom={1}>Introspecting SQLite database file at <Text bold>./my.db</Text> ...</Box>
+  <Color green>
+    <Box marginLeft={1} marginRight={1}><Text bold>65%</Text></Box>
+    <ProgressBar percent={0.65} columns={50} />
+    <Color dim><ProgressBar percent={0.35} columns={50} character="░" /></Color>
+  </Color>
+</BorderBox>
 </Terminal>
 
 **TODO**: Where is `Introspection` implemented?
@@ -322,26 +216,24 @@ Previous selections:
   </Box>
   <BorderBox
     flexDirection="column"
-    title={`${chalk.bold('Prisma 2 tools')}`}
+    title={chalk.bold('Prisma 2 tools')}
     marginBottom={1}
   >
-   <Box width={100}>
+    <Box>
       <Color cyan>
         <Box width={10}>{figures.pointer} {figures.squareSmallFilled} Photon</Box>
         <Color dim>  Type-safe database client</Color>
       </Color>
-      <Box flexGrow={1}></Box>
     </Box>
-    <Box width={100}>
+    <Box>
       <Box width={10} marginLeft={2}>{figures.squareSmall} Lift</Box>
       <Color dim>Declarative data modeling & migrations</Color>
-      <Box flexGrow={1}></Box>
     </Box>
-    <Box width={100}  marginLeft={2} marginTop={1}>
+    <Box marginLeft={2} marginTop={1}>
       <Color dim>You can still add tools to the project later</Color>
     </Box>
   </BorderBox>
-    <Box>
+  <Box>
     <Color gray>{figures.pointer} </Color>
     <Text bold>Confirm</Text>
   </Box>
@@ -371,25 +263,14 @@ Previous selections:
   </Box>
   <BorderBox
     flexDirection="column"
-    title={`${chalk.bold('Photon is available in these languages')}`}
+    title={chalk.bold('Photon is available in these languages')}
     marginBottom={1}
   >
-    <Box width={100}>
-      <Color cyan>
-        {figures.pointer} <Text bold>JavaScript</Text>
-      </Color>
-      <Box flexGrow={1} />
+    <Box>
+      <Color cyan>{figures.pointer} <Text bold>JavaScript</Text></Color>
     </Box>
-    <Box width={100}>
-      <Box marginLeft={2}>TypeScript</Box>
-      <Box flexGrow={1} />
-    </Box>
-    <Box width={100}>
-      <Box marginLeft={2}>
-        Go <Color dim>(Coming soon)</Color>
-      </Box>
-      <Box flexGrow={1} />
-    </Box>
+    <Box marginLeft={2}>TypeScript</Box>
+    <Box marginLeft={2}>Go <Color dim>(Coming soon)</Color></Box>
   </BorderBox>
   <Box>
     <Color gray>❮ </Color>
@@ -416,24 +297,23 @@ Previous selections:
   </Box>
   <BorderBox
     flexDirection="column"
-    title={`${chalk.bold('Examples to get you started')}`}
-    marginBottom={1}
+    title={chalk.bold('Examples to get you started')}
   >
-    <Box width={100}>
+    <Box>
       <Color cyan>
-        <Box width={20}>
-          {figures.pointer} <Text bold>Script</Text>
-        </Box>
-        <Color dim>  Simple script with API examples</Color>
+        <Box width={15} marginRight={2}>{figures.pointer} <Text bold>Script</Text></Box>
+        <Color dim>Simple script with API examples</Color>
       </Color>
-      <Box flexGrow={1}></Box>
     </Box>
-    <Box width={100}>
-      <Box width={20} marginLeft={2}>
-        No example
-      </Box>
+  </BorderBox>
+  <BorderBox
+    flexDirection="column"
+    marginBottom={1}
+    extension
+  >
+    <Box>
+      <Box width={15} marginLeft={2}>No example</Box>
       <Color dim>Just generate the Prisma schema</Color>
-      <Box flexGrow={1} />
     </Box>
   </BorderBox>
   <Box>
@@ -443,98 +323,10 @@ Previous selections:
   </Box>
 </Terminal>
 
-**TODO**: There needs to be a separate box inside the border box, like this:
-
-<Terminal>
-  <Box flexDirection="column" paddingTop={2} paddingBottom={1}>
-    <Box>
-      <Color gray>┌──</Color>
-      <Text bold> Boilerplates </Text>
-      <Color gray>────────────────────────────────────────────┐</Color>
-    </Box>
-    <Box width={100}>
-      <Box flexGrow={1} />
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Color cyan>
-        <Box width={20}>
-          {figures.pointer} <Text bold>Script</Text>
-        </Box>
-        <Color dim> Simple script with API examples</Color>
-      </Color>
-      <Box flexGrow={1} />
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box width={20} marginLeft={2}>
-        GraphQL
-      </Box>
-      <Color dim>GraphQL server example</Color>
-      <Box flexGrow={1} />
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box width={20} marginLeft={2}>
-        REST
-      </Box>
-      <Color dim>REST API example (using express.js)</Color>
-      <Box flexGrow={1} />
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box width={20} marginLeft={2}>
-        gRPC
-      </Box>
-      <Color dim>gRPC API example (client + server)</Color>
-      <Box flexGrow={1} />
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1} />
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>
-        ├────────────────────────────────────────────────────────────┤
-      </Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1} />
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box width={20} marginLeft={2}>
-        No example
-      </Box>
-      <Color dim>Just generate the Prisma schema</Color>
-      <Box flexGrow={1} />
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1} />
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>
-        └────────────────────────────────────────────────────────────┘
-      </Color>
-    </Box>
-  </Box>
-</Terminal> 
-
-### (5.2) 
+### (5.2)
 
 TODO
 
-### (5.3) 
+### (5.3)
 
 TODO
