@@ -4,9 +4,60 @@
 
 - [Gatsby CLI design principles](https://docs.google.com/document/d/1rv7tBUeqHN4t_UecuEAKVCWAVzQoCmcDoONBmf3HggI/edit#)
 
+### Language
+
+#### Active vs Passive voice
+
+Passive voice is prefered. 
+
+_**Example**_:
+
+Use:
+
+```
+The files were generated.
+```
+
+Instead of:
+
+```
+We generated these files.
+```
+
+_**Rationale**_: It is weird to talk in first person in CLI outputs (i.e. who is "we"?). 
+
+#### Questions vs Imperative
+
+Imperative is preferred.
+
+_**Example**_:
+
+Use:
+
+```
+Select the programming language you want to use
+```
+
+Instead of:
+
+```
+Which programming language do you want to use
+```
+
+_**Rationale**_: Imperative is more concise and clear. 
+
 ## Open Questions
 
 - [ ] Preserve scrollablity (e.g. `docker-compose`)
 - [ ] Single terminal dev mode
 - [ ] Sync between CLI/Studio
 - [ ] `--no-colors` / `PRISMA_CLI_NO_COLORS` to disable colors
+
+## Notes
+
+When an example is selected, the CLI should:
+
+1. replace the data source config in schema.prisma with the DB credentials initially provided (noop for SQLite)
+1. generate Photon
+1. install npm dependencies
+1. seed the DB

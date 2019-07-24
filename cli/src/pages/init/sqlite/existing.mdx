@@ -22,62 +22,7 @@ import figures from 'figures'
 
 # SQLite - Introspection
 
----
 
-### 2 File path
-
-Previous selections:
-
-1. SQLite
-2. Use existing SQLite file
-
-<Terminal>
-  <Box marginLeft={2} flexDirection="column">
-    <Text bold>Enter the path to your SQLite database file</Text>
-    <Color dim>Prisma will introspect the database to generate your initial data model</Color>
-  </Box>
-
-  <Box flexDirection="column" paddingTop={2} paddingBottom={1}>
-    <Box>
-      <Color gray>┌── </Color>
-      <Text bold>Database</Text>
-      <Color gray> ────────────────────────────────────────────────┐</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Color cyan>
-        <Text bold>{figures.pointer} File path:</Text>
-        <Color dim> ./my.db</Color>
-      </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
-    </Box>
-  </Box>
-  <Box>
-    <Color gray>{figures.pointer} </Color>
-    <Text bold>Introspect</Text>
-  </Box>
-  <Box>
-    <Color gray>❮ </Color>
-    <Text bold>Back</Text>
-    <Color  dim> (Database selection)</Color>
-  </Box>
-</Terminal>
-
-In this view, it would be great if the trailing `.db` could somehow be fixed since every SQLite DB file has the file extension.
 
 ### 2.1 Introspection
 

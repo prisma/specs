@@ -20,7 +20,33 @@ import chalk from 'chalk'
 
 ---
 
-## You can use `extension={true}`
+<Terminal>
+  <Box marginLeft={2} flexDirection="column" marginBottom={1}>
+    <Text bold>Enter the path to your SQLite database file</Text>
+    <Color dim>Prisma will introspect the database</Color>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={`${chalk.bold('SQLite database file')}`}
+    marginBottom={1}
+  >
+   <Box width={100}>
+      <Color cyan>
+        <Text bold>{figures.pointer} File path:</Text>
+        <Color dim> ./my.db</Color>
+      </Color>
+      <Box flexGrow={1}></Box>
+    </Box>
+  </BorderBox>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Database options)</Color>
+  </Box>
+</Terminal>
+
+
+<!-- ## You can use `extension={true}`
 
 <Terminal>
   <BorderBox
@@ -62,4 +88,4 @@ import chalk from 'chalk'
     <Box>This is a box</Box>
     <Box>This is another box</Box>
   </BorderBox>
-</Terminal>
+</Terminal> -->
