@@ -82,7 +82,7 @@ The error report generally is more exhaustive than the logging output (e.g. it a
 
 <Details><Summary>Logging output</Summary>
 
-## Non-lift commands
+#### Non-lift commands
 
 ```
 Oops, ... an error occured! Find more info in the error report: 
@@ -96,7 +96,7 @@ Copy the error report and paste it as a GitHub issue here:
 Thanks for helping us making Prisma 2 more stable! 🙏
 ```
 
-## Lift commands
+#### Lift commands
 
 ```
 Oops, ... an error occured! Find more info in the error report: 
@@ -116,7 +116,7 @@ Thanks for helping us making Prisma 2 more stable! 🙏
 
 <Details><Summary>Error report</Summary>
 
-## Non-lift commands
+#### Non-lift commands
 
 File name: `prisma-error-TIMESTAMP.md` where `TIMESTAMP` is a placeholder for the current timestamp.
 
@@ -146,7 +146,7 @@ ${schema.prisma}
 
 > **Note**: The connection strings for the data sources in the Prisma schema file must be obscured!
 
-## Lift commands
+#### Lift commands
 
 File name: `prisma-error-TIMESTAMP.md` where `TIMESTAMP` is a placeholder for the current timestamp.
 
