@@ -104,6 +104,8 @@ Previous selections:
   </Box>
 </Terminal>
 
+> Note: We probably want to use shortlinks for docs links.
+
 **TODO**: There needs to be a separate box inside the border box, like this:
 
 <Terminal>
@@ -365,7 +367,7 @@ Previous selections:
 
  -->
 
-## (2) Select database or create a new one
+## (2) Select existing database or create a new one
 
 Previous selections:
 
@@ -421,6 +423,13 @@ Previous selections:
 
 ## (2.1) Set database name
 
+Previous selections:
+
+1. MySQL
+2. _entered DB credentials_ (optional DB not provided)
+3. _connection succesful_
+4. Create new database
+
 <Terminal>
   <Box marginLeft={2} flexDirection="column" marginBottom={1}>
     <Text bold>Enter name for the new database</Text>
@@ -452,104 +461,69 @@ Previous selections:
 
 ## (3) Select a database
 
+Previous selections:
+
+1. MySQL
+2. _entered DB credentials_ (optional DB not provided)
+3. _connection succesful_
+4. Use existing database
+
 <Terminal>
-  <Color green>
-    {figures.tick } Connected to MySQL server as <Text bold>admin</Text>
-  </Color>
-
-  <Box flexDirection="column" marginLeft={2} marginTop={1}>
+  <Box flexDirection="column" marginLeft={2} marginBottom={1}>
     <Text bold>Select a MySQL database</Text>
-    <Color  dim>Select an empty database to start a new project or introspect a non-empty one to generate your data model definition.</Color>
+    <Color dim>Found 1 empty and 3 non-empty databases</Color>
   </Box>
-
-  <Box flexDirection="column" paddingTop={2}>
-    <Box>
-      <Color gray>┌──</Color>
-      <Text bold> Empty databases </Text>
-      <Color  dim>(Start a new project)</Color>
-      <Color gray> ───────────────────┐</Color>
-    </Box>
+  <BorderBox
+    flexDirection="column"
+    title={`${chalk.bold('Empty databases')} ${chalk.gray('(Start new project)')}`}
+    marginBottom={1}
+  >
     <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
       <Color cyan>
-        <Box width={20}>
-          <Text>{figures.pointer} public</Text>
-        </Box>
-        <Color dim>Created a year ago</Color>
+        {figures.pointer} <Text bold>public</Text>
       </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
+      <Box flexGrow={1} />
     </Box>
+  </BorderBox>
+  <BorderBox
+    flexDirection="column"
+    title={`${chalk.bold('Non-empty databases')} ${chalk.gray('(Introspect existing database)')}`}
+    marginBottom={1}
+  >
     <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
-    </Box>
-  </Box>
-
-  <Box flexDirection="column" paddingTop={2} paddingBottom={1}>
-    <Box>
-      <Color gray>┌── </Color>
-      <Text bold>Non-empty databases </Text>
-      <Color  dim>(Introspect existing database)</Color>
-      <Color gray> ──────┐</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
       <Box width={20} marginLeft={2}>
         <Text>management</Text>
       </Box>
       <Color dim>2 tables, 1,341KB</Color>
       <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
     </Box>
     <Box width={100}>
-      <Color gray>│ </Color>
       <Box width={20} marginLeft={2}>
         <Text>default$default</Text>
       </Box>
       <Color dim>5 tables, 1,341KB</Color>
       <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
     </Box>
     <Box width={100}>
-      <Color gray>│ </Color>
       <Box width={20} marginLeft={2}>
         <Text>staging</Text>
       </Box>
       <Color dim>1 tables, 2,341KB</Color>
       <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
     </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
-    </Box>
-  </Box>
-
+  </BorderBox>
   <Box>
     <Color gray>❮ </Color>
     <Text bold>Back</Text>
-    <Color  dim> (Database selection)</Color>
+    <Color dim> (Database options)</Color>
   </Box>
 </Terminal>
+
+---
+
+### all screens below are still TODO 
+
+--- 
 
 ## (3.1) Introspection
 <Terminal>

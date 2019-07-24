@@ -27,33 +27,157 @@ import { Box, Text, Color } from 'ink'
 ---
 
 
-
 <Terminal>
-  <Box marginLeft={2} flexDirection="column" marginBottom={1}>
-    <Text bold>Enter name for the new database</Text>
-    <Color dim>The database will be created by Prisma</Color>
+  <Box flexDirection="column" marginLeft={2} marginBottom={1}>
+    <Text bold>Select a MySQL database</Text>
+    <Color dim>Found 1 empty and 3 non-empty databases</Color>
   </Box>
   <BorderBox
     flexDirection="column"
-    title={`${chalk.bold('MySQL database name')}`}
+    title={`${chalk.bold('Empty databases')} ${chalk.gray('(Start new project)')}`}
     marginBottom={1}
   >
-   <Box width={100}>
+    <Box width={100}>
       <Color cyan>
-        <Text bold>{figures.pointer} Name:</Text>
-        <Color dim> my-db</Color>
+        {figures.pointer} <Text bold>public</Text>
       </Color>
+      <Box flexGrow={1} />
+    </Box>
+  </BorderBox>
+  <BorderBox
+    flexDirection="column"
+    title={`${chalk.bold('Non-empty databases')} ${chalk.gray('(Introspect existing database)')}`}
+    marginBottom={1}
+  >
+    <Box width={100}>
+      <Box width={20} marginLeft={2}>
+        <Text>management</Text>
+      </Box>
+      <Color dim>2 tables, 1,341KB</Color>
+      <Box flexGrow={1}></Box>
+    </Box>
+    <Box width={100}>
+      <Box width={20} marginLeft={2}>
+        <Text>default$default</Text>
+      </Box>
+      <Color dim>5 tables, 1,341KB</Color>
+      <Box flexGrow={1}></Box>
+    </Box>
+    <Box width={100}>
+      <Box width={20} marginLeft={2}>
+        <Text>staging</Text>
+      </Box>
+      <Color dim>1 tables, 2,341KB</Color>
       <Box flexGrow={1}></Box>
     </Box>
   </BorderBox>
   <Box>
-    <Color gray>{figures.pointer} </Color>
-    <Text bold>Create</Text>
-  </Box>
-  <Box>
     <Color gray>❮ </Color>
     <Text bold>Back</Text>
     <Color dim> (Database options)</Color>
+  </Box>
+</Terminal>
+
+---
+
+
+
+<Terminal>
+  <Color green>
+    {figures.tick } Connected to MySQL server as <Text bold>admin</Text>
+  </Color>
+
+  <Box flexDirection="column" marginLeft={2} marginTop={1}>
+    <Text bold>Select a MySQL database</Text>
+    <Color  dim>Select an empty database to start a new project or introspect a non-empty one to generate your data model definition.</Color>
+  </Box>
+
+  <Box flexDirection="column" paddingTop={2}>
+    <Box>
+      <Color gray>┌──</Color>
+      <Text bold> Empty databases </Text>
+      <Color  dim>(Start a new project)</Color>
+      <Color gray> ───────────────────┐</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color cyan>
+        <Box width={20}>
+          <Text>{figures.pointer} public</Text>
+        </Box>
+        <Color dim>Created a year ago</Color>
+      </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
+    </Box>
+  </Box>
+
+  <Box flexDirection="column" paddingTop={2} paddingBottom={1}>
+    <Box>
+      <Color gray>┌── </Color>
+      <Text bold>Non-empty databases </Text>
+      <Color  dim>(Introspect existing database)</Color>
+      <Color gray> ──────┐</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20} marginLeft={2}>
+        <Text>management</Text>
+      </Box>
+      <Color dim>2 tables, 1,341KB</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20} marginLeft={2}>
+        <Text>default$default</Text>
+      </Box>
+      <Color dim>5 tables, 1,341KB</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20} marginLeft={2}>
+        <Text>staging</Text>
+      </Box>
+      <Color dim>1 tables, 2,341KB</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
+    </Box>
+  </Box>
+
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color  dim> (Database selection)</Color>
   </Box>
 </Terminal>
 
