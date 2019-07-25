@@ -2,58 +2,58 @@
 
 <!-- toc -->
 
-    + [Terminology:](#terminology)
-
-- [Basic Example](#basic-example)
 - [Motivation](#motivation)
-- [Detailed Design](#detailed-design)
-  - [Scenarios](#scenarios)
-    - [Approach 1:](#approach-1)
-    - [Approach 2](#approach-2)
-  - [Configuration](#configuration)
-  - [Runtime](#runtime)
-    - [Runtime binary resolution](#runtime-binary-resolution)
-- [Drawbacks](#drawbacks)
-- [How we teach this](#how-we-teach-this)
+- [Requirements](#requirements)
+- [API Additions](#api-additions)
+- [Basic Example](#basic-example)
+- [Scenarios](#scenarios)
+  - [1. Development machine is Mac but the deployment platform is AWS lambda.](#1-development-machine-is-mac-but-the-deployment-platform-is-aws-lambda)
+  - [2. Deterministically choose the binary based a runtime environment variable](#2-deterministically-choose-the-binary-based-a-runtime-environment-variable)
+  - [3. Development machine is Mac but we need a custom binary in production](#3-development-machine-is-mac-but-we-need-a-custom-binary-in-production)
+- [Configuration](#configuration)
+  - [1. Both `platforms` and `pinnedPlatform` are not provided.](#1-both-platforms-and-pinnedplatform-are-not-provided)
+  - [2. Field `platforms` provided with multiple values and `pinnedPlatform` is not provided.](#2-field-platforms-provided-with-multiple-values-and-pinnedplatform-is-not-provided)
+  - [3. Field `platforms` provided with multiple values and `pinnedPlatform` is also provided.](#3-field-platforms-provided-with-multiple-values-and-pinnedplatform-is-also-provided)
+- [Runtime binary resolution](#runtime-binary-resolution)
 - [Table of Binaries](#table-of-binaries)
   - [URL Scheme](#url-scheme)
   - [Common Cloud Platforms](#common-cloud-platforms)
     - [Tier 1](#tier-1)
     - [Tier 2](#tier-2)
+- [Drawbacks](#drawbacks)
+- [How we teach this](#how-we-teach-this)
 - [Unresolved questions](#unresolved-questions)
 
 <!-- tocstop -->
 
-Currently, we download the binary for the platform being used right now without a public API to change the binary to target a different platform or use a custom
-binary.
+# Motivation
 
-This spec documents the ideas on how such a feature can be provided. Roughly, the requirements are:
+- Deploy to platforms without a CI like Lambda, Google Cloud Functions, Netlify Functions, etc.
+- When running tests in CI where CI has a different platform than local development.
+- When development is on a machine that we do not have a pre-compiled binary and using a custom compiled binary is required.
+
+# Requirements
 
 - Minimal configuration, simple mental model.
-- Easy setup of development/deployment workflows.
 - Possibility of a deterministic binary resolution both locally and production setup.
+- Easy setup of development and deployment workflows.
 
-One approach to add this feature is to add two fields to the `generator` block in the Prisma schema file.
+# API Additions
 
-| Field            | Description                                                                                                                    | Behavior                                                 |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------- |
-| `platforms`      | (Optional) An array of binaries that are required by the application, string for known platforms and path for custom binaries. | Declarative way to download the required binaries.       |
-| `pinnedPlatform` | (Optional) A string that points to the name of an object in the `platforms` field, usually an environment variable             | Declarative way to define which binary to use at runtime |
+This spec introduces two new fields on the `generator` block:
 
-Both `platforms` and `pinnedPlatform` fields are optional, examples are available further in this document.
+| Field            | Description                                                                                                                      | Behavior                                           |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
+| `platforms`      | _(optional)_ An array of binaries that are required by the application, string for known platforms and path for custom binaries. | Declarative way to download the required binaries. |
+| `pinnedPlatform` | _(optional)_ A string that points to the name of an object in the `platforms` field, usually an environment variable             | Declarative way to choose the runtime binary       |
 
-Note: Whenever a custom binary is provided, `pinnedPlatform` becomes mandatory.
-
-### Terminology:
-
-**Platform**: A managed environment like `lambda`, `google cloud functions` or an operating system. A `platform` represents the environment i.e. the OS and
-installed packages.
+- Both `platforms` and `pinnedPlatform` fields are optional, **however** when a custom binary is provided the `pinnedPlatform` is required.
 
 # Basic Example
 
 When the development machine is Mac but the deployment platform is AWS lambda.
 
-```
+```groovy
 generator photon {
     provider = "photonjs"
     platforms = ["native", "lambda"]
@@ -61,63 +61,59 @@ generator photon {
 }
 ```
 
-# Motivation
+- `"native"` is a special keyword for your local development platform. `native` may be different for different developers, depending on their machine. If you're
+  on OSX, this would be `mac`. If you're on a common linux distro, it would detect the appropriate binary for your environment. See the
+  [Table of Binaries](#table-of-binaries) below for a reference.
+- `env("PLATFORM")` allows you to switch between the platforms via `PLATFORM` environment variable. This environment variable will be generated into code as an
+  environment variable to be used at runtime. In Node, this statement would look like this: `process.env.PLATFORM`.
 
-Use cases:
+# Scenarios
 
-- When deploying to platforms like `lambda`, `google cloud functions`, `netlify` etc. Even custom deploy pipelines without a CI where development and deployment
-  platforms are different can benefit from this feature.
+### 1. Development machine is Mac but the deployment platform is AWS lambda.
 
-- When running tests in a CI that has a different platform than local development.
+We can use `platforms` **without** a `pinnedPlatform`. `pinnedPlatform` will be resolved at runtime, see [Runtime binary resolution](#runtime-binary-resolution)
+for more details.
 
-- When development is on a machine for which we do not have a pre-compiled binary and using a custom compiled binary is required.
-
-# Detailed Design
-
-### Scenarios
-
-Example: when the development machine is Mac but the deployment platform is AWS lambda.
-
-##### Approach 1:
-
-```
+```groovy
 generator photon {
     provider = "photonjs"
-    platforms = ["mac", "lambda"]
+    platforms = ["native", "lambda"]
 }
 ```
 
-Since we do not pin the platform here using `pinnedPlatform`, we need to resolve the binary at runtime, see "Runtime binary resolution" for more details.
+### 2. Deterministically choose the binary based a runtime environment variable
 
-##### Approach 2
+We can use `platforms` **and** `pinnedPlatform`. We set an environment variable
 
-```
+```groovy
 generator photon {
     provider = "photonjs"
-    platforms = ["mac", "lambda"]
-    pinnedPlatform = env("PLATFORM") // On local, "mac" and in production, "lambda"
+    platforms = ["native", "lambda"]
+    pinnedPlatform = env("PLATFORM") // On local, "native" and in production, "lambda"
 }
 ```
 
 We define the platforms and pin one of the platforms.
 
-Example: when the development machine is mac but we need a custom binary in production
+### 3. Development machine is Mac but we need a custom binary in production
 
-```
+In `platforms`, we can use a custom path to `./custom-prisma-binary`.
+
+```groovy
 generator photon {
     provider = "photonjs"
-    platforms = ["mac", "./custom-prisma-binary"]
-    pinnedPlatform = env("PLATFORM") // On local, "mac" and in production, "./custom-prisma-binary"
+    platforms = ["native", "./custom-prisma-binary"]
+    pinnedPlatform = env("PLATFORM") // On local, "native" and in production, "./custom-prisma-binary"
 }
 ```
 
-### Configuration
+# Configuration
 
 Both `platforms` and `pinnedPlatform` fields are optional, scenarios:
 
-1. Both `platforms` and `pinnedPlatform` are not provided.
+### 1. Both `platforms` and `pinnedPlatform` are not provided.
 
-```
+```groovy
 generator photon {
     provider = "photonjs"
 }
@@ -125,32 +121,32 @@ generator photon {
 
 We download and use the binary for the current platform.
 
-2. Field `platforms` provided with multiple values and `pinnedPlatform` is not provided.
+### 2. Field `platforms` provided with multiple values and `pinnedPlatform` is not provided.
 
-```
+```groovy
 generator photon {
     provider = "photonjs"
-    platforms = ["mac", "lambda"]
+    platforms = ["native", "lambda"]
 }
 ```
 
-Since we do not pin the platform here using `pinnedPlatform`, we need to resolve the binary at runtime, see "Runtime binary resolution" for more details.
+Since we do not pin the platform here using `pinnedPlatform`, we need to resolve the binary at runtime, see [Runtime binary resolution] for more details.
 
-3. Field `platforms` provided with multiple values and `pinnedPlatform` is also provided.
+### 3. Field `platforms` provided with multiple values and `pinnedPlatform` is also provided.
 
-```
+```groovy
 generator photon {
     provider = "photonjs"
-    platforms = ["mac", "lambda"]
-    pinnedPlatform = env("PLATFORM") // On local, "mac" and in production, "lambda"
+    platforms = ["native", "lambda"]
+    pinnedPlatform = env("PLATFORM") // On local, "native" and in production, "lambda"
 }
 ```
 
-```
+```groovy
 generator photon {
     provider = "photonjs"
-    platforms = ["mac", "lambda"]
-    pinnedPlatform = env("PLATFORM") // On local, "mac" and in production, "lambda"
+    platforms = ["native", "lambda"]
+    pinnedPlatform = env("PLATFORM") // On local, "native" and in production, "lambda"
 }
 ```
 
@@ -158,12 +154,10 @@ We use the `pinnedPlatform` field to pin one of the downloaded binaries at runti
 
 Note: In production setups with a dedicated CI, we can configure platforms to only include the required binaries: `platforms = ["lambda"]`
 
-A configuration like `platforms = ["mac", "lambda"]` is only needed when the development machine is also the machine responsible to build for production but the
-platform in production is different, like `AWS lambda`, `now`, etc.
+A configuration like `platforms = ["native", "lambda"]` is only needed when the development machine is also the machine responsible to build for production but
+the platform in production is different, like `AWS lambda`, `now`, etc.
 
-### Runtime
-
-##### Runtime binary resolution
+# Runtime binary resolution
 
 In the scenario where `platforms` field is defined but no `pinnedPlatform` field is defined, we resolve the binary at runtime by detecting the platform. This
 can be achieved by generating code similar to this pseudo-code in Photon.
@@ -184,31 +178,7 @@ if (!config.pinnedPlatform) {
 }
 ```
 
-In case of custom binaries, this pseudo-code would fail, `pinnedPlatform` can be used to resolve the correct binary in case a custom binary is supplied to
-platforms.
-
-# Drawbacks
-
-- We download binaries specified by the `platforms` when bundling the app, this may lead to (with multiple platforms) unused binaries being bundled increasing
-  the bundle size. This can be resolved by documenting the "bundle ignore" mechanics of various platforms like `.upignore` for `apex/up`. Some platforms also
-  respect the `.gitignore` file.
-
-- We still need some (albeit minimal) configuration before we can deploy to Lambda. This might be a non-issue as it is common to write some configuration (to
-  switch the DB to production for example) when deploying.
-
-# How we teach this
-
-- We can generate commended code with a link to docs in init flow to make users aware about the deployment workflows
-
-```
-generator photon {
-    provider = "photonjs"
-
-    // Want to deploy? Docs: <link>
-    // platforms = ["lambda"]
-    // pinnedPlatform = env("PLATFORM")
-}
-```
+For custom binaries, this pseudo-code will fail but `pinnedPlatform` can be used to choose the correct binary.
 
 # Table of Binaries
 
@@ -250,7 +220,30 @@ From photon's perspective, we'll download the binaries to `./node_modules/@gener
 ### Tier 2
 
 - Cloudflare workers
-- ARM
+- Raspberry Pi (ARM)
+
+# Drawbacks
+
+- We download binaries specified by the `platforms` when bundling the app, this may lead to (with multiple platforms) unused binaries being bundled increasing
+  the bundle size. This can be resolved by documenting the "bundle ignore" mechanics of various platforms like `.upignore` for `apex/up`. Some platforms also
+  respect the `.gitignore` file.
+
+- We still need some (albeit minimal) configuration before we can deploy to Lambda. This might be a non-issue as it is common to write some configuration (to
+  switch the DB to production for example) when deploying.
+
+# How we teach this
+
+- We can generate commended code with a link to docs in init flow to make users aware about the deployment workflows
+
+```groovy
+generator photon {
+    provider = "photonjs"
+
+    // Want to deploy? Docs: <link>
+    // platforms = ["lambda"]
+    // pinnedPlatform = env("PLATFORM")
+}
+```
 
 # Unresolved questions
 
