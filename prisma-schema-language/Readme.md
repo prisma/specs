@@ -1,20 +1,19 @@
 # Prisma Schema Language (PSL)
 
-
 <!-- toc -->
 
 - [Datasource Block](#datasource-block)
-  * [Supported fields](#supported-fields)
+  - [Supported fields](#supported-fields)
 - [Generator Block](#generator-block)
-  * [Supported fields](#supported-fields-1)
+  - [Supported fields](#supported-fields-1)
 - [Model Block](#model-block)
-  * [Field Names](#field-names)
-  * [Data Types](#data-types)
-    + [Core Data Type to Connector](#core-data-type-to-connector)
-    + [Core Data Type to Generator](#core-data-type-to-generator)
-    + [Optional Types](#optional-types)
-    + [List Types](#list-types)
-    + [Relations](#relations)
+  - [Field Names](#field-names)
+  - [Data Types](#data-types)
+    - [Core Data Type to Connector](#core-data-type-to-connector)
+    - [Core Data Type to Generator](#core-data-type-to-generator)
+    - [Optional Types](#optional-types)
+    - [List Types](#list-types)
+    - [Relations](#relations)
       - [One-to-One (1:1) Relationships](#one-to-one-11-relationships)
       - [One-to-Many (1:N) Relationships](#one-to-many-1n-relationships)
       - [Implicit Many-to-Many (M:N) Relationships](#implicit-many-to-many-mn-relationships)
@@ -23,40 +22,40 @@
       - [Multiple-Reference Relationships](#multiple-reference-relationships)
       - [Referencing Primary Composite Keys](#referencing-primary-composite-keys)
       - [Referencing fields that are not @id](#referencing-fields-that-are-not-id)
-  * [Attributes](#attributes)
-    + [Case 1. No arguments](#case-1-no-arguments)
-    + [Case 2. One positional argument](#case-2-one-positional-argument)
-    + [Case 3. Many named arguments](#case-3-many-named-arguments)
-    + [Field Attributes](#field-attributes)
-    + [Core Field Attributes](#core-field-attributes)
+  - [Attributes](#attributes)
+    - [Case 1. No arguments](#case-1-no-arguments)
+    - [Case 2. One positional argument](#case-2-one-positional-argument)
+    - [Case 3. Many named arguments](#case-3-many-named-arguments)
+    - [Field Attributes](#field-attributes)
+    - [Core Field Attributes](#core-field-attributes)
       - [@id](#id)
       - [@unique](#unique)
       - [@map(\_ name: String)](#map_-name-string)
       - [@default(\_ expr: Expr)](#default_-expr-expr)
       - [@relation(\_ name?: String, references?: Identifier[], onDelete?: CascadeEnum)](#relation_-name-string-references-identifier-ondelete-cascadeenum)
       - [@updatedAt](#updatedat)
-    + [Block Attributes](#block-attributes)
-    + [Core Block Attributes](#core-block-attributes)
-    + [Type Specifications](#type-specifications)
-  * [Why do we enforce the Core Prisma Primitive Type, even when there is a type specification?](#why-do-we-enforce-the-core-prisma-primitive-type-even-when-there-is-a-type-specification)
+    - [Block Attributes](#block-attributes)
+    - [Core Block Attributes](#core-block-attributes)
+    - [Type Specifications](#type-specifications)
+  - [Why do we enforce the Core Prisma Primitive Type, even when there is a type specification?](#why-do-we-enforce-the-core-prisma-primitive-type-even-when-there-is-a-type-specification)
 - [Comments](#comments)
 - [Type Definition](#type-definition)
 - [Enum Block](#enum-block)
 - [Embed Block](#embed-block)
-  * [Inline Embeds](#inline-embeds)
+  - [Inline Embeds](#inline-embeds)
 - [Env Function](#env-function)
-  * [Introspect Behavior](#introspect-behavior)
-  * [Migrate Behavior](#migrate-behavior)
-  * [Generate Behavior](#generate-behavior)
-  * [Switching Datasources based on Environments](#switching-datasources-based-on-environments)
+  - [Introspect Behavior](#introspect-behavior)
+  - [Migrate Behavior](#migrate-behavior)
+  - [Generate Behavior](#generate-behavior)
+  - [Switching Datasources based on Environments](#switching-datasources-based-on-environments)
 - [Function](#function)
 - [Importing schemas](#importing-schemas)
-  * [Importing from other endpoints](#importing-from-other-endpoints)
-  * [Conflict Resolution](#conflict-resolution)
+  - [Importing from other endpoints](#importing-from-other-endpoints)
+  - [Conflict Resolution](#conflict-resolution)
 - [Auto Formatting](#auto-formatting)
-  * [Formatting Rules](#formatting-rules)
-    + [Configuration blocks are align by their `=` sign.](#configuration-blocks-are-align-by-their--sign)
-    + [Field definitions are aligned into columns separated by 2 or more spaces.](#field-definitions-are-aligned-into-columns-separated-by-2-or-more-spaces)
+  - [Formatting Rules](#formatting-rules)
+    - [Configuration blocks are align by their `=` sign.](#configuration-blocks-are-align-by-their--sign)
+    - [Field definitions are aligned into columns separated by 2 or more spaces.](#field-definitions-are-aligned-into-columns-separated-by-2-or-more-spaces)
 
 <!-- tocstop -->
 
@@ -95,25 +94,45 @@ Connectors may bring their own attributes to allow users to tailor their schemas
 
 ## Generator Block
 
-Generator blocks configure what clients are generated and how they're generated. Language preferences and configuration will go in here:
+Generator blocks configure what clients are generated and how they're generated. Language preferences and binary configuration will go in here:
 
 ```groovy
 generator js {
+  provider = "photonjs"
   target   = "es3"
-  provider = "javascript"
   output   = "./client"
 }
 
 generator ts {
-  target   = "es5"
+  target   = "photonjs"
   provider = "./path/to/custom/generator"
 }
 
 generator go {
+  provider  = "photongo"
   snakeCase = true
-  provider  = "go"
 }
 ```
+
+### Binary Configuration
+
+```groovy
+generator photon {
+  provider = "photonjs"
+  snakeCase = true
+  platforms = ["native", "linux-glibc-libssl1.0.2"]
+  pinnedPlatform = env("PLATFORM") // On local, "native" and in production, "linux-glibc-libssl1.0.2"
+}
+```
+
+| Field            | Description                                                                                                                      | Behavior                                           |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
+| `platforms`      | _(optional)_ An array of binaries that are required by the application, string for known platforms and path for custom binaries. | Declarative way to download the required binaries. |
+| `pinnedPlatform` | _(optional)_ A string that points to the name of an object in the `platforms` field, usually an environment variable             | Declarative way to choose the runtime binary       |
+
+- Both `platforms` and `pinnedPlatform` fields are optional, **however** when a custom binary is provided the `pinnedPlatform` is required.
+
+You can find more information about the binary configuration in the [binary spec](../binaries/Readme.md)
 
 ### Supported fields
 
@@ -943,8 +962,8 @@ $ prisma generate
 But runtime will:
 
 ```js
-import Photon from "@generated/photon";
-const photon = new Photon();
+import Photon from '@generated/photon'
+const photon = new Photon()
 // Thrown: required `POSTGRES_URL` variable not found
 ```
 

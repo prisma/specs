@@ -56,8 +56,8 @@ When the development machine is Mac but the deployment platform is AWS lambda.
 ```groovy
 generator photon {
     provider = "photonjs"
-    platforms = ["native", "lambda"]
-    pinnedPlatform = env("PLATFORM") // On local, "native" and in production, "lambda"
+    platforms = ["native", "linux-glibc-libssl1.0.2"]
+    pinnedPlatform = env("PLATFORM") // On local, "native" and in production, "linux-glibc-libssl1.0.2"
 }
 ```
 
@@ -77,7 +77,7 @@ for more details.
 ```groovy
 generator photon {
     provider = "photonjs"
-    platforms = ["native", "lambda"]
+    platforms = ["native", "linux-glibc-libssl1.0.2"]
 }
 ```
 
@@ -88,8 +88,8 @@ We can use `platforms` **and** `pinnedPlatform`. We set an environment variable
 ```groovy
 generator photon {
     provider = "photonjs"
-    platforms = ["native", "lambda"]
-    pinnedPlatform = env("PLATFORM") // On local, "native" and in production, "lambda"
+    platforms = ["native", "linux-glibc-libssl1.0.2"]
+    pinnedPlatform = env("PLATFORM") // On local, "native" and in production, "linux-glibc-libssl1.0.2"
 }
 ```
 
@@ -126,7 +126,7 @@ We download and use the binary for the current platform.
 ```groovy
 generator photon {
     provider = "photonjs"
-    platforms = ["native", "lambda"]
+    platforms = ["native", "linux-glibc-libssl1.0.2"]
 }
 ```
 
@@ -137,25 +137,25 @@ Since we do not pin the platform here using `pinnedPlatform`, we need to resolve
 ```groovy
 generator photon {
     provider = "photonjs"
-    platforms = ["native", "lambda"]
-    pinnedPlatform = env("PLATFORM") // On local, "native" and in production, "lambda"
+    platforms = ["native", "linux-glibc-libssl1.0.2"]
+    pinnedPlatform = env("PLATFORM") // On local, "native" and in production, "linux-glibc-libssl1.0.2"
 }
 ```
 
 ```groovy
 generator photon {
     provider = "photonjs"
-    platforms = ["native", "lambda"]
-    pinnedPlatform = env("PLATFORM") // On local, "native" and in production, "lambda"
+    platforms = ["native", "linux-glibc-libssl1.0.2"]
+    pinnedPlatform = env("PLATFORM") // On local, "native" and in production, "linux-glibc-libssl1.0.2"
 }
 ```
 
 We use the `pinnedPlatform` field to pin one of the downloaded binaries at runtime.
 
-Note: In production setups with a dedicated CI, we can configure platforms to only include the required binaries: `platforms = ["lambda"]`
+Note: In production setups with a dedicated CI, we can configure platforms to only include the required binaries: `platforms = ["linux-glibc-libssl1.0.2"]`
 
-A configuration like `platforms = ["native", "lambda"]` is only needed when the development machine is also the machine responsible to build for production but
-the platform in production is different, like `AWS lambda`, `now`, etc.
+A configuration like `platforms = ["native", "linux-glibc-libssl1.0.2"]` is only needed when the development machine is also the machine responsible to build
+for production but the platform in production is different, like `AWS lambda`, `now`, etc.
 
 # Runtime binary resolution
 
@@ -240,7 +240,7 @@ generator photon {
     provider = "photonjs"
 
     // Want to deploy? Docs: <link>
-    // platforms = ["lambda"]
+    // platforms = ["linux-glibc-libssl1.0.2"]
     // pinnedPlatform = env("PLATFORM")
 }
 ```
