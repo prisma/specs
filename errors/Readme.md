@@ -7,7 +7,13 @@
 <!-- toc -->
 
 - [Unknown Errors](#unknown-errors)
-- [Philosophy](#philosophy)
+  - [Known vs Unknown Errors](#known-vs-unknown-errors)
+  - [Unknown Error Templates](#unknown-error-templates)
+    - [Prisma 2 CLI](#prisma-2-cli)
+    - [Prisma Studio](#prisma-studio)
+    - [Photon JS](#photon-js)
+
+* [Philosophy](#philosophy)
   - [Error Format](#error-format)
     - [`error_code`](#error_code)
     - [`error_category`](#error_category)
@@ -16,7 +22,7 @@
     - [`best_guess`](#best_guess)
     - [`stack_trace`](#stack_trace)
       - [Credential Masking](#credential-masking)
-- [Error Handbook](#error-handbook)
+* [Error Handbook](#error-handbook)
   - [Photon JS / Photon Go](#photon-js--photon-go)
     - [Generation: Datamodel Syntax or Semantic Error](#generation-datamodel-syntax-or-semantic-error)
     - [Runtime: Binary built for the wrong platform](#runtime-binary-built-for-the-wrong-platform)
@@ -45,6 +51,7 @@
     - [`ConnectorError`](#connectorerror)
     - [`MigrationError`](#migrationerror)
     - [`RollbackFailure`](#rollbackfailure)
+  - [Unexpected Errors](#unexpected-errors)
 
 <!-- tocstop -->
 

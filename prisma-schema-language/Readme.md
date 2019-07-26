@@ -5,14 +5,15 @@
 - [Datasource Block](#datasource-block)
   - [Supported fields](#supported-fields)
 - [Generator Block](#generator-block)
+  - [Binary Configuration](#binary-configuration)
   - [Supported fields](#supported-fields-1)
 - [Model Block](#model-block)
   - [Field Names](#field-names)
   - [Data Types](#data-types)
     - [Core Data Type to Connector](#core-data-type-to-connector)
     - [Core Data Type to Generator](#core-data-type-to-generator)
-    - [Optional Types](#optional-types)
     - [List Types](#list-types)
+    - [Optional Types](#optional-types)
     - [Relations](#relations)
       - [One-to-One (1:1) Relationships](#one-to-one-11-relationships)
       - [One-to-Many (1:N) Relationships](#one-to-many-1n-relationships)
@@ -114,34 +115,13 @@ generator go {
 }
 ```
 
-### Binary Configuration
-
-```groovy
-generator photon {
-  provider = "photonjs"
-  snakeCase = true
-  platforms = ["native", "linux-glibc-libssl1.0.2"]
-  pinnedPlatform = env("PLATFORM") // On local, "native" and in production, "linux-glibc-libssl1.0.2"
-}
-```
-
-| Field            | Description                                                                                                                      | Behavior                                           |
-| ---------------- | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
-| `platforms`      | _(optional)_ An array of binaries that are required by the application, string for known platforms and path for custom binaries. | Declarative way to download the required binaries. |
-| `pinnedPlatform` | _(optional)_ A string that points to the name of an object in the `platforms` field, usually an environment variable             | Declarative way to choose the runtime binary       |
-
-- Both `platforms` and `pinnedPlatform` fields are optional, **however** when a custom binary is provided the `pinnedPlatform` is required.
-
-You can find more information about the binary configuration in the [binary spec](../binaries/Readme.md)
-
 ### Supported fields
 
 > Note: these provider names are WIP
 
 - `provider` Can be a path or one of the following built in datasource providers:
-  - `javascript`
-  - `typescript`
-  - `golang`
+  - `photonjs`
+  - `photongo`
 - `output` Path for the generated client
 
 Generators may brign their own attributes
@@ -163,6 +143,26 @@ model User {
 ```
 
 This namespace is determined by the capabilities of the generator. The generator will export a schema of capabilities we'll plug into.
+
+### Binary Configuration
+
+```groovy
+generator photon {
+  provider = "photonjs"
+  snakeCase = true
+  platforms = ["native", "linux-glibc-libssl1.0.2"]
+  pinnedPlatform = env("PLATFORM") // On local, "native" and in production, "linux-glibc-libssl1.0.2"
+}
+```
+
+| Field            | Description                                                                                                                      | Behavior                                           |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
+| `platforms`      | _(optional)_ An array of binaries that are required by the application, string for known platforms and path for custom binaries. | Declarative way to download the required binaries. |
+| `pinnedPlatform` | _(optional)_ A string that points to the name of an object in the `platforms` field, usually an environment variable             | Declarative way to choose the runtime binary       |
+
+- Both `platforms` and `pinnedPlatform` fields are optional, **however** when a custom binary is provided the `pinnedPlatform` is required.
+
+You can find more information about the binary configuration in the [binary spec](../binaries/Readme.md).
 
 ## Model Block
 
