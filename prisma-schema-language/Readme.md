@@ -5,8 +5,8 @@
 - [Datasource Block](#datasource-block)
   - [Supported fields](#supported-fields)
 - [Generator Block](#generator-block)
-  - [Binary Configuration](#binary-configuration)
   - [Supported fields](#supported-fields-1)
+  - [Binary Configuration](#binary-configuration)
 - [Model Block](#model-block)
   - [Field Names](#field-names)
   - [Data Types](#data-types)
@@ -962,8 +962,8 @@ $ prisma generate
 But runtime will:
 
 ```js
-import Photon from '@generated/photon'
-const photon = new Photon()
+import Photon from "@generated/photon";
+const photon = new Photon();
 // Thrown: required `POSTGRES_URL` variable not found
 ```
 
