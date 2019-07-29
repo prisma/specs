@@ -36,11 +36,11 @@ export function drawBox({
   title = title || ''
   const topLine =
     chalk.grey(chars.topLeft + chars.horizontal) +
-    ' ' +
+    (title ? ' ' : '') +
     chalk.reset(title) +
-    ' ' +
+    (title ? ' ' : '') +
     chalk.grey(
-      chars.horizontal.repeat(width - stringWidth(title) - 2 - 3) +
+      chars.horizontal.repeat(width - stringWidth(title) - (title ? 2 : 0) - 3) +
         chars.topRight
     ) +
     chalk.reset()
