@@ -1,4 +1,5 @@
 ---
+
 navGroup: dev
 navOrder: 2
 navLabel: Dashboard
@@ -26,36 +27,16 @@ import { Box, Text, Color } from 'ink'
 
 ---
 
-### (4.1) & (4.2) Language selection
-
-Previous selections:
-
-1. MySQL
-3. _entered DB credentials_
-4. _introspected DB_
-5. Photon or Photon + Lift
-
 <Terminal>
-  <Box flexDirection="column" marginLeft={2} marginBottom={1}>
-    <Text bold>Select the programming language you want to use</Text>
-    <Color dim>Specifies the language for Photon (database client)</Color>
+<Box width={100}>
+<Color cyan>
+  <Box width={32}>
+    <Text bold>{figures.pointer} Create new PostgreSQL schema</Text>
   </Box>
-  <BorderBox
-    flexDirection="column"
-    title={chalk.bold('Photon is available in these languages')}
-    marginBottom={1}
-  >
-    <Box>
-      <Color cyan>{figures.pointer} <Text bold>JavaScript</Text></Color>
-    </Box>
-    <Box marginLeft={2}>TypeScript</Box>
-    <Box marginLeft={2}>Go <Color dim>(Coming soon)</Color></Box>
-  </BorderBox>
-  <Box>
-    <Color gray>❮ </Color>
-    <Text bold>Back</Text>
-    <Color dim> (Tool selection)</Color>
-  </Box>
+  <Color dim>Start from scratch</Color>
+</Color>
+<Box flexGrow={1}></Box>
+</Box>
 </Terminal>
 
 <!-- 

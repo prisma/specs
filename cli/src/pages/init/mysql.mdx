@@ -37,17 +37,16 @@ Previous selections:
 1. MySQL
 
 <Terminal>
+  <Box marginBottom={1}><Color dim>~/Desktop $</Color> prisma init hello-world</Box>
   <Box flexDirection="column" marginLeft={2} marginBottom={1}>
     <Text bold>Connect to your MySQL database server</Text>
     <Color dim>https://github.com/prisma/prisma2/blob/master/docs/core/connectors/mysql.md</Color>
   </Box>
   <BorderBox
     flexDirection="column"
-    title={`${chalk.bold('MySQL database credentials')}`}
-    marginBottom={1}
-  >
-    
-  <Box width={100}>
+    title={chalk.bold('MySQL database credentials')}
+  > 
+    <Box width={100}>
       <Color gray>  </Color>
       <Text>Host: </Text>
       <TextInput value="" placeholder="127.0.0.1" showCursor={false} />
@@ -86,146 +85,38 @@ Previous selections:
       <Color gray>  </Color>
       <Text>{figures.squareSmall} Use SSL </Text>
     </Box>
-    <Box width={100}>
+  </BorderBox>
+  <BorderBox
+    flexDirection="column"
+    marginBottom={1}
+    title={`${chalk.bold('Or')}`}
+    extension
+  >
+     <Box width={100}>
       <Color gray>  </Color>
-      <Text>Or URL: </Text>
+      <Text>URL: </Text>
       <TextInput value="" placeholder="mysql://localhost:3306/admin" showCursor={false} />
       <Box flexGrow={1}></Box>
     </Box>
   </BorderBox>
   <Box>
-    <Color gray>{figures.pointer} </Color>
-    <Text bold>Connect</Text>
-  </Box>
-  <Box>
-    <Color gray>❮ </Color>
+    <Color gray>❮ </Color> 
     <Text bold>Back</Text>
     <Color dim> (Database selection)</Color>
   </Box>
 </Terminal>
 
-> Note: We probably want to use shortlinks for docs links.
 
-**TODO**: There needs to be a separate box inside the border box, like this:
-
-<Terminal>
-  <Box flexDirection="column" paddingBottom={1}>
-    <Box>
-      <Color gray>┌──</Color>
-      <Text bold> MySQL credentials </Text>
-      <Color gray>─────────────────────────────────┐</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Color gray>  </Color>
-      <Text>Host: </Text>
-      <TextInput value="" placeholder="127.0.0.1" showCursor={false} />
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Color gray>  </Color>
-      <Text>Port: </Text>
-      <TextInput value="" placeholder="3306" showCursor={false} />
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Color gray>  </Color>
-      <Text>User: </Text>
-      <TextInput value="admin" showCursor={false} />
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Color cyan>{figures.pointer} </Color>
-      <Color cyan>
-        <Text bold>Password: </Text>
-        <TextInput value="********" showCursor={false} />
-      </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Color gray>  </Color>
-      <Text>Database (optional): </Text>
-      <TextInput value="" showCursor={false} />
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Color gray>  </Color>
-      <Text>{figures.squareSmall} Use SSL </Text>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>├────────────────────────────────────────────────────────────┤</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Color gray>  </Color>
-      <Text>Or URL: </Text>
-      <TextInput value="" placeholder="mysql://localhost:3306/admin" showCursor={false} />
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
-    </Box>
-  </Box>
-  <Box>
-    <Color gray>{figures.pointer} </Color>
-    <Text bold>Connect</Text>
-  </Box>
-  <Box>
-    <Color gray>❮ </Color>
-    <Text bold>Back</Text>
-    <Color  dim> (Database selection)</Color>
-  </Box>
-</Terminal>
+**Note**: We probably want to use shortlinks for docs links.
 
 ## (1) Enter database credentials (Found local database)
-
-Previous selections:
-
-1. MySQL
 
 **TODO**
 
 <!-- 
 
 <Terminal>
+<Box marginBottom={1}><Color dim>~/Desktop $</Color> prisma init hello-world</Box>
   <Box flexDirection="column" marginLeft={2}>
     <Text bold>Log into your database</Text>
     <Color  dim>Learn how to set up a MySQL database: https://www.prisma.io/docs</Color>
@@ -376,6 +267,7 @@ Previous selections:
 3. _connection succesful_
 
 <Terminal>
+  <Box marginBottom={1}><Color dim>~/Desktop $</Color> prisma init hello-world</Box>
   <Color green>
     {figures.tick } Connected to MySQL database server as <Text bold>admin</Text>
   </Color>
@@ -430,6 +322,7 @@ Previous selections:
 4. Create new database
 
 <Terminal>
+  <Box marginBottom={1}><Color dim>~/Desktop $</Color> prisma init hello-world</Box>
   <Box marginLeft={2} flexDirection="column" marginBottom={1}>
     <Text bold>Enter name for the new database</Text>
     <Color dim>The database will be created by Prisma</Color>
@@ -442,7 +335,7 @@ Previous selections:
    <Box width={100}>
       <Color cyan>
         <Text bold>{figures.pointer} Name:</Text>
-        <Color dim> my-db</Color>
+        <Color dim> my_db</Color>
       </Color>
       <Box flexGrow={1}></Box>
     </Box>
@@ -468,6 +361,7 @@ Previous selections:
 4. Use existing database
 
 <Terminal>
+  <Box marginBottom={1}><Color dim>~/Desktop $</Color> prisma init hello-world</Box>
   <Box flexDirection="column" marginLeft={2} marginBottom={1}>
     <Text bold>Select a MySQL database</Text>
     <Color dim>Found 1 empty and 3 non-empty databases</Color>
@@ -528,7 +422,8 @@ Previous selections:
 4. Use existing database
 
 <Terminal>
-<BorderBox title={chalk.bold('Introspection')} flexDirection="column">
+  <Box marginBottom={1}><Color dim>~/Desktop $</Color> prisma init hello-world</Box>
+<BorderBox title={chalk.bold('Introspection in progress')} flexDirection="column">
   <Box marginLeft={1} marginBottom={1}>Introspecting MySQL database <Text bold>my_db</Text> as <Text bold>admin</Text> ...</Box>
   <Color green>
     <Box marginLeft={1} marginRight={1}><Text bold>42%</Text></Box>
@@ -547,6 +442,7 @@ Previous selections:
 5. _introspected DB_ + _DB not empty_
 
 <Terminal>
+  <Box marginBottom={1}><Color dim>~/Desktop $</Color> prisma init hello-world</Box>
   <Box marginLeft={2} flexDirection="column" marginBottom={1}>
     <Text bold>Select the Prisma 2 tools you want to use</Text>
     <Color  dim>Learn more: https://github.com/prisma/prisma2</Color>
@@ -593,6 +489,7 @@ Previous selections:
 1. Create new MySQL DB (or _existing DB is empty_)
 
 <Terminal>
+  <Box marginBottom={1}><Color dim>~/Desktop $</Color> prisma init hello-world</Box>
   <Box flexDirection="column" marginLeft={2} marginBottom={1}>
     <Text bold>Select the programming language you want to use</Text>
     <Color dim>Specifies the language for Photon (database client)</Color>
@@ -610,7 +507,7 @@ Previous selections:
     </Box>
     <Box>
       <Box marginLeft={2}>
-        Go <Color dim>(Coming soon)</Color>
+        <Color dim>Go (Coming soon)</Color>
       </Box>
     </Box>
   </BorderBox>
@@ -635,6 +532,7 @@ Previous selections:
 6. Photon or Photon + Lift
 
 <Terminal>
+  <Box marginBottom={1}><Color dim>~/Desktop $</Color> prisma init hello-world</Box>
   <Box flexDirection="column" marginLeft={2} marginBottom={1}>
     <Text bold>Select the programming language you want to use</Text>
     <Color dim>Specifies the language for Photon (database client)</Color>
@@ -648,7 +546,7 @@ Previous selections:
       <Color cyan>{figures.pointer} <Text bold>JavaScript</Text></Color>
     </Box>
     <Box marginLeft={2}>TypeScript</Box>
-    <Box marginLeft={2}>Go <Color dim>(Coming soon)</Color></Box>
+    <Box marginLeft={2}><Color dim>Go (Coming soon)</Color></Box>
   </BorderBox>
   <Box>
     <Color gray>❮ </Color>
@@ -666,6 +564,7 @@ Previous selections:
 1. JavaScript/TypeScript
 
 <Terminal>
+  <Box marginBottom={1}><Color dim>~/Desktop $</Color> prisma init hello-world</Box>
   <Box flexDirection="column" marginLeft={2} marginBottom={1}>
     <Text bold>Select an example or start from scratch</Text>
     <Color dim>All examples: https://github.com/prisma/photonjs/</Color>
@@ -722,6 +621,7 @@ Previous selections:
 6. JavaScript/TypeScript
 
 <Terminal>
+  <Box marginBottom={1}><Color dim>~/Desktop $</Color> prisma init hello-world</Box>
   <Box flexDirection="column" marginLeft={2} marginBottom={1}>
     <Text bold>Select an example or start from scratch</Text>
     <Color dim>Examples are generated for your database schema</Color>
