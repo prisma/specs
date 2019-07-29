@@ -22,7 +22,13 @@ model Comment {
   id     ID
   text   String
   post   Post
+  media  Media[]
   author User
+}
+
+embed Media {
+  url      String
+  uploaded Boolean
 }
 
 model User {
@@ -58,6 +64,12 @@ type Post = {
 type Comment = {
   id: string
   text: string
+  media: Media[]
+}
+
+type Media = {
+  url: string
+  uploaded: boolean
 }
 
 type User = {
@@ -455,8 +467,14 @@ await photon.user.find('bobs-id').delete({ if: { version: 12 } })
 // Global condition
 await photon.user
   .find('bobs-id')
-  .delete({ if: { version: 12 } })
+  .delete()
   .if([{ model: 'User', where: 'bobs-id', if: { name: 'Bob' } }])
+
+// both can be combined
+await photon.user
+  .find('bobs-id')
+  .delete({ if: { version: 12 } })
+  .if([{ model: 'User', where: 'alices-id', if: { name: 'Alice' } }])
 ```
 
 ## Distinct
@@ -482,6 +500,11 @@ const distinctCount: number = await photon.post
 
 // TODO count distinctly grouped value -> see aggregations
 ```
+
+## Criteria API
+
+- Filter generation per type
+- Allow for empty objects
 
 ## Design decisions
 
@@ -908,6 +931,8 @@ await photon.disconnect()
 - [ ] Pluralization
 - [ ] Criteria API
 - [ ] File layout of generated node package
+- [ ] Type-mapping (default + custom)
+- [ ] Generated type-names for implemenation (what's exported vs internal)
 
 ## Bigger todos
 
@@ -932,6 +957,7 @@ await photon.disconnect()
 
 ## Small & self-contained
 
+- [ ] Decouple engine `connect` API from Photon instance (solves: https://github.com/prisma/photonjs/issues/153)
 - [ ] Distinct
 - [ ] Force indexes
 - [ ] `Photon` constructor API
@@ -944,6 +970,7 @@ await photon.disconnect()
 - [ ] Fluent API: Null behavior https://github.com/prisma/photonjs/issues/89#issuecomment-508509486
   - [ ] Should we have `photon.user.find('bob').
 - [ ] Connection handling
+- [ ] Composite models: field grouping for efficient look ups
 
 ## Ugly parts
 
