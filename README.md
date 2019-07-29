@@ -8,5 +8,5 @@ Technical specification of Prisma
 - [Photon Expression API](/photon-expression-api)
 - [Photon Generator API](/photon-generator-api)
 - [Photon Go Client](/photon-go-client)
-- [Prisma Schema](/prisma-schema)
+- [Prisma Schema](/prisma-schema-language)
 - [Query Capabilities](https://github.com/prisma/specs/tree/query-capabilities/query-capabilities)
