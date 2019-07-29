@@ -11,56 +11,56 @@ In this document we make the distinction between [Unknown Errors](#unknown-error
 <!-- toc -->
 
 - [Unknown Errors](#unknown-errors)
-  - [Unknown Error Template](#unknown-error-template)
-    - [Prisma 2 CLI](#prisma-2-cli)
+  * [Unknown Error Template](#unknown-error-template)
+    + [Prisma 2 CLI](#prisma-2-cli)
       - [Non-lift commands](#non-lift-commands)
       - [Lift commands](#lift-commands)
       - [Non-lift commands](#non-lift-commands-1)
       - [Lift commands](#lift-commands-1)
-    - [Prisma Studio](#prisma-studio)
-    - [Photon JS](#photon-js)
+    + [Prisma Studio](#prisma-studio)
+    + [Photon JS](#photon-js)
 - [Known Errors](#known-errors)
-  - [Known Error Template](#known-error-template)
-    - [`error_code`](#error_code)
-    - [`error_category`](#error_category)
+  * [Known Error Template](#known-error-template)
+    + [`error_code`](#error_code)
+    + [`error_category`](#error_category)
       - [Different Layers](#different-layers)
-    - [`how_to_proceed`](#how_to_proceed)
-    - [`best_guess`](#best_guess)
-    - [`stack_trace`](#stack_trace)
+    + [`how_to_proceed`](#how_to_proceed)
+    + [`best_guess`](#best_guess)
+    + [`stack_trace`](#stack_trace)
       - [Credential Masking](#credential-masking)
-- [List of Known Errors](#list-of-known-errors)
-  - [Photon JS / Photon Go](#photon-js--photon-go)
-    - [Generation: Datamodel Syntax or Semantic Error](#generation-datamodel-syntax-or-semantic-error)
-    - [Runtime: Binary built for the wrong platform](#runtime-binary-built-for-the-wrong-platform)
-    - [Runtime: Permissions](#runtime-permissions)
-    - [Runtime: Connection failed](#runtime-connection-failed)
-  - [Query Engine](#query-engine)
-    - [`UniqueConstraintViolation: Unique constraint failed: ${field_name}`](#uniqueconstraintviolation-unique-constraint-failed-field_name)
-    - [`NullConstraintViolation: Null constraint failed: ${field_name}`](#nullconstraintviolation-null-constraint-failed-field_name)
-    - [`RecordDoesNotExist: Record does not exist`](#recorddoesnotexist-record-does-not-exist)
-    - [`ColumnDoesNotExist: Column does not exist`](#columndoesnotexist-column-does-not-exist)
-    - [`ConnectionError: Error creating a database connection`](#connectionerror-error-creating-a-database-connection)
-    - [`QueryError: Error querying the database`](#queryerror-error-querying-the-database)
-    - [`InvalidConnectionArguments: The provided arguments are not supported.`](#invalidconnectionarguments-the-provided-arguments-are-not-supported)
-    - [`ColumnReadFailure: The column value was different from the model`](#columnreadfailure-the-column-value-was-different-from-the-model)
-    - [`FieldCannotBeNull: Field cannot be null: ${field}`](#fieldcannotbenull-field-cannot-be-null-field)
-    - [`DomainError`](#domainerror)
-    - [`RecordNotFoundForWhere: Record not found`](#recordnotfoundforwhere-record-not-found)
-    - [`RelationViolation: Violating a relation ${relation_name} between ${model_a_name} and ${model_b_name}`](#relationviolation-violating-a-relation-relation_name-between-model_a_name-and-model_b_name)
-    - [`RecordsNotConnected: The relation ${} has no record for the model {} connected to a record for the model {} on your write path.`](#recordsnotconnected-the-relation--has-no-record-for-the-model--connected-to-a-record-for-the-model--on-your-write-path)
-    - [`ConversionError: Conversion error`](#conversionerror-conversion-error)
-    - [`DatabaseCreationError: Database creation error: ${error}`](#databasecreationerror-database-creation-error-error)
-  - [Migration Engine](#migration-engine)
-    - [`DataModelErrors`](#datamodelerrors)
-    - [`InitializationError`](#initializationerror)
-    - [`Generic`](#generic)
-    - [`ConnectorError`](#connectorerror)
-    - [`MigrationError`](#migrationerror)
-    - [`RollbackFailure`](#rollbackfailure)
+  * [List of Known Errors](#list-of-known-errors)
+    + [Photon JS / Photon Go](#photon-js--photon-go)
+      - [Generation: Datamodel Syntax or Semantic Error](#generation-datamodel-syntax-or-semantic-error)
+      - [Runtime: Binary built for the wrong platform](#runtime-binary-built-for-the-wrong-platform)
+      - [Runtime: Permissions](#runtime-permissions)
+      - [Runtime: Connection failed](#runtime-connection-failed)
+    + [Query Engine](#query-engine)
+      - [`UniqueConstraintViolation: Unique constraint failed: ${field_name}`](#uniqueconstraintviolation-unique-constraint-failed-field_name)
+      - [`NullConstraintViolation: Null constraint failed: ${field_name}`](#nullconstraintviolation-null-constraint-failed-field_name)
+      - [`RecordDoesNotExist: Record does not exist`](#recorddoesnotexist-record-does-not-exist)
+      - [`ColumnDoesNotExist: Column does not exist`](#columndoesnotexist-column-does-not-exist)
+      - [`ConnectionError: Error creating a database connection`](#connectionerror-error-creating-a-database-connection)
+      - [`QueryError: Error querying the database`](#queryerror-error-querying-the-database)
+      - [`InvalidConnectionArguments: The provided arguments are not supported.`](#invalidconnectionarguments-the-provided-arguments-are-not-supported)
+      - [`ColumnReadFailure: The column value was different from the model`](#columnreadfailure-the-column-value-was-different-from-the-model)
+      - [`FieldCannotBeNull: Field cannot be null: ${field}`](#fieldcannotbenull-field-cannot-be-null-field)
+      - [`DomainError`](#domainerror)
+      - [`RecordNotFoundForWhere: Record not found`](#recordnotfoundforwhere-record-not-found)
+      - [`RelationViolation: Violating a relation ${relation_name} between ${model_a_name} and ${model_b_name}`](#relationviolation-violating-a-relation-relation_name-between-model_a_name-and-model_b_name)
+      - [`RecordsNotConnected: The relation ${} has no record for the model {} connected to a record for the model {} on your write path.`](#recordsnotconnected-the-relation--has-no-record-for-the-model--connected-to-a-record-for-the-model--on-your-write-path)
+      - [`ConversionError: Conversion error`](#conversionerror-conversion-error)
+      - [`DatabaseCreationError: Database creation error: ${error}`](#databasecreationerror-database-creation-error-error)
+    + [Migration Engine](#migration-engine)
+      - [`DataModelErrors`](#datamodelerrors)
+      - [`InitializationError`](#initializationerror)
+      - [`Generic`](#generic)
+      - [`ConnectorError`](#connectorerror)
+      - [`MigrationError`](#migrationerror)
+      - [`RollbackFailure`](#rollbackfailure)
 
 <!-- tocstop -->
 
-## Unknown Errors
+# Unknown Errors
 
 As Prisma 2 is still early, we're not yet aware of all error cases that can occur. This section explains what should happen when Prisma encounters an _unknown_
 error.
@@ -76,7 +76,7 @@ When an unknown error occurs, **our primary goal** is to get the user to report 
 Error messages should include clear guidelines of where to report the issue and what information to include. The following sections provide the templates for
 these error message per tool.
 
-### Unknown Error Template
+## Unknown Error Template
 
 Additionally to showing the the error message directly to the user by printing it to the console, we also want to provide rich error reports that users can use
 to report the issue. These error reports are stored as markdown files on the file system. Therefore, each tool has two templates:
@@ -87,11 +87,11 @@ to report the issue. These error reports are stored as markdown files on the fil
 The error report generally is more exhaustive than the logging output (e.g. it also contains the Prisma schema which would be overkill if printed to the
 terminal as well). It is also written in Markdown enabling the user to copy and paste the report as a GitHub issue directly.
 
-#### Prisma 2 CLI
+### Prisma 2 CLI
 
 <Details><Summary>Logging output</Summary>
 
-##### Non-lift commands
+#### Non-lift commands
 
 ```
 Oops, ... an error occured! Find more info in the error report:
@@ -105,7 +105,7 @@ Copy the error report and paste it as a GitHub issue here:
 Thanks for helping us making Prisma 2 more stable! 🙏
 ```
 
-##### Lift commands
+#### Lift commands
 
 ```
 Oops, ... an error occured! Find more info in the error report:
@@ -125,7 +125,7 @@ Thanks for helping us making Prisma 2 more stable! 🙏
 
 <Details><Summary>Error report</Summary>
 
-##### Non-lift commands
+#### Non-lift commands
 
 File name: `prisma-error-TIMESTAMP.md` where `TIMESTAMP` is a placeholder for the current timestamp.
 
@@ -155,7 +155,7 @@ ${schema.prisma}
 
 > **Note**: The connection strings for the data sources in the Prisma schema file must be obscured!
 
-##### Lift commands
+#### Lift commands
 
 File name: `prisma-error-TIMESTAMP.md` where `TIMESTAMP` is a placeholder for the current timestamp.
 
@@ -189,7 +189,7 @@ ${schema.prisma}
 
 </Details>
 
-#### Prisma Studio
+### Prisma Studio
 
 <Details><Summary>Logging output</Summary>
 
@@ -245,7 +245,7 @@ ${schema.prisma}
 
 </Details>
 
-#### Photon JS
+### Photon JS
 
 <Details><Summary>Logging output</Summary>
 
@@ -301,12 +301,12 @@ ${index.d.ts}
 
 </Details>
 
-## Known Errors
+# Known Errors
 
 Whenever we show an error, we should always show a path forward towards resolution. If we don't know the path forward, we should atleast link to a place to get
 help.
 
-### Known Error Template
+## Known Error Template
 
 The format of our error should be the following:
 
@@ -333,7 +333,7 @@ Stack Trace:
 ConnectorError(QueryError(Error { kind: FromSql, cause: Some(WrongType(Type(Timestamptz))) }\ \ stack backtrace:\ 0: failure::backtrace::internal::InternalBacktrace::new::h84e0252f893b7b0e (0x55a8a0489290)\ 1: failure::backtrace::Backtrace::new::h381a1eb507d04e2c (0x55a8a0489440)\ 2: <sql_connector::error::SqlError as core::convert::From<tokio_postgres::error::Error>>::from::h34ff4340a0dd5b3f (0x55a89febbc67)\ 3: sql_connector::database::postgresql::<impl sql_connector::row::ToSqlRow for tokio_postgres::row::Row>::to_sql_row::convert::h178249b965d8493a (0x55a89fe2686b)\ 4: sql_connector::database::postgresql::<impl sql_connector::row::ToSqlRow for tokio_postgres::row::Row>::to_sql_row::h3875436f09b0556f (0x55a89fe368ff)\ 5: sql_connector::database::postgresql::<impl sql_connector::transactional::Transaction for postgres::transaction::Transaction>::filter::h498f6550aa3967b1 (0x55a89fe9156a)\ 6: <sql_connector::database::postgresql::PostgreSql as sql_connector::transactional::Transactional>::with_transaction::hd5f1950fe91ab7e3 (0x55a89fbe22a8)\ 7: sql_connector::transactional::database_reader::<impl connector::database_reader::DatabaseReader for sql_connector::database::SqlDatabase<T>>::get_related_records::h291c7a1f45dc7434
 ```
 
-#### `error_code`
+### `error_code`
 
 **required**
 
@@ -354,14 +354,14 @@ A unique error across all the products. Error codes will have a 2 or 3-letter pr
 The error codes will also have a 3-digit number identifying the unique error, starting at 001. As we discover or add more errors, we'll increment this number
 (e.g. 002, 003, ...)
 
-#### `error_category`
+### `error_category`
 
 **required**
 
 Is it a connection error? Is it a configuration error? These errors will come from the codebase and will give the error a name. This will help the user identify
 what type of error occurred.
 
-##### Different Layers
+#### Different Layers
 
 Errors can bubble up from different layers. Depending on the engineering effort, a breadcrumb of errors would be very helpful. Otherwise the original "deepest"
 error in the stack is the most helpful and should be bubbled up unwraped.
@@ -377,7 +377,7 @@ error in the stack is the most helpful and should be bubbled up unwraped.
 
 - e.g. `Photon Error < Connector Error < SQL Connector Error`
 
-#### `how_to_proceed`
+### `how_to_proceed`
 
 **required**
 
@@ -391,7 +391,7 @@ We will try to be as helpful as we can here:
 - **encouraged** If we have documentation for this error, provide a URL to that documentation
   - e.g. "You can find `ConnectionError` documentation here: https://prisma.io/docs/xxx"
 
-#### `best_guess`
+### `best_guess`
 
 **encouraged**
 
@@ -402,14 +402,14 @@ It should be a question and never be condescending.
 - **DO:** "Is Postgres running?"
 - **DONT:** "Your Postgres probably isn't runninng"
 
-#### `stack_trace`
+### `stack_trace`
 
 The stack trace is the raw error from either Typescript or Rust.
 
 Ideally we can clean it up a bit with [clean-stack](https://github.com/sindresorhus/clean-stack) on the Javascript-side. In Rust, we should research or create a
 stack trace formatter.
 
-##### Credential Masking
+#### Credential Masking
 
 We may see credentials in the stack trace. It's very important that we hide this information. Sensitive information should be hidden with astericks `********`.
 
