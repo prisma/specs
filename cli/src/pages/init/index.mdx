@@ -33,13 +33,13 @@ import chalk from 'chalk'
   <Box marginBottom={1}><Color dim>~/Desktop $</Color> prisma init hello-world</Box>
 
 <Box flexDirection="column" marginLeft={2}>
-  <Text bold>Which programming language do you want to use?</Text>
+  <Text bold>Select the database you want to use</Text>
   <Color dim>
-    Learn more about the tools at https://github.com/prisma/prisma2
+    Use SQLite if you don't have a database ready yet
   </Color>
 </Box>
 
-  <BorderBox flexDirection="column" marginTop={2} marginBottom={1} title={chalk.bold('Databases')}>
+  <BorderBox flexDirection="column" marginTop={1} marginBottom={1} title={chalk.bold('Databases')}>
     <Box width={100}>
       <Box>
         <Color cyan>
@@ -70,7 +70,3 @@ import chalk from 'chalk'
     </Box>
   </BorderBox>
 </Terminal>
-
-## Todo
-
-- [ ] Success screen for introspection: Spec out how `main.ts` (and other languages) should be generated @nikolasburk
