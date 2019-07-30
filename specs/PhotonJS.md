@@ -790,6 +790,10 @@ See `options` at https://docs.mongodb.com/manual/reference/method/db.collection.
 - response
   - performance (via debug/explain)
 
+## Tracing
+
+- Request IDs
+- Open tracing
 
 ## Pagination / Streaming
 
@@ -959,6 +963,7 @@ await photon.disconnect()
 
 - [ ] Decouple engine `connect` API from Photon instance (solves: https://github.com/prisma/photonjs/issues/153)
 - [ ] Distinct
+- [ ] Tracing
 - [ ] Force indexes
 - [ ] `Photon` constructor API
 - [ ] API when using with Prisma server
