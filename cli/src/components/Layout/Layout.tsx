@@ -136,6 +136,11 @@ const Wrapper = styled.div`
 const Main = styled.div`
   max-width: 900px;
   padding: 32px;
+
+  a {
+    color: ${p => p.theme.purple500};
+    text-decoration: underline;
+  }
 `
 
 export default Layout
