@@ -118,155 +118,9 @@ import BorderBox from '../../components/Terminal/BorderBox'
 
 **Note**: We probably want to use shortlinks for docs links.
 
-## (1) Enter database credentials (Found local database)
-
-**TODO**
-
-<!-- 
-
-<Terminal>
-<Box marginBottom={1}><Color dim>~/Desktop $</Color> prisma init hello-world</Box>
-  <Box flexDirection="column" marginLeft={2}>
-    <Text bold>Log into your database</Text>
-    <Color  dim>Learn how to set up a PostgreSQL database: https://www.prisma.io/docs</Color>
-  </Box>
-
-  <Box flexDirection="column" paddingTop={2}>
-    <Box>
-      <Color gray>┌──</Color>
-      <Text bold> Found a database on port 5432 </Text>
-      <Color gray>───────────────────────────┐</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Color cyan>{figures.pointer} </Color>
-      <Color cyan>
-        <Text bold>Autofill credentials</Text>
-      </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
-    </Box>
-  </Box>
-
-  <Box flexDirection="column" paddingTop={1} paddingBottom={1}>
-    <Box>
-      <Color gray>┌──</Color>
-      <Text bold> Enter PostgreSQL credentials </Text>
-      <Color gray>─────────────────────────────────┐</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Color gray>  </Color>
-      <Text>Host: </Text>
-      <TextInput value="" placeholder="127.0.0.1" showCursor={false} />
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Color gray>  </Color>
-      <Text>Port: </Text>
-      <TextInput value="" placeholder="5432" showCursor={false} />
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Color gray>  </Color>
-      <Text>User: </Text>
-      <TextInput value="" showCursor={false} />
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Color gray>  </Color>
-      <Text bold>Password: </Text>
-      <TextInput value="" showCursor={false} />
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Color gray>  </Color>
-      <Text>Database (optional): </Text>
-      <TextInput value="" showCursor={false} />
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Color gray>  </Color>
-      <Text>{figures.squareSmall} Use SSL </Text>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>├────────────────────────────────────────────────────────────┤</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Color gray>  </Color>
-      <Text>Or URL: </Text>
-      <TextInput value="" placeholder="postgresql://localhost:5432/admin" showCursor={false} />
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
-    </Box>
-  </Box>
-  <Box>
-    <Color gray>{figures.pointer} </Color>
-    <Text bold>Connect</Text>
-  </Box>
-  <Box>
-    <Color gray>❮ </Color>
-    <Text bold>Back</Text>
-    <Color  dim> (Database selection)</Color>
-  </Box>
-</Terminal>
-
- -->
-
+- [Schema provided (non-empty)](#31-introspection)
+- [Schema provided (empty)](#4-language-selection)
+- [Schema not provided](#2-select-existing-schema-or-create-a-new-one)
 
 ## (2) Select existing schema or create a new one
 
@@ -325,6 +179,9 @@ import BorderBox from '../../components/Terminal/BorderBox'
   </Box>
 </Terminal>
 
+- [Create new PostgreSQL schema](#21-set-schema-name)
+- [Use existing PostgreSQL schema](#3-select-a-schema)
+
 ## (2.1) Set schema name
 
 <details><summary>Previous selections</summary>
@@ -366,6 +223,8 @@ import BorderBox from '../../components/Terminal/BorderBox'
     <Color dim> (Schema options)</Color>
   </Box>
 </Terminal>
+
+- [Create](#4-language-selection)
 
 ## (3) Select a schema
 
@@ -431,6 +290,9 @@ import BorderBox from '../../components/Terminal/BorderBox'
   </Box>
 </Terminal>
 
+- [Empty DB](#4-language-selection)
+- [Non-empty DB](#31-introspection)
+
 ## (3.1) Introspection
 
 <details><summary>Previous selections</summary>
@@ -454,6 +316,8 @@ import BorderBox from '../../components/Terminal/BorderBox'
   </Color>
 </BorderBox>
 </Terminal>
+
+- [Introspection terminated](#32-tool-selection)
 
 ## (3.2) Tool selection
 
@@ -508,6 +372,10 @@ import BorderBox from '../../components/Terminal/BorderBox'
 
 **Note**: The text from the back button might also be "Database selection" depending on how we got to the tool selection.
 
+- [Photon](#41--42-language-selection)
+- [Photon & Lift](#41--42-language-selection)
+- [Lift](#)
+
 ### (4) Language selection
 
 <details><summary>Previous selections</summary>
@@ -549,6 +417,9 @@ import BorderBox from '../../components/Terminal/BorderBox'
 </Terminal>
 
 **Note**: The text from the back button might also be "Schema selection" depending on how we got to the language selection.
+
+- [JavaScript](#5-example-selection)
+- [TypeScript](#5-example-selection)
 
 ### (4.1) & (4.2) Language selection
 
@@ -693,18 +564,153 @@ import BorderBox from '../../components/Terminal/BorderBox'
   </Box>
 </Terminal>
 
-## (6) Success (Boilerplate)
+---
 
-TODO
+<!-- 
 
-## (6.1) Success (Photon)
+## (1) Enter database credentials (Found local database)
 
-TODO
+**TODO**
 
-## (6.2) Success (Lift+Photon)
+<Terminal>
+<Box marginBottom={1}><Color dim>~/Desktop $</Color> prisma init hello-world</Box>
+  <Box flexDirection="column" marginLeft={2}>
+    <Text bold>Log into your database</Text>
+    <Color  dim>Learn how to set up a PostgreSQL database: https://www.prisma.io/docs</Color>
+  </Box>
 
-TODO
+  <Box flexDirection="column" paddingTop={2}>
+    <Box>
+      <Color gray>┌──</Color>
+      <Text bold> Found a database on port 5432 </Text>
+      <Color gray>───────────────────────────┐</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color cyan>{figures.pointer} </Color>
+      <Color cyan>
+        <Text bold>Autofill credentials</Text>
+      </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
+    </Box>
+  </Box>
 
-## (6.3) Success (Lift) 
+  <Box flexDirection="column" paddingTop={1} paddingBottom={1}>
+    <Box>
+      <Color gray>┌──</Color>
+      <Text bold> Enter PostgreSQL credentials </Text>
+      <Color gray>─────────────────────────────────┐</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color gray>  </Color>
+      <Text>Host: </Text>
+      <TextInput value="" placeholder="127.0.0.1" showCursor={false} />
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color gray>  </Color>
+      <Text>Port: </Text>
+      <TextInput value="" placeholder="5432" showCursor={false} />
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color gray>  </Color>
+      <Text>User: </Text>
+      <TextInput value="" showCursor={false} />
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color gray>  </Color>
+      <Text bold>Password: </Text>
+      <TextInput value="" showCursor={false} />
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color gray>  </Color>
+      <Text>Database (optional): </Text>
+      <TextInput value="" showCursor={false} />
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color gray>  </Color>
+      <Text>{figures.squareSmall} Use SSL </Text>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>├────────────────────────────────────────────────────────────┤</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color gray>  </Color>
+      <Text>Or URL: </Text>
+      <TextInput value="" placeholder="postgresql://localhost:5432/admin" showCursor={false} />
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
+    </Box>
+  </Box>
+  <Box>
+    <Color gray>{figures.pointer} </Color>
+    <Text bold>Connect</Text>
+  </Box>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color  dim> (Database selection)</Color>
+  </Box>
+</Terminal>
 
-TODO
+-->
