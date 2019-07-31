@@ -505,6 +505,10 @@ const distinctCount: number = await photon.post
 
 - Filter generation per type
 - Allow for empty objects
+- Case sensitivity (https://github.com/prisma/prisma2/issues/258)
+- Shortcuts
+  - id
+    - multi-column uniques (See slack thread https://prisma.slack.com/archives/CKQTGR6T0/p1564566886224500?thread_ts=1564552560.218200&cid=CKQTGR6T0)
 
 ## Design decisions
 
@@ -577,7 +581,6 @@ const nestedResult = await photon.query({
   },
 })
 ```
-
 
 ## Embeds
 
@@ -942,6 +945,7 @@ await photon.disconnect()
 
 - [ ] Aggregrations
 - [ ] Binary copying
+- [ ] Create many (https://github.com/prisma/prisma2/issues/284)
 - [ ] Group by
 - [ ] Rethink raw API fallbacks
 - [ ] Jump to definition
@@ -964,6 +968,7 @@ await photon.disconnect()
 - [ ] Decouple engine `connect` API from Photon instance (solves: https://github.com/prisma/photonjs/issues/153)
 - [ ] Distinct
 - [ ] Tracing
+- [ ] Cascading deletes
 - [ ] Force indexes
 - [ ] `Photon` constructor API
 - [ ] API when using with Prisma server
