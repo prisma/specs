@@ -1,5 +1,7 @@
 # Prisma Examples API
 
+## Overview 
+
 The Prisma 2 example projects serve as "starter kits" for developers who are getting started with Prisma by providing ready-made setups for certain use cases (e.g. a GraphQL, REST or gRPC API).
 
 There are two ways of using an example project:
@@ -12,11 +14,21 @@ The first approach always is based on a SQLite database preconfigured in the exa
 With the second approach, the Prisma CLI must download the example and perform a number of further tasks to make the example ready to use. Here is a list of tasks that need to be performed:
 
 1. Download the selected example project from GitHub
-1. Replace the `datasource` configuration in `schema.prisma` with the database credentials provided by the user (noop for SQLite)
+1. Replace the `datasource` configuration in `schema.prisma` with the database credentials provided by the user
 1. Migrate the database with Lift, i.e. run:
     1. `prisma2 lift save --name 'init'` 
     1. `prisma2 lift up`
 1. Generate Photon, i.e. run: `prisma2 generate`
 1. Install npm dependencies, i.e. run: `npm install`
 1. Seed the database, i.e. run: `npm run seed`
-1. Print instructions what to do next + link to the selected example on GitHub
+1. Print success message including:
+    - What files were downloaded
+    - Next steps
+    - Link to selected example README
+
+## Idea
+
+The Prisma examples API should provide an endpoint for the CLI. The CLI can use this endpoint to download the example project as well as related information in a structured way (e.g. what files were downloaded or what the next steps are).
+
+The API should be built with GraphQL.
+

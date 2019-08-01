@@ -1,7 +1,7 @@
 ---
 navGroup: init
-navOrder: 0
-navLabel: Database selection
+navOrder: 5
+navLabel: Success screens
 ---
 
 import Terminal from '../../components/Terminal/Terminal'
@@ -16,22 +16,28 @@ import figures from 'figures'
 import BorderBox from '../../components/Terminal/BorderBox'
 import chalk from 'chalk'
 
-# `prisma2 init`
+# Success screens
 
----
+Depending on a users' choices during the `prisma2 init` flow, the success message that's printed when the command terminates might be static or dynamic:
 
-## Flows
+- **Static**: The success message is hardcoded in the Prisma CLI code
+- **Dynamic**: The success message is based on a _template_ that's filled with data from the [examples API](../examples-api)
 
-<img
-  src="https://prisma-specs.prisma.now.sh/cli/figma-proxy?id=822:4"
-  width="100%"
-/>
+This page defines the templates for the dynamic success messages.
 
-## Database selection
+## Example success screens
+
+### PostgreSQL -> 6
+
+Previous selections:
+
+1. PostgreSQL
+1. Create new PostgreSQL schema (or _existing schema is empty_)
+1. TypeScript
+1. GraphQL
 
 <Terminal>
   <Box marginBottom={1}><Color dim>~/Desktop $</Color> prisma init hello-world</Box>
-
   <Box flexDirection="column" marginLeft={2}>
     <Text bold>Select the database you want to use</Text>
     <Color dim>
@@ -70,7 +76,3 @@ import chalk from 'chalk'
     </Box>
   </BorderBox>
 </Terminal>
-
-- [SQLite](./sqlite)
-- [MySQL](./mysql)
-- [PostgreSQL](./postgresql)
