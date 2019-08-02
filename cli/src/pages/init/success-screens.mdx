@@ -44,9 +44,8 @@ Previous selections:
     <Color green>{figures.tick} Congratulations, you're all set!</Color>
   </Box>
   <Box marginLeft={2} flexDirection="column">
-    <Text>The <Text bold>hello-world</Text> directory was created.</Text>
-    <Text>It contains your Prisma setup and the starter code for a GraphQL server.</Text>
-
+    <Text>The <Text bold>hello-world</Text> directory was created. It contains your </Text>
+    <Text>Prisma setup and the starter code for a GraphQL server.</Text>
   </Box>
   <BorderBox
     flexDirection="column"
@@ -56,19 +55,21 @@ Previous selections:
   >
     <Box marginLeft={2} width={100} flexDirection="column">
       <Text>
-        Start Prisma's development mode:
+        Navigate into the project directory:
       </Text>
-      <Box marginTop={1} flexDirection="column">
+      <Box marginBottom={1} flexDirection="column">
         <Text bold>$ cd hello-world</Text>
+      </Box>
+      <Text>Start Prisma's development mode:</Text>
+      <Box marginBottom={1} flexDirection="column">
         <Text bold>$ prisma dev</Text>
       </Box>
-      <Text marginTop={1}>
-        Start the GraphQL server:
-      </Text>
-      <Box marginTop={1} flexDirection="column">
+      <Text>Start the GraphQL server (in a new terminal window/tab):</Text>
+      <Box marginBottom={1} flexDirection="column">
         <Text bold>$ npm start</Text>
-      </Box>      
+      </Box>
+      <Text>Learn how to evolve the example project: </Text>
+      <Text bold>https://github.com/prisma/photonjs/</Text>
     </Box>
-   
   </BorderBox>
 </Terminal>
