@@ -174,6 +174,9 @@ import chalk from 'chalk'
   </Box>
 </Terminal>
 
+- [Select any example](#5-success)
+- [No example](#51-success)
+
 ### (2) File path
 
 <details><summary>Previous selections</summary>
@@ -383,3 +386,82 @@ import chalk from 'chalk'
     <Color dim> (Language selection)</Color>
   </Box>
 </Terminal>
+
+### (5) Success
+
+<details><summary>Previous selections</summary>
+
+1. SQLite
+1. Create new SQLite file
+1. JavaScript/TypeScript
+1. _Example selected_
+
+</details>
+
+This success screen is dynamic. Learn more [here](./success-screens).
+
+### (5.1) Success
+
+<details><summary>Previous selections</summary>
+
+1. SQLite
+1. Create new SQLite file
+1. JavaScript/TypeScript
+1. _No example selected_
+
+</details>
+<br />
+
+<Terminal>
+  <Box marginBottom={1}>
+    <Color dim>~/Desktop $</Color> prisma init hello-world
+  </Box>
+  <Box marginLeft={2} marginBottom={1}>
+    <Color green>{figures.tick} Congratulations, you're all set!</Color>
+  </Box>
+  <BorderBox flexDirection="column" title={chalk.bold('Success')}>
+    <Box marginLeft={2} marginBottom={1} flexDirection="column">
+      <Text>
+        The <Text bold>hello-world</Text> directory was created. It contains
+        your{' '}
+      </Text>
+      <Text>Prisma schema: <Text bold>schema.prisma</Text>.</Text>
+    </Box>
+    <Box marginLeft={2} marginBottom={1} flexDirection="column">
+      <Text>Prisma is connected to your database at:</Text>
+      <Text>
+        <Text bold>./dev.db</Text>
+      </Text>
+    </Box>
+    <Box marginLeft={2} flexDirection="column">
+      <Text>If you encounter any issues, please report them here:</Text>
+      <Text bold>https://github.com/prisma/prisma2/issues</Text>
+    </Box>
+  </BorderBox>
+  <BorderBox
+    flexDirection="column"
+    marginTop={1}
+    marginBottom={1}
+    title={chalk.bold('Next steps')}
+  >
+    <Box marginLeft={2} width={100} flexDirection="column">
+      <Text>Navigate into the project directory:</Text>
+      <Box marginBottom={1} flexDirection="column">
+        <Text bold>$ cd hello-world</Text>
+      </Box>
+      <Text>Start Prisma's development mode to enable access to</Text>
+      <Text>Prisma Studio and watch <Text bold>schema.prisma</Text> for changes:</Text>
+      <Box marginBottom={1} flexDirection="column">
+        <Text bold>$ prisma dev</Text>
+      </Box>
+      <Text>Your data model is empty. Learn about data modeling:</Text>
+      <Box marginBottom={1} flexDirection="column">
+        <Text bold>https://github.com/prisma/prisma2/blob/master/docs/data-modeling.md/</Text>
+      </Box>
+      <Text>Learn more about Prisma 2:</Text>
+      <Text bold>https://github.com/prisma/prisma2/</Text>
+    </Box>
+  </BorderBox>
+</Terminal>
+
+**Note**: If the command was invoked **without** a project name (e.g. `prisma2 init` or `prisma2 init .`), the first success message should be: _"Your project directory is ready. It contains your Prisma schema: **schema.prisma**."_

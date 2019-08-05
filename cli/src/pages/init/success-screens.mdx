@@ -27,7 +27,7 @@ This page defines the templates for the dynamic success messages.
 
 ## Open questions
 
-- [ ] Different color for terminal commands?
+- [ ] Different color for terminal commands? File names?
 - [ ] Should use `$` in front of terminal commands?
   - pro: indicates it's a terminal command
   - con: doesn't let me copy the entire line (might not be possible anyways due to the rendered box)
@@ -84,7 +84,8 @@ This section contains the templates for dynamic success screens. Placeholders ar
       <Box marginBottom={1} flexDirection="column">
         <Text bold>$ cd PROJECT_NAME</Text>
       </Box>
-      <Text>Start Prisma's development mode:</Text>
+      <Text>Start Prisma's development mode to enable access to</Text>
+      <Text>Prisma Studio and watch <Text bold>schema.prisma</Text> for changes:</Text>
       <Box marginBottom={1} flexDirection="column">
         <Text bold>$ prisma dev</Text>
       </Box>
@@ -97,6 +98,8 @@ This section contains the templates for dynamic success screens. Placeholders ar
     </Box>
   </BorderBox>
 </Terminal>
+
+**Note**: `<Text bold>DB_HOST</Text> as <Text bold>DB_USER</Text>` is replaced with `<Text bold>DB_FILE</Text>` for SQLite.
 
 #### Project name **not** provided
 
@@ -137,7 +140,8 @@ This section contains the templates for dynamic success screens. Placeholders ar
     title={chalk.bold('Next steps')}
   >
     <Box marginLeft={2} width={100} flexDirection="column">
-      <Text>Start Prisma's development mode:</Text>
+      <Text>Start Prisma's development mode to enable access to</Text>
+      <Text>Prisma Studio and watch <Text bold>schema.prisma</Text> for changes:</Text>
       <Box marginBottom={1} flexDirection="column">
         <Text bold>$ prisma dev</Text>
       </Box>
@@ -151,11 +155,13 @@ This section contains the templates for dynamic success screens. Placeholders ar
   </BorderBox>
 </Terminal>
 
+**Note**: `<Text bold>DB_HOST</Text> as <Text bold>DB_USER</Text>` is replaced with `<Text bold>DB_FILE</Text>` for SQLite.
+
 ### Dynamic elements (placeholders)
 
 - Local (based on user input during `prisma2 init`):
   - `PROJECT_NAME`
-  - `DB_HOST` & `DB_USER`
+  - `DB_HOST` & `DB_USER` (or `DB_FILE` for SQLite)
 - From example API:
   - `EXAMPLE_NAME`  
   - `PATH/TO/SEEDING/FILE`
@@ -215,7 +221,8 @@ Previous selections:
       <Box marginBottom={1} flexDirection="column">
         <Text bold>$ cd hello-world</Text>
       </Box>
-      <Text>Start Prisma's development mode:</Text>
+      <Text>Start Prisma's development mode to enable access to</Text>
+      <Text>Prisma Studio and watch <Text bold>schema.prisma</Text> for changes:</Text>
       <Box marginBottom={1} flexDirection="column">
         <Text bold>$ prisma dev</Text>
       </Box>
@@ -268,7 +275,8 @@ If no project directory (here: `hello-world`) was provided, the sentence should 
     title={chalk.bold('Next steps')}
   >
     <Box marginLeft={2} width={100} flexDirection="column">
-      <Text>Start Prisma's development mode:</Text>
+      <Text>Start Prisma's development mode to enable access to</Text>
+      <Text>Prisma Studio and watch <Text bold>schema.prisma</Text> for changes:</Text>
       <Box marginBottom={1} flexDirection="column">
         <Text bold>$ prisma dev</Text>
       </Box>
@@ -343,7 +351,7 @@ Previous selections:
       <Box marginBottom={1} flexDirection="column">
         <Text bold>$ npm start</Text>
       </Box>
-      <Text>Use a gRPC client script, e.g.:</Text>
+      <Text>Invoke a gRPC client script, e.g.:</Text>
       <Box marginBottom={1} flexDirection="column">
         <Text bold>$ npm run feed       # fetch all posts</Text>
         <Text bold>$ npm run signupUser # create new user</Text>

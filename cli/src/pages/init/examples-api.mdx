@@ -33,8 +33,8 @@ With the second approach, the Prisma CLI must download the example and perform a
 
 The examples API is needed twice during the `prisma2 init` flow:
 
-1. Display all available examples (screens: [SQLite 4](./sqlite#4-example-selection), [MySQL 5](./mysql#5-example-selection), [PostgreSQL 5](./postgresql#5-example-selection))
-1. Success screens (screens: SQLite 5, MySQL 6, PostgreSQL 6)
+1. Display all available examples (_screens_: [SQLite (4)](./sqlite#4-example-selection), [MySQL (5)](./mysql#5-example-selection), [PostgreSQL (5)](./postgresql#5-example-selection))
+1. [Success screens](./success-screens) (_screens_: SQLite (5), MySQL (6), PostgreSQL (6))
 
 ## Implementation
 
@@ -73,8 +73,8 @@ The examples API can be implemented via a simple JSON file that contains all the
         "text": "Start the gRPC server (in a new terminal window/tab):",
         "commands": ["npm start"]
       }, {
-        "text": "Use a gRPC client script, e.g.:",
-        "commands": ["npm run feed # fetch all posts", "npm run signupUser # create new user (hardcoded)"]
+        "text": "Invoke a gRPC client script, e.g.:",
+        "commands": ["npm run feed # fetch all posts", "npm run signupUser # create new user"]
       }]
     },
     // ...
@@ -85,4 +85,4 @@ The examples API can be implemented via a simple JSON file that contains all the
 
 #### GraphQL
 
-Alternatively, it could be implemented via a GraphQL API that's based on a similar JSON file.
+Alternatively, it could be implemented via a GraphQL API that's based on a similar JSON file. However, as long as the size of the JSON file is manageable, this is probably overkill.
