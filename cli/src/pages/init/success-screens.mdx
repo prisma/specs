@@ -33,6 +33,120 @@ This page defines the templates for the dynamic success messages.
   - con: doesn't let me copy the entire line (might not be possible anyways due to the rendered box)
 - [ ] Shortlinks to examples
 
+## Template and dynamic elements of a success screen
+
+This section contains the templates for dynamic success screens. Placeholders are spelled all-upperased.
+
+### Project name provided
+
+<Terminal>
+  <Box marginBottom={1}>
+    <Color dim>~/Desktop $</Color> prisma init PROJECT_NAME
+  </Box>
+  <Box marginLeft={2} marginBottom={1}>
+    <Color green>{figures.tick} Congratulations, you're all set!</Color>
+  </Box>
+  <BorderBox flexDirection="column" title={chalk.bold('Success')}>
+    <Box marginLeft={2} marginBottom={1} flexDirection="column">
+      <Text>
+        The <Text bold>PROJECT_NAME</Text> directory was created. It contains
+        your{' '}
+      </Text>
+      <Text>Prisma setup and the starter code for a EXAMPLE_NAME.</Text>
+    </Box>
+    <Box marginLeft={2} marginBottom={1} flexDirection="column">
+      <Text>Prisma is connected to your database at:</Text>
+      <Text>
+        <Text bold>DB_HOST</Text> as <Text bold>DB_USER</Text>
+      </Text>
+    </Box>
+    <Box marginLeft={2} marginBottom={1} flexDirection="column">
+      <Text>Your database has been seeded with the data in:</Text>
+      <Text bold>PROJECT_NAME/PATH/TO/SEEDING/FILE</Text>
+    </Box>
+    <Box marginLeft={2} flexDirection="column">
+      <Text>If you encounter any issues, please report them here:</Text>
+      <Text bold>ISSUES_LINK</Text>
+    </Box>
+  </BorderBox>
+  <BorderBox
+    flexDirection="column"
+    marginTop={1}
+    marginBottom={1}
+    title={chalk.bold('Next steps')}
+  >
+    <Box marginLeft={2} width={100} flexDirection="column">
+      <Text>Navigate into the project directory:</Text>
+      <Box marginBottom={1} flexDirection="column">
+        <Text bold>$ cd PROJECT_NAME</Text>
+      </Box>
+      <Text>Start Prisma's development mode:</Text>
+      <Box marginBottom={1} flexDirection="column">
+        <Text bold>$ prisma dev</Text>
+      </Box>
+      <Box marginBottom={1} flexDirection="column">
+        <Text>CUSTOM_INSTRUCTIONS_FOR_EXAMPLE</Text>
+        <Text>...</Text>
+      </Box>
+      <Text>Explore sample operations and evolve the project:</Text>
+      <Text bold>EXAMPLE_SHORTLINK</Text>
+    </Box>
+  </BorderBox>
+</Terminal>
+
+### Project name **not** provided
+
+<Terminal>
+  <Box marginBottom={1}>
+    <Color dim>~/Desktop $</Color> prisma init
+  </Box>
+  <Box marginLeft={2} marginBottom={1}>
+    <Color green>{figures.tick} Congratulations, you're all set!</Color>
+  </Box>
+  <BorderBox flexDirection="column" title={chalk.bold('Success')}>
+    <Box marginLeft={2} marginBottom={1} flexDirection="column">
+      <Text>
+       Your project directory is ready. It contains
+        your{' '}
+      </Text>
+      <Text>Prisma setup and the starter code for a EXAMPLE_NAME.</Text>
+    </Box>
+    <Box marginLeft={2} marginBottom={1} flexDirection="column">
+      <Text>Prisma is connected to your database at:</Text>
+      <Text>
+        <Text bold>DB_HOST</Text> as <Text bold>DB_USER</Text>
+      </Text>
+    </Box>
+    <Box marginLeft={2} marginBottom={1} flexDirection="column">
+      <Text>Your database has been seeded with the data in:</Text>
+      <Text bold>./PATH/TO/SEEDING/FILE</Text>
+    </Box>
+    <Box marginLeft={2} flexDirection="column">
+      <Text>If you encounter any issues, please report them here:</Text>
+      <Text bold>ISSUES_LINK</Text>
+    </Box>
+  </BorderBox>
+  <BorderBox
+    flexDirection="column"
+    marginTop={1}
+    marginBottom={1}
+    title={chalk.bold('Next steps')}
+  >
+    <Box marginLeft={2} width={100} flexDirection="column">
+      <Text>Start Prisma's development mode:</Text>
+      <Box marginBottom={1} flexDirection="column">
+        <Text bold>$ prisma dev</Text>
+      </Box>
+      <Box marginBottom={1} flexDirection="column">
+        <Text>CUSTOM_INSTRUCTIONS_FOR_EXAMPLE</Text>
+        <Text>...</Text>
+      </Box>
+      <Text>Explore sample operations and evolve the project:</Text>
+      <Text bold>EXAMPLE_SHORTLINK</Text>
+    </Box>
+  </BorderBox>
+</Terminal>
+
 ## Example success screens
 
 ### PostgreSQL with GraphQL (6)
