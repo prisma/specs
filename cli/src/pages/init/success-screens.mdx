@@ -21,7 +21,7 @@ import chalk from 'chalk'
 Depending on a users' choices during the `prisma2 init` flow, the success message that's printed when the command terminates might be static or dynamic:
 
 - **Static**: The success message is hardcoded in the Prisma CLI code
-- **Dynamic**: The success message is based on a _template_ that's filled with data from the [examples API](../examples-api)
+- **Dynamic**: The success message is based on a _template_ that's filled with data from the [examples API](./examples-api)
 
 This page defines the templates for the dynamic success messages.
 
@@ -33,12 +33,15 @@ This page defines the templates for the dynamic success messages.
   - con: doesn't let me copy the entire line (might not be possible anyways due to the rendered box)
 - [ ] Shortlinks to examples
 - [ ] Length of dynamic messages are not predictable by the CLI, calculate line breaks?
+- [ ] Problem: If the first step for ppl always is to run `prisma dev`, it takes over the entire terminal and ppl lose access to the following instructions?
 
 ## Template and dynamic elements of a success screen
 
 This section contains the templates for dynamic success screens. Placeholders are spelled all-upperased.
 
-### Project name provided
+### Templates
+
+#### Project name provided
 
 <Terminal>
   <Box marginBottom={1}>
@@ -95,7 +98,7 @@ This section contains the templates for dynamic success screens. Placeholders ar
   </BorderBox>
 </Terminal>
 
-### Project name **not** provided
+#### Project name **not** provided
 
 <Terminal>
   <Box marginBottom={1}>
@@ -147,6 +150,18 @@ This section contains the templates for dynamic success screens. Placeholders ar
     </Box>
   </BorderBox>
 </Terminal>
+
+### Dynamic elements (placeholders)
+
+- Local (based on user input during `prisma2 init`):
+  - `PROJECT_NAME`
+  - `DB_HOST` & `DB_USER`
+- From example API:
+  - `EXAMPLE_NAME`  
+  - `PATH/TO/SEEDING/FILE`
+  - `ISSUES_LINK`
+  - `CUSTOM_INSTRUCTIONS_FOR_EXAMPLE`
+  - `EXAMPLE_SHORTLINK`
 
 ## Example success screens
 
@@ -319,7 +334,8 @@ Previous selections:
       <Box marginBottom={1} flexDirection="column">
         <Text bold>$ cd hello-world</Text>
       </Box>
-      <Text>Start Prisma's development mode:</Text>
+      <Text>Start Prisma's development mode to enable access to</Text>
+      <Text>Prisma Studio and watch <Text bold>schema.prisma</Text> for changes:</Text>
       <Box marginBottom={1} flexDirection="column">
         <Text bold>$ prisma dev</Text>
       </Box>
@@ -329,7 +345,8 @@ Previous selections:
       </Box>
       <Text>Use a gRPC client script, e.g.:</Text>
       <Box marginBottom={1} flexDirection="column">
-        <Text bold>$ npm run feed</Text>
+        <Text bold>$ npm run feed       # fetch all posts</Text>
+        <Text bold>$ npm run signupUser # create new user</Text>
       </Box>
       <Text>Explore sample operations and evolve the project:</Text>
       <Text bold>https://github.com/prisma/photonjs/</Text>
