@@ -43,9 +43,13 @@ Previous selections:
   <Box marginLeft={2} marginBottom={1}>
     <Color green>{figures.tick} Congratulations, you're all set!</Color>
   </Box>
-  <Box marginLeft={2} flexDirection="column">
+  <Box marginLeft={2} marginBottom={1} flexDirection="column">
     <Text>The <Text bold>hello-world</Text> directory was created. It contains your </Text>
     <Text>Prisma setup and the starter code for a GraphQL server.</Text>
+  </Box>
+  <Box marginLeft={2} flexDirection="column">
+    <Text>Your database has been seeded with the data in:</Text>
+     <Text bold>hello-world/prisma/seed.js</Text>
   </Box>
   <BorderBox
     flexDirection="column"
@@ -73,3 +77,11 @@ Previous selections:
     </Box>
   </BorderBox>
 </Terminal>
+
+**Open questions**:
+
+- [ ] Different color for terminal commands?
+- [ ] Should use `$` in front of terminal commands?
+  - pro: indicates it's a terminal command
+  - con: doesn't let me copy the entire line (might not be possible anyways due to the rendered box)
+- [ ] Shortlinks to examples
