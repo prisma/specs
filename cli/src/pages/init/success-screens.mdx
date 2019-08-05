@@ -25,9 +25,17 @@ Depending on a users' choices during the `prisma2 init` flow, the success messag
 
 This page defines the templates for the dynamic success messages.
 
+## Open questions
+
+- [ ] Different color for terminal commands?
+- [ ] Should use `$` in front of terminal commands?
+  - pro: indicates it's a terminal command
+  - con: doesn't let me copy the entire line (might not be possible anyways due to the rendered box)
+- [ ] Shortlinks to examples
+
 ## Example success screens
 
-### PostgreSQL -> 6
+### PostgreSQL with GraphQL (6)
 
 Previous selections:
 
@@ -43,14 +51,29 @@ Previous selections:
   <Box marginLeft={2} marginBottom={1}>
     <Color green>{figures.tick} Congratulations, you're all set!</Color>
   </Box>
-  <Box marginLeft={2} marginBottom={1} flexDirection="column">
-    <Text>The <Text bold>hello-world</Text> directory was created. It contains your </Text>
-    <Text>Prisma setup and the starter code for a GraphQL server.</Text>
-  </Box>
-  <Box marginLeft={2} flexDirection="column">
-    <Text>Your database has been seeded with the data in:</Text>
-     <Text bold>hello-world/prisma/seed.js</Text>
-  </Box>
+  <BorderBox flexDirection="column" title={chalk.bold('Success')}>
+    <Box marginLeft={2} marginBottom={1} flexDirection="column">
+      <Text>
+        The <Text bold>hello-world</Text> directory was created. It contains
+        your{' '}
+      </Text>
+      <Text>Prisma setup and the starter code for a GraphQL server.</Text>
+    </Box>
+    <Box marginLeft={2} marginBottom={1} flexDirection="column">
+      <Text>Prisma is connected to your database:</Text>
+      <Text>
+        <Text bold>127.0.0.1</Text> as <Text bold>admin</Text>
+      </Text>
+    </Box>
+    <Box marginLeft={2} marginBottom={1} flexDirection="column">
+      <Text>Your database has been seeded with the data in:</Text>
+      <Text bold>hello-world/prisma/seed.js</Text>
+    </Box>
+    <Box marginLeft={2} flexDirection="column">
+      <Text>If you encounter any issues, please report them here:</Text>
+      <Text bold>https://github.com/prisma/photonjs/issues</Text>
+    </Box>
+  </BorderBox>
   <BorderBox
     flexDirection="column"
     marginTop={1}
@@ -58,9 +81,7 @@ Previous selections:
     title={chalk.bold('Next steps')}
   >
     <Box marginLeft={2} width={100} flexDirection="column">
-      <Text>
-        Navigate into the project directory:
-      </Text>
+      <Text>Navigate into the project directory:</Text>
       <Box marginBottom={1} flexDirection="column">
         <Text bold>$ cd hello-world</Text>
       </Box>
@@ -72,16 +93,127 @@ Previous selections:
       <Box marginBottom={1} flexDirection="column">
         <Text bold>$ npm start</Text>
       </Box>
-      <Text>Learn how to evolve the example project: </Text>
+      <Text>Explore what to do with the example: </Text>
       <Text bold>https://github.com/prisma/photonjs/</Text>
     </Box>
   </BorderBox>
 </Terminal>
 
-**Open questions**:
+<br />
+<details><summary>Without project directory</summary>
 
-- [ ] Different color for terminal commands?
-- [ ] Should use `$` in front of terminal commands?
-  - pro: indicates it's a terminal command
-  - con: doesn't let me copy the entire line (might not be possible anyways due to the rendered box)
-- [ ] Shortlinks to examples
+If no project directory (here: `hello-world`) was provided, the sentence should be: "Your project directory is ready. It contains your Prisma setup and the starter code for a GraphQL server.":
+
+<Terminal>
+  <Box marginBottom={1}>
+    <Color dim>~/Desktop $</Color> prisma init
+  </Box>
+  <Box marginLeft={2} marginBottom={1}>
+    <Color green>{figures.tick} Congratulations, you're all set!</Color>
+  </Box>
+  <BorderBox flexDirection="column" title={chalk.bold('Success')}>
+    <Box marginLeft={2} marginBottom={1} flexDirection="column">
+      <Text>Your project directory is ready. It contains your </Text>
+      <Text>Prisma setup and the starter code for a GraphQL server.</Text>
+    </Box>
+    <Box marginLeft={2} marginBottom={1} flexDirection="column">
+      <Text>Prisma is connected to your database:</Text>
+      <Text>
+        <Text bold>127.0.0.1</Text> as <Text bold>admin</Text>
+      </Text>
+    </Box>
+    <Box marginLeft={2} marginBottom={1} flexDirection="column">
+      <Text>Your database has been seeded with the data in:</Text>
+      <Text bold>hello-world/prisma/seed.js</Text>
+    </Box>
+    <Box marginLeft={2} flexDirection="column">
+      <Text>If you encounter any issues, please report them here:</Text>
+      <Text bold>https://github.com/prisma/photonjs/issues</Text>
+    </Box>
+  </BorderBox>
+  <BorderBox
+    flexDirection="column"
+    marginTop={1}
+    marginBottom={1}
+    title={chalk.bold('Next steps')}
+  >
+    <Box marginLeft={2} width={100} flexDirection="column">
+      <Text>Start Prisma's development mode:</Text>
+      <Box marginBottom={1} flexDirection="column">
+        <Text bold>$ prisma dev</Text>
+      </Box>
+      <Text>Start the GraphQL server (in a new terminal window/tab):</Text>
+      <Box marginBottom={1} flexDirection="column">
+        <Text bold>$ npm start</Text>
+      </Box>
+      <Text>Explore what to do with the example: </Text>
+      <Text bold>https://github.com/prisma/photonjs/</Text>
+    </Box>
+  </BorderBox>
+</Terminal>
+
+</details>
+
+### MySQL with gRPC (6)
+
+Previous selections:
+
+1. MySQL
+1. Create new MySQL schema (or _existing schema is empty_)
+1. TypeScript
+1. gRPC
+
+<Terminal>
+  <Box marginBottom={1}>
+    <Color dim>~/Desktop $</Color> prisma init hello-world
+  </Box>
+  <Box marginLeft={2} marginBottom={1}>
+    <Color green>{figures.tick} Congratulations, you're all set!</Color>
+  </Box>
+  <BorderBox flexDirection="column" title={chalk.bold('Success')}>
+    <Box marginLeft={2} marginBottom={1} flexDirection="column">
+      <Text>
+        The <Text bold>hello-world</Text> directory was created. It contains
+        your{' '}
+      </Text>
+      <Text>Prisma setup and the starter code for a GraphQL server.</Text>
+    </Box>
+    <Box marginLeft={2} marginBottom={1} flexDirection="column">
+      <Text>Prisma is connected to your database:</Text>
+      <Text>
+        <Text bold>127.0.0.1</Text> as <Text bold>admin</Text>
+      </Text>
+    </Box>
+    <Box marginLeft={2} marginBottom={1} flexDirection="column">
+      <Text>Your database has been seeded with the data in:</Text>
+      <Text bold>hello-world/prisma/seed.js</Text>
+    </Box>
+    <Box marginLeft={2} flexDirection="column">
+      <Text>If you encounter any issues, please report them here:</Text>
+      <Text bold>https://github.com/prisma/photonjs/issues</Text>
+    </Box>
+  </BorderBox>
+  <BorderBox
+    flexDirection="column"
+    marginTop={1}
+    marginBottom={1}
+    title={chalk.bold('Next steps')}
+  >
+    <Box marginLeft={2} width={100} flexDirection="column">
+      <Text>Navigate into the project directory:</Text>
+      <Box marginBottom={1} flexDirection="column">
+        <Text bold>$ cd hello-world</Text>
+      </Box>
+      <Text>Start Prisma's development mode:</Text>
+      <Box marginBottom={1} flexDirection="column">
+        <Text bold>$ prisma dev</Text>
+      </Box>
+      <Text>Start the GraphQL server (in a new terminal window/tab):</Text>
+      <Box marginBottom={1} flexDirection="column">
+        <Text bold>$ npm start</Text>
+      </Box>
+      <Text>Explore what to do with the example: </Text>
+      <Text bold>https://github.com/prisma/photonjs/</Text>
+    </Box>
+  </BorderBox>
+</Terminal>
