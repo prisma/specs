@@ -58,7 +58,7 @@ This list of motivations is not complete and unordered.
 
 ## Connect
 
-`connect` is where Photon spawns a binary and the following sequence of events happen
+`connect` function is where Photon spawns a binary and the following sequence of events happen
 
 #### Find Free Port
 
@@ -136,6 +136,12 @@ Conceptually, `now` is similar to AWS lambda. The same practices/observations ap
 #### Compute (EC2, DO, etc)
 
 This section outlines compute instances from all major cloud providers as well as local development environment. A traditional server may invoke connect when it is being bootstrapped making the critical path of requests light-weight (not involving spawning the binary or connecting to the DB) by reusing the spawned binary.
+
+## Disconnect
+
+Calling `disconnect` function is where Photon waits for any pending request promise to resolve and then calls `stop` on the engine.
+
+This kills the spawned process and the DB connection is released.
 
 # Drawbacks
 
