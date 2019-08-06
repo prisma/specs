@@ -1,0 +1,40 @@
+---
+navGroup: init
+navOrder: 8
+navLabel: Shortlinks
+---
+
+# Shortlinks for docs and examples
+
+Throughout the `prisma2 init` flow, it might be helpful to link to specific docs or examples. These links should be provided via _shortlinks_ that redirect to the target page instead of linking that page directly. This has two major benefits:
+
+- Links can be kept short which is really helpful since CLI output should be as brief and concise as possible
+- The target of a link can be adjusted dynamically without touching the CLI code
+
+## Structure
+
+Assume we can use the domain `p.io`.
+
+### Docs
+
+### Examples
+
+Shortlinks to examples should follow this pattern:
+
+```
+https://p.io/LANGUAGE/USE_CASE
+```
+
+`LANGUAGE` uses abbreviations for the respective programming language:
+
+| Abbreviation | Language |
+| --- | --- |
+| js | JavaScript |
+| ts | TypeScript |
+
+Consider the [`typescript/graphql`](https://github.com/prisma/prisma-examples/tree/prisma2/typescript/graphql) and [`javascript/script`](https://github.com/prisma/prisma-examples/tree/prisma2/javascript/script) examples for Photon JS. Here's how they're represented as links:
+
+```
+https://p.io/ts/graphql
+https://p.io/js/graphql
+```
