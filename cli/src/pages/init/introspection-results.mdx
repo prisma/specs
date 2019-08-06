@@ -83,11 +83,12 @@ main()
 
 Note that `X` is a placeholder for any model from the data model that was generated via introspection. To ensure a great user experience, here's a heuristic how to select an appropriate model:
 
+1. Prefer models without required relations. If there are only models with required relations, omit the `create` statement.
 1. If any of the following models is present, use it (the order of the list determines the prefernce, i.e. `User` is preferred over `Player`, `Player` over `Customer`, ...): `User`, `Player`, `Customer`, `Product`, `Order`, `Article`, `Post`, `Message`
 1. If none of the above models is present in the data model, select a model according to the following heuristic:
-  1. The model name should not end on an `s`
-  1. The model name should be in between 4 and 8 characters (if such a model doesn't exist, try 9, then 10, then 11, ...)
-  1. The model should have between 2 and 6 _required_ fields (if such a model doesn't exist, try 7, then 8, then 9, ...)
+    1. The model name should not end on an `s`
+    1. The model name should be in between 4 and 8 characters (if such a model doesn't exist, try 9, then 10, then 11, ...)
+    1. The model should have between 2 and 6 _required_ fields (if such a model doesn't exist, try 7, then 8, then 9, ...)
 
 As an example, consider that there was the following `User` model generated via introspection:
 
@@ -98,6 +99,7 @@ model User {
   email      String
   isAdmin    Boolean @default(false)
   birthdate  DateTime?
+}
 ```
 
 This is the script to be generated:
