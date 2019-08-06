@@ -1,0 +1,289 @@
+import Terminal from '../../../components/Terminal/Terminal'
+import {
+  multiSelectItemComponent,
+  multiSelectIndicatorComponent,
+  multiSelectCheckboxComponent,
+  selectInputItemComponent,
+  selectInputIndicatorComponent,
+  Divider,
+} from '../../../components/inkHelpers'
+import MultiSelect from 'ink-multi-select'
+import SelectInput from 'ink-select-input'
+import TextInput from 'ink-text-input'
+// import ProgressBar from 'ink-progress-bar'
+import { Box, Text, Color } from 'ink'
+import figures from 'figures'
+
+# SQLite - New Database
+
+---
+
+### 4 Boilerplate selection
+
+Previous selections:
+
+1. SQLite
+1. Create new SQLite file
+1. JavaScript/TypeScript
+
+### 5.1 Success
+
+Previous selections:
+
+1. SQLite
+1. Create new SQLite file
+1. JavaScript/TypeScript
+1. Any boilerplate (example uses GraphQL)
+
+<Terminal>
+  <Color green>{figures.tick } You're all set!</Color>
+
+  <Box marginTop={1} marginLeft={2} flexDirection="column">
+    <Text>We created the following files in the hello-world directory.</Text>
+    <Box>Your database has also been seeded with the operations in <Text bold>prisma/seed.ts</Text></Box>
+  </Box>
+
+  <Box flexDirection="column" paddingTop={2}>
+    <Box>
+      <Color gray>┌──</Color>
+      <Text bold> Files created </Text>
+      <Color gray>───────────────────────────────────────────┐</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20}>
+        <Text><Color dim>┌</Color> prisma/</Text>
+      </Box>
+      <Color dim>Your database schema</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20}>
+        <Text><Color dim>│ ├ </Color>schema.ts</Text>
+      </Box>
+      <Color dim>File description</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20}>
+        <Text><Color dim>│ └ </Color>seed.ts</Text>
+      </Box>
+      <Color dim>File description</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20}>
+        <Text><Color dim>├ </Color>src/</Text>
+      </Box>
+      <Color dim>Folder description</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20}>
+        <Text><Color dim>│ ├ </Color>index.ts</Text>
+      </Box>
+      <Color dim>File description</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20}>
+        <Text><Color dim>│ ├ </Color>schema.graphql</Text>
+      </Box>
+      <Color dim>File description</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20}>
+        <Text><Color dim>│ └ </Color>types.ts</Text>
+      </Box>
+      <Color dim>File description</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20}>
+        <Text><Color dim>├</Color> tsconfig.json</Text>
+      </Box>
+      <Color dim>TypeScript configuration</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20}>
+        <Text><Color dim>├</Color> package.json</Text>
+      </Box>
+      <Color dim>File description</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20}>
+        <Text><Color dim>└ node_modules/</Color></Text>
+      </Box>
+      <Color dim>Required dependencies</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
+    </Box>
+  </Box>
+
+  <Box flexDirection="column" paddingTop={1} paddingBottom={1}>
+    <Box>
+      <Color gray>┌──</Color>
+      <Text bold> Run the following commands to get started </Text>
+      <Color gray>───────────────┐</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20}>
+        <Text><Color dim>$</Color> cd hello-world</Text>
+      </Box>
+      <Color dim>Move to your project folder</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20}>
+        <Text><Color dim>$ </Color>yarn start</Text>
+      </Box>
+      <Color dim>Start the app</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
+    </Box>
+  </Box>
+  <Box marginLeft={2} flexDirection="column">
+    <Color  dim>Learn more about this example:</Color>
+    <Color  dim>https://github.com/prisma/photonjs/tree/master/examples/typescript/graphql</Color>
+  </Box>
+</Terminal>
+
+The created files are created dynamically based on which example was selected. The "Learn more"-link also needs to be adjusted dynamically based on the example.
+
+### 5.2 Success
+
+1. SQLite
+1. Create new SQLite file
+1. JavaScript/TypeScript
+1. No boilerplate
+
+<Terminal>
+  <Color green>{figures.tick } You're all set!</Color>
+
+  <Box marginTop={1} marginLeft={2} flexDirection="column">
+    We created the following files in the hello-world directory.
+  </Box>
+
+  <Box flexDirection="column" paddingTop={2}>
+    <Box>
+      <Color gray>┌──</Color>
+      <Text bold> Files created </Text>
+      <Color gray>───────────────────────────────────────────┐</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20}>
+        <Text><Color dim>-</Color> schema.prisma</Text>
+      </Box>
+      <Color dim>File description</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
+    </Box>
+  </Box>
+
+  <Box flexDirection="column" paddingTop={1} paddingBottom={1}>
+    <Box>
+      <Color gray>┌──</Color>
+      <Text bold> Run the following commands to get started </Text>
+      <Color gray>───────────────┐</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20}>
+        <Text><Color dim>$</Color> cd hello-world</Text>
+      </Box>
+      <Color dim>Move to your project folder</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box width={20}>
+        <Text><Color dim>$ </Color>prisma dev</Text>
+      </Box>
+      <Color dim>Start the app</Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
+    </Box>
+  </Box>
+  <Box marginLeft={2} flexDirection="column">
+    <Color  dim>Learn more about this example:</Color>
+    <Color  dim>https://github.com/prisma/photonjs/tree/master/examples/typescript/graphql</Color>
+  </Box>
+</Terminal>

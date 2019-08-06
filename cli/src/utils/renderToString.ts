@@ -48,8 +48,8 @@ export class Stdin extends EventEmitter<any> {
 export default function renderToString(
   node: any,
   { columns, terminal }: StreamOptions = {},
-  cb: (result: string) => any,
-) {
+  cb?: (result: string) => any
+): string {
   const stdout = new Stdout({ columns })
   const stdin = new Stdin()
 
@@ -57,6 +57,12 @@ export default function renderToString(
     stdout,
     stdin,
     debug: true,
+    transformers: [
+      s => {
+        console.log(s)
+        return s
+      },
+    ],
   } as any)
 
   if (terminal) {
@@ -66,8 +72,10 @@ export default function renderToString(
   }
 
   stdout.on('data', data => {
-    cb(data)
+    cb && cb(data)
   })
 
-  cb(String(stdout))
+  cb && cb(String(stdout))
+
+  return String(stdout)
 }

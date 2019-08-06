@@ -1,39 +1,103 @@
-import React from 'react'
-import { Link as GatsbyLink } from 'gatsby'
+import React, { useState } from 'react'
+import { Link as GatsbyLink, graphql, useStaticQuery } from 'gatsby'
 import styled from 'styled-components'
+import * as themes from '../../utils/themes'
+import GithubIcon from '../../vectors/GithubIcon'
+import SidebarIcon from '../../vectors/SidebarIcon'
+import { useActiveThemeKey } from '../../utils/hooks'
+import { useStateValue } from './Layout'
 
-const Sidebar = ({ links }) => (
-  <Wrapper>
-    <Sticky>
-      <SidebarTitle>
-        <SidebarTitleIcon />
-        <span>CLI Docs</span>
-      </SidebarTitle>
+export const useGitHubURL = (path: string) => {
+  const data = useStaticQuery(
+    graphql`
+      query {
+        allSitePage {
+          nodes {
+            componentPath
+            path
+          }
+        }
+        site {
+          pathPrefix
+          siteMetadata {
+            directory
+          }
+        }
+      }
+    `
+  )
+  const { componentPath } = data.allSitePage.nodes.find(n => n.path === path)
+  const pagesPath = data.site.siteMetadata.directory
+  const relativePath = componentPath.slice(pagesPath.length)
+  const githubUrl =
+    'https://github.com/prisma/specs/edit/master/cli' + relativePath
+  return githubUrl
+}
 
-      <GroupTitle><Faded>$</Faded> prisma init</GroupTitle>
-      <GroupLinks>{ links['init'].map(link => <GroupLink link={link} />) }</GroupLinks>
+const Sidebar = ({ links, pageContext }) => {
+  const [useActiveThemeKeyState] = useStateValue()
+  const [themeKey, setThemeKey] = useActiveThemeKey(useActiveThemeKeyState)
+  return (
+    <Wrapper>
+      <Sticky>
+        <SidebarTitle to="/">
+          <SidebarIcon />
+          <span>CLI Docs</span>
+        </SidebarTitle>
 
-      <Divider />
+        <GroupTitle>
+          <Faded>$</Faded> prisma init
+        </GroupTitle>
+        <GroupLinks>
+          {links['init'].map(link => (
+            <GroupLink link={link} key={link.url} />
+          ))}
+        </GroupLinks>
 
-      <GroupTitle><Faded>$</Faded> prisma dev</GroupTitle>
-      <GroupLinks>{ links['dev'].map(link => <GroupLink link={link} />) }</GroupLinks>
+        <Divider />
 
-      <Divider />
+        <GroupTitle>
+          <Faded>$</Faded> prisma dev
+        </GroupTitle>
+        <GroupLinks>
+          {links['dev'].map(link => (
+            <GroupLink link={link} key={link.url} />
+          ))}
+        </GroupLinks>
 
-      <GroupTitle><Faded>$</Faded> prisma help</GroupTitle>
-      <GroupLinks>{ links['help'].map(link => <GroupLink link={link} />) }</GroupLinks>
-    </Sticky>
-  </Wrapper>
-)
+        <Divider />
 
-const SidebarTitleIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-  <rect width="24" height="24" rx="4" fill="currentColor"/>
-  <path d="M7 7L10.9802 10.9802L7 14.9604M11.5 16.5H16.5" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-)
+        <GroupTitle>
+          <Faded>$</Faded> prisma help
+        </GroupTitle>
+        <GroupLinks>
+          {links['help'].map(link => (
+            <GroupLink link={link} key={link.url} />
+          ))}
+        </GroupLinks>
 
-const GroupLink = ({ link }) => (
+        <Divider />
+
+        <GithubLink href={useGitHubURL(pageContext.pagePath)} target="_blank">
+          <GithubIcon />
+          <span>Edit on Github</span>
+        </GithubLink>
+        <select
+          onChange={e => setThemeKey(e.target.value)}
+          defaultValue={themeKey}
+        >
+          {Object.keys(themes).map(themeKey => (
+            <option key={themeKey} value={themeKey}>
+              {themes[themeKey].name}
+            </option>
+          ))}
+        </select>
+      </Sticky>
+    </Wrapper>
+  )
+}
+
+const GroupLink = ({ link }: { link: { url: string; label: string } }) => (
   <Link to={link.url} activeClassName="isActive">
     {link.label}
   </Link>
@@ -60,7 +124,7 @@ const Divider = styled.div`
   margin: 24px 0;
 `
 
-const SidebarTitle = styled.div`
+const SidebarTitle = styled(GatsbyLink)`
   color: ${p => p.theme.gray800};
   font-weight: 700;
   display: flex;
@@ -104,7 +168,42 @@ const Link = styled(GatsbyLink)`
   color: ${p => p.theme.gray800};
 
   &:hover,
-  &.isActive { color: ${p => p.theme.purple500}; }
+  &.isActive {
+    color: ${p => p.theme.purple500};
+  }
+`
+
+const GithubLink = styled.a`
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  font-size: 14px;
+  color: ${p => p.theme.gray500};
+
+  &:hover,
+  &.isActive {
+    color: ${p => p.theme.purple500};
+  }
+
+  svg {
+    height: 20px;
+    width: auto;
+    margin-right: 8px;
+  }
 `
 
 export default Sidebar
+
+export const query = graphql`
+  query {
+    sitePage(path: { eq: "/" }) {
+      componentPath
+    }
+    site {
+      pathPrefix
+      siteMetadata {
+        directory
+      }
+    }
+  }
+`

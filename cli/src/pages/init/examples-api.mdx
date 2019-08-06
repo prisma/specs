@@ -1,0 +1,88 @@
+---
+navGroup: init
+navOrder: 6
+navLabel: Examples API
+---
+
+# Prisma Examples API
+
+## Overview 
+
+The Prisma 2 example projects serve as "starter kits" for developers who are getting started with Prisma by providing ready-made setups for certain use cases (e.g. a GraphQL, REST or gRPC API).
+
+There are two ways of using an example project:
+
+- Cloning the `prisma-examples` repo and following the instructions in the README of the example
+- Selecting an example during the `prisma init` flow when starting with a new/empty database
+
+The first approach always is based on a SQLite database preconfigured in the example's Prisma schema. 
+
+With the second approach, the Prisma CLI must download the example and perform a number of further tasks to make the example ready to use. Here is a list of tasks that need to be performed:
+
+1. Download the selected example project from GitHub
+1. Replace the `datasource` configuration in `schema.prisma` with the database credentials provided by the user
+1. Migrate the database with Lift, i.e. run:
+    1. `prisma2 lift save --name 'init'` 
+    1. `prisma2 lift up`
+1. Generate Photon, i.e. run: `prisma2 generate`
+1. Install npm dependencies, i.e. run: `npm install`
+1. Seed the database, i.e. run: `npm run seed`
+1. Print success message based on [spec](./success-screens)
+
+## When is it used during `prisma2 init`?
+
+The examples API is needed twice during the `prisma2 init` flow:
+
+1. Display all available examples (_screens_: [SQLite (4)](./sqlite#4-example-selection), [MySQL (5)](./mysql#5-example-selection), [PostgreSQL (5)](./postgresql#5-example-selection))
+1. [Success screens](./success-screens) (_screens_: SQLite (5), MySQL (6), PostgreSQL (6))
+
+## Implementation
+
+The Prisma examples API should provide an endpoint for the CLI. The CLI can use this endpoint to download the example project as well as related information in a structured way (e.g. what files were downloaded or what the next steps are).
+
+### Implementation approaches 
+
+#### Naive (good enough)
+
+The examples API can be implemented via a simple JSON file that contains all the infos for all examples. The CLI fetches this file and can therefore print all dynamic elements required in a success message. Here is a sample structure for the JSON file:
+
+```jsonc
+{
+  "javascript": {
+    // ...
+    "graphql": {
+      "name": "GraphQL API",
+      "description": "Simple GraphQL server example",
+      "pathToSeedingFile": "prisma/seed.js",
+      "issuesLink": "https://github.com/prisma/photonjs/",
+      "nextStepInstructions": [{
+        "text": "Start the GraphQL server (in a new terminal window/tab):",
+        "commands": ["npm start"]
+      }]
+    },
+     // ...
+  },
+  "typescript": {
+     // ...
+    "grpc": {
+      "name": "gRPC API",
+      "description": "Simple GraphQL gRPC client + server example",
+      "pathToSeedingFile": "prisma/seed.ts",
+      "issuesLink": "https://github.com/prisma/photonjs/",
+      "nextStepInstructions": [{
+        "text": "Start the gRPC server (in a new terminal window/tab):",
+        "commands": ["npm start"]
+      }, {
+        "text": "Invoke a gRPC client script, e.g.:",
+        "commands": ["npm run feed # fetch all posts", "npm run signupUser # create new user"]
+      }]
+    },
+    // ...
+  }
+}
+```
+
+
+#### GraphQL
+
+Alternatively, it could be implemented via a GraphQL API that's based on a similar JSON file. However, as long as the size of the JSON file is manageable, this is probably overkill.

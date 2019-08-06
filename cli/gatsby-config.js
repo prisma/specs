@@ -2,6 +2,7 @@ module.exports = {
   pathPrefix: '/cli',
   siteMetadata: {
     title: 'Prisma CLI Docs',
+    directory: __dirname,
   },
   plugins: [
     {
@@ -14,12 +15,12 @@ module.exports = {
           require('normalize.css')
         `,
         defaultLayouts: {
-          default: require.resolve("./src/components/Layout/Layout.tsx")
+          default: require.resolve('./src/components/Layout/Layout.tsx'),
         },
         remarkPlugins: [require(`remark-slug`)],
-      }
+      },
     },
     'gatsby-plugin-typescript',
-    'gatsby-plugin-styled-components'
+    'gatsby-plugin-styled-components',
   ],
 }

@@ -1,4 +1,4 @@
-# Prisma Schema
+# Prisma Schema Language (PSL)
 
 <!-- toc -->
 
@@ -6,13 +6,14 @@
   - [Supported fields](#supported-fields)
 - [Generator Block](#generator-block)
   - [Supported fields](#supported-fields-1)
+  - [Binary Configuration](#binary-configuration)
 - [Model Block](#model-block)
   - [Field Names](#field-names)
   - [Data Types](#data-types)
     - [Core Data Type to Connector](#core-data-type-to-connector)
     - [Core Data Type to Generator](#core-data-type-to-generator)
-    - [Optional Types](#optional-types)
     - [List Types](#list-types)
+    - [Optional Types](#optional-types)
     - [Relations](#relations)
       - [One-to-One (1:1) Relationships](#one-to-one-11-relationships)
       - [One-to-Many (1:N) Relationships](#one-to-many-1n-relationships)
@@ -32,7 +33,7 @@
       - [@unique](#unique)
       - [@map(\_ name: String)](#map_-name-string)
       - [@default(\_ expr: Expr)](#default_-expr-expr)
-      - [`@relation(\_ name?: String, references?: Identifier[], onDelete?: CascadeEnum)`](#relation_-name-string-references-identifier-ondelete-cascadeenum)
+      - [@relation(\_ name?: String, references?: Identifier[], onDelete?: CascadeEnum)](#relation_-name-string-references-identifier-ondelete-cascadeenum)
       - [@updatedAt](#updatedat)
     - [Block Attributes](#block-attributes)
     - [Core Block Attributes](#core-block-attributes)
@@ -94,23 +95,23 @@ Connectors may bring their own attributes to allow users to tailor their schemas
 
 ## Generator Block
 
-Generator blocks configure what clients are generated and how they're generated. Language preferences and configuration will go in here:
+Generator blocks configure what clients are generated and how they're generated. Language preferences and binary configuration will go in here:
 
 ```groovy
 generator js {
+  provider = "photonjs"
   target   = "es3"
-  provider = "javascript"
   output   = "./client"
 }
 
 generator ts {
-  target   = "es5"
+  target   = "photonjs"
   provider = "./path/to/custom/generator"
 }
 
 generator go {
+  provider  = "photongo"
   snakeCase = true
-  provider  = "go"
 }
 ```
 
@@ -119,9 +120,8 @@ generator go {
 > Note: these provider names are WIP
 
 - `provider` Can be a path or one of the following built in datasource providers:
-  - `javascript`
-  - `typescript`
-  - `golang`
+  - `photonjs`
+  - `photongo`
 - `output` Path for the generated client
 
 Generators may brign their own attributes
@@ -143,6 +143,26 @@ model User {
 ```
 
 This namespace is determined by the capabilities of the generator. The generator will export a schema of capabilities we'll plug into.
+
+### Binary Configuration
+
+```groovy
+generator photon {
+  provider = "photonjs"
+  snakeCase = true
+  platforms = ["native", "linux-glibc-libssl1.0.2"]
+  pinnedPlatform = env("PLATFORM") // On local, "native" and in production, "linux-glibc-libssl1.0.2"
+}
+```
+
+| Field            | Description                                                                                                                      | Behavior                                           |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
+| `platforms`      | _(optional)_ An array of binaries that are required by the application, string for known platforms and path for custom binaries. | Declarative way to download the required binaries. |
+| `pinnedPlatform` | _(optional)_ A string that points to the name of an object in the `platforms` field, usually an environment variable             | Declarative way to choose the runtime binary       |
+
+- Both `platforms` and `pinnedPlatform` fields are optional, **however** when a custom binary is provided the `pinnedPlatform` is required.
+
+You can find more information about the binary configuration in the [binary spec](../binaries/Readme.md).
 
 ## Model Block
 
@@ -259,13 +279,28 @@ Here's how some of the databases we're tracking map to the core types:
 | Float    | number  | float64   |
 | Datetime | Date    | time.Time |
 
-#### Optional Types
+#### List Types
 
-All field types support optional fields. By default, fields are required, but if you want to make them optional, you add a `?` at the end.
+All primitive `types`, `enums`, `relations` and `embeds` natively support lists. Lists are denoted with `[]` at the end of the type.
 
 ```groovy
 model User {
-  names    String[]?
+  names    String[]
+  ages     Int[]
+  heights  Float[]
+}
+```
+
+The default value for a required list is an empty list.
+
+#### Optional Types
+
+Most field types also support optional fields. By default, fields are required, but if you want to make them optional, you add a `?` at the end. Currently, the
+only field type that is not nullable is the [List Type](#list-types.
+
+```groovy
+model User {
+  names    String[]
   ages     Int?
   heights  Float?
   card     Card?
@@ -279,27 +314,6 @@ enum Card {
 
 The default output for a nullable field is null.
 
-#### List Types
-
-All primitive `types`, `enums`, `relations` and `embeds` natively support lists. Lists are denoted with `[]` at the end of the type.
-
-```groovy
-model User {
-  names    String[]
-  ages     Int[]
-  heights  Float[]
-}
-```
-
-Lists can also be optional and will give the list a 3rd state, null:
-
-- `Blog[]`: empty list or non-empty list of blogs (default: `[]`)
-- `Blog[]?`: null, empty list or non-empty list of blogs (default: null)
-
-The default value for a required list is an empty list. The default value for an optional list is null.
-
-For `Blog[]?`, we'll plan for this from an implementation perspective, but not expose it publicly for now.
-
 #### Relations
 
 Prisma provides a high-level syntax for defining relationships.
@@ -309,8 +323,8 @@ for `m-n` relations.
 
 Prisma core provides explicit support for all 3 relation types and connectors must ensure that their guarantees are upheld:
 
-- `1-1` The return value on both sides is a nullable single value. Prisma prevents accidentally storing multiple records in the relation.
-- `1-m` The return value on one side is a optional single value, on the other side a list that might be empty.
+- `1-1` The return value on both sides is a single model, either optional or required. Prisma prevents accidentally storing multiple records in the relation.
+- `1-m` The return value on one side is a single model, either optional or required. On the other side is a list that might be empty.
 - `m-n` The return value on both sides is a list that might be empty. This is an improvement over the standard implementation in relational databases that
   require the application developer to deal with implementation details such as an intermediate table / join table. In Prisma, each connector will implement
   this concept in the way that is most efficient on the given storage engine and expose an API that hides the implementation details.
@@ -486,7 +500,7 @@ model BlogsWriters {
   blog      Blog
   author    Writer
   is_owner  Boolean
-  @@unique(author, blog)
+  @@unique([author, blog])
 }
 ```
 
@@ -911,51 +925,47 @@ datasource pg {
 }
 ```
 
-In this case `env` represents the outside environment. Tools will be expected to
-provide this environment variable when they perform operations based on the
-schema. For example:
-
-```sh
-$ prisma deploy
-! required POSTGRES_URL variable not provided
-
-$ POSTGRES_URL="postgres://user:secret@rds.amazon.com:4321/db" prisma deploy
-```
+In this case `env` represents the outside environment. The `provider` must be static and cannot be an environment variable. Our general philosophy is that you
+want to generate environment variables **as late as possible**. The sections below describe this behavior.
 
 ### Introspect Behavior
 
-Environment variables will most often be used to connect to a datasource.
+Introspection time will require the environment variable to be present:
 
-Therefore, we check and resolve environment variables before connecting and running introspection algorithms.
+```sh
+$ prisma instrospect
+! required POSTGRES_URL variable not found
+
+$ export POSTGRES_URL="postgres://user:secret@rds.amazon.com:4321/db"
+$ prisma introspect
+```
 
 ### Migrate Behavior
 
-Environment variables will most often be used to connect to a datasource.
+Migration time will require the environment variable to be present:
 
-Therefore, we check and resolve environment variables before connecting and running our migrations.
+```sh
+$ prisma lift up
+! required POSTGRES_URL variable not found
+
+$ export POSTGRES_URL="postgres://user:secret@rds.amazon.com:4321/db"
+$ prisma lift up
+```
 
 ### Generate Behavior
 
-Environment variables will most often be used to connect to a datasource. When we're generating source code, we don't need to connect to the datasource, but
-rather when we run the source code.
+Generation time will **not** require the environment variable:
 
-Therefore, we will detect the use of an environment variable in the connector's configuration and copy it into the generated code. The generators will decide
-how to generate these environment variable entrypoints.
-
-Here's an example:
-
-```groovy
-datasource pg {
-  url = env("POSTGRES_URL")
-}
+```sh
+$ prisma generate
 ```
 
-```ts
-childProcess.spawn("./query_engine", {
-  env: {
-    url: process.env.POSTGRES_URL
-  }
-});
+But runtime will:
+
+```js
+import Photon from "@generated/photon";
+const photon = new Photon();
+// Thrown: required `POSTGRES_URL` variable not found
 ```
 
 ### Switching Datasources based on Environments

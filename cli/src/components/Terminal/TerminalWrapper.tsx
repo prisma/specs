@@ -1,16 +1,20 @@
 import React from 'react'
-import { Terminal } from 'xterm'
+import { Terminal as XTerminal } from 'xterm'
 // NOTE special path needed for gatsby to build because of `window`
 import { FitAddon } from 'xterm-addon-fit/out/FitAddon'
 import ansiEscapes from 'ansi-escapes'
+import { Theme } from '../../types'
 
 // Terminal Wrapper
-export default class TerminalWrapper extends React.Component<{
+type Props = {
   style?: React.CSSProperties
-  getTerminal?: (terminal: Terminal) => void
-}> {
+  theme: Theme
+  getTerminal?: (terminal: XTerminal) => void
+  children: any
+}
+export default class TerminalWrapper extends React.Component<Props> {
   ref: any
-  terminal?: Terminal
+  terminal?: XTerminal
 
   setRef = (ref: any) => {
     this.ref = ref
@@ -18,7 +22,8 @@ export default class TerminalWrapper extends React.Component<{
 
   componentDidMount() {
     if (this.ref) {
-      this.terminal = new Terminal()
+      this.terminal = new XTerminal({ theme: this.props.theme.theme })
+
       this.terminal.focus()
       this.terminal.loadAddon(new FitAddon())
       this.terminal.open(this.ref)
@@ -29,15 +34,14 @@ export default class TerminalWrapper extends React.Component<{
 
   write() {
     if (this.props.children) {
-      if (this.props.children) {
-        this.terminal!.write(ansiEscapes.cursorTo(0, 0))
-        this.terminal!.writeln(this.props.children.toString())
-      }
+      this.terminal!.write(ansiEscapes.cursorTo(0, 0))
+      this.terminal!.writeln(this.props.children.toString())
     }
   }
 
   componentDidUpdate() {
     if (this.terminal) {
+      this.terminal!.setOption('theme', this.props.theme.theme)
       this.write()
     }
   }

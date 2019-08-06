@@ -2,24 +2,22 @@ import React from 'react'
 import styled from 'styled-components'
 
 // Terminal Window
-const TerminalWindow = ({ children }) => (
-  <Terminal>
+const TerminalWindow = ({ children, theme }) => (
+  <Terminal theme={theme.theme}>
     <TopBar>
       <Dot color="#EB5757" />
       <Dot color="#F2C94C" />
       <Dot color="#6FCF97" />
       <Title>bash</Title>
     </TopBar>
-    <Main>
-      {children}
-    </Main>
+    <Main>{children}</Main>
   </Terminal>
 )
 
 // Styles
 const Terminal = styled.div`
-  background: #000;
-  color: #B9BFCA;
+  background: ${props => props.theme.background};
+  color: ${props => props.theme.foreground};
   border-radius: 6px;
   font-family: 'Roboto Mono', monospace;
   line-height: 1.5;
@@ -39,6 +37,7 @@ const Dot = styled.div`
   height: 12px;
   border-radius: 12px;
   margin-right: 6px;
+  background: ${p => p.color};
 `
 
 const Title = styled.div`

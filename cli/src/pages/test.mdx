@@ -1,0 +1,85 @@
+---
+
+navGroup: dev
+navOrder: 2
+navLabel: Dashboard
+---
+
+import Terminal from '../components/Terminal/Terminal'
+import BorderBox from '../components/Terminal/BorderBox'
+import figures from 'figures'
+import chalk from 'chalk'
+import {
+  multiSelectItemComponent,
+  multiSelectIndicatorComponent,
+  multiSelectCheckboxComponent,
+  selectInputItemComponent,
+  selectInputIndicatorComponent,
+  Divider,
+} from '../components/inkHelpers'
+import MultiSelect from 'ink-multi-select'
+import SelectInput from 'ink-select-input'
+import TextInput from 'ink-text-input'
+// import ProgressBar from 'ink-progress-bar'
+import { Box, Text, Color } from 'ink'
+
+# BorderBox test
+
+---
+
+<Terminal>
+<Box width={100}>
+<Color cyan>
+  <Box width={32}>
+    <Text bold>{figures.pointer} Create new PostgreSQL schema</Text>
+  </Box>
+  <Color dim>Start from scratch</Color>
+</Color>
+<Box flexGrow={1}></Box>
+</Box>
+</Terminal>
+
+<!-- 
+## You can use `extension={true}`
+
+<Terminal>
+  <BorderBox
+    flexDirection="column"
+    height={4}
+    title={`${chalk.bold('Hi')} ${chalk.dim.yellow('- this is yellow')}`}
+    justifyContent="space-between"
+  >
+    <Box>This is a box</Box>
+    <Box>This is another box</Box>
+  </BorderBox>
+  <BorderBox
+    flexDirection="column"
+    height={4}
+    title={`${chalk.bold('Hi')} ${chalk.dim.yellow('- this is yellow')}`}
+    justifyContent="space-between"
+    extension={true}
+  >
+    <Box>This is a box</Box>
+    <Box>This is another box</Box>
+  </BorderBox>
+  <BorderBox
+    flexDirection="column"
+    height={4}
+    title={`${chalk.bold('Hi')} ${chalk.dim.yellow('- this is yellow')}`}
+    justifyContent="space-between"
+    extension={true}
+  >
+    <Box>This is a box</Box>
+    <Box>This is another box</Box>
+  </BorderBox>
+  <BorderBox
+    flexDirection="column"
+    height={4}
+    title={`${chalk.bold('Hi')} ${chalk.dim.yellow('- this is yellow')}`}
+    justifyContent="space-between"
+    marginTop={1}
+  >
+    <Box>This is a box</Box>
+    <Box>This is another box</Box>
+  </BorderBox>
+</Terminal> -->

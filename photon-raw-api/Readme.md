@@ -412,6 +412,7 @@ func main() {
 ## Other Complex SQL statements
 
 - https://www.notion.so/prismaio/Jeff-Seibert-292c628370e244bfa293b4ea494364aa
+- https://www.notion.so/prismaio/Crazy-SQL-queries-a8e298d44385475da168eb3262e8b53f
 - https://github.com/schickling/optonaut-api-server/blob/v9/handlers/optograph.go#L808
 
 # MongoDB

@@ -1,7 +1,13 @@
-/**
- * Implement Gatsby's Node APIs in this file.
- *
- * See: https://www.gatsbyjs.org/docs/node-apis/
- */
+exports.onCreatePage = ({ page, actions }) => {
+  const { createPage, deletePage } = actions
 
-// You can delete this file if you're not using it
+  deletePage(page)
+  // You can access the variable "house" in your page queries now
+  createPage({
+    ...page,
+    context: {
+      ...page.context,
+      pagePath: page.path,
+    },
+  })
+}

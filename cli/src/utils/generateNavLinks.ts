@@ -13,6 +13,7 @@ const generateNavLinks = pagesData => {
       }
       links[link.category] = links[link.category] || []
       links[link.category].push(link)
+      links[link.category].sort((a,b) => a.order - b.order)
     }
     return links
   }, Object.create(null))

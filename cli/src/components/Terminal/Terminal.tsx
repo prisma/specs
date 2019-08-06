@@ -4,9 +4,12 @@ import 'xterm/dist/xterm.css'
 import TerminalWindow from './TerminalWindow'
 import TerminalWrapper from './TerminalWrapper'
 import renderToString from '../../utils/renderToString'
+import { useStateValue } from '../Layout/Layout'
+import { useActiveTheme } from '../../utils/hooks'
+import { Theme } from '../../types'
 
 // Terminal
-class Terminal extends React.Component {
+class Terminal extends React.Component<{ theme: Theme }> {
   state = { output: '' }
   terminal?: XTerminal
 
@@ -14,7 +17,9 @@ class Terminal extends React.Component {
     renderToString(
       this.props.children,
       { columns: 60, terminal: this.terminal },
-      output => { this.setState({ output }) }
+      output => {
+        this.setState({ output })
+      }
     )
   }
 
@@ -24,8 +29,11 @@ class Terminal extends React.Component {
 
   render() {
     return (
-      <TerminalWindow>
-        <TerminalWrapper getTerminal={this.setTerminal}>
+      <TerminalWindow theme={this.props.theme}>
+        <TerminalWrapper
+          getTerminal={this.setTerminal}
+          theme={this.props.theme}
+        >
           {this.state.output}
         </TerminalWrapper>
       </TerminalWindow>
@@ -33,4 +41,12 @@ class Terminal extends React.Component {
   }
 }
 
-export default Terminal
+const Wrapper = data => {
+  const { children } = data
+  const [useActiveThemeKeyState] = useStateValue()
+  const [theme] = useActiveTheme(useActiveThemeKeyState)
+  return <Terminal theme={theme}>{children}</Terminal>
+}
+
+export default Wrapper
+// export default Terminal

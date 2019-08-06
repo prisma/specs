@@ -1,54 +1,57 @@
-import Terminal from '../components/Terminal/Terminal'
-import {
-  selectInputItemComponent,
-  selectInputIndicatorComponent,
-  Divider,
-} from '../components/inkHelpers'
-import SelectInput from 'ink-select-input'
-import { Box, Text, Color } from 'ink'
+# Prisma CLI Docs
 
-# Prisma Init
+## Design Principles
 
----
+- [Gatsby CLI design principles](https://docs.google.com/document/d/1rv7tBUeqHN4t_UecuEAKVCWAVzQoCmcDoONBmf3HggI/edit#)
+- [Language](#language)
 
-## Flows
+## Open Questions
 
-<img
-  src="https://prisma-specs.prisma.now.sh/cli/figma-proxy?id=822:4"
-  width="100%"
-/>
+- [ ] Preserve scrollablity (e.g. `docker-compose`)
+- [ ] Single terminal dev mode
+- [ ] Sync between CLI/Studio
+- [ ] `--no-colors` / `PRISMA_CLI_NO_COLORS` to disable colors
+- [ ] progress indicator for entire flow / step counter (e.g. step 2/6); since steps are dynamic based on selection, how can the progress be calculcated?
+- [ ] figure out "generated example" after introspection with existing DB
 
-## Database options
+## Language
 
-<Terminal>
-  <Box flexDirection="column">
-    <Text bold>Select the database you want to use</Text>
-    <Divider />
-  </Box>
-  <Box marginBottom={10}>
-    <Box width={20} flexDirection="column">
-      <SelectInput
-        items={[
-          { label: 'SQLite', value: 'sqlite' },
-          { label: 'MySQL', value: 'mysql' },
-          { label: 'PostgreSQL', value: 'postgresql' },
-        ]}
-        itemComponent={selectInputItemComponent}
-        indicatorComponent={selectInputIndicatorComponent}
-      />
-      <Box marginLeft={2}>
-        <Color gray>MongoDB</Color>
-      </Box>
-    </Box>
-    <Box flexDirection="column">
-      <Color gray>Easies to set up</Color>
-      <Color gray>Requires running a MySQL database</Color>
-      <Color gray>Requires running a PostgreSQL database</Color>
-      <Color gray>(Coming soon)</Color>
-    </Box>
-  </Box>
-</Terminal>
+#### Active vs Passive voice
 
-## Todo
+Passive voice is prefered. 
 
-- [ ] Success screen for introspection: Spec out how `main.ts` (and other languages) should be generated @nikolasburk
+_**Example**_:
+
+Use:
+
+```
+The files were generated.
+```
+
+Instead of:
+
+```
+We generated these files.
+```
+
+_**Rationale**_: It is weird to talk in first person in CLI outputs (i.e. who is "we"?). 
+
+#### Questions vs Imperative
+
+Imperative is preferred.
+
+_**Example**_:
+
+Use:
+
+```
+Select the programming language you want to use
+```
+
+Instead of:
+
+```
+Which programming language do you want to use
+```
+
+_**Rationale**_: Imperative is more concise and clear. 

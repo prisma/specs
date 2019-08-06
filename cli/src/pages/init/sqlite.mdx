@@ -1,0 +1,601 @@
+---
+navGroup: init
+navOrder: 1
+navLabel: SQLite
+---
+
+import Terminal from '../../components/Terminal/Terminal'
+import {
+  selectInputItemComponent,
+  selectInputIndicatorComponent,
+  Divider,
+} from '../../components/inkHelpers'
+import SelectInput from 'ink-select-input'
+import ProgressBar from 'ink-progress-bar'
+import { Box, Text, Color } from 'ink'
+import figures from 'figures'
+import BorderBox from '../../components/Terminal/BorderBox'
+import chalk from 'chalk'
+
+# SQLite
+
+---
+
+<img
+  src="https://prisma-specs.prisma.now.sh/cli/figma-proxy?id=858:87"
+  width="100%"
+/>
+
+---
+
+### (1) Existing or new database
+
+<details><summary>Previous selections</summary>
+
+1. SQLite
+
+</details>
+<br />
+
+<Terminal>
+  <Box marginBottom={1}><Color dim>~/Desktop $</Color> prisma init hello-world</Box>
+  <Box 
+    flexDirection="column" 
+    marginLeft={2} 
+    marginBottom={1}
+  >
+    <Text bold>Create a new SQLite database file or use an existing one</Text>
+    <Color dim>SQLite databases are stored as <Text bold>.db</Text>-files</Color>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={chalk.bold('Database options')}
+    marginBottom={1}
+  >
+    <Box>
+      <Color cyan>
+        <Box width={28} marginRight={2}>{figures.pointer} <Text bold>Create new SQLite file</Text></Box>
+        <Color dim>Start from scratch</Color>
+      </Color>
+    </Box>
+    <Box>
+      <Box width={28} marginLeft={2}>Use existing SQLite file</Box>
+      <Color dim>Requires path to SQLite file</Color>
+    </Box>
+  </BorderBox>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Database selection)</Color>
+  </Box>
+</Terminal>
+
+- [Create new SQLite file](#3-language-selection)
+- [Use existing SQLite file](#2-file-path)
+
+### (3) Language selection
+
+<details><summary>Previous selections</summary>
+
+1. SQLite
+1. Create new SQLite file
+
+</details>
+<br />
+
+<Terminal>
+  <Box marginBottom={1}><Color dim>~/Desktop $</Color> prisma init hello-world</Box>
+  <Box flexDirection="column" marginLeft={2} marginBottom={1}>
+    <Text bold>Select the programming language you want to use</Text>
+    <Color dim>Specifies the language for Photon (database client)</Color>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={chalk.bold('Photon is available in these languages')}
+    marginBottom={1}
+  >
+    <Box>
+      <Color cyan>{figures.pointer} <Text bold>JavaScript</Text></Color>
+    </Box>
+    <Box>
+      <Box marginLeft={2}>TypeScript</Box>
+    </Box>
+    <Box>
+      <Box marginLeft={2}>
+        <Color dim>Go (Coming soon)</Color>
+      </Box>
+    </Box>
+  </BorderBox>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Database options)</Color>
+  </Box>
+</Terminal>
+
+- [JavaScript](#4-example-selection)
+- [TypeSctipt](#4-example-selection)
+
+### (4) Example selection
+
+<details><summary>Previous selections</summary>
+
+1. SQLite
+1. Create new SQLite file
+1. JavaScript/TypeScript
+
+</details>
+<br />
+
+<Terminal>
+  <Box marginBottom={1}><Color dim>~/Desktop $</Color> prisma init hello-world</Box>
+  <Box flexDirection="column" marginLeft={2} marginBottom={1}>
+    <Text bold>Select an example or start from scratch</Text>
+    <Color dim>All examples: https://github.com/prisma/photonjs/</Color>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={chalk.bold('Examples to get you started')}
+  >
+    <Box>
+      <Color cyan>
+        <Box width={13} marginRight={2}>{figures.pointer} <Text bold>Script</Text></Box>
+        <Color dim>Simple script with API examples</Color>
+      </Color>
+    </Box>
+    <Box>
+      <Box width={13} marginLeft={2}>GraphQL</Box>
+      <Color dim>GraphQL server example</Color>
+    </Box>
+    <Box>
+      <Box width={13} marginLeft={2}>REST</Box>
+      <Color dim>REST API example (using express.js)</Color>
+    </Box>
+    <Box>
+      <Box width={13} marginLeft={2}>gRPC</Box>
+      <Color dim>gRPC API example (client + server)</Color>
+    </Box>
+  </BorderBox>
+  <BorderBox
+    marginBottom={1}
+    title={chalk.bold('Or')}
+    extension
+  >
+    <Box>
+      <Box width={13} marginLeft={2}>No example</Box>
+      <Color dim>Just generate the Prisma schema</Color>
+    </Box>
+  </BorderBox>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Language selection)</Color>
+  </Box>
+</Terminal>
+
+- [Select any example](#5-success)
+- [No example](#51-success)
+
+**Note**: The list of available examples is fetched from the [examples API](./examples-api).
+
+### (2) File path
+
+<details><summary>Previous selections</summary>
+
+1. SQLite
+2. Use existing SQLite file
+
+</details>
+<br />
+
+<Terminal>
+  <Box marginBottom={1}><Color dim>~/Desktop $</Color> prisma init hello-world</Box>
+  <Box marginLeft={2} flexDirection="column" marginBottom={1}>
+    <Text bold>Enter the path to your SQLite database file</Text>
+    <Color dim>Prisma will introspect the database</Color>
+  </Box>
+  <BorderBox
+    title={chalk.bold('SQLite database file')}
+    marginBottom={1}
+  >
+    <Color cyan>
+      <Text bold>{figures.pointer} File path:</Text>
+      <Color dim> ./my.db</Color>
+    </Color>
+  </BorderBox>
+  <Box>
+    <Color gray>{figures.pointer} </Color>
+    <Text bold>Introspect</Text>
+  </Box>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Database options)</Color>
+  </Box>
+</Terminal>
+
+**Note**: In this view, it would be great if the trailing `.db` could somehow be fixed since every SQLite DB file has the file extension.
+
+- [Introspect](#21-introspection)
+
+### (2.1) Introspection
+
+<details><summary>Previous selections</summary>
+
+1. SQLite
+2. Use existing SQLite file
+3. _entered file path_
+
+</details>
+<br />
+
+<Terminal>
+  <Box marginBottom={1}><Color dim>~/Desktop $</Color> prisma init hello-world</Box>
+<BorderBox title={chalk.bold('Introspection')} flexDirection="column">
+  <Box marginLeft={1} marginBottom={1}>Introspecting SQLite database file at <Text bold>./my.db</Text> ...</Box>
+  <Color green>
+    <Box marginLeft={1} marginRight={1}><Text bold>65%</Text></Box>
+    <ProgressBar percent={0.65} columns={50} />
+    <Color dim><ProgressBar percent={0.35} columns={50} character="░" /></Color>
+  </Color>
+</BorderBox>
+</Terminal>
+
+- [Introspection terminated](#22-tool-selection)
+
+### (2.2) Tool selection
+
+<details><summary>Previous selections</summary>
+
+1. SQLite
+2. Use existing SQLite file
+3. _entered file path_
+4. _introspected DB_
+
+</details>
+<br />
+
+<Terminal>
+  <Box marginBottom={1}><Color dim>~/Desktop $</Color> prisma init hello-world</Box>
+  <Box marginLeft={2} marginBottom={1}>
+    <Color green>{figures.tick} Introspection was successful.</Color>
+  </Box>
+  <Box marginLeft={2} flexDirection="column" marginBottom={1}>
+    <Text bold>Select the Prisma 2 tools you want to use</Text>
+    <Color  dim>Learn more: https://github.com/prisma/prisma2</Color>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={chalk.bold('Prisma 2 tools')}
+    marginBottom={1}
+  >
+    <Box>
+      <Color cyan>
+        <Box width={10}>{figures.pointer} {figures.squareSmallFilled} Photon</Box>
+        <Color dim>  Type-safe database client</Color>
+      </Color>
+    </Box>
+    <Box>
+      <Box width={10} marginLeft={2}>{figures.squareSmall} Lift</Box>
+      <Color dim>Declarative data modeling & migrations</Color>
+    </Box>
+    <Box marginLeft={2} marginTop={1}>
+      <Color dim>Note: You can still add a tool to your project later</Color>
+    </Box>
+  </BorderBox>
+  <Box>
+    <Color gray>{figures.pointer} </Color>
+    <Text bold>Confirm</Text>
+  </Box>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color  dim> (Database file path)</Color>
+  </Box>
+</Terminal>
+
+**Note**: In this view, Photon and Lift should be checked by default.
+
+- [Photon](#31--32-language-selection)
+- [Photon & Lift](#31--32-language-selection)
+- [Lift]()
+
+### (3.1) & (3.2) Language selection
+
+<details><summary>Previous selections</summary>
+
+1. SQLite
+2. Use existing SQLite file
+3. _entered file path_
+4. _introspected DB_
+5. Photon or Photon + Lift
+
+</details>
+<br />
+
+<Terminal>
+  <Box marginBottom={1}><Color dim>~/Desktop $</Color> prisma init hello-world</Box>
+  <Box flexDirection="column" marginLeft={2} marginBottom={1}>
+    <Text bold>Select the programming language you want to use</Text>
+    <Color dim>Specifies the language for Photon (database client)</Color>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={chalk.bold('Photon is available in these languages')}
+    marginBottom={1}
+  >
+    <Box>
+      <Color cyan>{figures.pointer} <Text bold>JavaScript</Text></Color>
+    </Box>
+    <Box marginLeft={2}>TypeScript</Box>
+    <Box marginLeft={2}><Color dim>Go (Coming soon)</Color></Box>
+  </BorderBox>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Tool selection)</Color>
+  </Box>
+</Terminal>
+
+- [JavaScript](#41--42-example-selection)
+- [TypeScript](#41--42-example-selection)
+
+### (4.1) & (4.2) Example selection
+
+<details><summary>Previous selections</summary>
+
+1. SQLite
+2. Use existing SQLite file
+3. _entered file path_
+4. _introspected DB_
+5. Photon
+6. JavaScript/TypeScript
+
+</details>
+<br />
+
+<Terminal>
+  <Box marginBottom={1}><Color dim>~/Desktop $</Color> prisma init hello-world</Box>
+  <Box flexDirection="column" marginLeft={2} marginBottom={1}>
+    <Text bold>Select an example or start from scratch</Text>
+    <Color dim>Examples are generated for your database schema</Color>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={chalk.bold('Examples to get you started')}
+  >
+    <Box>
+      <Color cyan>
+        <Box width={15} marginRight={2}>{figures.pointer} <Text bold>Script</Text></Box>
+        <Color dim>Simple script with API examples</Color>
+      </Color>
+    </Box>
+  </BorderBox>
+  <BorderBox
+    flexDirection="column"
+    marginBottom={1}
+    title={chalk.bold('Or')}
+    extension
+  >
+    <Box>
+      <Box width={15} marginLeft={2}>No example</Box>
+      <Color dim>Just generate the Prisma schema</Color>
+    </Box>
+  </BorderBox>
+  <Box>
+    <Color gray>❮ </Color> 
+    <Text bold>Back</Text>
+    <Color dim> (Language selection)</Color>
+  </Box>
+</Terminal>
+
+- [Script](#52--54-success)
+- [No example](#53--55-success)
+
+### (5) Success
+
+<details><summary>Previous selections</summary>
+
+1. SQLite
+1. Create new SQLite file
+1. JavaScript/TypeScript
+1. _Example selected_
+
+</details>
+
+This success screen is dynamic. Learn more [here](./success-screens).
+
+### (5.1) Success
+
+<details><summary>Previous selections</summary>
+
+1. SQLite
+1. Create new SQLite file
+1. JavaScript/TypeScript
+1. _No example selected_
+
+</details>
+<br />
+
+<Terminal>
+  <Box marginBottom={1}>
+    <Color dim>~/Desktop $</Color> prisma init hello-world
+  </Box>
+  <Box marginLeft={2} marginBottom={1}>
+    <Color green>{figures.tick} Congratulations, you're all set!</Color>
+  </Box>
+  <BorderBox flexDirection="column" title={chalk.bold('Success')}>
+    <Box marginLeft={2} marginBottom={1} flexDirection="column">
+      <Text>
+        The <Text bold>hello-world</Text> directory was created. It contains
+        your{' '}
+      </Text>
+      <Text>Prisma schema: <Text bold>schema.prisma</Text>.</Text>
+    </Box>
+    <Box marginLeft={2} marginBottom={1} flexDirection="column">
+      <Text>Prisma is connected to your database at:</Text>
+      <Text>
+        <Text bold>./dev.db</Text>
+      </Text>
+    </Box>
+    <Box marginLeft={2} flexDirection="column">
+      <Text>If you encounter any issues, please report them here:</Text>
+      <Text bold>https://github.com/prisma/prisma2/issues</Text>
+    </Box>
+  </BorderBox>
+  <BorderBox
+    flexDirection="column"
+    marginTop={1}
+    marginBottom={1}
+    title={chalk.bold('Next steps')}
+  >
+    <Box marginLeft={2} width={100} flexDirection="column">
+      <Text>Navigate into the project directory:</Text>
+      <Box marginBottom={1} flexDirection="column">
+        <Text bold>$ cd hello-world</Text>
+      </Box>
+      <Text>Start Prisma's development mode to enable access to</Text>
+      <Text>Prisma Studio and watch <Text bold>schema.prisma</Text> for changes:</Text>
+      <Box marginBottom={1} flexDirection="column">
+        <Text bold>$ prisma dev</Text>
+      </Box>
+      <Text>Your data model is empty. Learn about data modeling:</Text>
+      <Box marginBottom={1} flexDirection="column">
+        <Text bold>https://github.com/prisma/prisma2/blob/master/docs/data-modeling.md/</Text>
+      </Box>
+      <Text>Learn more about Prisma 2:</Text>
+      <Text bold>https://github.com/prisma/prisma2/</Text>
+    </Box>
+  </BorderBox>
+</Terminal>
+
+**Note**: If the command was invoked **without** a project name (e.g. `prisma2 init` or `prisma2 init .`), the first success message should be: _"Your project directory is ready. It contains your Prisma schema: **schema.prisma**."_
+
+### (5.2) & (5.4) Success
+
+<details><summary>Previous selections</summary>
+
+1. SQLite
+2. Use existing SQLite file
+3. _entered file path_
+4. _introspected DB_
+5. Photon
+6. JavaScript/TypeScript
+7. _Script example selected_
+
+</details>
+<br />
+
+<Terminal>
+  <Box marginBottom={1}>
+    <Color dim>~/Desktop $</Color> prisma init hello-world
+  </Box>
+  <Box marginLeft={2} marginBottom={1}>
+    <Color green>{figures.tick} Congratulations, you're all set!</Color>
+  </Box>
+  <BorderBox flexDirection="column" title={chalk.bold('Success')}>
+    <Box marginLeft={2} marginBottom={1} flexDirection="column">
+      <Text>The <Text bold>hello-world</Text> directory was created. It contains</Text>
+      <Text>your Prisma setup and a script to demonstrate API calls.</Text>
+    </Box>
+    <Box marginLeft={2} marginBottom={1} flexDirection="column">
+      <Text>Prisma is connected to your database at:</Text>
+      <Text>
+        <Text bold>./dev.db</Text>
+      </Text>
+    </Box>
+    <Box marginLeft={2} flexDirection="column">
+      <Text>If you encounter any issues, please report them here:</Text>
+      <Text bold>https://github.com/prisma/prisma2/issues</Text>
+    </Box>
+  </BorderBox>
+  <BorderBox
+    flexDirection="column"
+    marginTop={1}
+    marginBottom={1}
+    title={chalk.bold('Next steps')}
+  >
+    <Box marginLeft={2} width={100} flexDirection="column">
+      <Text>Navigate into the project directory:</Text>
+      <Box marginBottom={1} flexDirection="column">
+        <Text bold>$ cd hello-world</Text>
+      </Box>
+      <Text>Start Prisma's development mode to enable access to</Text>
+      <Text>Prisma Studio and watch <Text bold>schema.prisma</Text> for changes:</Text>
+      <Box marginBottom={1} flexDirection="column">
+        <Text bold>$ prisma dev</Text>
+      </Box>
+      <Text>Run the sample script (in a new terminal window/tab):</Text>
+      <Box marginBottom={1} flexDirection="column">
+        <Text bold>$ npm start</Text>
+      </Box>
+      <Text>Learn more about Prisma 2:</Text>
+      <Text bold>https://github.com/prisma/prisma2/</Text>
+    </Box>
+  </BorderBox>
+</Terminal>
+
+### (5.3) & (5.5) Success
+
+<details><summary>Previous selections</summary>
+
+1. SQLite
+2. Use existing SQLite file
+3. _entered file path_
+4. _introspected DB_
+5. Photon
+6. JavaScript/TypeScript
+7. _No example selected_
+
+</details>
+<br />
+
+<Terminal>
+  <Box marginBottom={1}>
+    <Color dim>~/Desktop $</Color> prisma init hello-world
+  </Box>
+  <Box marginLeft={2} marginBottom={1}>
+    <Color green>{figures.tick} Congratulations, you're all set!</Color>
+  </Box>
+  <BorderBox flexDirection="column" title={chalk.bold('Success')}>
+    <Box marginLeft={2} marginBottom={1} flexDirection="column">
+      <Text>
+        The <Text bold>hello-world</Text> directory was created. It contains
+        your{' '}
+      </Text>
+      <Text>Prisma schema: <Text bold>schema.prisma</Text>.</Text>
+    </Box>
+    <Box marginLeft={2} marginBottom={1} flexDirection="column">
+      <Text>Prisma is connected to your database at:</Text>
+      <Text>
+        <Text bold>./dev.db</Text>
+      </Text>
+    </Box>
+    <Box marginLeft={2} flexDirection="column">
+      <Text>If you encounter any issues, please report them here:</Text>
+      <Text bold>https://github.com/prisma/prisma2/issues</Text>
+    </Box>
+  </BorderBox>
+  <BorderBox
+    flexDirection="column"
+    marginTop={1}
+    marginBottom={1}
+    title={chalk.bold('Next steps')}
+  >
+    <Box marginLeft={2} width={100} flexDirection="column">
+      <Text>Navigate into the project directory:</Text>
+      <Box marginBottom={1} flexDirection="column">
+        <Text bold>$ cd hello-world</Text>
+      </Box>
+      <Text>Start Prisma's development mode to enable access to</Text>
+      <Text>Prisma Studio and watch <Text bold>schema.prisma</Text> for changes:</Text>
+      <Box marginBottom={1} flexDirection="column">
+        <Text bold>$ prisma dev</Text>
+      </Box>
+      <Text>Learn more about Prisma 2:</Text>
+      <Text bold>https://github.com/prisma/prisma2/</Text>
+    </Box>
+  </BorderBox>
+</Terminal>
+
+**Note**: If the command was invoked **without** a project name (e.g. `prisma2 init` or `prisma2 init .`), the first success message should be: _"Your project directory is ready. It contains your Prisma schema: **schema.prisma**."_
