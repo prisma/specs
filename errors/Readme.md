@@ -92,7 +92,7 @@ The error report generally is more exhaustive than the logging output (e.g. it a
 #### Non-lift commands
 
 ```
-Oops, an error occured! Find more info in the error report:
+Oops, an unexpected error occured! Find more info in the error report:
 **/path/to/dir/prisma-error-TIMESTAMP.md**
 
 Please help us fix the problem!
@@ -197,7 +197,7 @@ ${schema.prisma}
 <Details><Summary>Logging output</Summary>
 
 ```
-Oops, an error occured! Find more info in the error report:
+Oops, an unexpected error occured! Find more info in the error report:
 **/path/to/dir/prisma-error-TIMESTAMP.md**
 
 Please help us fix the problem!
