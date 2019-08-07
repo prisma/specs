@@ -20,14 +20,14 @@
   * [Common Cloud Platforms](#common-cloud-platforms)
     + [Tier 1](#tier-1)
     + [Tier 2](#tier-2)
-  * [Binary Process Management](#binary-process-management)
-    + [Connect](#connect)
+- [Binary Process Management](#binary-process-management)
+  * [Connect](#connect)
       - [Find Free Port](#find-free-port)
       - [Binary Spawn](#binary-spawn)
       - [Waiting for the Binary to be Ready](#waiting-for-the-binary-to-be-ready)
       - [Error Handling](#error-handling)
   * [Photon in FaaS environment (Like AWS Lambda)](#photon-in-faas-environment-like-aws-lambda)
-    + [Disconnect](#disconnect)
+  * [Disconnect](#disconnect)
 - [Drawbacks](#drawbacks)
 - [How we teach this](#how-we-teach-this)
 - [Unresolved questions](#unresolved-questions)
@@ -230,13 +230,13 @@ From photon's perspective, we'll download the binaries to `./node_modules/@gener
 - Cloudflare workers
 - Raspberry Pi (ARM)
 
-## Binary Process Management
+# Binary Process Management
 
 Note: "binary" in this section refers to the query engine binary used by Photon to execute queries against a data source.
 
 Photon provides `connect`, `disconnect` methods for binary process management and if needed, also lazily connects, when a request is received.
 
-### Connect
+## Connect
 
 `connect` function is where Photon spawns a binary and the following sequence of events happen
 
@@ -291,7 +291,7 @@ Any piece of code [outside the handler](https://docs.aws.amazon.com/lambda/lates
 
 A serverless function container may be recycled at any point. There is no official documented amount of time on when that happen but running a function warmer does not work, containers are recycled regardless.
 
-### Disconnect
+## Disconnect
 
 Calling the `disconnect` method is where Photon waits for any pending request promise to resolve and then kills the spawned process and the DB connection is released.
 
