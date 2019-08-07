@@ -108,13 +108,16 @@ Thanks for helping us making Prisma 2 more stable! 🙏
 #### Lift commands
 
 ```
-Oops, ... an error occured! Find more info in the error report:
-**prisma-error-TIMESTAMP.md**
+Oops, ... an error occured! Find more info in the error reports:
+• **prisma-error-TIMESTAMP.md**
+• **prisma-error-TIMESTAMP.zip**
 
 Please help us fix the problem!
 
-Copy the error report and paste it as a GitHub issue here:
+Copy the error report and paste it as a GitHub issue:
 **https://www.github.com/prisma/lift/issues**
+
+Please attach **prisma-error-TIMESTAMP.zip** to the issue too.
 
 Thanks for helping us making Prisma 2 more stable! 🙏
 ```
@@ -164,11 +167,11 @@ File name: `prisma-error-TIMESTAMP.md` where `TIMESTAMP` is a placeholder for th
 
 This is an exhaustive report containing all relevant information about the error.
 
-**Please post this report as a GitHub issue so we can fix the problem: https://github.com/prisma/lift/issues** 🙏
+**Please post this report as a GitHub issue and also attach `prisma-error-TIMESTAMP.zip` so we can fix the problem: https://github.com/prisma/lift/issues** 🙏
 
 ## Stack trace
 
- ${stacktrace}
+${stacktrace}
 
 ## System info
 
