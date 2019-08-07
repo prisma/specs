@@ -76,6 +76,7 @@ const GlobalStyles = createGlobalStyle`
     --system-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Ubuntu, Arial, 'Helvetica Neue', sans-serif, 'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';
     --headline-font: 'Montserrat', var(--system-font);
     --body-font: 'Open Sans', var(--system-font);
+    --code-font: 'Roboto Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
   }
 
   html {
@@ -124,6 +125,26 @@ const GlobalStyles = createGlobalStyle`
   a {
     color: inherit;
     text-decoration: inherit;
+  }
+
+  code {
+    font-family: var(--code-font);
+    font-size: 14px;
+    background-color: ${p => p.theme.gray200};
+    border-radius: 6px;
+    padding: 0 4px;
+  }
+
+  pre {
+    background-color: ${p => p.theme.gray200};
+    padding: 8px 12px;
+    border-radius: 6px;
+
+    code {
+      background-color: transparent;
+      padding: 0;
+      border-radius: 0;
+    }
   }
 `
 
