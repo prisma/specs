@@ -62,8 +62,7 @@ In this document we make the distinction between [Unknown Errors](#unknown-error
 
 # Unknown Errors
 
-As Prisma 2 is still early, we're not yet aware of all error cases that can occur. This section explains what should happen when Prisma encounters an _unknown_
-error.
+As Prisma 2 is still early, we're not yet aware of all error cases that can occur. This section explains what should happen when Prisma encounters an _unknown_ error.
 
 An error can occur in any of the following tools that currently make up Prisma 2's developer surface area:
 
@@ -84,8 +83,7 @@ to report the issue. These error reports are stored as markdown files on the fil
 - **Logging output** directly shown to the user
 - **Error report** (Markdown) stored on the file system
 
-The error report generally is more exhaustive than the logging output (e.g. it also contains the Prisma schema which would be overkill if printed to the
-terminal as well). It is also written in Markdown enabling the user to copy and paste the report as a GitHub issue directly.
+The error report generally is more exhaustive than the logging output (e.g. it also contains the Prisma schema which would be overkill if printed to the terminal as well). It is also written in Markdown enabling the user to copy and paste the report as a GitHub issue directly.
 
 ### Prisma 2 CLI
 
@@ -94,8 +92,8 @@ terminal as well). It is also written in Markdown enabling the user to copy and 
 #### Non-lift commands
 
 ```
-Oops, ... an error occured! Find more info in the error report:
-**prisma-error-TIMESTAMP.md**
+Oops, an unexpected error occured! Find more info in the error report:
+**/path/to/dir/prisma-error-TIMESTAMP.md**
 
 Please help us fix the problem!
 
@@ -108,12 +106,12 @@ Thanks for helping us making Prisma 2 more stable! 🙏
 #### Lift commands
 
 ```
-Oops, ... an error occured! Find more info in the error report:
-**prisma-error-TIMESTAMP.md**
+Oops, an unexpected error occured! Find more info in the error reports:
+**/path/to/dir/prisma-error-TIMESTAMP.zip**
 
 Please help us fix the problem!
 
-Copy the error report and paste it as a GitHub issue here:
+Create a new GitHub issue and attach **prisma-error-TIMESTAMP.zip** to it:
 **https://www.github.com/prisma/lift/issues**
 
 Thanks for helping us making Prisma 2 more stable! 🙏
@@ -157,18 +155,23 @@ ${schema.prisma}
 
 #### Lift commands
 
-File name: `prisma-error-TIMESTAMP.md` where `TIMESTAMP` is a placeholder for the current timestamp.
+File name: `prisma-error-TIMESTAMP.zip` where `TIMESTAMP` is a placeholder for the current timestamp.
+
+The `.zip`-directory contains:
+
+- Relevant info from the query engine
+- `error-report.md` (see below)
 
 ```
 # Error report (Prisma 2 CLI (Lift) | July 23, 2019 | 14:42:23 h)
 
 This is an exhaustive report containing all relevant information about the error.
 
-**Please post this report as a GitHub issue so we can fix the problem: https://github.com/prisma/lift/issues** 🙏
+**Please post this report as a GitHub issue and also attach `prisma-error-TIMESTAMP.zip` so we can fix the problem: https://github.com/prisma/lift/issues** 🙏
 
 ## Stack trace
 
- ${stacktrace}
+${stacktrace}
 
 ## System info
 
@@ -194,8 +197,8 @@ ${schema.prisma}
 <Details><Summary>Logging output</Summary>
 
 ```
-Oops, ... an error occured! Find more info in the error report:
-**prisma-error-TIMESTAMP.md**
+Oops, an unexpected error occured! Find more info in the error report:
+**/path/to/dir/prisma-error-TIMESTAMP.md**
 
 Please help us fix the problem!
 
@@ -250,8 +253,11 @@ ${schema.prisma}
 <Details><Summary>Logging output</Summary>
 
 ```
-Oops, ... an error occured! Find more info in the error report:
-**prisma-error-TIMESTAMP.md**
+Oops, an unexpected error occured. This is a problem with 
+Photon's query engine, not with your application code.
+
+Find more info in the error report:
+**/path/to/dir/prisma-error-TIMESTAMP.md**
 
 Please help us fix the problem!
 
@@ -259,6 +265,10 @@ Copy the error report and paste it as a GitHub issue here:
 **https://www.github.com/prisma/photonjs/issues**
 
 Thanks for helping us making Photon JS more stable! 🙏
+
+An internal error occured during invocation of **photon.users.create()** in **/path/to/dir/src/.../file.ts**
+
+  ${userStackTrace}
 ```
 
 > Note: Text enclosed by the double-asterisk `**` means the text should be printed in **bold**.
@@ -278,7 +288,7 @@ This is an exhaustive report containing all relevant information about the error
 
 ## Stack trace
 
-${stacktrace}
+${internalStackTrace}
 
 ## System info
 
