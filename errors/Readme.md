@@ -93,7 +93,7 @@ The error report generally is more exhaustive than the logging output (e.g. it a
 
 ```
 Oops, an error occured! Find more info in the error report:
-**prisma-error-TIMESTAMP.md**
+**/path/to/dir/prisma-error-TIMESTAMP.md**
 
 Please help us fix the problem!
 
@@ -106,16 +106,13 @@ Thanks for helping us making Prisma 2 more stable! 🙏
 #### Lift commands
 
 ```
-Oops, an error occured! Find more info in the error reports:
-• **prisma-error-TIMESTAMP.md**
-• **prisma-error-TIMESTAMP.zip**
+Oops, an unexpected error occured! Find more info in the error reports:
+**/path/to/dir/prisma-error-TIMESTAMP.zip**
 
 Please help us fix the problem!
 
-Copy the error report and paste it as a GitHub issue:
+Create a new GitHub issue and attach **prisma-error-TIMESTAMP.zip** to it:
 **https://www.github.com/prisma/lift/issues**
-
-Please attach **prisma-error-TIMESTAMP.zip** to the issue too.
 
 Thanks for helping us making Prisma 2 more stable! 🙏
 ```
@@ -158,7 +155,12 @@ ${schema.prisma}
 
 #### Lift commands
 
-File name: `prisma-error-TIMESTAMP.md` where `TIMESTAMP` is a placeholder for the current timestamp.
+File name: `prisma-error-TIMESTAMP.zip` where `TIMESTAMP` is a placeholder for the current timestamp.
+
+The `.zip`-directory contains:
+
+- Relevant info from the query engine
+- `error-report.md` (see below)
 
 ```
 # Error report (Prisma 2 CLI (Lift) | July 23, 2019 | 14:42:23 h)
@@ -196,7 +198,7 @@ ${schema.prisma}
 
 ```
 Oops, an error occured! Find more info in the error report:
-**prisma-error-TIMESTAMP.md**
+**/path/to/dir/prisma-error-TIMESTAMP.md**
 
 Please help us fix the problem!
 
