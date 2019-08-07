@@ -58,6 +58,9 @@
     - [Configuration blocks are align by their `=` sign.](#configuration-blocks-are-align-by-their--sign)
     - [Field definitions are aligned into columns separated by 2 or more spaces.](#field-definitions-are-aligned-into-columns-separated-by-2-or-more-spaces)
 
+* [FAQ](#faq)
+  - [Why not support @id for multiple blocks?](#why-not-support-id-for-multiple-blocks)
+
 <!-- tocstop -->
 
 ## Datasource Block
@@ -1220,5 +1223,44 @@ model User {
   }?
   age   Int
   email String
+}
+```
+
+# FAQ
+
+## Why not support @id for multiple blocks?
+
+```groovy
+model RecipeIngredient {
+  recipe                  Recipe     @id
+  ingredient              Ingredient @id
+  amount                  Float
+  quantitativeDisclosures String
+  comment                 String
+}
+```
+
+The reason we won't support this is that while it looks nice for primary keys, it doesn't work for the other composite types. For example, `@unique` twice:
+
+```groovy
+model RecipeIngredient {
+  recipe                  Recipe @unique
+  ingredient              Ingredient @unique
+  amount                  Float
+  quantitativeDisclosures String
+  comment                 String
+}
+```
+
+Means those are unique across the table, while `@unique([recipe, ingredient])` would mean that the combination of fields must be unique in the table:
+
+```groovy
+model RecipeIngredient {
+  recipe                  Recipe
+  ingredient              Ingredient
+  amount                  Float
+  quantitativeDisclosures String
+  comment                 String
+  @@unique([recipe, ingredient])
 }
 ```
