@@ -966,8 +966,8 @@ $ prisma generate
 But runtime will:
 
 ```js
-import Photon from "@generated/photon";
-const photon = new Photon();
+import Photon from '@generated/photon'
+const photon = new Photon()
 // Thrown: required `POSTGRES_URL` variable not found
 ```
 
@@ -1240,7 +1240,9 @@ model RecipeIngredient {
 }
 ```
 
-The reason we won't support this is that while it looks nice for primary keys, it doesn't work for the other composite types. For example, `@unique` twice:
+With this syntax, the `@id` ordering is unclear and the
+[order of primary keys matters](https://stackoverflow.com/questions/16713233/why-does-primary-key-order-matter). Additionally, while it looks nice it doesn't
+work for the other composite types. For example, `@unique` twice:
 
 ```groovy
 model RecipeIngredient {

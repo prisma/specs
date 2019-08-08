@@ -7,27 +7,27 @@
 - [API Additions](#api-additions)
 - [Basic Example](#basic-example)
 - [Scenarios](#scenarios)
-    + [1. Development machine is Mac but the deployment platform is AWS lambda.](#1-development-machine-is-mac-but-the-deployment-platform-is-aws-lambda)
-    + [2. Deterministically choose the binary based a runtime environment variable](#2-deterministically-choose-the-binary-based-a-runtime-environment-variable)
-    + [3. Development machine is Mac but we need a custom binary in production](#3-development-machine-is-mac-but-we-need-a-custom-binary-in-production)
+  - [1. Development machine is Mac but the deployment platform is AWS lambda.](#1-development-machine-is-mac-but-the-deployment-platform-is-aws-lambda)
+  - [2. Deterministically choose the binary based a runtime environment variable](#2-deterministically-choose-the-binary-based-a-runtime-environment-variable)
+  - [3. Development machine is Mac but we need a custom binary in production](#3-development-machine-is-mac-but-we-need-a-custom-binary-in-production)
 - [Configuration](#configuration)
-    + [1. Both `platforms` and `pinnedPlatform` are not provided.](#1-both-platforms-and-pinnedplatform-are-not-provided)
-    + [2. Field `platforms` provided with multiple values and `pinnedPlatform` is not provided.](#2-field-platforms-provided-with-multiple-values-and-pinnedplatform-is-not-provided)
-    + [3. Field `platforms` provided with multiple values and `pinnedPlatform` is also provided.](#3-field-platforms-provided-with-multiple-values-and-pinnedplatform-is-also-provided)
+  - [1. Both `platforms` and `pinnedPlatform` are not provided.](#1-both-platforms-and-pinnedplatform-are-not-provided)
+  - [2. Field `platforms` provided with multiple values and `pinnedPlatform` is not provided.](#2-field-platforms-provided-with-multiple-values-and-pinnedplatform-is-not-provided)
+  - [3. Field `platforms` provided with multiple values and `pinnedPlatform` is also provided.](#3-field-platforms-provided-with-multiple-values-and-pinnedplatform-is-also-provided)
 - [Runtime binary resolution](#runtime-binary-resolution)
 - [Table of Binaries](#table-of-binaries)
-  * [URL Scheme](#url-scheme)
-  * [Common Cloud Platforms](#common-cloud-platforms)
-    + [Tier 1](#tier-1)
-    + [Tier 2](#tier-2)
+  - [URL Scheme](#url-scheme)
+  - [Common Cloud Platforms](#common-cloud-platforms)
+    - [Tier 1](#tier-1)
+    - [Tier 2](#tier-2)
 - [Binary Process Management](#binary-process-management)
-  * [Connect](#connect)
-      - [Find Free Port](#find-free-port)
-      - [Binary Spawn](#binary-spawn)
-      - [Waiting for the Binary to be Ready](#waiting-for-the-binary-to-be-ready)
-      - [Error Handling](#error-handling)
-  * [Photon in FaaS environment (Like AWS Lambda)](#photon-in-faas-environment-like-aws-lambda)
-  * [Disconnect](#disconnect)
+  - [Connect](#connect)
+    - [Find Free Port](#find-free-port)
+    - [Binary Spawn](#binary-spawn)
+    - [Waiting for the Binary to be Ready](#waiting-for-the-binary-to-be-ready)
+    - [Error Handling](#error-handling)
+  - [Photon in FaaS environment (Like AWS Lambda)](#photon-in-faas-environment-like-aws-lambda)
+  - [Disconnect](#disconnect)
 - [Drawbacks](#drawbacks)
 - [How we teach this](#how-we-teach-this)
 - [Unresolved questions](#unresolved-questions)
@@ -242,7 +242,8 @@ Photon provides `connect`, `disconnect` methods for binary process management an
 
 #### Find Free Port
 
-Photon finds a free port by binding to port 0 with a light-weight TCP server (using node net -> createServer), this makes the OS allocate a random (albeit, pseudo serial) port to this server, then this server is closed and `Photon` saves the port in memory.
+Photon finds a free port by binding to port 0 with a light-weight TCP server (using node net -> createServer), this makes the OS allocate a random (albeit,
+pseudo serial) port to this server, then this server is closed and `Photon` saves the port in memory.
 
 #### Binary Spawn
 
@@ -252,11 +253,13 @@ This port is then provided to the binary as an environment variable and the bina
 
 #### Waiting for the Binary to be Ready
 
-In this workflow, Photon polls the binary's HTTP server for its stats at an interval. This can be optimized further by reducing the interval or relying on a simple TCP protocol.
+In this workflow, Photon polls the binary's HTTP server for its stats at an interval. This can be optimized further by reducing the interval or relying on a
+simple TCP protocol.
 
 #### Error Handling
 
-Photon throws if the engine ready polling does not yield success after N attempts. There may be several reasons why preparing a process with the required context might fail, including but not limited to:
+Photon throws if the engine ready polling does not yield success after N attempts. There may be several reasons why preparing a process with the required
+context might fail, including but not limited to:
 
 | Potential Error                            | Handling Strategy |
 | ------------------------------------------ | ----------------- |
@@ -272,9 +275,13 @@ Error handling has a separate spec [here](https://github.com/prisma/specs/tree/m
 
 Nuances around handling DB connections in Lambda are not new and most of those nuances also apply to Photon.
 
-Lambda has the concept of [reusing a container](https://aws.amazon.com/blogs/compute/container-reuse-in-lambda/) which means that for subsequent invocations of the same function it may use an already existing container that has the allocated processes, memory, file system (`/tmp` is writable in Lambda), and even DB connection still available.
+Lambda has the concept of [reusing a container](https://aws.amazon.com/blogs/compute/container-reuse-in-lambda/) which means that for subsequent invocations of
+the same function it may use an already existing container that has the allocated processes, memory, file system (`/tmp` is writable in Lambda), and even DB
+connection still available.
 
-Any piece of code [outside the handler](https://docs.aws.amazon.com/lambda/latest/dg/programming-model-v2.html) remains initialized. This is a great place for `Photon` to call "connect" or at least call `Photon` constructor so that subsequent invocations can share a connection. There are some implications though they are not directly related to Photon but any system that would require a DB connection from Lambda:
+Any piece of code [outside the handler](https://docs.aws.amazon.com/lambda/latest/dg/programming-model-v2.html) remains initialized. This is a great place for
+`Photon` to call "connect" or at least call `Photon` constructor so that subsequent invocations can share a connection. There are some implications though they
+are not directly related to Photon but any system that would require a DB connection from Lambda:
 
 | Implication                                                                                                                                                                                                                                                                                                                           | Potential Solution                                                                                                                                               |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -289,11 +296,13 @@ Any piece of code [outside the handler](https://docs.aws.amazon.com/lambda/lates
 
 **Cold Starts**
 
-A serverless function container may be recycled at any point. There is no official documented amount of time on when that happen but running a function warmer does not work, containers are recycled regardless.
+A serverless function container may be recycled at any point. There is no official documented amount of time on when that happen but running a function warmer
+does not work, containers are recycled regardless.
 
 ## Disconnect
 
-Calling the `disconnect` method is where Photon waits for any pending request promise to resolve and then kills the spawned process and the DB connection is released.
+Calling the `disconnect` method is where Photon waits for any pending request promise to resolve and then kills the spawned process and the DB connection is
+released.
 
 # Drawbacks
 
