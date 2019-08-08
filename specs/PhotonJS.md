@@ -875,6 +875,8 @@ photon.on('User:beforeCreate', user => {
 
 ## Error Handling
 
+- [ ] Needs to satisfy https://github.com/prisma/prisma/issues/3392#issuecomment-514999567
+
 If any error should occur, Prisma client will throw. The resulting error instance will have a `.code` property.
 You can find the possible error codes that we have in Prisma 1 [here](https://github.com/prisma/prisma/blob/master/server/connectors/api-connector/src/main/scala/com/prisma/api/schema/Errors.scala)
 
