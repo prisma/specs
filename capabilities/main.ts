@@ -609,11 +609,11 @@ const Postgres: Capabilities = {
     capabilityTypeMap(capabilityListType(capabilityScalarType('int')), listType(intType())),
 
     // float
-    capabilityTypeMap(capabilityScalarType('float4'), stringType()),
+    capabilityTypeMap(capabilityScalarType('float4'), floatType()),
     // nullable float
-    capabilityTypeMap(capabilityOptionalType(capabilityScalarType('float4')), optionalType(stringType())),
+    capabilityTypeMap(capabilityOptionalType(capabilityScalarType('float4')), optionalType(floatType())),
     // float[]
-    capabilityTypeMap(capabilityListType(capabilityScalarType('float4')), listType(stringType())),
+    capabilityTypeMap(capabilityListType(capabilityScalarType('float4')), listType(floatType())),
 
     // datetime
     capabilityTypeMap(capabilityScalarType('timestamp'), datetimeType()),
