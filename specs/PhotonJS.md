@@ -246,6 +246,18 @@ const upreplacedUser: User = await photon.user
 const result: undefined = await photon.user.find('bobs-id').delete()
 ```
 
+### Many operations
+
+```ts
+await photon.user
+  .findMany({ where: { email: { endsWith: '@gmail.com' } } })
+  .updateMany({ lastName: 'Doe' })
+
+await photon.user
+  .findMany({ where: { email: { endsWith: '@gmail.com' } } })
+  .deleteMany()
+```
+
 ### Nested writes
 
 - how many records were affected
