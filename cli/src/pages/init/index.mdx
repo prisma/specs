@@ -87,22 +87,18 @@ If `prisma init` is executed in a non-empty directory and no project directory n
   <Box marginTop={1} marginBottom={1}>
     <Color dim>~/Desktop $</Color> prisma init
   </Box>
-  <Box flexDirection="column" marginBottom={1}>
+  <Box flexDirection="column">
     <Text marginTop={1}>
-      <Color bgKeyword="red"><Text bold>ERROR: </Text>Running <Text bold>prisma init</Text> is only permitted in{' '}
-      <Text bold>non-empty directories</Text>
-      </Color>
+      <Color bgKeyword="red"><Text bold>ERROR:</Text></Color> <Color red>Running <Text bold>prisma init</Text> is only permitted in{' '}
+      <Text bold>non-empty directories</Text></Color> 
   </Text>
   <Text>
-    <Color bgKeyword="red">
-      or by providing a project directory name.
-    </Color>
+     <Color red>or by providing a project directory name.</Color> 
   </Text>
   </Box>
   <Box flexDirection="column">
-    <Text><Text bold>FIX: </Text>You can fix this by executing the command in an empty directory</Text>
+    <Text><Color bgKeyword="green"><Text bold>FIX:</Text></Color> You can fix this by executing the command in an empty directory</Text>
     <Text>or by providing a project directory name, e.g:</Text>
     <Color><Text bold>$ prisma init hello-world</Text></Color>
   </Box>
-
 </Terminal>

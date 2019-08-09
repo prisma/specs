@@ -42,7 +42,7 @@ import BorderBox from '../../components/Terminal/BorderBox'
 <Terminal>
   <Box flexDirection="column" marginLeft={2} marginBottom={1}>
     <Text bold>Connect to your PostgreSQL database server</Text>
-    <Color dim>https://github.com/prisma/prisma2/blob/master/docs/core/connectors/postgresql.md</Color>
+    <Color dim>https://pris.ly/docs/core/connectors/postgresql.md</Color>
   </Box>
   <BorderBox
     flexDirection="column"
@@ -117,6 +117,7 @@ import BorderBox from '../../components/Terminal/BorderBox'
 
 - [Schema provided (non-empty)](#31-introspection)
 - [Schema provided (empty)](#4-language-selection)
+- [Schema provided (doesn't exist)](#1a-schema-doesnt-exist)
 - [Schema not provided](#2-select-existing-schema-or-create-a-new-one)
 
 ### (1A) Schema doesn't exist
@@ -141,8 +142,8 @@ import BorderBox from '../../components/Terminal/BorderBox'
     marginTop={1}
     marginBottom={1}
   >
-    <Text bold>Create a new PostgreSQL schema or use an existing one</Text>
-    <Color dim>A PostgreSQL database can have multiple schemas</Color>
+    <Text bold>A schema named <Text bold>`hello-world`</Text> doesn't exist in database <Text bold>`mydb`</Text>.</Text>
+    <Color dim>Create a new schema or select an existing one</Color>
   </Box>
   <BorderBox
     flexDirection="column"
@@ -151,20 +152,20 @@ import BorderBox from '../../components/Terminal/BorderBox'
   >
      <Box width={100}>
       <Color cyan>
-        <Box width={34}>
-          <Text bold>{figures.pointer} Create new PostgreSQL schema</Text>
+        <Box width={30}>
+          <Text bold>{figures.pointer} Create schema `hello-world`</Text>
         </Box>
-        <Color dim>Start from scratch</Color>
+        <Color dim>In <Text bold>mydb</Text></Color>
       </Color>
       <Box flexGrow={1}></Box>
     </Box>
     <Box width={100}>
       <Color >
-        <Box width={34}>
+        <Box width={30}>
           <Color gray>  </Color>
-          <Text>Use existing PostgreSQL schemas</Text>
+          <Text>Select an existing schema</Text>
         </Box>
-        <Color dim>Found 5 schemas</Color>
+        <Color dim>Found 5 schemas in <Text bold>mydb</Text> </Color>
       </Color>
       <Box flexGrow={1}></Box>
     </Box>
@@ -176,9 +177,8 @@ import BorderBox from '../../components/Terminal/BorderBox'
   </Box>
 </Terminal>
 
-- [Schema provided (non-empty)](#31-introspection)
-- [Schema provided (empty)](#4-language-selection)
-- [Schema not provided](#2-select-existing-schema-or-create-a-new-one)
+- [Create schema `hello-world`](#4-language-selection)
+- [Select an existing schema](#3-select-a-schema)
 
 ## (2) Select existing schema or create a new one
 
