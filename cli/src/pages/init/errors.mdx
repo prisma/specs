@@ -4,12 +4,117 @@ navOrder: 9
 navLabel: Errors
 ---
 
+import Terminal from '../../components/Terminal/Terminal'
+import {
+  selectInputItemComponent,
+  selectInputIndicatorComponent,
+  Divider,
+} from '../../components/inkHelpers'
+import SelectInput from 'ink-select-input'
+import ProgressBar from 'ink-progress-bar'
+import { Box, Text, Color } from 'ink'
+import figures from 'figures'
+import BorderBox from '../../components/Terminal/BorderBox'
+import chalk from 'chalk'
+
+
 # Errors
 
 ### SQLite
 
-- SQLite file doesn't exist at provided location
-- SQLite file is invalid
+#### SQLite file doesn't exist at provided location
+
+<details><summary>Previous selections</summary>
+
+1. SQLite
+2. Use existing SQLite file
+3. _File doesn't exist_
+
+</details>
+<br />
+
+<Terminal>
+  <Box marginLeft={2} flexDirection="column" marginBottom={1}>
+    <Text bold>Enter the path to your SQLite database file</Text>
+    <Color dim>Prisma will introspect the database</Color>
+  </Box>
+  <BorderBox
+    title={chalk.bold('SQLite database file')}
+    marginBottom={1}
+    flexDirection="column"
+  >
+    <Color cyan>
+      <Text bold>{figures.pointer} File path:</Text>
+      <Color> ./my-cool.db</Color>
+    </Color>
+  </BorderBox>
+  <Box>
+    <Color bgKeyword="red">
+      <Text bold>ERROR: </Text>File doesn't exist at location: <Text bold>./my-cool.db</Text>.
+    </Color>
+  </Box>
+  <Box flexDirection="column" marginBottom={1}>
+    <Text><Text bold>FIX: </Text>Provide the path to a valid SQLite database file.</Text>
+  </Box>
+  <Box>
+    <Color gray>{figures.pointer} </Color>
+    <Text bold>Introspect</Text>
+  </Box>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Database options)</Color>
+  </Box>
+</Terminal>
+
+#### SQLite file is invalid
+
+
+<details><summary>Previous selections</summary>
+
+1. SQLite
+2. Use existing SQLite file
+3. _File is invalid_
+
+</details>
+<br />
+
+<Terminal>
+  <Box marginLeft={2} flexDirection="column" marginBottom={1}>
+    <Text bold>Enter the path to your SQLite database file</Text>
+    <Color dim>Prisma will introspect the database</Color>
+  </Box>
+  <BorderBox
+    title={chalk.bold('SQLite database file')}
+    marginBottom={1}
+    flexDirection="column"
+  >
+    <Color cyan>
+      <Text bold>{figures.pointer} File path:</Text>
+      <Color> ./my-cool.db</Color>
+    </Color>
+  </BorderBox>
+  <Box flexDirection="column">
+    <Color bgKeyword="red">
+      <Text bold>ERROR: </Text>The file at location: <Text bold>./my-cool.db</Text> is not a valid
+    </Color>
+    <Color bgKeyword="red">
+      <Text>SQLite database file.</Text>
+    </Color>
+  </Box>
+  <Box flexDirection="column" marginBottom={1}>
+    <Text><Text bold>FIX: </Text>Provide the path to a valid SQLite database file.</Text>
+  </Box>
+  <Box>
+    <Color gray>{figures.pointer} </Color>
+    <Text bold>Introspect</Text>
+  </Box>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Database options)</Color>
+  </Box>
+</Terminal>
 
 ### PostgreSQL
 

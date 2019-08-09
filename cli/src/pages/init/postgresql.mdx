@@ -115,7 +115,66 @@ import BorderBox from '../../components/Terminal/BorderBox'
   </Box>
 </Terminal>
 
-**Note**: We probably want to use shortlinks for docs links.
+- [Schema provided (non-empty)](#31-introspection)
+- [Schema provided (empty)](#4-language-selection)
+- [Schema not provided](#2-select-existing-schema-or-create-a-new-one)
+
+### (1A) Schema doesn't exist
+
+<details><summary>Previous selections</summary>
+
+1. PostgreSQL
+2. _entered DB credentials_ (optional schema not provided)
+3. _connection succesful_
+4. _schema doesn't exist_
+
+</details>
+<br />
+
+<Terminal>
+  <Color green>
+    {figures.tick } Connected to PostgreSQL database server as <Text bold>admin</Text>
+  </Color>
+  <Box 
+    flexDirection="column" 
+    marginLeft={2} 
+    marginTop={1}
+    marginBottom={1}
+  >
+    <Text bold>Create a new PostgreSQL schema or use an existing one</Text>
+    <Color dim>A PostgreSQL database can have multiple schemas</Color>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={`${chalk.bold('Schema options')}`}
+    marginBottom={1}
+  >
+     <Box width={100}>
+      <Color cyan>
+        <Box width={34}>
+          <Text bold>{figures.pointer} Create new PostgreSQL schema</Text>
+        </Box>
+        <Color dim>Start from scratch</Color>
+      </Color>
+      <Box flexGrow={1}></Box>
+    </Box>
+    <Box width={100}>
+      <Color >
+        <Box width={34}>
+          <Color gray>  </Color>
+          <Text>Use existing PostgreSQL schemas</Text>
+        </Box>
+        <Color dim>Found 5 schemas</Color>
+      </Color>
+      <Box flexGrow={1}></Box>
+    </Box>
+  </BorderBox>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Database credentials)</Color>
+  </Box>
+</Terminal>
 
 - [Schema provided (non-empty)](#31-introspection)
 - [Schema provided (empty)](#4-language-selection)
