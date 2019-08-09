@@ -201,7 +201,54 @@ import chalk from 'chalk'
 
 #### Invalid schema name (e.g. forbidden characters, too long, ...)
 
-TBD
+<details><summary>Previous selections</summary>
+
+1. PostgreSQL
+2. _entered DB credentials_ (optional schema not provided)
+3. _connection succesful_
+4. Create new schema
+5. _Entered invalid schema name_
+
+</details>
+<br />
+
+<Terminal>
+  <Box marginLeft={2} flexDirection="column" marginBottom={1}>
+    <Text bold>Enter name for the new schema</Text>
+    <Color dim>The schema will be created by Prisma</Color>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={`${chalk.bold('PostgreSQL schema name')}`}
+    marginBottom={1}
+  >
+   <Box width={100}>
+      <Color cyan>
+        <Text bold>{figures.pointer} Name:</Text>
+        <Color dim> my_schema</Color>
+      </Color>
+      <Box flexGrow={1}></Box>
+    </Box>
+  </BorderBox>
+  <Box>
+    <Color flexDirection="column" bgKeyword="red">
+      <Text bold>ERROR:</Text></Color><Color red> The name <Text bold>1hello-asd</Text> is invalid for a PostgreSQL schema.
+    </Color>
+  </Box>
+  <Box flexDirection="column" marginBottom={1}>
+    <Text><Color bgKeyword="white" black><Text bold>FIX:</Text></Color> Make sure the schema name is valid according to the docs at: </Text>
+    <Text>https://postgresql.org/docs/9.2/sql-syntax-lexical.html#SQL-SYNTAX-IDENTIFIERS</Text>
+  </Box>
+  <Box>
+    <Color gray>{figures.pointer} </Color>
+    <Text bold>Create</Text>
+  </Box>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Schema options)</Color>
+  </Box>
+</Terminal>
 
 #### Other
 
