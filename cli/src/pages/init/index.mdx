@@ -32,12 +32,10 @@ import chalk from 'chalk'
 <Terminal>
   <Box marginBottom={1}><Color dim>~/Desktop $</Color> prisma init hello-world</Box>
 
-  <Box flexDirection="column" marginLeft={2}>
-    <Text bold>Select the database you want to use</Text>
-    <Color dim>
-      Use SQLite if you don't have a database running yet
-    </Color>
-  </Box>
+<Box flexDirection="column" marginLeft={2}>
+  <Text bold>Select the database you want to use</Text>
+  <Color dim>Use SQLite if you don't have a database running yet</Color>
+</Box>
 
   <BorderBox flexDirection="column" marginTop={1} marginBottom={1} title={chalk.bold('Databases')}>
     <Box width={100}>
@@ -75,47 +73,38 @@ import chalk from 'chalk'
 - [MySQL](./mysql)
 - [PostgreSQL](./postgresql)
 
-The `prisma init` command is only permitted in **empty directories**. In the future, we can try to be smart about detecting certain files and inferring information about the user's environment, but for now we're going with a simple approach to ensure people don't hit roadblocks with existing files. 
+The `prisma init` command is only permitted in **empty directories**. In the future, we can try to be smart about detecting certain files and inferring information about the user's environment, but for now we're going with a simple approach to ensure people don't hit roadblocks with existing files.
 
 If `prisma init` is executed in a non-empty directory and no project directory name is provided as an argument, the command will fail immediately:
 
-> **Note**: The copy below is in a good state, but the presentation should be reworked. It's probably not the best idea to print everything in red...
-
 <Terminal>
-  <Box><Color dim>~/Desktop $</Color> ls</Box>
-  <Box><Text>asd.txt</Text></Box>
-  <Box marginTop={1}><Color dim>~/Desktop $</Color> prisma init</Box>
-  <Text marginTop={1}><Color red>Running <Text bold>prisma init</Text> is only permitted in </Color></Text>
-  <Text><Color red><Text bold>non-empty directories</Text> or by providing a project </Color></Text>
-  <Text><Color red>directory name, e.g. <Text bold>prisma init hello-world</Text>.</Color></Text>
-  <BorderBox flexDirection="column" marginTop={1} marginBottom={1} title={chalk.bold('Databases')}>
-    <Box width={100}>
-      <Box>
-        <Color cyan>
-          <Box width={15}>{figures.pointer} <Text bold>SQLite</Text></Box>
-          <Color dim>  Easiest to set up</Color>
-        </Color>
-      </Box>
-    </Box>
-    <Box width={100}>
-      <Box marginLeft={2}>
-        <Box width={15}><Font>MySQL</Font></Box>
-        <Color dim>Requires running a MySQL database</Color>
-      </Box>
-    </Box>
-    <Box width={100}>
-      <Box marginLeft={2}>
-        <Box width={15}><Font>PostgreSQL</Font></Box>
-        <Color dim>Requires running a PostgreSQL database</Color>
-      </Box>
-    </Box>
-    <Box width={100}>
-      <Box marginLeft={2}>
-        <Color  dim>
-          <Box width={15}>MongoDB</Box>
-          <Font>(Coming soon)</Font>
-        </Color>
-      </Box>
-    </Box>
-  </BorderBox>
+  <Box>
+    <Color dim>~/Desktop $</Color> ls
+  </Box>
+  <Box>
+    <Text>asd.txt</Text>
+  </Box>
+  <Box marginTop={1} marginBottom={1}>
+    <Color dim>~/Desktop $</Color> prisma init
+  </Box>
+  <Box flexDirection="column" marginBottom={1}>
+    <Text marginTop={1}>
+      <Color bgKeyword="red"><Text bold>ERROR: </Text>Running <Text bold>prisma init</Text> is only permitted in{' '}
+      <Text bold>non-empty directories</Text>
+      </Color>
+  </Text>
+  <Text>
+    <Color bgKeyword="red">
+      or by providing a project directory name.
+    </Color>
+  </Text>
+  </Box>
+  <Box flexDirection="column">
+    
+    <Text><Text bold>ACTION: </Text>You can fix this by executing the command in an empty directory</Text>
+    <Text>or by providing a project directory name, e.g:</Text>
+    <Color><Text bold>$ prisma init hello-world</Text></Color>
+    
+  </Box>
+
 </Terminal>
