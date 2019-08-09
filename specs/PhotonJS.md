@@ -363,7 +363,7 @@ const bobsPosts: DynamicResult3 = await photon.user
   .post({ first: 50 })
   .load({ include: { comments: true } })
 
-const updatedPosts: Post[] = await photon.post
+const media: Media[] = await photon.post
   .find('id')
   .comments({ where: { text: { startsWith: 'Hello' } } })
   .media({ where: { url: 'exact-url' }, first: 100 })
@@ -371,12 +371,11 @@ const updatedPosts: Post[] = await photon.post
   .load()
 
 // Supports chaining multiple write operations
-const updatedPosts2: Post[] = await photon.user
+await photon.user
   .find('user-id')
   .update({ email: 'new@email.com' })
   .post({ where: { published: true } })
   .updateMany({ comments: { connect: 'comment-id' } })
-  .load()
 ```
 
 ### Null narrowing
