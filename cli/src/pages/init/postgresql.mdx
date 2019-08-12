@@ -387,7 +387,7 @@ import BorderBox from '../../components/Terminal/BorderBox'
 <br />
 
 <Terminal>
-  <Color green>{figures.tick} Introspection was successful.</Color>
+  <Color green><Color bgKeyword="green" white><Text bold>SUCCESS</Text></Color> Introspection was successful.</Color>
   <Box marginLeft={2} flexDirection="column" marginBottom={1} marginTop={1}>
     <Text bold>Select the Prisma 2 tools you want to use</Text>
     <Color  dim>Learn more: https://github.com/prisma/prisma2</Color>
@@ -657,9 +657,9 @@ This success screen is dynamic. Learn more [here](./success-screens).
     <Color dim>~/Desktop $</Color> prisma init hello-world
   </Box>
   <Box marginLeft={2} marginBottom={1}>
-    <Color green>{figures.tick} Congratulations, you're all set!</Color>
+    <Color green><Color bgKeyword="green" white><Text bold>SUCCESS</Text></Color> Congratulations, you're all set!</Color>
   </Box>
-  <BorderBox flexDirection="column" title={chalk.bold('Success')}>
+  <BorderBox flexDirection="column" title={chalk.bold('Info')}>
     <Box marginLeft={2} marginBottom={1} flexDirection="column">
       <Text>
         The <Text bold>hello-world</Text> directory was created. It contains
@@ -727,9 +727,9 @@ This success screen is dynamic. Learn more [here](./success-screens).
     <Color dim>~/Desktop $</Color> prisma init hello-world
   </Box>
   <Box marginLeft={2} marginBottom={1}>
-    <Color green>{figures.tick} Congratulations, you're all set!</Color>
+    <Color green><Color bgKeyword="green" white><Text bold>SUCCESS</Text></Color> Congratulations, you're all set!</Color>
   </Box>
-  <BorderBox flexDirection="column" title={chalk.bold('Success')}>
+  <BorderBox flexDirection="column" title={chalk.bold('Info')}>
     <Box marginLeft={2} marginBottom={1} flexDirection="column">
       <Text>The <Text bold>hello-world</Text> directory was created. It contains</Text>
       <Text>your Prisma setup and a script to demonstrate API calls.</Text>
@@ -792,9 +792,9 @@ This success screen is dynamic. Learn more [here](./success-screens).
     <Color dim>~/Desktop $</Color> prisma init hello-world
   </Box>
   <Box marginLeft={2} marginBottom={1}>
-    <Color green>{figures.tick} Congratulations, you're all set!</Color>
+    <Color green><Color bgKeyword="green" white><Text bold>SUCCESS</Text></Color> Congratulations, you're all set!</Color>
   </Box>
-  <BorderBox flexDirection="column" title={chalk.bold('Success')}>
+  <BorderBox flexDirection="column" title={chalk.bold('Info')}>
     <Box marginLeft={2} marginBottom={1} flexDirection="column">
       <Text>
         The <Text bold>hello-world</Text> directory was created. It contains
