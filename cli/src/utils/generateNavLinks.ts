@@ -16,35 +16,14 @@ const generateNavLinks = (pagesPath, pagesData) => {
 
       const url = page.node.path
       const label = page.node.context.frontmatter.navLabel
-      // const order = page.node.context.frontmatter.navOrder
+      const order = page.node.context.frontmatter.navOrder
 
       // Get categories from component path
       const relativePath = page.node.componentPath.slice((pagesPath+"/src/pages/").length)
       const categories = relativePath.split('/').filter(Boolean)
       categories.pop() // Ditch the page name
 
-      const link = {
-        url,
-        categories,
-        label,
-        // relativePath,
-        // order
-      }
-
-      // if (categories.length === 0) {
-      //   newLinks.push(link)
-      //   newLinks.sort((a,b) => a.order - b.order)
-      // } else if (categories.length === 1) {
-      //   newLinks[categories[0]].push(link)
-      //   newLinks[categories[0]].sort((a,b) => a.order - b.order)
-      // } else if (categories.length === 2) {
-      //   newLinks[categories[0].categories[1]].push(link)
-      //   newLinks[categories[0].categories[1]].sort((a,b) => a.order - b.order)
-      // }
-
-      // links[link.category] = links[link.category] || []
-      // links[link.category].push(link)
-      // links[link.category].sort((a,b) => a.order - b.order)
+      const link = { url, categories, label, order }
 
       tmpLinks.push(link)
     }
@@ -54,51 +33,39 @@ const generateNavLinks = (pagesPath, pagesData) => {
 
   tmpLinks.map(linkData => {
     const {categories, ...link} = linkData
-    // const link = { label }
 
     // If there are no categories
     if (!categories.length) { sidebar.links.push(link)}
 
     // If there is one category
     if (categories.length === 1) {
-      if (sidebar.categories.hasOwnProperty(categories[0])) {
-        sidebar.categories[categories[0]].links = [link]
+      const category = categories[0]
+      if (sidebar.categories.hasOwnProperty(category)) {
+        sidebar.categories[category].links.push(link)
+        sidebar.categories[category].links.sort((a,b) => a.order - b.order)
       } else {
-        sidebar.categories[categories[0]] = {
-          links: [link], categories: {}
-        }
+        sidebar.categories[category] = { links: [link], categories: {} }
       }
     }
 
     // If there are two categories
     if (categories.length === 2) {
-      if (sidebar.categories.hasOwnProperty(categories[0])) {
-        if (sidebar.categories[categories[0]].categories.hasOwnProperty(categories[1])) {
-          // const tmpLinks = sidebar.categories[categories[0]].categories[categories[1]].links
-          sidebar.categories[categories[0]].categories[categories[1]].links.push(link)
-
+      const [category, subCategory] = categories
+      if (sidebar.categories.hasOwnProperty(category)) {
+        if (sidebar.categories[category].categories.hasOwnProperty(subCategory)) {
+          sidebar.categories[category].categories[subCategory].links.push(link)
+          sidebar.categories[category].categories[subCategory].links.sort((a,b) => a.order - b.order)
         } else {
-          sidebar.categories[categories[0]].categories[categories[1]] = {
-              categories: {},
-              links: [link]
-          }
+          sidebar.categories[category].categories[subCategory] = { categories: {}, links: [link] }
         }
 
       } else {
-        sidebar.categories[categories[0]] = {
-          links: [],
-          categories: {}
-        }
-
-        sidebar.categories[categories[0]].categories[categories[1]] = {
-          categories: {},
-          links: [link]
-        }
+        sidebar.categories[category] = { links: [], categories: { [subCategory]: { categories: {}, links: [link] }} }
       }
     }
   })
 
-  return tmpLinks
+  return sidebar
 }
 
 export default generateNavLinks

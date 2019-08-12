@@ -40,7 +40,7 @@ const Layout = ({ children, location, pageContext }) => (
           <ThemeProvider theme={theme}>
             <Wrapper>
               <GlobalStyles />
-              <Sidebar links={navLinks} pageContext={pageContext} />
+              <Sidebar nav={navLinks} pageContext={pageContext} />
               <Main>{children}</Main>
             </Wrapper>
           </ThemeProvider>

@@ -1,6 +1,6 @@
 ---
 navGroup: init
-navOrder: 4
+navOrder: 3
 navLabel: MySQL
 ---
 
@@ -47,7 +47,7 @@ import BorderBox from '../../components/Terminal/BorderBox'
   <BorderBox
     flexDirection="column"
     title={chalk.bold('MySQL database credentials')}
-  > 
+  >
     <Box width={100}>
       <Color gray>  </Color>
       <Text>Host: </Text>
@@ -102,7 +102,7 @@ import BorderBox from '../../components/Terminal/BorderBox'
     </Box>
   </BorderBox>
   <Box>
-    <Color gray>❮ </Color> 
+    <Color gray>❮ </Color>
     <Text bold>Back</Text>
     <Color dim> (Database selection)</Color>
   </Box>
@@ -130,9 +130,9 @@ import BorderBox from '../../components/Terminal/BorderBox'
   <Color green>
     <Color bgKeyword="green" white><Text bold>SUCCESS</Text></Color> Connected to MySQL database server as <Text bold>admin</Text>
   </Color>
-  <Box 
-    flexDirection="column" 
-    marginLeft={2} 
+  <Box
+    flexDirection="column"
+    marginLeft={2}
     marginTop={1}
     marginBottom={1}
   >
@@ -188,9 +188,9 @@ import BorderBox from '../../components/Terminal/BorderBox'
   <Color green>
     <Color bgKeyword="green" white><Text bold>SUCCESS</Text></Color> Connected to MySQL database server as <Text bold>admin</Text>
   </Color>
-  <Box 
-    flexDirection="column" 
-    marginLeft={2} 
+  <Box
+    flexDirection="column"
+    marginLeft={2}
     marginTop={1}
     marginBottom={1}
   >
@@ -830,7 +830,7 @@ This success screen is dynamic. Learn more [here](./success-screens).
 
 **Note**: If the command was invoked **without** a project name (e.g. `prisma2 init` or `prisma2 init .`), the first success message should be: _"Your project directory is ready. It contains your Prisma schema: **schema.prisma**."_
 
-<!-- 
+<!--
 
 ## (1) Enter database credentials (Found local database)
 
