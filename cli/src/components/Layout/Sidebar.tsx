@@ -37,64 +37,66 @@ export const useGitHubURL = (path: string) => {
 const Sidebar = ({ links, pageContext }) => {
   const [useActiveThemeKeyState] = useStateValue()
   const [themeKey, setThemeKey] = useActiveThemeKey(useActiveThemeKeyState)
-  return (
-    <Wrapper>
-      <Sticky>
-        <SidebarTitle to="/">
-          <SidebarIcon />
-          <span>CLI Docs</span>
-        </SidebarTitle>
+  return <code><pre>{JSON.stringify(links, null, 2)}</pre></code>
+  // return (
+  //   <Wrapper>
+  //     <Sticky>
+  //       {console.log({links})}
+  //       <SidebarTitle to="/">
+  //         <SidebarIcon />
+  //         <span>CLI Docs</span>
+  //       </SidebarTitle>
 
-        <GroupTitle>
-          <Faded>$</Faded> prisma init
-        </GroupTitle>
-        <GroupLinks>
-          {links['init'].map(link => (
-            <GroupLink link={link} key={link.url} />
-          ))}
-        </GroupLinks>
+  //       {/* <GroupTitle>
+  //         <Faded>$</Faded> prisma init
+  //       </GroupTitle>
+  //       <GroupLinks>
+  //         {links['init'].map(link => (
+  //           <GroupLink link={link} key={link.url} />
+  //         ))}
+  //       </GroupLinks>
 
-        <Divider />
+  //       <Divider />
 
-        <GroupTitle>
-          <Faded>$</Faded> prisma dev
-        </GroupTitle>
-        <GroupLinks>
-          {links['dev'].map(link => (
-            <GroupLink link={link} key={link.url} />
-          ))}
-        </GroupLinks>
+  //       <GroupTitle>
+  //         <Faded>$</Faded> prisma dev
+  //       </GroupTitle>
+  //       <GroupLinks>
+  //         {links['dev'].map(link => (
+  //           <GroupLink link={link} key={link.url} />
+  //         ))}
+  //       </GroupLinks>
 
-        <Divider />
+  //       <Divider />
 
-        <GroupTitle>
-          <Faded>$</Faded> prisma help
-        </GroupTitle>
-        <GroupLinks>
-          {links['help'].map(link => (
-            <GroupLink link={link} key={link.url} />
-          ))}
-        </GroupLinks>
+  //       <GroupTitle>
+  //         <Faded>$</Faded> prisma help
+  //       </GroupTitle>
+  //       <GroupLinks>
+  //         {links['help'].map(link => (
+  //           <GroupLink link={link} key={link.url} />
+  //         ))}
+  //       </GroupLinks> */}
 
-        <Divider />
+  //       <Divider />
 
-        <GithubLink href={useGitHubURL(pageContext.pagePath)} target="_blank">
-          <GithubIcon />
-          <span>Edit on Github</span>
-        </GithubLink>
-        <select
-          onChange={e => setThemeKey(e.target.value)}
-          defaultValue={themeKey}
-        >
-          {Object.keys(themes).map(themeKey => (
-            <option key={themeKey} value={themeKey}>
-              {themes[themeKey].name}
-            </option>
-          ))}
-        </select>
-      </Sticky>
-    </Wrapper>
-  )
+  //       <GithubLink href={useGitHubURL(pageContext.pagePath)} target="_blank">
+  //         <GithubIcon />
+  //         <span>Edit on Github</span>
+  //       </GithubLink>
+  //       <select
+  //         onChange={e => setThemeKey(e.target.value)}
+  //         defaultValue={themeKey}
+  //       >
+  //         {Object.keys(themes).map(themeKey => (
+  //           <option key={themeKey} value={themeKey}>
+  //             {themes[themeKey].name}
+  //           </option>
+  //         ))}
+  //       </select>
+  //     </Sticky>
+  //   </Wrapper>
+  // )
 }
 
 const GroupLink = ({ link }: { link: { url: string; label: string } }) => (

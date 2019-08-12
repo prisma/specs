@@ -27,7 +27,8 @@ const Layout = ({ children, location, pageContext }) => (
     query={query}
     render={data => {
       const pagesData = data.allSitePage.edges
-      const navLinks = generateNavLinks(pagesData)
+      const pagesPath = data.site.siteMetadata.directory
+      const navLinks = generateNavLinks(pagesPath, pagesData)
 
       const useActiveThemeKeyState = createPersistedState(
         storageKey,
@@ -65,6 +66,11 @@ const query = graphql`
             }
           }
         }
+      }
+    }
+    site {
+      siteMetadata {
+        directory
       }
     }
   }
