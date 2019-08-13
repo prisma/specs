@@ -4,17 +4,19 @@
 
 - [Motivation](#motivation)
 - [Requirements](#requirements)
-- [API Additions](#api-additions)
+- [Configuration API](#configuration-api)
 - [Basic Example](#basic-example)
 - [Scenarios](#scenarios)
   - [1. Development machine is Mac but the deployment platform is AWS lambda.](#1-development-machine-is-mac-but-the-deployment-platform-is-aws-lambda)
-  - [2. Deterministically choose the binary based a runtime environment variable](#2-deterministically-choose-the-binary-based-a-runtime-environment-variable)
+  - [2. Deterministically choose the binary-based a runtime environment variable](#2-deterministically-choose-the-binary-based-a-runtime-environment-variable)
   - [3. Development machine is Mac but we need a custom binary in production](#3-development-machine-is-mac-but-we-need-a-custom-binary-in-production)
+  - [4. Development machine is a Raspberry Pi and the deployment platform is AWS Lambda](#4-development-machine-is-a-raspberry-pi-and-the-deployment-platform-is-aws-lambda)
 - [Configuration](#configuration)
   - [1. Both `platforms` and `pinnedPlatform` are not provided.](#1-both-platforms-and-pinnedplatform-are-not-provided)
   - [2. Field `platforms` provided with multiple values and `pinnedPlatform` is not provided.](#2-field-platforms-provided-with-multiple-values-and-pinnedplatform-is-not-provided)
   - [3. Field `platforms` provided with multiple values and `pinnedPlatform` is also provided.](#3-field-platforms-provided-with-multiple-values-and-pinnedplatform-is-also-provided)
-- [Runtime binary resolution](#runtime-binary-resolution)
+- [Binary Resolution Error Handling](#binary-resolution-error-handling)
+- [Runtime Binary Resolution](#runtime-binary-resolution)
 - [Table of Binaries](#table-of-binaries)
   - [URL Scheme](#url-scheme)
   - [Common Cloud Platforms](#common-cloud-platforms)
@@ -42,13 +44,42 @@
 
 # Requirements
 
+Binaries (query engine binary and migration engine binary) are at the core of Photon, Lift and Prisma CLI. They are, however compiled for a specific platform, that leads to the following requirements:
+
 - Minimal configuration, simple mental model.
 - Possibility of a deterministic binary resolution both locally and production setup.
 - Easy setup of development and deployment workflows.
+- Predictable runtime characteristics of the binary process.
 
-# API Additions
+**Binaries in the context:**
 
-This spec introduces two new fields on the `generator` block:
+Query engine binary has the following use cases:
+
+Photon
+
+- Uses this binary to run queries against a data source (at runtime of generated code).
+- Binary is downloaded when Photon is generated.
+
+CLI
+
+- Generation uses this binary to fetch internal schema representation (at the time of running `generate` CLI command).
+- Binary is downloaded when the CLI is installed.
+
+Migration engine binary has the following use cases:
+
+A generator like `prisma-test-utils`
+
+- Uses this binary to perform migrations (at runtime of generated code)
+- Binary is downloaded when `prisma-test-utils` is generated.
+
+CLI
+
+- Lift commands use the binary to perform migrations or calculate pending migrations (at the time of running various `lift` commands like `up`, `save` etc).
+- Binary is downloaded when the CLI is installed.
+
+# Configuration API
+
+Fields on the `generator` block to configure the availability of binaries for generators (like Photon, nexus, etc):
 
 | Field            | Description                                                                                                                      | Behavior                                           |
 | ---------------- | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
@@ -56,6 +87,21 @@ This spec introduces two new fields on the `generator` block:
 | `pinnedPlatform` | _(optional)_ A string that points to the name of an object in the `platforms` field, usually an environment variable             | Declarative way to choose the runtime binary       |
 
 - Both `platforms` and `pinnedPlatform` fields are optional, **however** when a custom binary is provided the `pinnedPlatform` is required.
+
+- Custom binary path points Photon to use the path.
+
+- Known binary path downloads a known binary to a OS cache path and copies it to generator path on `generate`.
+
+- Not all generators require all the binaries, the generator spec (it will be linked once it is ready) outlines the generator API that defines which binaries are needed.
+
+Environment variable to configure the binary for CLI (like `prisma2 lift` or `prisma2 generate`):
+
+| Environment Variable      | Description                                                                               | Behavior                                                       |
+| ------------------------- | ----------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| `MIGRATION_ENGINE_BINARY` | (optional) Overrides the resolution path for migration engine binary for `Lift` commands. | Can be a relative (from CWD) or an absolute path to the binary |
+| `QUERY_ENGINE_BINARY`     | (optional) Overrides the resolution path for query engine binary for `generate` command.  | Can be a relative (from CWD) or an absolute path to the binary |
+
+- CLI binaries can only be overridden by a path to a custom compiled or provided binary. It does not alter download behavior, it simply overrides the binary to use path for respective commands.
 
 # Basic Example
 
@@ -69,11 +115,8 @@ generator photon {
 }
 ```
 
-- `"native"` is a special keyword for your local development platform. `native` may be different for different developers, depending on their machine. If you're
-  on OSX, this would be `mac`. If you're on a common linux distro, it would detect the appropriate binary for your environment. See the
-  [Table of Binaries](#table-of-binaries) below for a reference.
-- `env("PLATFORM")` allows you to switch between the platforms via `PLATFORM` environment variable. This environment variable will be generated into code as an
-  environment variable to be used at runtime. In Node, this statement would look like this: `process.env.PLATFORM`.
+- `"native"` is a special keyword for your local development platform. `native` may be different for different developers, depending on their machine. If you're on OSX, this would be `mac`. If you're on a common Linux distro, it would detect the appropriate binary for your environment. See the [Table of Binaries](#table-of-binaries) below for a reference.
+- `env("PLATFORM")` allows you to switch between the platforms via `PLATFORM` environment variable. This environment variable will be generated into code as an environment variable to be used at runtime. In Node, this statement would look like this: `process.env.PLATFORM`.
 
 # Scenarios
 
@@ -89,7 +132,7 @@ generator photon {
 }
 ```
 
-### 2. Deterministically choose the binary based a runtime environment variable
+### 2. Deterministically choose the binary-based a runtime environment variable
 
 We can use `platforms` **and** `pinnedPlatform`. We set an environment variable
 
@@ -114,6 +157,29 @@ generator photon {
     pinnedPlatform = env("PLATFORM") // On local, "native" and in production, "./custom-prisma-binary"
 }
 ```
+
+### 4. Development machine is a Raspberry Pi and the deployment platform is AWS Lambda
+
+As we do not have precompiled binaries for ARM architecture yet, the user would compile binaries manually for query-engine and migration-engine.
+
+```sh
+export MIGRATION_ENGINE_BINARY=<path to compiled migration engine binary>
+export QUERY_ENGINE_BINARY=<path to compiled query engine binary>
+```
+
+Then `prisma2 lift` and `prisma2 generate` would use the respective compiled binaries.
+
+For development and deployment
+
+```groovy
+generator photon {
+    provider = "photonjs"
+    platforms = ["./custom-query-engine-binary", "linux-glibc-libssl1.0.2"]
+    pinnedPlatform = env("PLATFORM") // On local, "./custom-query-engine-binary" and in production, "linux-glibc-libssl1.0.2"
+}
+```
+
+[Examples for other deployment scenarios](https://github.com/prisma/prisma-examples/tree/prisma2/deployment-platforms)
 
 # Configuration
 
@@ -165,7 +231,25 @@ Note: In production setups with a dedicated CI, we can configure platforms to on
 A configuration like `platforms = ["native", "linux-glibc-libssl1.0.2"]` is only needed when the development machine is also the machine responsible to build
 for production but the platform in production is different, like `AWS lambda`, `now`, etc.
 
-# Runtime binary resolution
+# Binary Resolution Error Handling
+
+For fields on the `generator` block:
+
+- If the pinned binary is not found during the generation, generation should fail.
+
+- If the pinned binary is not found during the generated code's runtime, it should throw.
+
+- If the pinned binary is a known binary but does not work for the current platform, try other known binaries from `platforms`. This would make the use cases work where build machine is different from deploy machine, like in the case of zeit's now.
+
+- If the pinned binary is a custom binary but does not work for the current platform, generated code's runtime should throw.
+
+For environment variables used to override the binary used by the CLI:
+
+- If the environment variable path to a custom binary is not found, the respective generate command should throw.
+
+- If the environment variable path to a custom binary exists but the binary is incompatible with the current platform, the respective generate command should throw.
+
+# Runtime Binary Resolution
 
 In the scenario where `platforms` field is defined but no `pinnedPlatform` field is defined, we resolve the binary at runtime by detecting the platform. This
 can be achieved by generating code similar to this pseudo-code in Photon.
@@ -306,9 +390,7 @@ released.
 
 # Drawbacks
 
-- We download binaries specified by the `platforms` when bundling the app, this may lead to (with multiple platforms) unused binaries being bundled increasing
-  the bundle size. This can be resolved by documenting the "bundle ignore" mechanics of various platforms like `.upignore` for `apex/up`. Some platforms also
-  respect the `.gitignore` file.
+- We download binaries specified by the `platforms` when bundling the app, this may lead to (with multiple platforms) unused binaries being bundled increasing the bundle size. This can be resolved by documenting the "bundle ignore" mechanics of various platforms like `.upignore` for `apex/up`. Some platforms also respect the `.gitignore` file.
 
 - We still need some (albeit minimal) configuration before we can deploy to Lambda. This might be a non-issue as it is common to write some configuration (to
   switch the DB to production for example) when deploying.
@@ -332,4 +414,4 @@ generator photon {
 - Some platforms [tally `package.json` with the actual contents of `node_modules`](https://github.com/prisma/photonjs/issues/117), this spec does not address
   that issue.
 
-- Possible New Dimension: Is libssl built for specific distros? E.g. does libssl1.0.1 built on centos not work for ubuntu?
+- Possible New Dimension: Is libssl built for specific distros? E.g. does libssl1.0.1 built on centos not work for ubuntu? https://github.com/prisma/prisma2/issues/157
