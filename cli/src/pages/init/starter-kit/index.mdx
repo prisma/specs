@@ -1,7 +1,7 @@
 ---
 navGroup: init
 navOrder: 0
-navLabel: "Starter Kit: Select DB"
+navLabel: select-db
 ---
 
 import Terminal from '../../../components/Terminal/Terminal'
@@ -18,15 +18,16 @@ import chalk from 'chalk'
 
 # `prisma2 init`
 
+## Starter kit selection
+
 ## Database selection
 
 <Terminal>
-  <Box marginBottom={1}><Color dim>~/Desktop $</Color> prisma init hello-world</Box>
 <Box flexDirection="column" marginLeft={2}>
   <Text bold>Select the database you want to use</Text>
   <Color dim>Use SQLite if you don't have a database running yet</Color>
 </Box>
-  <BorderBox flexDirection="column" marginTop={1} marginBottom={1} title={chalk.bold('Databases')}>
+  <BorderBox flexDirection="column" marginTop={1} marginBottom={1} title={chalk.bold('Supported databases')}>
     <Box width={100}>
       <Box>
         <Color cyan>
@@ -56,4 +57,13 @@ import chalk from 'chalk'
       </Box>
     </Box>
   </BorderBox>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Project options)</Color>
+  </Box>
 </Terminal>
+
+- [SQLite](./sqlite)
+- [MySQL](./mysql)
+- [PostgreSQL](./postgresql)

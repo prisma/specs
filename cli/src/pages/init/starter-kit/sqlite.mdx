@@ -1,0 +1,77 @@
+---
+navGroup: init
+navOrder: 1
+navLabel: sqlite
+---
+
+import Terminal from '../../../components/Terminal/Terminal'
+import {
+  selectInputItemComponent,
+  selectInputIndicatorComponent,
+  Divider,
+} from '../../../components/inkHelpers'
+import SelectInput from 'ink-select-input'
+import ProgressBar from 'ink-progress-bar'
+import { Box, Text, Color } from 'ink'
+import figures from 'figures'
+import BorderBox from '../../../components/Terminal/BorderBox'
+import chalk from 'chalk'
+
+# SQLite
+
+### (1) Language selection
+
+<details><summary>Previous selections</summary>
+
+1. Stater Kit language
+1. Concrete Starter Kit
+
+</details>
+<br />
+
+<Terminal>
+  <Box flexDirection="column" marginLeft={2} marginBottom={1}>
+    <Text bold>Select the programming language you want to use</Text>
+    <Color dim>Specifies the language for Photon (database client)</Color>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={chalk.bold('Photon is available in these languages')}
+    marginBottom={1}
+  >
+    <Box>
+      <Color cyan>{figures.pointer} <Text bold>JavaScript</Text></Color>
+    </Box>
+    <Box>
+      <Box marginLeft={2}>TypeScript</Box>
+    </Box>
+    <Box>
+      <Box marginLeft={2}>
+        <Color dim>Go (Coming soon)</Color>
+      </Box>
+    </Box>
+  </BorderBox>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Database selection)</Color>
+  </Box>
+</Terminal>
+
+- [JavaScript](#2-success)
+- [TypeSctipt](#2-success)
+
+
+### (2) Success
+
+
+<details><summary>Previous selections</summary>
+
+1. Stater Kit language
+1. Concrete Starter Kit
+1. JavaScript/TypeScript
+
+</details>
+<br />
+
+This success screen is dynamic. Learn more [here](./success-screens).
