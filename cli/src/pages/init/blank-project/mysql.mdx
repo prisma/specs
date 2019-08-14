@@ -1,10 +1,10 @@
 ---
 navGroup: init
 navOrder: 4
-navLabel: MySQL
+navLabel: mysql
 ---
 
-import Terminal from '../../components/Terminal/Terminal'
+import Terminal from '../../../components/Terminal/Terminal'
 import {
   multiSelectItemComponent,
   multiSelectIndicatorComponent,
@@ -12,7 +12,7 @@ import {
   selectInputItemComponent,
   selectInputIndicatorComponent,
   Divider,
-} from '../../components/inkHelpers'
+} from '../../../components/inkHelpers'
 import MultiSelect from 'ink-multi-select'
 import SelectInput from 'ink-select-input'
 import TextInput from 'ink-text-input'
@@ -20,20 +20,15 @@ import ProgressBar from 'ink-progress-bar'
 import { Box, Text, Color } from 'ink'
 import figures from 'figures'
 import chalk from 'chalk'
-import BorderBox from '../../components/Terminal/BorderBox'
+import BorderBox from '../../../components/Terminal/BorderBox'
 
 # MySQL
-
----
-
-<img src="https://prisma-specs.prisma.now.sh/cli/figma-proxy?id=858:190" width="100%" />
-
----
 
 ### (1) Enter database credentials
 
 <details><summary>Previous selections</summary>
 
+1. Blank project
 1. MySQL
 
 </details>
@@ -108,85 +103,32 @@ import BorderBox from '../../components/Terminal/BorderBox'
   </Box>
 </Terminal>
 
-
-- [Database provided (non-empty)](#31-introspection)
-- [Database provided (empty)](#4-language-selection)
-- [Database provided (doesn't exist)](#4-language-selection)
-- [Database not provided](#2-select-existing-database-or-create-a-new-one)
-
-### (1A) Database doesn't exist
-
-<details><summary>Previous selections</summary>
-
-1. PostgreSQL
-2. _entered DB credentials_ (optional schema not provided)
-3. _connection succesful_
-4. _database doesn't exist_
-
-</details>
-<br />
-
-<Terminal>
-  <Color green>
-    <Color bgKeyword="green" white><Text bold>SUCCESS</Text></Color> Connected to MySQL database server as <Text bold>admin</Text>
-  </Color>
-  <Box 
-    flexDirection="column" 
-    marginLeft={2} 
-    marginTop={1}
-    marginBottom={1}
-  >
-    <Text bold>A database named <Text bold>`hello-world`</Text> doesn't exist on this MySQL server.</Text>
-    <Color dim>Create a new database or select an existing one</Color>
-  </Box>
-  <BorderBox
-    flexDirection="column"
-    title={`${chalk.bold('Database options')}`}
-    marginBottom={1}
-  >
-     <Box width={100}>
-      <Color cyan>
-        <Box width={30}>
-          <Text bold>{figures.pointer} Create database `hello-world`</Text>
-        </Box>
-      </Color>
-      <Box flexGrow={1}></Box>
-    </Box>
-    <Box width={100}>
-      <Color >
-        <Box width={30}>
-          <Color gray>  </Color>
-          <Text>Select an existing database</Text>
-        </Box>
-      </Color>
-      <Box flexGrow={1}></Box>
-    </Box>
-  </BorderBox>
-  <Box>
-    <Color gray>❮ </Color>
-    <Text bold>Back</Text>
-    <Color dim> (Database credentials)</Color>
-  </Box>
-</Terminal>
-
-- [Create schema `hello-world`](#4-language-selection)
-- [Select an existing schema](#3-select-a-schema)
-
+- Optional DB provided & it exists
+  - [Database provided (empty)](#6-language-selection)
+  - [Database provided (non-empty)](#4-introspection)
+- Optional DB **not** provided
+  - [Database not provided & Rights to create new DB](#2-select-existing-database-or-create-a-new-one)
+  - [Database not provided & **No** rights to create new DB](#31-select-a-database)
+- Optional DB provided but **doesn't** exist
+  - [Database provided but doesn't exist & Rights to create new DB](22-select-existing-database-or-create-a-new-one-with-provided-name)
+  - [Database provided but doesn't exist & **No** rights to create new DB](#32-select-a-database)
 
 ## (2) Select existing database or create a new one
 
 <details><summary>Previous selections</summary>
 
+1. Blank project
 1. MySQL
-2. _entered DB credentials_ (optional DB not provided)
-3. _connection succesful_
+1. _entered DB credentials_ (optional DB not provided)
+1. _connection succesful_
+1. _rights to create new DB_
 
 </details>
 <br />
 
 <Terminal>
   <Color green>
-    <Color bgKeyword="green" white><Text bold>SUCCESS</Text></Color> Connected to MySQL database server as <Text bold>admin</Text>
+    <Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Connected to MySQL database server as <Text bold>admin</Text>
   </Color>
   <Box 
     flexDirection="column" 
@@ -236,10 +178,11 @@ import BorderBox from '../../components/Terminal/BorderBox'
 
 <details><summary>Previous selections</summary>
 
+1. Blank project
 1. MySQL
-2. _entered DB credentials_ (optional DB not provided)
-3. _connection succesful_
-4. Create new database
+1. _entered DB credentials_ (optional DB not provided)
+1. _connection succesful_
+1. Create new database
 
 </details>
 <br />
@@ -247,7 +190,7 @@ import BorderBox from '../../components/Terminal/BorderBox'
 <Terminal>
   <Box marginLeft={2} flexDirection="column" marginBottom={1}>
     <Text bold>Enter name for the new database</Text>
-    <Color dim>The database will be created by Prisma</Color>
+    <Color dim>The database will be created by user: <Text bold>admin</Text></Color>
   </Box>
   <BorderBox
     flexDirection="column"
@@ -273,16 +216,77 @@ import BorderBox from '../../components/Terminal/BorderBox'
   </Box>
 </Terminal>
 
-- [Create](#4-language-selection)
+- [Create](#6-language-selection)
+
+### (2.2) Select existing database or create a new one with provided name
+
+<details><summary>Previous selections</summary>
+
+1. PostgreSQL
+1. _entered DB credentials_ (optional DB provided)
+1. _connection succesful_
+1. _database doesn't exist_ & _rights to create new DB_
+
+</details>
+<br />
+
+<Terminal>
+  <Color green>
+    <Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Connected to MySQL database server as <Text bold>admin</Text>
+  </Color>
+  <Box 
+    flexDirection="column" 
+    marginLeft={2} 
+    marginTop={1}
+    marginBottom={1}
+  >
+    <Text bold>A database named <Text bold>`hello-world`</Text> doesn't exist on this MySQL server.</Text>
+    <Text bold>Create MySQL database `hello-world` or select an existing one.</Text>
+    <Color dim>The MySQL database will be created by user: <Text bold>admin</Text></Color>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={`${chalk.bold('Database options')}`}
+    marginBottom={1}
+  >
+     <Box width={100}>
+      <Color cyan>
+        <Box width={30}>
+          <Text bold>{figures.pointer} Create MySQL database `hello-world`</Text>
+        </Box>
+      </Color>
+      <Box flexGrow={1}></Box>
+    </Box>
+    <Box width={100}>
+      <Color >
+        <Box width={30}>
+          <Color gray>  </Color>
+          <Text>Select an existing MySQL database</Text>
+        </Box>
+      </Color>
+      <Box flexGrow={1}></Box>
+    </Box>
+  </BorderBox>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Database credentials)</Color>
+  </Box>
+</Terminal>
+
+- [Create schema `hello-world`](#6-language-selection)
+- [Select an existing database](#3-select-a-database)
 
 ## (3) Select a database
 
 <details><summary>Previous selections</summary>
 
+1. Blank project
 1. MySQL
-2. _entered DB credentials_ (optional DB not provided)
-3. _connection succesful_
-4. Use existing database
+1. _entered DB credentials_ (optional DB not provided)
+1. _connection succesful_
+1. _rights to create new DB_
+1. Use existing database
 
 </details>
 <br />
@@ -290,7 +294,7 @@ import BorderBox from '../../components/Terminal/BorderBox'
 <Terminal>
   <Box flexDirection="column" marginLeft={2} marginBottom={1}>
     <Text bold>Select a MySQL database</Text>
-    <Color dim>Found 1 empty and 3 non-empty databases</Color>
+    <Color dim>Found 1 empty and 3 non-empty MySQL databases</Color>
   </Box>
   <BorderBox
     flexDirection="column"
@@ -338,17 +342,159 @@ import BorderBox from '../../components/Terminal/BorderBox'
   </Box>
 </Terminal>
 
-- [Empty DB](#4-language-selection)
-- [Non-empty DB](#31-introspection)
+- [Empty DB](#6-language-selection)
+- [Non-empty DB](#5-introspection)
 
-## (3.1) Introspection
+## (3.1) Select a database
 
 <details><summary>Previous selections</summary>
 
+1. Blank project
 1. MySQL
-2. _entered DB credentials_ (optional DB not provided)
-3. _connection succesful_
-4. Use existing database
+1. _entered DB credentials_ (optional DB not provided)
+1. _connection succesful_ 
+1. _no rights to create new DB_
+
+</details>
+<br />
+
+<Terminal>
+  <Color green>
+    <Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Connected to MySQL database server as <Text bold>admin</Text>
+  </Color>
+  <Box flexDirection="column" marginLeft={2} marginBottom={1} marginTop={1}>
+    <Text bold>Select an existing MySQL database.</Text>
+    <Color dim>Found 1 empty and 3 non-empty MySQL databases</Color>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={`${chalk.bold('Empty databases')} ${chalk.gray('(Start new project)')}`}
+    marginBottom={1}
+  >
+    <Box width={100}>
+      <Color cyan>
+        {figures.pointer} <Text bold>public</Text>
+      </Color>
+      <Box flexGrow={1} />
+    </Box>
+  </BorderBox>
+  <BorderBox
+    flexDirection="column"
+    title={`${chalk.bold('Non-empty databases')} ${chalk.gray('(Introspect existing database)')}`}
+    marginBottom={1}
+  >
+    <Box width={100}>
+      <Box width={20} marginLeft={2}>
+        <Text>management</Text>
+      </Box>
+      <Color dim>2 tables, 1,341KB</Color>
+      <Box flexGrow={1}></Box>
+    </Box>
+    <Box width={100}>
+      <Box width={20} marginLeft={2}>
+        <Text>default$default</Text>
+      </Box>
+      <Color dim>5 tables, 1,341KB</Color>
+      <Box flexGrow={1}></Box>
+    </Box>
+    <Box width={100}>
+      <Box width={20} marginLeft={2}>
+        <Text>staging</Text>
+      </Box>
+      <Color dim>1 tables, 2,341KB</Color>
+      <Box flexGrow={1}></Box>
+    </Box>
+  </BorderBox>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Database credentials)</Color>
+  </Box>
+</Terminal>
+
+- [Empty DB](#6-language-selection)
+- [Non-empty DB](#5-introspection)
+
+## (3.2) Select a database
+
+<details><summary>Previous selections</summary>
+
+1. Blank project
+1. MySQL
+1. _entered DB credentials_ (optional DB provided)
+1. _connection succesful_ 
+1. _database doesn't exist_ & _no rights to create new DB_
+
+</details>
+<br />
+
+<Terminal>
+  <Color green>
+    <Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Connected to MySQL database server as <Text bold>admin</Text>
+  </Color>
+  <Box flexDirection="column" marginLeft={2} marginBottom={1} marginTop={1}>
+    <Text bold>The database `hello-world` doesn't exist on this MySQL server.</Text>
+    <Text bold>You can select an existing MySQL database instead.</Text>
+    <Color dim>Found 1 empty and 3 non-empty MySQL databases</Color>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={`${chalk.bold('Empty databases')} ${chalk.gray('(Start new project)')}`}
+    marginBottom={1}
+  >
+    <Box width={100}>
+      <Color cyan>
+        {figures.pointer} <Text bold>public</Text>
+      </Color>
+      <Box flexGrow={1} />
+    </Box>
+  </BorderBox>
+  <BorderBox
+    flexDirection="column"
+    title={`${chalk.bold('Non-empty databases')} ${chalk.gray('(Introspect existing database)')}`}
+    marginBottom={1}
+  >
+    <Box width={100}>
+      <Box width={20} marginLeft={2}>
+        <Text>management</Text>
+      </Box>
+      <Color dim>2 tables, 1,341KB</Color>
+      <Box flexGrow={1}></Box>
+    </Box>
+    <Box width={100}>
+      <Box width={20} marginLeft={2}>
+        <Text>default$default</Text>
+      </Box>
+      <Color dim>5 tables, 1,341KB</Color>
+      <Box flexGrow={1}></Box>
+    </Box>
+    <Box width={100}>
+      <Box width={20} marginLeft={2}>
+        <Text>staging</Text>
+      </Box>
+      <Color dim>1 tables, 2,341KB</Color>
+      <Box flexGrow={1}></Box>
+    </Box>
+  </BorderBox>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Database credentials)</Color>
+  </Box>
+</Terminal>
+
+- [Empty DB](#6-language-selection)
+- [Non-empty DB](#5-introspection)
+
+## (4) Introspection
+
+<details><summary>Previous selections</summary>
+
+1. Blank project
+1. MySQL
+1. _entered DB credentials_ (optional DB not provided)
+1. _connection succesful_
+1. Use existing database (or _selected existing non-empty DB_)
 
 </details>
 <br />
@@ -364,23 +510,24 @@ import BorderBox from '../../components/Terminal/BorderBox'
 </BorderBox>
 </Terminal>
 
-- [Introspection terminated](#32-tool-selection)
+- [Introspection terminated](#5-tool-selection)
 
-## (3.2) Tool selection
+## (5) Tool selection
 
 <details><summary>Previous selections</summary>
 
+1. Blank project
 1. MySQL
-2. _entered DB credentials_ (optional DB not provided)
-3. _connection succesful_
-4. Use existing database
-5. _introspected DB_ + _DB not empty_
+1. _entered DB credentials_ (optional DB not provided)
+1. _connection succesful_
+1. Use existing database (or _selected existing non-empty DB_)
+1. _introspected DB_ & _DB not empty_
 
 </details>
 <br />
 
 <Terminal>
-  <Color green><Color bgKeyword="green" white><Text bold>SUCCESS</Text></Color> Introspection was successful.</Color>
+  <Color green><Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Introspection was successful.</Color>
   <Box marginLeft={2} flexDirection="column" marginBottom={1} marginTop={1}>
     <Text bold>Select the Prisma 2 tools you want to use</Text>
     <Color  dim>Learn more: https://github.com/prisma/prisma2</Color>
@@ -397,7 +544,7 @@ import BorderBox from '../../components/Terminal/BorderBox'
       </Color>
     </Box>
     <Box>
-      <Box width={10} marginLeft={2}>{figures.squareSmall} Lift</Box>
+      <Box width={10} marginLeft={2}>{figures.squareSmallFilled} Lift</Box>
       <Color dim>Declarative data modeling & migrations</Color>
     </Box>
     <Box marginLeft={2} marginTop={1}>
@@ -419,16 +566,17 @@ import BorderBox from '../../components/Terminal/BorderBox'
 
 **Note**: The text from the back button might also be "Database selection" depending on how we got to the tool selection.
 
-- [Photon](#41--42-language-selection)
-- [Photon & Lift](#41--42-language-selection)
-- [Lift](#)
+- [Photon](#61--62-language-selection)
+- [Photon & Lift](#61--62-language-selection)
+- [Lift](#86-success)
 
-### (4) Language selection
+### (6) Language selection
 
 <details><summary>Previous selections</summary>
 
+1. Blank project
 1. MySQL
-1. Create new MySQL DB (or _existing DB is empty_)
+1. Create new MySQL DB (or _existing DB is empty_ or _selected empty DB_)
 
 </details>
 <br />
@@ -464,19 +612,20 @@ import BorderBox from '../../components/Terminal/BorderBox'
 
 **Note**: The text from the back button might also be "Database selection" depending on how we got to the language selection.
 
-- [JavaScript](#5-example-selection)
-- [TypeScript](#5-example-selection)
+- [JavaScript](#7-demo-script-selection)
+- [TypeScript](#7-demo-script-selection)
 
-### (4.1) & (4.2) Language selection
+### (6.1) & (6.2) Language selection
 
 <details><summary>Previous selections</summary>
 
+1. Blank project
 1. MySQL
-2. _entered DB credentials_ (optional DB not provided)
-3. _connection succesful_
-4. Use existing database
-5. _introspected DB_ + _DB not empty_
-6. Photon or Photon + Lift
+1. _entered DB credentials_ (optional DB not provided)
+1. _connection succesful_
+1. Use existing database (or _selected existing non-empty DB_)
+1. _introspected DB_ + _DB not empty_
+1. Photon or Photon + Lift
 
 </details>
 <br />
@@ -504,15 +653,16 @@ import BorderBox from '../../components/Terminal/BorderBox'
   </Box>
 </Terminal>
 
-- [JavaScript](#51--52-example-selection)
-- [TypeScript](#51--52-example-selection)
+- [JavaScript](#71--72-demo-script-selection)
+- [TypeScript](#71--72-demo-script-selection)
 
-### (5) Example selection
+### (7) Demo script selection
 
 <details><summary>Previous selections</summary>
 
+1. Blank project
 1. MySQL
-1. Create new MySQL DB (or _existing DB is empty_)
+1. Create new MySQL DB (or _existing DB is empty_ or _selected empty DB_)
 1. JavaScript/TypeScript
 
 </details>
@@ -520,40 +670,22 @@ import BorderBox from '../../components/Terminal/BorderBox'
 
 <Terminal>
   <Box flexDirection="column" marginLeft={2} marginBottom={1}>
-    <Text bold>Select an example or start from scratch</Text>
-    <Color dim>All examples: https://github.com/prisma/photonjs/</Color>
+    <Text bold>Start with a runnable demo script or just the Prisma schema</Text>
+    <Color dim>Demo scripts showcase usage of the Photon API</Color>
   </Box>
   <BorderBox
     flexDirection="column"
-    title={chalk.bold('Examples to get you started')}
+    title={chalk.bold('')}
   >
     <Box>
       <Color cyan>
-        <Box width={13} marginRight={2}>{figures.pointer} <Text bold>Script</Text></Box>
+        <Box width={24} marginRight={2}>{figures.pointer} <Text bold>Demo script</Text></Box>
         <Color dim>Simple script with API examples</Color>
       </Color>
     </Box>
     <Box>
-      <Box width={13} marginLeft={2}>GraphQL</Box>
-      <Color dim>GraphQL server example</Color>
-    </Box>
-    <Box>
-      <Box width={13} marginLeft={2}>REST</Box>
-      <Color dim>REST API example (using express.js)</Color>
-    </Box>
-    <Box>
-      <Box width={13} marginLeft={2}>gRPC</Box>
-      <Color dim>gRPC API example (client + server)</Color>
-    </Box>
-  </BorderBox>
-  <BorderBox
-    marginBottom={1}
-    title={chalk.bold('Or')}
-    extension
-  >
-    <Box>
-      <Box width={13} marginLeft={2}>No example</Box>
-      <Color dim>Just generate the Prisma schema</Color>
+      <Box width={24} marginLeft={2}>Just the Prisma schema</Box>
+      <Color dim>Most minimal setup</Color>
     </Box>
   </BorderBox>
   <Box>
@@ -563,51 +695,42 @@ import BorderBox from '../../components/Terminal/BorderBox'
   </Box>
 </Terminal>
 
-- [Select any example](#6-success)
-- [No example](#61-success)
+- [Demo script](#8-success)
+- [Just the Prisma schema](#81-success)
 
-**Note**: The list of available examples is fetched from the [examples API](./examples-api).
-
-### (5.1) & (5.2) Example selection
+### (7.1) & (7.2) Demo script selection
 
 <details><summary>Previous selections</summary>
 
+1. Blank project
 1. MySQL
-2. _entered DB credentials_ (optional DB not provided)
-3. _connection succesful_
-4. Use existing database
-5. _introspected DB_ + _DB not empty_
-6. Photon or Photon + Lift
-6. JavaScript/TypeScript
+1. Use existing MySQL database
+1. _connection succesful_
+1. _introspected DB_
+1. Photon
+1. JavaScript/TypeScript
 
 </details>
 <br />
 
 <Terminal>
   <Box flexDirection="column" marginLeft={2} marginBottom={1}>
-    <Text bold>Select an example or start from scratch</Text>
-    <Color dim>Examples are generated for your database schema</Color>
+    <Text bold>Start with a runnable demo script or just the Prisma schema</Text>
+    <Color dim>Demo scripts showcase usage of the Photon API</Color>
   </Box>
   <BorderBox
     flexDirection="column"
-    title={chalk.bold('Examples to get you started')}
+    title={chalk.bold('')}
   >
     <Box>
       <Color cyan>
-        <Box width={15} marginRight={2}>{figures.pointer} <Text bold>Script</Text></Box>
+        <Box width={24} marginRight={2}>{figures.pointer} <Text bold>Demo script</Text></Box>
         <Color dim>Simple script with API examples</Color>
       </Color>
     </Box>
-  </BorderBox>
-  <BorderBox
-    flexDirection="column"
-    title={chalk.bold('Or')}
-    marginBottom={1}
-    extension
-  >
     <Box>
-      <Box width={15} marginLeft={2}>No example</Box>
-      <Color dim>Just generate the Prisma schema</Color>
+      <Box width={24} marginLeft={2}>Just the Prisma schema</Box>
+      <Color dim>Most minimal setup</Color>
     </Box>
   </BorderBox>
   <Box>
@@ -617,40 +740,25 @@ import BorderBox from '../../components/Terminal/BorderBox'
   </Box>
 </Terminal>
 
-- [Script](#62--64-success)
-- [No example](#63--65-success)
+- [Demo script](#82--84-success)
+- [Just the Prisma schema](#83--85-success)
 
-### (6) Success
-
-<details><summary>Previous selections</summary>
-
-1. MySQL
-1. Create new MySQL DB (or _existing DB is empty_)
-1. JavaScript/TypeScript
-1. _Example selected_
-
-</details>
-
-This success screen is dynamic. Learn more [here](./success-screens).
-
-### (6.1) Success
+### (8) Success
 
 <details><summary>Previous selections</summary>
 
+1. Blank project
 1. MySQL
-1. Create new MySQL DB (or _existing DB is empty_)
+1. Create new MySQL DB (or _existing DB is empty_ or _selected empty DB_)
 1. JavaScript/TypeScript
-1. _No example selected_
+1. Demo script
 
 </details>
 <br />
 
 <Terminal>
-  <Box marginBottom={1}>
-    <Color dim>~/Desktop $</Color> prisma init hello-world
-  </Box>
   <Box marginLeft={2} marginBottom={1}>
-    <Color green><Color bgKeyword="green" white><Text bold>SUCCESS</Text></Color> Congratulations, you're all set!</Color>
+    <Color green><Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Congratulations, you're all set!</Color>
   </Box>
   <BorderBox flexDirection="column" title={chalk.bold('Info')}>
     <Box marginLeft={2} marginBottom={1} flexDirection="column">
@@ -663,7 +771,71 @@ This success screen is dynamic. Learn more [here](./success-screens).
     <Box marginLeft={2} marginBottom={1} flexDirection="column">
       <Text>Prisma is connected to your database at:</Text>
       <Text>
-        <Text bold>127.0.0.1</Text> as <Text bold>admin</Text>
+        <Text bold>./dev.db</Text>
+      </Text>
+    </Box>
+    <Box marginLeft={2} flexDirection="column">
+      <Text>If you encounter any issues, please report them here:</Text>
+      <Text bold>https://github.com/prisma/prisma2/issues</Text>
+    </Box>
+  </BorderBox>
+  <BorderBox
+    flexDirection="column"
+    marginTop={1}
+    marginBottom={1}
+    title={chalk.bold('Next steps')}
+  >
+    <Box marginLeft={2} width={100} flexDirection="column">
+      <Text>Navigate into the project directory:</Text>
+      <Box marginBottom={1} flexDirection="column">
+        <Text bold>$ cd hello-world</Text>
+      </Box>
+      <Text>Start Prisma's development mode to enable access to</Text>
+      <Text>Prisma Studio and watch <Text bold>schema.prisma</Text> for changes:</Text>
+      <Box marginBottom={1} flexDirection="column">
+        <Text bold>$ prisma dev</Text>
+      </Box>
+      <Text>Run the sample script (in a new terminal window/tab):</Text>
+      <Box marginBottom={1} flexDirection="column">
+        <Text bold>$ npm start</Text>
+      </Box>
+      <Text>Learn more about Prisma 2:</Text>
+      <Text bold>https://github.com/prisma/prisma2/</Text>
+    </Box>
+  </BorderBox>
+</Terminal>
+
+**Note**: If the command was invoked **without** a project name (e.g. `prisma2 init` or `prisma2 init .`), the first success message should be: _"Your project directory is ready. It contains your Prisma schema: **schema.prisma**."_
+
+### (8.1) Success
+
+<details><summary>Previous selections</summary>
+
+1. Blank project
+1. MySQL
+1. Create new MySQL DB (or _existing DB is empty_ or _selected empty DB_)
+1. JavaScript/TypeScript
+1. Just the Prisma schema
+
+</details>
+<br />
+
+<Terminal>
+  <Box marginLeft={2} marginBottom={1}>
+    <Color green><Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Congratulations, you're all set!</Color>
+  </Box>
+  <BorderBox flexDirection="column" title={chalk.bold('Info')}>
+    <Box marginLeft={2} marginBottom={1} flexDirection="column">
+      <Text>
+        The <Text bold>hello-world</Text> directory was created. It contains
+        your{' '}
+      </Text>
+      <Text>Prisma schema: <Text bold>schema.prisma</Text>.</Text>
+    </Box>
+    <Box marginLeft={2} marginBottom={1} flexDirection="column">
+      <Text>Prisma is connected to your database at:</Text>
+      <Text>
+        <Text bold>./dev.db</Text>
       </Text>
     </Box>
     <Box marginLeft={2} flexDirection="column">
@@ -699,28 +871,25 @@ This success screen is dynamic. Learn more [here](./success-screens).
 
 **Note**: If the command was invoked **without** a project name (e.g. `prisma2 init` or `prisma2 init .`), the first success message should be: _"Your project directory is ready. It contains your Prisma schema: **schema.prisma**."_
 
-### (6.2) & (6.4) Success
+### (8.2) & (8.4) Success
 
 <details><summary>Previous selections</summary>
 
+1. Blank project
 1. MySQL
-2. _entered DB credentials_ (optional DB not provided)
-3. _connection succesful_
-4. Use existing database
-5. _introspected DB_ + _DB not empty_
-6. Photon or Photon + Lift
-6. JavaScript/TypeScript
-7. _Script example selected_
+1. Use existing MySQL database
+1. _connection succesful_
+1. _introspected DB_
+1. Photon
+1. JavaScript/TypeScript
+1. Demo script
 
 </details>
 <br />
 
 <Terminal>
-  <Box marginBottom={1}>
-    <Color dim>~/Desktop $</Color> prisma init hello-world
-  </Box>
   <Box marginLeft={2} marginBottom={1}>
-    <Color green><Color bgKeyword="green" white><Text bold>SUCCESS</Text></Color> Congratulations, you're all set!</Color>
+    <Color green><Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Congratulations, you're all set!</Color>
   </Box>
   <BorderBox flexDirection="column" title={chalk.bold('Info')}>
     <Box marginLeft={2} marginBottom={1} flexDirection="column">
@@ -730,7 +899,7 @@ This success screen is dynamic. Learn more [here](./success-screens).
     <Box marginLeft={2} marginBottom={1} flexDirection="column">
       <Text>Prisma is connected to your database at:</Text>
       <Text>
-        <Text bold>127.0.0.1</Text> as <Text bold>admin</Text>
+        <Text bold>./dev.db</Text>
       </Text>
     </Box>
     <Box marginLeft={2} flexDirection="column">
@@ -764,28 +933,27 @@ This success screen is dynamic. Learn more [here](./success-screens).
   </BorderBox>
 </Terminal>
 
-### (6.3) & (6.5) Success
+**Note**: If the command was invoked **without** a project name (e.g. `prisma2 init` or `prisma2 init .`), the first success message should be: _"Your project directory is ready. It contains your Prisma schema: **schema.prisma**."_
+
+### (8.3) & (8.5) Success
 
 <details><summary>Previous selections</summary>
 
+1. Blank project
 1. MySQL
-2. _entered DB credentials_ (optional DB not provided)
-3. _connection succesful_
-4. Use existing database
-5. _introspected DB_ + _DB not empty_
-6. Photon or Photon + Lift
-6. JavaScript/TypeScript
-7. _No example selected_
+1. Use existing MySQL database
+1. _connection succesful_
+1. _introspected DB_
+1. Photon
+1. JavaScript/TypeScript
+1. Just the Prisma schema
 
 </details>
 <br />
 
 <Terminal>
-  <Box marginBottom={1}>
-    <Color dim>~/Desktop $</Color> prisma init hello-world
-  </Box>
   <Box marginLeft={2} marginBottom={1}>
-    <Color green><Color bgKeyword="green" white><Text bold>SUCCESS</Text></Color> Congratulations, you're all set!</Color>
+    <Color green><Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Congratulations, you're all set!</Color>
   </Box>
   <BorderBox flexDirection="column" title={chalk.bold('Info')}>
     <Box marginLeft={2} marginBottom={1} flexDirection="column">
@@ -798,7 +966,7 @@ This success screen is dynamic. Learn more [here](./success-screens).
     <Box marginLeft={2} marginBottom={1} flexDirection="column">
       <Text>Prisma is connected to your database at:</Text>
       <Text>
-        <Text bold>127.0.0.1</Text> as <Text bold>admin</Text>
+        <Text bold>./dev.db</Text>
       </Text>
     </Box>
     <Box marginLeft={2} flexDirection="column">
@@ -829,6 +997,72 @@ This success screen is dynamic. Learn more [here](./success-screens).
 </Terminal>
 
 **Note**: If the command was invoked **without** a project name (e.g. `prisma2 init` or `prisma2 init .`), the first success message should be: _"Your project directory is ready. It contains your Prisma schema: **schema.prisma**."_
+
+### (8.6) Success
+
+<details><summary>Previous selections</summary>
+
+1. Blank project
+1. MySQL
+1. Use existing MySQL DB
+1. _connection succesful_
+1. _introspected DB_
+1. Lift
+
+</details>
+<br />
+
+<Terminal>
+  <Box marginLeft={2} marginBottom={1}>
+    <Color green><Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Congratulations, you're all set!</Color>
+  </Box>
+  <BorderBox flexDirection="column" title={chalk.bold('Info')}>
+    <Box marginLeft={2} marginBottom={1} flexDirection="column">
+      <Text>
+        The <Text bold>hello-world</Text> directory was created. It contains
+        your{' '}
+      </Text>
+      <Text>Prisma schema: <Text bold>schema.prisma</Text>.</Text>
+    </Box>
+    <Box marginLeft={2} marginBottom={1} flexDirection="column">
+      <Text>Prisma is connected to your database at:</Text>
+      <Text>
+        <Text bold>./dev.db</Text>
+      </Text>
+    </Box>
+    <Box marginLeft={2} flexDirection="column">
+      <Text>If you encounter any issues, please report them here:</Text>
+      <Text bold>https://github.com/prisma/prisma2/issues</Text>
+    </Box>
+  </BorderBox>
+  <BorderBox
+    flexDirection="column"
+    marginTop={1}
+    marginBottom={1}
+    title={chalk.bold('Next steps')}
+  >
+    <Box marginLeft={2} width={100} flexDirection="column">
+      <Text>Navigate into the project directory:</Text>
+      <Box marginBottom={1} flexDirection="column">
+        <Text bold>$ cd hello-world</Text>
+      </Box>
+      <Text>Start Prisma's development mode to enable access to</Text>
+      <Text>Prisma Studio and watch <Text bold>schema.prisma</Text> for changes:</Text>
+      <Box marginBottom={1} flexDirection="column">
+        <Text bold>$ prisma dev</Text>
+      </Box>
+      <Text>Explore the data model generated from introspection:</Text>
+      <Box marginBottom={1} flexDirection="column">
+        <Text bold>./prisma.schema</Text>
+      </Box>
+      <Text>Learn more about Prisma 2:</Text>
+      <Text bold>https://github.com/prisma/prisma2/</Text>
+    </Box>
+  </BorderBox>
+</Terminal>
+
+**Note**: If the command was invoked **without** a project name (e.g. `prisma2 init` or `prisma2 init .`), the first success message should be: _"Your project directory is ready. It contains your Prisma schema: **schema.prisma**."_
+
 
 <!-- 
 

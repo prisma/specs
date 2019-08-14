@@ -1,0 +1,792 @@
+---
+navGroup: init
+navOrder: 4
+navLabel: mysql
+---
+
+import Terminal from '../../../components/Terminal/Terminal'
+import {
+  multiSelectItemComponent,
+  multiSelectIndicatorComponent,
+  multiSelectCheckboxComponent,
+  selectInputItemComponent,
+  selectInputIndicatorComponent,
+  Divider,
+} from '../../../components/inkHelpers'
+import MultiSelect from 'ink-multi-select'
+import SelectInput from 'ink-select-input'
+import TextInput from 'ink-text-input'
+import ProgressBar from 'ink-progress-bar'
+import { Box, Text, Color } from 'ink'
+import figures from 'figures'
+import chalk from 'chalk'
+import BorderBox from '../../../components/Terminal/BorderBox'
+
+# MySQL
+
+### (1) Enter database credentials
+
+<details><summary>Previous selections</summary>
+
+1. Starter Kit Language
+1. Starter Kit
+1. MySQL
+
+</details>
+<br />
+
+<Terminal>
+  <Box flexDirection="column" marginLeft={2} marginBottom={1}>
+    <Text bold>Connect to your MySQL database server</Text>
+    <Color dim>https://pris.ly/docs/core/connectors/mysql.md</Color>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={chalk.bold('MySQL database credentials')}
+  > 
+    <Box width={100}>
+      <Color gray>  </Color>
+      <Text>Host: </Text>
+      <TextInput value="" placeholder="127.0.0.1" showCursor={false} />
+      <Box flexGrow={1}></Box>
+    </Box>
+    <Box width={100}>
+      <Color gray>  </Color>
+      <Text>Port: </Text>
+      <TextInput value="" placeholder="3306" showCursor={false} />
+      <Box flexGrow={1}></Box>
+    </Box>
+    <Box width={100}>
+      <Color gray>  </Color>
+      <Text>User: </Text>
+      <TextInput value="admin" showCursor={false} />
+      <Box flexGrow={1}></Box>
+    </Box>
+    <Box width={100}>
+      <Color cyan>{figures.pointer} </Color>
+      <Color cyan>
+        <Text bold>Password: </Text>
+        <TextInput value="********" showCursor={false} />
+      </Color>
+      <Box flexGrow={1}></Box>
+    </Box>
+    <Box width={100}>
+      <Color gray>  </Color>
+      <Text>Database (optional): </Text>
+      <TextInput value="" showCursor={false} />
+      <Box flexGrow={1}></Box>
+    </Box>
+    <Box width={100}>
+      <Box flexGrow={1}></Box>
+    </Box>
+    <Box width={100}>
+      <Color gray>  </Color>
+      <Text>{figures.squareSmall} Use SSL </Text>
+    </Box>
+  </BorderBox>
+  <BorderBox
+    flexDirection="column"
+    marginBottom={1}
+    title={`${chalk.bold('Or')}`}
+    extension
+  >
+     <Box width={100}>
+      <Color gray>  </Color>
+      <Text>URL: </Text>
+      <TextInput value="" placeholder="mysql://localhost:3306/admin" showCursor={false} />
+      <Box flexGrow={1}></Box>
+    </Box>
+  </BorderBox>
+  <Box>
+    <Color gray>❮ </Color> 
+    <Text bold>Back</Text>
+    <Color dim> (Database selection)</Color>
+  </Box>
+</Terminal>
+
+- Optional DB provided
+  - [Empty](#5-language-selection)
+  - Non-empty
+    - [Rights to create new DB](#2-select-existing-database-or-create-a-new-one)
+    - [**No** rights to create new DB](#4-select-a-database)
+  - Provided DB doesn't exist
+    - [Rights to create new DB](#21-select-existing-database-or-create-a-new-one-with-provided-name)
+    - [**No** rights to create new DB](#42-select-a-database)
+- Optional DB **not** provided
+  - [Rights to create new DB](#22-select-existing-database-or-create-a-new-one)
+  - [**No** rights to create new DB](#43-select-a-database)
+
+## (2) Select existing database or create a new one
+
+<details><summary>Previous selections</summary>
+
+1. Starter Kit Language
+1. Starter Kit
+1. MySQL
+1. _entered DB credentials_ (optional DB provided)
+1. _connection succesful_
+1. _rights to create new DB_
+
+</details>
+<br />
+
+<Terminal>
+  <Color green>
+    <Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Connected to MySQL database server as <Text bold>admin</Text>
+  </Color>
+  <Box 
+    flexDirection="column" 
+    marginLeft={2} 
+    marginTop={1}
+    marginBottom={1}
+  >
+    <Text bold>The database <Text bold>`hello-world`</Text> is not empty.</Text>
+    <Text bold>When using a starter kit, you must provide an empty database.</Text>
+    <Text bold>Create a new MySQL database or use an empty one.</Text>
+    <Color dim>A MySQL database server can host multiple databases</Color>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={`${chalk.bold('Database options')}`}
+    marginBottom={1}
+  >
+     <Box width={100}>
+      <Color cyan>
+        <Box width={30}>
+          <Text bold>{figures.pointer} Create new MySQL database</Text>
+        </Box>
+        <Color dim>Start from scratch</Color>
+      </Color>
+      <Box flexGrow={1}></Box>
+    </Box>
+    <Box width={100}>
+      <Color >
+        <Box width={30}>
+          <Color gray>  </Color>
+          <Text>Use empty MySQL database</Text>
+        </Box>
+        <Color dim>Found 5 databases</Color>
+      </Color>
+      <Box flexGrow={1}></Box>
+    </Box>
+  </BorderBox>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Database credentials)</Color>
+  </Box>
+</Terminal>
+
+- [Create new MySQL database](#3-set-database-name)
+- [Use existing MySQL database](#41-select-a-database)
+
+### (2.1) Select existing database or create a new one with provided name
+
+<details><summary>Previous selections</summary>
+
+1. MySQL
+1. _entered DB credentials_ (optional DB provided)
+1. _connection succesful_
+1. _database doesn't exist_ & _rights to create new DB_
+
+</details>
+<br />
+
+<Terminal>
+  <Color green>
+    <Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Connected to MySQL database server as <Text bold>admin</Text>
+  </Color>
+  <Box 
+    flexDirection="column" 
+    marginLeft={2} 
+    marginTop={1}
+    marginBottom={1}
+  >
+    <Text bold>A database named <Text bold>`hello-world`</Text> doesn't exist on this MySQL server.</Text>
+    <Text bold>Create MySQL database `hello-world` or select an existing one.</Text>
+    <Color dim>The MySQL database will be created by user: <Text bold>admin</Text></Color>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={`${chalk.bold('Database options')}`}
+    marginBottom={1}
+  >
+     <Box width={100}>
+      <Color cyan>
+        <Box width={30}>
+          <Text bold>{figures.pointer} Create MySQL database `hello-world`</Text>
+        </Box>
+      </Color>
+      <Box flexGrow={1}></Box>
+    </Box>
+    <Box width={100}>
+      <Color >
+        <Box width={30}>
+          <Color gray>  </Color>
+          <Text>Select an existing MySQL database</Text>
+        </Box>
+      </Color>
+      <Box flexGrow={1}></Box>
+    </Box>
+  </BorderBox>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Database credentials)</Color>
+  </Box>
+</Terminal>
+
+- [Create database `hello-world`](#5-language-selection)
+- [Select an existing database](#41-select-a-database)
+
+### (2.2) Select existing database or create a new one
+
+<details><summary>Previous selections</summary>
+
+1. MySQL
+1. _entered DB credentials_ (optional not DB provided)
+1. _connection succesful_
+1. _rights to create new DB_
+
+</details>
+<br />
+
+<Terminal>
+  <Color green>
+    <Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Connected to MySQL database server as <Text bold>admin</Text>
+  </Color>
+  <Box 
+    flexDirection="column" 
+    marginLeft={2} 
+    marginTop={1}
+    marginBottom={1}
+  >
+    <Text bold>Create a new MySQL database or select an existing one.</Text>
+    <Color dim>The MySQL database will be created by user: <Text bold>admin</Text></Color>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={`${chalk.bold('Database options')}`}
+    marginBottom={1}
+  >
+     <Box width={100}>
+      <Color cyan>
+        <Box width={30}>
+          <Text bold>{figures.pointer} Create new MySQL database</Text>
+        </Box>
+      </Color>
+      <Box flexGrow={1}></Box>
+    </Box>
+    <Box width={100}>
+      <Color >
+        <Box width={30}>
+          <Color gray>  </Color>
+          <Text>Select an existing MySQL database</Text>
+        </Box>
+      </Color>
+      <Box flexGrow={1}></Box>
+    </Box>
+  </BorderBox>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Database credentials)</Color>
+  </Box>
+</Terminal>
+
+- [Create new database](#3-set-database-name)
+- [Select an existing database](#41-select-a-database)
+
+## (3) Set database name
+
+<details><summary>Previous selections</summary>
+
+1. Starter Kit Language
+1. Starter Kit
+1. MySQL
+1. _entered DB credentials_ (optional DB not provided)
+1. _connection succesful_
+1. Create new database
+
+</details>
+<br />
+
+<Terminal>
+  <Box marginLeft={2} flexDirection="column" marginBottom={1}>
+    <Text bold>Enter name for the new database</Text>
+    <Color dim>The database will be created by user: <Text bold>admin</Text></Color>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={`${chalk.bold('MySQL database name')}`}
+    marginBottom={1}
+  >
+   <Box width={100}>
+      <Color cyan>
+        <Text bold>{figures.pointer} Name:</Text>
+        <Color dim> my_db</Color>
+      </Color>
+      <Box flexGrow={1}></Box>
+    </Box>
+  </BorderBox>
+  <Box>
+    <Color gray>{figures.pointer} </Color>
+    <Text bold>Create</Text>
+  </Box>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Database options)</Color>
+  </Box>
+</Terminal>
+
+- [Create](#5-language-selection)
+
+## (4) Select a database
+
+<details><summary>Previous selections</summary>
+
+1. Starter Kit Language
+1. Starter Kit
+1. MySQL
+1. _entered DB credentials_ (optional DB provided)
+1. _connection succesful_
+1. _no rights to create new DB_
+
+</details>
+<br />
+
+<Terminal>
+  <Color green>
+    <Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Connected to MySQL database server as <Text bold>admin</Text>
+  </Color>
+  <Box flexDirection="column" marginLeft={2} marginBottom={1} marginTop={1}>
+    <Text bold>The database <Text bold>`hello-world`</Text> is not empty.</Text>
+    <Text bold>When using a starter kit, you must provide an empty database.</Text>
+    <Text bold>Select an empty MySQL database from the list.</Text>
+    <Color dim>Found 3 empty MySQL databases</Color>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={`${chalk.bold('Empty databases')}`}
+    marginBottom={1}
+  >
+    <Box width={100}>
+      <Box width={20} marginLeft={2}>
+        <Text>management</Text>
+      </Box>
+      <Color dim>2 tables, 1,341KB</Color>
+      <Box flexGrow={1}></Box>
+    </Box>
+    <Box width={100}>
+      <Box width={20} marginLeft={2}>
+        <Text>default$default</Text>
+      </Box>
+      <Color dim>5 tables, 1,341KB</Color>
+      <Box flexGrow={1}></Box>
+    </Box>
+    <Box width={100}>
+      <Box width={20} marginLeft={2}>
+        <Text>staging</Text>
+      </Box>
+      <Color dim>1 tables, 2,341KB</Color>
+      <Box flexGrow={1}></Box>
+    </Box>
+  </BorderBox>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Database credentials)</Color>
+  </Box>
+</Terminal>
+
+- [Empty DB](#5-language-selection)
+
+## (4.1) Select a database
+
+<details><summary>Previous selections</summary>
+
+1. Starter Kit Language
+1. Starter Kit
+1. MySQL
+1. _entered DB credentials_ (optional DB provided)
+1. _connection succesful_
+1. _no rights to create new DB_
+
+</details>
+<br />
+
+<Terminal>
+  <Box flexDirection="column" marginLeft={2} marginBottom={1}>
+    <Text bold>Select an empty MySQL database from the list.</Text>
+    <Color dim>Found 3 empty MySQL databases</Color>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={`${chalk.bold('Empty databases')}`}
+    marginBottom={1}
+  >
+    <Box width={100}>
+      <Box width={20} marginLeft={2}>
+        <Text>management</Text>
+      </Box>
+      <Color dim>2 tables, 1,341KB</Color>
+      <Box flexGrow={1}></Box>
+    </Box>
+    <Box width={100}>
+      <Box width={20} marginLeft={2}>
+        <Text>default$default</Text>
+      </Box>
+      <Color dim>5 tables, 1,341KB</Color>
+      <Box flexGrow={1}></Box>
+    </Box>
+    <Box width={100}>
+      <Box width={20} marginLeft={2}>
+        <Text>staging</Text>
+      </Box>
+      <Color dim>1 tables, 2,341KB</Color>
+      <Box flexGrow={1}></Box>
+    </Box>
+  </BorderBox>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Database options)</Color>
+  </Box>
+</Terminal>
+
+- [Empty DB](#5-language-selection)
+
+## (4.2) Select a database
+
+<details><summary>Previous selections</summary>
+
+1. Starter Kit Language
+1. Starter Kit
+1. MySQL
+1. _entered DB credentials_ (optional DB provided)
+1. _connection succesful_
+1. _provided DB doesn't exist_ & _no rights to create new DB_
+
+</details>
+<br />
+
+<Terminal>
+  <Box flexDirection="column" marginLeft={2} marginBottom={1}>
+    <Text bold>The database `hello-world` doesn't exist on this MySQL server.</Text>
+    <Text bold>You can select an existing MySQL database instead.</Text>
+    <Color dim>Found 3 empty MySQL databases</Color>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={`${chalk.bold('Empty databases')}`}
+    marginBottom={1}
+  >
+    <Box width={100}>
+      <Box width={20} marginLeft={2}>
+        <Text>management</Text>
+      </Box>
+      <Color dim>2 tables, 1,341KB</Color>
+      <Box flexGrow={1}></Box>
+    </Box>
+    <Box width={100}>
+      <Box width={20} marginLeft={2}>
+        <Text>default$default</Text>
+      </Box>
+      <Color dim>5 tables, 1,341KB</Color>
+      <Box flexGrow={1}></Box>
+    </Box>
+    <Box width={100}>
+      <Box width={20} marginLeft={2}>
+        <Text>staging</Text>
+      </Box>
+      <Color dim>1 tables, 2,341KB</Color>
+      <Box flexGrow={1}></Box>
+    </Box>
+  </BorderBox>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Database credentials)</Color>
+  </Box>
+</Terminal>
+
+- [Empty DB](#5-language-selection)
+
+## (4.3) Select a database
+
+<details><summary>Previous selections</summary>
+
+1. Starter Kit Language
+1. Starter Kit
+1. MySQL
+1. _entered DB credentials_ (optional DB not provided)
+1. _connection succesful_
+1. _no rights to create new DB_
+
+</details>
+<br />
+
+<Terminal>
+  <Box flexDirection="column" marginLeft={2} marginBottom={1}>
+    <Text bold>Select an existing MySQL database.</Text>
+    <Color dim>Found 3 empty MySQL databases</Color>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={`${chalk.bold('Empty databases')}`}
+    marginBottom={1}
+  >
+    <Box width={100}>
+      <Box width={20} marginLeft={2}>
+        <Text>management</Text>
+      </Box>
+      <Color dim>2 tables, 1,341KB</Color>
+      <Box flexGrow={1}></Box>
+    </Box>
+    <Box width={100}>
+      <Box width={20} marginLeft={2}>
+        <Text>default$default</Text>
+      </Box>
+      <Color dim>5 tables, 1,341KB</Color>
+      <Box flexGrow={1}></Box>
+    </Box>
+    <Box width={100}>
+      <Box width={20} marginLeft={2}>
+        <Text>staging</Text>
+      </Box>
+      <Color dim>1 tables, 2,341KB</Color>
+      <Box flexGrow={1}></Box>
+    </Box>
+  </BorderBox>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Database credentials)</Color>
+  </Box>
+</Terminal>
+
+- [Empty DB](#5-language-selection)
+
+### (5) Language selection
+
+<details><summary>Previous selections</summary>
+
+1. Stater Kit language
+1. Concrete Starter Kit
+
+</details>
+<br />
+
+<Terminal>
+  <Box flexDirection="column" marginLeft={2} marginBottom={1}>
+    <Text bold>Select the programming language you want to use</Text>
+    <Color dim>Specifies the language for Photon (database client)</Color>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={chalk.bold('Photon is available in these languages')}
+    marginBottom={1}
+  >
+    <Box>
+      <Color cyan>{figures.pointer} <Text bold>JavaScript</Text></Color>
+    </Box>
+    <Box>
+      <Box marginLeft={2}>TypeScript</Box>
+    </Box>
+    <Box>
+      <Box marginLeft={2}>
+        <Color dim>Go (Coming soon)</Color>
+      </Box>
+    </Box>
+  </BorderBox>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Database selection)</Color>
+  </Box>
+</Terminal>
+
+- [JavaScript](#6-success)
+- [TypeSctipt](#6-success)
+
+### (6) Success
+
+<details><summary>Previous selections</summary>
+
+1. Stater Kit language
+1. Concrete Starter Kit
+1. JavaScript/TypeScript
+
+</details>
+<br />
+
+This success screen is dynamic. Learn more [here](./success-screens).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+
+## (1) Enter database credentials (Found local database)
+
+**TODO**
+
+<Terminal>
+  <Box flexDirection="column" marginLeft={2}>
+    <Text bold>Log into your database</Text>
+    <Color  dim>Learn how to set up a MySQL database: https://www.prisma.io/docs</Color>
+  </Box>
+
+  <Box flexDirection="column" paddingTop={2}>
+    <Box>
+      <Color gray>┌──</Color>
+      <Text bold> Found a database on port 3306 </Text>
+      <Color gray>───────────────────────────┐</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color cyan>{figures.pointer} </Color>
+      <Color cyan>
+        <Text bold>Autofill credentials</Text>
+      </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
+    </Box>
+  </Box>
+
+  <Box flexDirection="column" paddingTop={1} paddingBottom={1}>
+    <Box>
+      <Color gray>┌──</Color>
+      <Text bold> Enter MySQL credentials </Text>
+      <Color gray>─────────────────────────────────┐</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color gray>  </Color>
+      <Text>Host: </Text>
+      <TextInput value="" placeholder="127.0.0.1" showCursor={false} />
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color gray>  </Color>
+      <Text>Port: </Text>
+      <TextInput value="" placeholder="3306" showCursor={false} />
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color gray>  </Color>
+      <Text>User: </Text>
+      <TextInput value="" showCursor={false} />
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color gray>  </Color>
+      <Text bold>Password: </Text>
+      <TextInput value="" showCursor={false} />
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color gray>  </Color>
+      <Text>Database (optional): </Text>
+      <TextInput value="" showCursor={false} />
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color gray>  </Color>
+      <Text>{figures.squareSmall} Use SSL </Text>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>├────────────────────────────────────────────────────────────┤</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Color gray>  </Color>
+      <Text>Or URL: </Text>
+      <TextInput value="" placeholder="mysql://localhost:3306/admin" showCursor={false} />
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>│ </Color>
+      <Box flexGrow={1}></Box>
+      <Color gray> │</Color>
+    </Box>
+    <Box width={100}>
+      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
+    </Box>
+  </Box>
+  <Box>
+    <Color gray>{figures.pointer} </Color>
+    <Text bold>Connect</Text>
+  </Box>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color  dim> (Database selection)</Color>
+  </Box>
+</Terminal>
+
+ -->

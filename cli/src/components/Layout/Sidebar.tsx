@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import * as themes from '../../utils/themes'
 import GithubIcon from '../../vectors/GithubIcon'
 import SidebarIcon from '../../vectors/SidebarIcon'
+import NavArrowIcon from '../../vectors/NavArrow'
 import { useActiveThemeKey } from '../../utils/hooks'
 import { useStateValue } from './Layout'
 
@@ -34,46 +35,49 @@ export const useGitHubURL = (path: string) => {
   return githubUrl
 }
 
-const Sidebar = ({ links, pageContext }) => {
+const CategoryGroup = ({name, links, categories}) => {
+  const [isExpanded, setExpanded] = useState(false)
+
+  return <>
+    <CategoryLink onClick={() => setExpanded(!isExpanded)}>
+      <CategoryLinkIcon isExpanded={isExpanded}><NavArrowIcon/></CategoryLinkIcon>
+      <CategoryLinkName>{name}</CategoryLinkName>
+    </CategoryLink>
+    { isExpanded &&
+      <CategoryLinks>
+        { (Object.entries(categories).length !== 0) &&
+          Object.keys(categories).map(categoryName =>
+            <CategoryGroup
+              name={categoryName}
+              categories={categories[categoryName].categories}
+              links={categories[categoryName].links} />
+        )}
+        { links.map(link => <Link to={link.url} activeClassName="isActive">{link.label}</Link> )}
+      </CategoryLinks>
+    }
+  </>
+}
+
+const Sidebar = ({ nav, pageContext }) => {
   const [useActiveThemeKeyState] = useStateValue()
   const [themeKey, setThemeKey] = useActiveThemeKey(useActiveThemeKeyState)
   return (
     <Wrapper>
       <Sticky>
         <SidebarTitle to="/">
-          <SidebarIcon />
-          <span>CLI Docs</span>
+          <SidebarIcon /><span>CLI Docs</span>
         </SidebarTitle>
 
-        <GroupTitle>
-          <Faded>$</Faded> prisma init
-        </GroupTitle>
         <GroupLinks>
-          {links['init'].map(link => (
-            <GroupLink link={link} key={link.url} />
-          ))}
-        </GroupLinks>
-
-        <Divider />
-
-        <GroupTitle>
-          <Faded>$</Faded> prisma dev
-        </GroupTitle>
-        <GroupLinks>
-          {links['dev'].map(link => (
-            <GroupLink link={link} key={link.url} />
-          ))}
-        </GroupLinks>
-
-        <Divider />
-
-        <GroupTitle>
-          <Faded>$</Faded> prisma help
-        </GroupTitle>
-        <GroupLinks>
-          {links['help'].map(link => (
-            <GroupLink link={link} key={link.url} />
-          ))}
+          { Object.keys(nav.categories).map(categoryName => {
+            return <>
+              <CategoryGroup
+                name={categoryName}
+                categories={nav.categories[categoryName].categories}
+                links={nav.categories[categoryName].links} />
+            </>
+          })}
+          { nav.links.map(link => <Link to={link.url} activeClassName="isActive">{link.label}</Link> )}
         </GroupLinks>
 
         <Divider />
@@ -96,12 +100,6 @@ const Sidebar = ({ links, pageContext }) => {
     </Wrapper>
   )
 }
-
-const GroupLink = ({ link }: { link: { url: string; label: string } }) => (
-  <Link to={link.url} activeClassName="isActive">
-    {link.label}
-  </Link>
-)
 
 const Wrapper = styled.div`
   position: relative;
@@ -161,6 +159,43 @@ const GroupLinks = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+`
+
+const CategoryLinks = styled.div`
+  padding-left: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`
+
+const CategoryLinkName = styled.div`
+  font-weight: 600;
+`
+
+const CategoryLinkIcon = styled.div<{ isExpanded: boolean }>`
+  transform: rotate(${p => p.isExpanded ? '90deg' : '0deg'});
+  opacity: ${p => p.isExpanded ? '1' : '0.35'};
+  position: absolute;
+  left: -12px;
+  top: 8px;
+  width: 6px;
+
+  svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+`
+
+const CategoryLink = styled.div`
+  position: relative;
+  color: ${p => p.theme.gray800};
+
+  &:hover {
+    ${CategoryLinkIcon} { opacity: 1; }
+    color: ${p => p.theme.purple500};
+    cursor: pointer;
+  }
 `
 
 const Link = styled(GatsbyLink)`
