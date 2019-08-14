@@ -11,6 +11,7 @@
   - [2. Deterministically choose the binary-based a runtime environment variable](#2-deterministically-choose-the-binary-based-a-runtime-environment-variable)
   - [3. Development machine is Mac but we need a custom binary in production](#3-development-machine-is-mac-but-we-need-a-custom-binary-in-production)
   - [4. Development machine is a Raspberry Pi and the deployment platform is AWS Lambda](#4-development-machine-is-a-raspberry-pi-and-the-deployment-platform-is-aws-lambda)
+  - [5. We are using CLI in a build system from a provider for which we do not have a working pre-compiled binary](#5-we-are-using-cli-in-a-build-system-from-a-provider-for-which-we-do-not-have-a-working-pre-compiled-binary)
 - [Configuration](#configuration)
   - [1. Both `platforms` and `pinnedPlatform` are not provided.](#1-both-platforms-and-pinnedplatform-are-not-provided)
   - [2. Field `platforms` provided with multiple values and `pinnedPlatform` is not provided.](#2-field-platforms-provided-with-multiple-values-and-pinnedplatform-is-not-provided)
@@ -178,6 +179,10 @@ generator photon {
     pinnedPlatform = env("PLATFORM") // On local, "./custom-query-engine-binary" and in production, "linux-glibc-libssl1.0.2"
 }
 ```
+
+### 5. We are using CLI in a build system from a provider for which we do not have a working pre-compiled binary
+
+Since overriding CLI binary is an environment variable and these providers might [not always allow](https://github.com/prisma/prisma2/issues/157#issuecomment-520501500) compiling a binary. There will be no workaround such a situation except us making the default downloaded binary for that provider work. We want to support all major providers out of the box and this use case should be rare.
 
 [Examples for other deployment scenarios](https://github.com/prisma/prisma-examples/tree/prisma2/deployment-platforms)
 
