@@ -17,7 +17,7 @@
     + [2. Field `platforms` provided with multiple values and `pinnedPlatform` is not provided.](#2-field-platforms-provided-with-multiple-values-and-pinnedplatform-is-not-provided)
     + [3. Field `platforms` provided with multiple values and `pinnedPlatform` is also provided.](#3-field-platforms-provided-with-multiple-values-and-pinnedplatform-is-also-provided)
 - [Binary Resolution Error Handling](#binary-resolution-error-handling)
-- [Binary naming convention](#binary-naming-convention)
+- [Binary Naming Convention](#binary-naming-convention)
 - [Runtime Binary Resolution](#runtime-binary-resolution)
 - [Table of Binaries](#table-of-binaries)
   * [URL Scheme](#url-scheme)
@@ -255,7 +255,7 @@ For environment variables used to override the binary used by the CLI:
 
 - If the environment variable path to a custom binary exists but the binary is incompatible with the current platform, the respective generate command should throw.
 
-# Binary naming convention
+# Binary Naming Convention
 
 All downloaded binaries must follow the naming convention outlined by the [Table of Binaries](#table-of-binaries).
 
