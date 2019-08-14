@@ -2,6 +2,18 @@
 
 <!-- toc -->
 
+- [Prisma Binary CLI](#prisma-binary-cli)
+- [Capability Map](#capability-map)
+- [Schema Validation](#schema-validation)
+  * [How `check` works](#how-check-works)
+- [Client Generation](#client-generation)
+- [Query Validation](#query-validation)
+- [Query Execution](#query-execution)
+- [Connector Interface](#connector-interface)
+- [Appendix: Schema AST](#appendix-schema-ast)
+
+<!-- tocstop -->
+
 The Prisma Binary is the driving force behind Prisma's products. We use this to
 generate photon clients, typecheck schemas, and execute queries on our
 datasources.
