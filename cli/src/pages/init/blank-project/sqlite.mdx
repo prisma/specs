@@ -1,37 +1,29 @@
 ---
 navGroup: init
 navOrder: 1
-navLabel: SQLite
+navLabel: "Blank Project: SQLite"
 ---
 
-import Terminal from '../../components/Terminal/Terminal'
+import Terminal from '../../../components/Terminal/Terminal'
 import {
   selectInputItemComponent,
   selectInputIndicatorComponent,
   Divider,
-} from '../../components/inkHelpers'
+} from '../../../components/inkHelpers'
 import SelectInput from 'ink-select-input'
 import ProgressBar from 'ink-progress-bar'
 import { Box, Text, Color } from 'ink'
 import figures from 'figures'
-import BorderBox from '../../components/Terminal/BorderBox'
+import BorderBox from '../../../components/Terminal/BorderBox'
 import chalk from 'chalk'
 
 # SQLite
-
----
-
-<img
-  src="https://prisma-specs.prisma.now.sh/cli/figma-proxy?id=858:87"
-  width="100%"
-/>
-
----
 
 ### (1) Existing or new database
 
 <details><summary>Previous selections</summary>
 
+1. Blank project
 1. SQLite
 
 </details>
@@ -72,10 +64,11 @@ import chalk from 'chalk'
 - [Create new SQLite file](#3-language-selection)
 - [Use existing SQLite file](#2-file-path)
 
-### (3) Language selection
+### (3) Languages
 
 <details><summary>Previous selections</summary>
 
+1. Blank project
 1. SQLite
 1. Create new SQLite file
 
@@ -114,10 +107,11 @@ import chalk from 'chalk'
 - [JavaScript](#4-example-selection)
 - [TypeSctipt](#4-example-selection)
 
-### (4) Example selection
+### (4) Demo script selection
 
 <details><summary>Previous selections</summary>
 
+1. Blank project
 1. SQLite
 1. Create new SQLite file
 1. JavaScript/TypeScript
@@ -127,40 +121,22 @@ import chalk from 'chalk'
 
 <Terminal>
   <Box flexDirection="column" marginLeft={2} marginBottom={1}>
-    <Text bold>Select an example or start from scratch</Text>
-    <Color dim>All examples: https://github.com/prisma/photonjs/</Color>
+    <Text bold>Start with a runnable demo script or just the Prisma schema</Text>
+    <Color dim>Demo scripts showcase usage of the Photon API</Color>
   </Box>
   <BorderBox
     flexDirection="column"
-    title={chalk.bold('Examples to get you started')}
+    title={chalk.bold('')}
   >
     <Box>
       <Color cyan>
-        <Box width={13} marginRight={2}>{figures.pointer} <Text bold>Script</Text></Box>
+        <Box width={24} marginRight={2}>{figures.pointer} <Text bold>Demo script</Text></Box>
         <Color dim>Simple script with API examples</Color>
       </Color>
     </Box>
     <Box>
-      <Box width={13} marginLeft={2}>GraphQL</Box>
-      <Color dim>GraphQL server example</Color>
-    </Box>
-    <Box>
-      <Box width={13} marginLeft={2}>REST</Box>
-      <Color dim>REST API example (using express.js)</Color>
-    </Box>
-    <Box>
-      <Box width={13} marginLeft={2}>gRPC</Box>
-      <Color dim>gRPC API example (client + server)</Color>
-    </Box>
-  </BorderBox>
-  <BorderBox
-    marginBottom={1}
-    title={chalk.bold('Or')}
-    extension
-  >
-    <Box>
-      <Box width={13} marginLeft={2}>No example</Box>
-      <Color dim>Just generate the Prisma schema</Color>
+      <Box width={24} marginLeft={2}>Just the Prisma schema</Box>
+      <Color dim>Most minimal setup</Color>
     </Box>
   </BorderBox>
   <Box>
@@ -170,15 +146,14 @@ import chalk from 'chalk'
   </Box>
 </Terminal>
 
-- [Select any example](#5-success)
-- [No example](#51-success)
-
-**Note**: The list of available examples is fetched from the [examples API](./examples-api).
+- [Demo script](#)
+- [Just Prisma schema](#)
 
 ### (2) File path
 
 <details><summary>Previous selections</summary>
 
+1. Blank project
 1. SQLite
 2. Use existing SQLite file
 
@@ -218,6 +193,7 @@ import chalk from 'chalk'
 
 <details><summary>Previous selections</summary>
 
+1. Blank project
 1. SQLite
 2. Use existing SQLite file
 3. _entered file path_
@@ -242,6 +218,7 @@ import chalk from 'chalk'
 
 <details><summary>Previous selections</summary>
 
+1. Blank project
 1. SQLite
 2. Use existing SQLite file
 3. _entered file path_
@@ -298,6 +275,7 @@ import chalk from 'chalk'
 
 <details><summary>Previous selections</summary>
 
+1. Blank project
 1. SQLite
 2. Use existing SQLite file
 3. _entered file path_
@@ -333,10 +311,11 @@ import chalk from 'chalk'
 - [JavaScript](#41--42-example-selection)
 - [TypeScript](#41--42-example-selection)
 
-### (4.1) & (4.2) Example selection
+### (4.1) & (4.2) Demo script selection
 
 <details><summary>Previous selections</summary>
 
+1. Blank project
 1. SQLite
 2. Use existing SQLite file
 3. _entered file path_
@@ -349,33 +328,26 @@ import chalk from 'chalk'
 
 <Terminal>
   <Box flexDirection="column" marginLeft={2} marginBottom={1}>
-    <Text bold>Select an example or start from scratch</Text>
-    <Color dim>Examples are generated for your database schema</Color>
+    <Text bold>Start with a runnable demo script or just the Prisma schema</Text>
+    <Color dim>Demo scripts showcase usage of the Photon API</Color>
   </Box>
   <BorderBox
     flexDirection="column"
-    title={chalk.bold('Examples to get you started')}
+    title={chalk.bold('')}
   >
     <Box>
       <Color cyan>
-        <Box width={15} marginRight={2}>{figures.pointer} <Text bold>Script</Text></Box>
+        <Box width={24} marginRight={2}>{figures.pointer} <Text bold>Demo script</Text></Box>
         <Color dim>Simple script with API examples</Color>
       </Color>
     </Box>
-  </BorderBox>
-  <BorderBox
-    flexDirection="column"
-    marginBottom={1}
-    title={chalk.bold('Or')}
-    extension
-  >
     <Box>
-      <Box width={15} marginLeft={2}>No example</Box>
-      <Color dim>Just generate the Prisma schema</Color>
+      <Box width={24} marginLeft={2}>Just the Prisma schema</Box>
+      <Color dim>Most minimal setup</Color>
     </Box>
   </BorderBox>
   <Box>
-    <Color gray>❮ </Color> 
+    <Color gray>❮ </Color>
     <Text bold>Back</Text>
     <Color dim> (Language selection)</Color>
   </Box>
@@ -388,6 +360,7 @@ import chalk from 'chalk'
 
 <details><summary>Previous selections</summary>
 
+1. Blank project
 1. SQLite
 1. Create new SQLite file
 1. JavaScript/TypeScript
@@ -401,6 +374,7 @@ This success screen is dynamic. Learn more [here](./success-screens).
 
 <details><summary>Previous selections</summary>
 
+1. Blank project
 1. SQLite
 1. Create new SQLite file
 1. JavaScript/TypeScript
@@ -467,6 +441,7 @@ This success screen is dynamic. Learn more [here](./success-screens).
 
 <details><summary>Previous selections</summary>
 
+1. Blank project
 1. SQLite
 2. Use existing SQLite file
 3. _entered file path_
@@ -531,6 +506,7 @@ This success screen is dynamic. Learn more [here](./success-screens).
 
 <details><summary>Previous selections</summary>
 
+1. Blank project
 1. SQLite
 2. Use existing SQLite file
 3. _entered file path_

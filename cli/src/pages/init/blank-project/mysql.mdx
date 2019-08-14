@@ -1,10 +1,10 @@
 ---
 navGroup: init
 navOrder: 4
-navLabel: PostgreSQL
+navLabel: "Blank Project: MySQL"
 ---
 
-import Terminal from '../../components/Terminal/Terminal'
+import Terminal from '../../../components/Terminal/Terminal'
 import {
   multiSelectItemComponent,
   multiSelectIndicatorComponent,
@@ -12,7 +12,7 @@ import {
   selectInputItemComponent,
   selectInputIndicatorComponent,
   Divider,
-} from '../../components/inkHelpers'
+} from '../../../components/inkHelpers'
 import MultiSelect from 'ink-multi-select'
 import SelectInput from 'ink-select-input'
 import TextInput from 'ink-text-input'
@@ -20,33 +20,27 @@ import ProgressBar from 'ink-progress-bar'
 import { Box, Text, Color } from 'ink'
 import figures from 'figures'
 import chalk from 'chalk'
-import BorderBox from '../../components/Terminal/BorderBox'
+import BorderBox from '../../../components/Terminal/BorderBox'
 
-# PostgreSQL
-
----
-
-<img src="https://prisma-specs.prisma.now.sh/cli/figma-proxy?id=858:398" width="100%" />
-
----
+# MySQL
 
 ### (1) Enter database credentials
 
 <details><summary>Previous selections</summary>
 
-1. PostgreSQL
+1. MySQL
 
 </details>
 <br />
 
 <Terminal>
   <Box flexDirection="column" marginLeft={2} marginBottom={1}>
-    <Text bold>Connect to your PostgreSQL database server</Text>
-    <Color dim>https://pris.ly/docs/core/connectors/postgresql.md</Color>
+    <Text bold>Connect to your MySQL database server</Text>
+    <Color dim>https://pris.ly/docs/core/connectors/mysql.md</Color>
   </Box>
   <BorderBox
     flexDirection="column"
-    title={chalk.bold('PostgreSQL database credentials')}
+    title={chalk.bold('MySQL database credentials')}
   > 
     <Box width={100}>
       <Color gray>  </Color>
@@ -57,7 +51,7 @@ import BorderBox from '../../components/Terminal/BorderBox'
     <Box width={100}>
       <Color gray>  </Color>
       <Text>Port: </Text>
-      <TextInput value="" placeholder="5432" showCursor={false} />
+      <TextInput value="" placeholder="3306" showCursor={false} />
       <Box flexGrow={1}></Box>
     </Box>
     <Box width={100}>
@@ -76,16 +70,10 @@ import BorderBox from '../../components/Terminal/BorderBox'
     </Box>
     <Box width={100}>
       <Color gray>  </Color>
-      <Text>Database: </Text>
+      <Text>Database (optional): </Text>
       <TextInput value="" showCursor={false} />
       <Box flexGrow={1}></Box>
     </Box>
-    <Box width={100}>
-      <Color gray>  </Color>
-      <Text>Schema (optional): </Text>
-      <TextInput value="" showCursor={false} />
-      <Box flexGrow={1}></Box>
-    </Box>    
     <Box width={100}>
       <Box flexGrow={1}></Box>
     </Box>
@@ -93,7 +81,6 @@ import BorderBox from '../../components/Terminal/BorderBox'
       <Color gray>  </Color>
       <Text>{figures.squareSmall} Use SSL </Text>
     </Box>
-  
   </BorderBox>
   <BorderBox
     flexDirection="column"
@@ -104,7 +91,7 @@ import BorderBox from '../../components/Terminal/BorderBox'
      <Box width={100}>
       <Color gray>  </Color>
       <Text>URL: </Text>
-      <TextInput value="" placeholder="postgresql://localhost:5432/admin" showCursor={false} />
+      <TextInput value="" placeholder="mysql://localhost:3306/admin" showCursor={false} />
       <Box flexGrow={1}></Box>
     </Box>
   </BorderBox>
@@ -115,26 +102,27 @@ import BorderBox from '../../components/Terminal/BorderBox'
   </Box>
 </Terminal>
 
-- [Schema provided (non-empty)](#31-introspection)
-- [Schema provided (empty)](#4-language-selection)
-- [Schema provided (doesn't exist)](#1a-schema-doesnt-exist)
-- [Schema not provided](#2-select-existing-schema-or-create-a-new-one)
 
-### (1A) Schema doesn't exist
+- [Database provided (non-empty)](#31-introspection)
+- [Database provided (empty)](#4-language-selection)
+- [Database provided (doesn't exist)](#4-language-selection)
+- [Database not provided](#2-select-existing-database-or-create-a-new-one)
+
+### (1A) Database doesn't exist
 
 <details><summary>Previous selections</summary>
 
 1. PostgreSQL
 2. _entered DB credentials_ (optional schema not provided)
 3. _connection succesful_
-4. _schema doesn't exist_
+4. _database doesn't exist_
 
 </details>
 <br />
 
 <Terminal>
   <Color green>
-    <Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Connected to PostgreSQL database server as <Text bold>admin</Text>
+    <Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Connected to MySQL database server as <Text bold>admin</Text>
   </Color>
   <Box 
     flexDirection="column" 
@@ -142,20 +130,19 @@ import BorderBox from '../../components/Terminal/BorderBox'
     marginTop={1}
     marginBottom={1}
   >
-    <Text bold>A schema named <Text bold>`hello-world`</Text> doesn't exist in database <Text bold>`mydb`</Text>.</Text>
-    <Color dim>Create a new schema or select an existing one</Color>
+    <Text bold>A database named <Text bold>`hello-world`</Text> doesn't exist on this MySQL server.</Text>
+    <Color dim>Create a new database or select an existing one</Color>
   </Box>
   <BorderBox
     flexDirection="column"
-    title={`${chalk.bold('Schema options')}`}
+    title={`${chalk.bold('Database options')}`}
     marginBottom={1}
   >
      <Box width={100}>
       <Color cyan>
         <Box width={30}>
-          <Text bold>{figures.pointer} Create schema `hello-world`</Text>
+          <Text bold>{figures.pointer} Create database `hello-world`</Text>
         </Box>
-        <Color dim>In <Text bold>mydb</Text></Color>
       </Color>
       <Box flexGrow={1}></Box>
     </Box>
@@ -163,9 +150,8 @@ import BorderBox from '../../components/Terminal/BorderBox'
       <Color >
         <Box width={30}>
           <Color gray>  </Color>
-          <Text>Select an existing schema</Text>
+          <Text>Select an existing database</Text>
         </Box>
-        <Color dim>Found 5 schemas in <Text bold>mydb</Text> </Color>
       </Color>
       <Box flexGrow={1}></Box>
     </Box>
@@ -180,12 +166,13 @@ import BorderBox from '../../components/Terminal/BorderBox'
 - [Create schema `hello-world`](#4-language-selection)
 - [Select an existing schema](#3-select-a-schema)
 
-## (2) Select existing schema or create a new one
+
+## (2) Select existing database or create a new one
 
 <details><summary>Previous selections</summary>
 
-1. PostgreSQL
-2. _entered DB credentials_ (optional schema not provided)
+1. MySQL
+2. _entered DB credentials_ (optional DB not provided)
 3. _connection succesful_
 
 </details>
@@ -193,7 +180,7 @@ import BorderBox from '../../components/Terminal/BorderBox'
 
 <Terminal>
   <Color green>
-    <Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Connected to PostgreSQL database server as <Text bold>admin</Text>
+    <Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Connected to MySQL database server as <Text bold>admin</Text>
   </Color>
   <Box 
     flexDirection="column" 
@@ -201,18 +188,18 @@ import BorderBox from '../../components/Terminal/BorderBox'
     marginTop={1}
     marginBottom={1}
   >
-    <Text bold>Create a new PostgreSQL schema or use an existing one</Text>
-    <Color dim>A PostgreSQL database can have multiple schemas</Color>
+    <Text bold>Create a new MySQL database or use an existing one</Text>
+    <Color dim>A MySQL database server can host multiple databases</Color>
   </Box>
   <BorderBox
     flexDirection="column"
-    title={`${chalk.bold('Schema options')}`}
+    title={`${chalk.bold('Database options')}`}
     marginBottom={1}
   >
      <Box width={100}>
       <Color cyan>
-        <Box width={34}>
-          <Text bold>{figures.pointer} Create new PostgreSQL schema</Text>
+        <Box width={30}>
+          <Text bold>{figures.pointer} Create new MySQL database</Text>
         </Box>
         <Color dim>Start from scratch</Color>
       </Color>
@@ -220,11 +207,11 @@ import BorderBox from '../../components/Terminal/BorderBox'
     </Box>
     <Box width={100}>
       <Color >
-        <Box width={34}>
+        <Box width={30}>
           <Color gray>  </Color>
-          <Text>Use existing PostgreSQL schemas</Text>
+          <Text>Use existing MySQL database</Text>
         </Box>
-        <Color dim>Found 5 schemas</Color>
+        <Color dim>Found 5 databases</Color>
       </Color>
       <Box flexGrow={1}></Box>
     </Box>
@@ -236,35 +223,35 @@ import BorderBox from '../../components/Terminal/BorderBox'
   </Box>
 </Terminal>
 
-- [Create new PostgreSQL schema](#21-set-schema-name)
-- [Use existing PostgreSQL schema](#3-select-a-schema)
+- [Create new MySQL database](#21-set-database-name)
+- [Use existing MySQL database](#3-select-a-database)
 
-## (2.1) Set schema name
+## (2.1) Set database name
 
 <details><summary>Previous selections</summary>
 
-1. PostgreSQL
-2. _entered DB credentials_ (optional schema not provided)
+1. MySQL
+2. _entered DB credentials_ (optional DB not provided)
 3. _connection succesful_
-4. Create new schema
+4. Create new database
 
 </details>
 <br />
 
 <Terminal>
   <Box marginLeft={2} flexDirection="column" marginBottom={1}>
-    <Text bold>Enter name for the new schema</Text>
-    <Color dim>The schema will be created by Prisma</Color>
+    <Text bold>Enter name for the new database</Text>
+    <Color dim>The database will be created by Prisma</Color>
   </Box>
   <BorderBox
     flexDirection="column"
-    title={`${chalk.bold('PostgreSQL schema name')}`}
+    title={`${chalk.bold('MySQL database name')}`}
     marginBottom={1}
   >
    <Box width={100}>
       <Color cyan>
         <Text bold>{figures.pointer} Name:</Text>
-        <Color dim> my_schema</Color>
+        <Color dim> my_db</Color>
       </Color>
       <Box flexGrow={1}></Box>
     </Box>
@@ -276,32 +263,32 @@ import BorderBox from '../../components/Terminal/BorderBox'
   <Box>
     <Color gray>❮ </Color>
     <Text bold>Back</Text>
-    <Color dim> (Schema options)</Color>
+    <Color dim> (Database options)</Color>
   </Box>
 </Terminal>
 
 - [Create](#4-language-selection)
 
-## (3) Select a schema
+## (3) Select a database
 
 <details><summary>Previous selections</summary>
 
-1. PostgreSQL
-2. _entered DB credentials_ (optional schema not provided)
+1. MySQL
+2. _entered DB credentials_ (optional DB not provided)
 3. _connection succesful_
-4. Use existing schema
+4. Use existing database
 
 </details>
 <br />
 
 <Terminal>
   <Box flexDirection="column" marginLeft={2} marginBottom={1}>
-    <Text bold>Select a PostgreSQL schema</Text>
-    <Color dim>Found 1 empty and 3 non-empty schemas</Color>
+    <Text bold>Select a MySQL database</Text>
+    <Color dim>Found 1 empty and 3 non-empty databases</Color>
   </Box>
   <BorderBox
     flexDirection="column"
-    title={`${chalk.bold('Empty schemas')} ${chalk.gray('(Start new project)')}`}
+    title={`${chalk.bold('Empty databases')} ${chalk.gray('(Start new project)')}`}
     marginBottom={1}
   >
     <Box width={100}>
@@ -313,7 +300,7 @@ import BorderBox from '../../components/Terminal/BorderBox'
   </BorderBox>
   <BorderBox
     flexDirection="column"
-    title={`${chalk.bold('Non-empty schemas')} ${chalk.gray('(Introspect existing schema)')}`}
+    title={`${chalk.bold('Non-empty databases')} ${chalk.gray('(Introspect existing database)')}`}
     marginBottom={1}
   >
     <Box width={100}>
@@ -341,7 +328,7 @@ import BorderBox from '../../components/Terminal/BorderBox'
   <Box>
     <Color gray>❮ </Color>
     <Text bold>Back</Text>
-    <Color dim> (Schema options)</Color>
+    <Color dim> (Database options)</Color>
   </Box>
 </Terminal>
 
@@ -352,17 +339,17 @@ import BorderBox from '../../components/Terminal/BorderBox'
 
 <details><summary>Previous selections</summary>
 
-1. PostgreSQL
-2. _entered DB credentials_ (optional schema not provided)
+1. MySQL
+2. _entered DB credentials_ (optional DB not provided)
 3. _connection succesful_
-4. Use existing schema
+4. Use existing database
 
 </details>
 <br />
 
 <Terminal>
 <BorderBox title={chalk.bold('Introspection in progress')} flexDirection="column">
-  <Box marginLeft={1} marginBottom={1}>Introspecting PostgreSQL schema <Text bold>my_schema</Text> as <Text bold>admin</Text> ...</Box>
+  <Box marginLeft={1} marginBottom={1}>Introspecting MySQL database <Text bold>my_db</Text> as <Text bold>admin</Text> ...</Box>
   <Color green>
     <Box marginLeft={1} marginRight={1}><Text bold>42%</Text></Box>
     <ProgressBar percent={0.42} columns={50} />
@@ -377,11 +364,11 @@ import BorderBox from '../../components/Terminal/BorderBox'
 
 <details><summary>Previous selections</summary>
 
-1. PostgreSQL
-2. _entered DB credentials_ (optional schema not provided)
+1. MySQL
+2. _entered DB credentials_ (optional DB not provided)
 3. _connection succesful_
-4. Use existing schema
-5. _introspected DB_ + _schema not empty_
+4. Use existing database
+5. _introspected DB_ + _DB not empty_
 
 </details>
 <br />
@@ -434,8 +421,8 @@ import BorderBox from '../../components/Terminal/BorderBox'
 
 <details><summary>Previous selections</summary>
 
-1. PostgreSQL
-1. Create new PostgreSQL schema (or _existing schema is empty_)
+1. MySQL
+1. Create new MySQL DB (or _existing DB is empty_)
 
 </details>
 <br />
@@ -469,7 +456,7 @@ import BorderBox from '../../components/Terminal/BorderBox'
   </Box>
 </Terminal>
 
-**Note**: The text from the back button might also be "Schema selection" depending on how we got to the language selection.
+**Note**: The text from the back button might also be "Database selection" depending on how we got to the language selection.
 
 - [JavaScript](#5-example-selection)
 - [TypeScript](#5-example-selection)
@@ -478,11 +465,11 @@ import BorderBox from '../../components/Terminal/BorderBox'
 
 <details><summary>Previous selections</summary>
 
-1. PostgreSQL
-2. _entered DB credentials_ (optional schema not provided)
+1. MySQL
+2. _entered DB credentials_ (optional DB not provided)
 3. _connection succesful_
-4. Use existing schema
-5. _introspected DB_ + _schema not empty_
+4. Use existing database
+5. _introspected DB_ + _DB not empty_
 6. Photon or Photon + Lift
 
 </details>
@@ -518,8 +505,8 @@ import BorderBox from '../../components/Terminal/BorderBox'
 
 <details><summary>Previous selections</summary>
 
-1. PostgreSQL
-1. Create new PostgreSQL DB (or _existing DB is empty_)
+1. MySQL
+1. Create new MySQL DB (or _existing DB is empty_)
 1. JavaScript/TypeScript
 
 </details>
@@ -579,11 +566,11 @@ import BorderBox from '../../components/Terminal/BorderBox'
 
 <details><summary>Previous selections</summary>
 
-1. PostgreSQL
-2. _entered DB credentials_ (optional schema not provided)
+1. MySQL
+2. _entered DB credentials_ (optional DB not provided)
 3. _connection succesful_
-4. Use existing schema
-5. _introspected DB_ + _schema not empty_
+4. Use existing database
+5. _introspected DB_ + _DB not empty_
 6. Photon or Photon + Lift
 6. JavaScript/TypeScript
 
@@ -608,8 +595,8 @@ import BorderBox from '../../components/Terminal/BorderBox'
   </BorderBox>
   <BorderBox
     flexDirection="column"
-    marginBottom={1}
     title={chalk.bold('Or')}
+    marginBottom={1}
     extension
   >
     <Box>
@@ -631,8 +618,8 @@ import BorderBox from '../../components/Terminal/BorderBox'
 
 <details><summary>Previous selections</summary>
 
-1. PostgreSQL
-1. Create new PostgreSQL DB (or _existing DB is empty_)
+1. MySQL
+1. Create new MySQL DB (or _existing DB is empty_)
 1. JavaScript/TypeScript
 1. _Example selected_
 
@@ -644,8 +631,8 @@ This success screen is dynamic. Learn more [here](./success-screens).
 
 <details><summary>Previous selections</summary>
 
-1. PostgreSQL
-1. Create new PostgreSQL DB (or _existing DB is empty_)
+1. MySQL
+1. Create new MySQL DB (or _existing DB is empty_)
 1. JavaScript/TypeScript
 1. _No example selected_
 
@@ -710,11 +697,11 @@ This success screen is dynamic. Learn more [here](./success-screens).
 
 <details><summary>Previous selections</summary>
 
-1. PostrgeSQL
-2. _entered DB credentials_ (optional schema not provided)
+1. MySQL
+2. _entered DB credentials_ (optional DB not provided)
 3. _connection succesful_
-4. Use existing schema
-5. _introspected schema_ + _schema not empty_
+4. Use existing database
+5. _introspected DB_ + _DB not empty_
 6. Photon or Photon + Lift
 6. JavaScript/TypeScript
 7. _Script example selected_
@@ -775,11 +762,11 @@ This success screen is dynamic. Learn more [here](./success-screens).
 
 <details><summary>Previous selections</summary>
 
-1. PostrgeSQL
-2. _entered DB credentials_ (optional schema not provided)
+1. MySQL
+2. _entered DB credentials_ (optional DB not provided)
 3. _connection succesful_
-4. Use existing schema
-5. _introspected schema_ + _schema not empty_
+4. Use existing database
+5. _introspected DB_ + _DB not empty_
 6. Photon or Photon + Lift
 6. JavaScript/TypeScript
 7. _No example selected_
@@ -837,7 +824,6 @@ This success screen is dynamic. Learn more [here](./success-screens).
 
 **Note**: If the command was invoked **without** a project name (e.g. `prisma2 init` or `prisma2 init .`), the first success message should be: _"Your project directory is ready. It contains your Prisma schema: **schema.prisma**."_
 
-
 <!-- 
 
 ## (1) Enter database credentials (Found local database)
@@ -847,13 +833,13 @@ This success screen is dynamic. Learn more [here](./success-screens).
 <Terminal>
   <Box flexDirection="column" marginLeft={2}>
     <Text bold>Log into your database</Text>
-    <Color  dim>Learn how to set up a PostgreSQL database: https://www.prisma.io/docs</Color>
+    <Color  dim>Learn how to set up a MySQL database: https://www.prisma.io/docs</Color>
   </Box>
 
   <Box flexDirection="column" paddingTop={2}>
     <Box>
       <Color gray>┌──</Color>
-      <Text bold> Found a database on port 5432 </Text>
+      <Text bold> Found a database on port 3306 </Text>
       <Color gray>───────────────────────────┐</Color>
     </Box>
     <Box width={100}>
@@ -883,7 +869,7 @@ This success screen is dynamic. Learn more [here](./success-screens).
   <Box flexDirection="column" paddingTop={1} paddingBottom={1}>
     <Box>
       <Color gray>┌──</Color>
-      <Text bold> Enter PostgreSQL credentials </Text>
+      <Text bold> Enter MySQL credentials </Text>
       <Color gray>─────────────────────────────────┐</Color>
     </Box>
     <Box width={100}>
@@ -903,7 +889,7 @@ This success screen is dynamic. Learn more [here](./success-screens).
       <Color gray>│ </Color>
       <Color gray>  </Color>
       <Text>Port: </Text>
-      <TextInput value="" placeholder="5432" showCursor={false} />
+      <TextInput value="" placeholder="3306" showCursor={false} />
       <Box flexGrow={1}></Box>
       <Color gray> │</Color>
     </Box>
@@ -960,7 +946,7 @@ This success screen is dynamic. Learn more [here](./success-screens).
       <Color gray>│ </Color>
       <Color gray>  </Color>
       <Text>Or URL: </Text>
-      <TextInput value="" placeholder="postgresql://localhost:5432/admin" showCursor={false} />
+      <TextInput value="" placeholder="mysql://localhost:3306/admin" showCursor={false} />
       <Box flexGrow={1}></Box>
       <Color gray> │</Color>
     </Box>
@@ -984,4 +970,4 @@ This success screen is dynamic. Learn more [here](./success-screens).
   </Box>
 </Terminal>
 
--->
+ -->
