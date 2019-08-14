@@ -52,6 +52,65 @@ Prisma Binary and how they relate to the connectors.
 └──────────────────────────────────────────────────────────────────────────────┘
 ```
 
+A more in-depth version of the Prisma Binary:
+
+```
+                         ┌───────────────┐   ┌─────────────────┐
+                         │ vscode "save" │   │ prisma generate │
+                         │     event     │   └─────────────────┘
+                         └───────────────┘            │
+                                 │                    │
+                   ┌ ─ ─ ─ ─ ─ ─ ┼ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─│─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─┌─────────────┐
+                                 │                    │                             │Prisma Binary│
+                   │  ┌──────────┴────────────────────┴─────────────┐               └─────────────┘
+                      │                                             │                             │
+                   │  │                Schema Parser                │
+                      │                                             │                             │
+                   │  └──────────┬────────────────────┬─────────────┘
+                                 │ schema AST         │ schema AST      static   ┌───────────┐    │
+                   │  ┌──────────┴────────────────────┴─────────────┐ capability │           ├─┐
+                      │                                             │    map     │           │ │  │
+                   │  │                  Validate                   │◀───────────│           │ │
+                      │                                             │            │           │ │  │
+                   │  └──────────┬────────────────────┬─────────────┘            │           │ │
+                                 │                    │                          │           │ │  │
+┌────────────┐     │             │                    │                          │           │ │
+│   Prisma   │                   │                    │                          │           │ │  │
+│   VSCode   │◀────┼─────────────┘                    │                          │ Postgres  │ │
+│ Extension  │ errors, warnings   ┌───────────────────┤                          │ Connector │ │  │
+└────────────┘     │              │                   │ schema AST               │           │ │
+                                  │                   ▼                          │           │ │  │
+┌────────────┐     │              │            ┌────────────┐            static  │           │ │
+│ Prisma CLI │        errors      │            │            │          capability│           │ │  │
+│   Output   │◀────┼──────────────┘            │   Query    │             map    │           │ │
+└────────────┘                                 │ Generator  │◀───────────────────┤           │ │  │
+                   │                           │            │                    │           │ │
+                                               └────────────┘                    │           │ │  │
+                   │                                  │                          │           │ │
+                                                      │ client blueprint         └─┬─────────┘ │  │
+                   │                    ┌─────────────┼─────────────┐              └───────────┘
+                                        ▼             ▼             ▼                             │
+                   │             ┌────────────┐┌────────────┐┌────────────┐
+                                 │            ││            ││            │                       │
+                   │             │  PhotonJS  ││   Nexus    ││ Photon Go  │
+                                 │ Generator  ││ Generator  ││ Generator  │                       │
+                   │             │            ││            ││            │
+                                 └────────────┘└────────────┘└────────────┘                       │
+                   │                    │             │             │
+                    ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┼ ─ ─ ─ ─ ─ ─ ┼ ─ ─ ─ ─ ─ ─ ┼ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘
+                                        │             │             │
+                                        │ js code     │ nexus code  │ go code
+                                        ▼             ▼             ▼
+                             ┌─────────────────────────────────────────────────┐
+                             │                                                 │
+                             │                  ./app/prisma                   │
+                             │                                                 │
+                             └─────────────────────────────────────────────────┘
+```
+
+- **TODO** add query execution (`photon.users.find`) to this diagram
+- **TODO** decide how deep we want to go in the introduction
+
 # Prisma Binary CLI
 
 The entrypoint to the Prisma Binary is a CLI. This CLI can run one-off `check`
