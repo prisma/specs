@@ -7,30 +7,31 @@
 - [Configuration API](#configuration-api)
 - [Basic Example](#basic-example)
 - [Scenarios](#scenarios)
-  - [1. Development machine is Mac but the deployment platform is AWS lambda.](#1-development-machine-is-mac-but-the-deployment-platform-is-aws-lambda)
-  - [2. Deterministically choose the binary-based a runtime environment variable](#2-deterministically-choose-the-binary-based-a-runtime-environment-variable)
-  - [3. Development machine is Mac but we need a custom binary in production](#3-development-machine-is-mac-but-we-need-a-custom-binary-in-production)
-  - [4. Development machine is a Raspberry Pi and the deployment platform is AWS Lambda](#4-development-machine-is-a-raspberry-pi-and-the-deployment-platform-is-aws-lambda)
-  - [5. We are using CLI in a build system from a provider for which we do not have a working pre-compiled binary](#5-we-are-using-cli-in-a-build-system-from-a-provider-for-which-we-do-not-have-a-working-pre-compiled-binary)
+    + [1. Development machine is Mac but the deployment platform is AWS lambda.](#1-development-machine-is-mac-but-the-deployment-platform-is-aws-lambda)
+    + [2. Deterministically choose the binary-based a runtime environment variable](#2-deterministically-choose-the-binary-based-a-runtime-environment-variable)
+    + [3. Development machine is Mac but we need a custom binary in production](#3-development-machine-is-mac-but-we-need-a-custom-binary-in-production)
+    + [4. Development machine is a Raspberry Pi and the deployment platform is AWS Lambda](#4-development-machine-is-a-raspberry-pi-and-the-deployment-platform-is-aws-lambda)
+    + [5. We are using CLI in a build system from a provider for which we do not have a working pre-compiled binary](#5-we-are-using-cli-in-a-build-system-from-a-provider-for-which-we-do-not-have-a-working-pre-compiled-binary)
 - [Configuration](#configuration)
-  - [1. Both `platforms` and `pinnedPlatform` are not provided.](#1-both-platforms-and-pinnedplatform-are-not-provided)
-  - [2. Field `platforms` provided with multiple values and `pinnedPlatform` is not provided.](#2-field-platforms-provided-with-multiple-values-and-pinnedplatform-is-not-provided)
-  - [3. Field `platforms` provided with multiple values and `pinnedPlatform` is also provided.](#3-field-platforms-provided-with-multiple-values-and-pinnedplatform-is-also-provided)
+    + [1. Both `platforms` and `pinnedPlatform` are not provided.](#1-both-platforms-and-pinnedplatform-are-not-provided)
+    + [2. Field `platforms` provided with multiple values and `pinnedPlatform` is not provided.](#2-field-platforms-provided-with-multiple-values-and-pinnedplatform-is-not-provided)
+    + [3. Field `platforms` provided with multiple values and `pinnedPlatform` is also provided.](#3-field-platforms-provided-with-multiple-values-and-pinnedplatform-is-also-provided)
 - [Binary Resolution Error Handling](#binary-resolution-error-handling)
+- [Binary naming convention](#binary-naming-convention)
 - [Runtime Binary Resolution](#runtime-binary-resolution)
 - [Table of Binaries](#table-of-binaries)
-  - [URL Scheme](#url-scheme)
-  - [Common Cloud Platforms](#common-cloud-platforms)
-    - [Tier 1](#tier-1)
-    - [Tier 2](#tier-2)
+  * [URL Scheme](#url-scheme)
+  * [Common Cloud Platforms](#common-cloud-platforms)
+    + [Tier 1](#tier-1)
+    + [Tier 2](#tier-2)
 - [Binary Process Management](#binary-process-management)
-  - [Connect](#connect)
-    - [Find Free Port](#find-free-port)
-    - [Binary Spawn](#binary-spawn)
-    - [Waiting for the Binary to be Ready](#waiting-for-the-binary-to-be-ready)
-    - [Error Handling](#error-handling)
-  - [Photon in FaaS environment (Like AWS Lambda)](#photon-in-faas-environment-like-aws-lambda)
-  - [Disconnect](#disconnect)
+  * [Connect](#connect)
+      - [Find Free Port](#find-free-port)
+      - [Binary Spawn](#binary-spawn)
+      - [Waiting for the Binary to be Ready](#waiting-for-the-binary-to-be-ready)
+      - [Error Handling](#error-handling)
+  * [Photon in FaaS environment (Like AWS Lambda)](#photon-in-faas-environment-like-aws-lambda)
+  * [Disconnect](#disconnect)
 - [Drawbacks](#drawbacks)
 - [How we teach this](#how-we-teach-this)
 - [Unresolved questions](#unresolved-questions)
@@ -253,6 +254,12 @@ For environment variables used to override the binary used by the CLI:
 - If the environment variable path to a custom binary is not found, the respective generate command should throw.
 
 - If the environment variable path to a custom binary exists but the binary is incompatible with the current platform, the respective generate command should throw.
+
+# Binary naming convention
+
+All downloaded binaries must follow the naming convention outlined by the [Table of Binaries](#table-of-binaries).
+
+This includes both binaries downloaded for a generator and downloaded for CLI commands.
 
 # Runtime Binary Resolution
 
