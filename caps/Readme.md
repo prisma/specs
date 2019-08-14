@@ -5,7 +5,7 @@
 - [Prisma Binary CLI](#prisma-binary-cli)
 - [Capability Map](#capability-map)
 - [Schema Validation](#schema-validation)
-  * [How `check` works](#how-check-works)
+  - [How `check` works](#how-check-works)
 - [Client Generation](#client-generation)
 - [Query Validation](#query-validation)
 - [Query Execution](#query-execution)
@@ -110,6 +110,7 @@ A more in-depth version of the Prisma Binary:
 
 - **TODO** add query execution (`photon.users.find`) to this diagram
 - **TODO** decide how deep we want to go in the introduction
+- **TODO** add formatting to the mix
 
 # Prisma Binary CLI
 
