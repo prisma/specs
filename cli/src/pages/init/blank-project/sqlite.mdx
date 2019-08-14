@@ -1,7 +1,7 @@
 ---
 navGroup: init
 navOrder: 1
-navLabel: "Blank Project: SQLite"
+navLabel: sqlite
 ---
 
 import Terminal from '../../../components/Terminal/Terminal'
@@ -364,11 +364,62 @@ import chalk from 'chalk'
 1. SQLite
 1. Create new SQLite file
 1. JavaScript/TypeScript
-1. _Example selected_
+1. Demo script
 
 </details>
+<br />
 
-This success screen is dynamic. Learn more [here](./success-screens).
+<Terminal>
+  <Box marginLeft={2} marginBottom={1}>
+    <Color green><Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Congratulations, you're all set!</Color>
+  </Box>
+  <BorderBox flexDirection="column" title={chalk.bold('Info')}>
+    <Box marginLeft={2} marginBottom={1} flexDirection="column">
+      <Text>
+        The <Text bold>hello-world</Text> directory was created. It contains
+        your{' '}
+      </Text>
+      <Text>Prisma schema: <Text bold>schema.prisma</Text>.</Text>
+    </Box>
+    <Box marginLeft={2} marginBottom={1} flexDirection="column">
+      <Text>Prisma is connected to your database at:</Text>
+      <Text>
+        <Text bold>./dev.db</Text>
+      </Text>
+    </Box>
+    <Box marginLeft={2} flexDirection="column">
+      <Text>If you encounter any issues, please report them here:</Text>
+      <Text bold>https://github.com/prisma/prisma2/issues</Text>
+    </Box>
+  </BorderBox>
+  <BorderBox
+    flexDirection="column"
+    marginTop={1}
+    marginBottom={1}
+    title={chalk.bold('Next steps')}
+  >
+    <Box marginLeft={2} width={100} flexDirection="column">
+      <Text>Navigate into the project directory:</Text>
+      <Box marginBottom={1} flexDirection="column">
+        <Text bold>$ cd hello-world</Text>
+      </Box>
+      <Text>Start Prisma's development mode to enable access to</Text>
+      <Text>Prisma Studio and watch <Text bold>schema.prisma</Text> for changes:</Text>
+      <Box marginBottom={1} flexDirection="column">
+        <Text bold>$ prisma dev</Text>
+      </Box>
+      <Text>Run the sample script (in a new terminal window/tab):</Text>
+      <Box marginBottom={1} flexDirection="column">
+        <Text bold>$ npm start</Text>
+      </Box>
+      <Text>Learn more about Prisma 2:</Text>
+      <Text bold>https://github.com/prisma/prisma2/</Text>
+    </Box>
+  </BorderBox>
+</Terminal>
+
+**Note**: If the command was invoked **without** a project name (e.g. `prisma2 init` or `prisma2 init .`), the first success message should be: _"Your project directory is ready. It contains your Prisma schema: **schema.prisma**."_
+
 
 ### (5.1) Success
 
@@ -378,15 +429,12 @@ This success screen is dynamic. Learn more [here](./success-screens).
 1. SQLite
 1. Create new SQLite file
 1. JavaScript/TypeScript
-1. _No example selected_
+1. Just the Prisma selected
 
 </details>
 <br />
 
 <Terminal>
-  <Box marginBottom={1}>
-    <Color dim>~/Desktop $</Color> prisma init hello-world
-  </Box>
   <Box marginLeft={2} marginBottom={1}>
     <Color green><Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Congratulations, you're all set!</Color>
   </Box>
@@ -448,15 +496,12 @@ This success screen is dynamic. Learn more [here](./success-screens).
 4. _introspected DB_
 5. Photon
 6. JavaScript/TypeScript
-7. _Script example selected_
+7. Demo script
 
 </details>
 <br />
 
 <Terminal>
-  <Box marginBottom={1}>
-    <Color dim>~/Desktop $</Color> prisma init hello-world
-  </Box>
   <Box marginLeft={2} marginBottom={1}>
     <Color green><Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Congratulations, you're all set!</Color>
   </Box>
@@ -508,20 +553,17 @@ This success screen is dynamic. Learn more [here](./success-screens).
 
 1. Blank project
 1. SQLite
-2. Use existing SQLite file
-3. _entered file path_
-4. _introspected DB_
-5. Photon
-6. JavaScript/TypeScript
-7. _No example selected_
+1. Use existing SQLite file
+1. _entered file path_
+1. _introspected DB_
+1. Photon
+1. JavaScript/TypeScript
+1. Just the Prisma schema
 
 </details>
 <br />
 
 <Terminal>
-  <Box marginBottom={1}>
-    <Color dim>~/Desktop $</Color> prisma init hello-world
-  </Box>
   <Box marginLeft={2} marginBottom={1}>
     <Color green><Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Congratulations, you're all set!</Color>
   </Box>
@@ -559,6 +601,71 @@ This success screen is dynamic. Learn more [here](./success-screens).
       <Text>Prisma Studio and watch <Text bold>schema.prisma</Text> for changes:</Text>
       <Box marginBottom={1} flexDirection="column">
         <Text bold>$ prisma dev</Text>
+      </Box>
+      <Text>Learn more about Prisma 2:</Text>
+      <Text bold>https://github.com/prisma/prisma2/</Text>
+    </Box>
+  </BorderBox>
+</Terminal>
+
+**Note**: If the command was invoked **without** a project name (e.g. `prisma2 init` or `prisma2 init .`), the first success message should be: _"Your project directory is ready. It contains your Prisma schema: **schema.prisma**."_
+
+### (5.6) Success
+
+<details><summary>Previous selections</summary>
+
+1. Blank project
+1. SQLite
+1. Use existing SQLite file
+1. _entered file path_
+1. _introspected DB_
+1. Lift
+
+</details>
+<br />
+
+<Terminal>
+  <Box marginLeft={2} marginBottom={1}>
+    <Color green><Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Congratulations, you're all set!</Color>
+  </Box>
+  <BorderBox flexDirection="column" title={chalk.bold('Info')}>
+    <Box marginLeft={2} marginBottom={1} flexDirection="column">
+      <Text>
+        The <Text bold>hello-world</Text> directory was created. It contains
+        your{' '}
+      </Text>
+      <Text>Prisma schema: <Text bold>schema.prisma</Text>.</Text>
+    </Box>
+    <Box marginLeft={2} marginBottom={1} flexDirection="column">
+      <Text>Prisma is connected to your database at:</Text>
+      <Text>
+        <Text bold>./dev.db</Text>
+      </Text>
+    </Box>
+    <Box marginLeft={2} flexDirection="column">
+      <Text>If you encounter any issues, please report them here:</Text>
+      <Text bold>https://github.com/prisma/prisma2/issues</Text>
+    </Box>
+  </BorderBox>
+  <BorderBox
+    flexDirection="column"
+    marginTop={1}
+    marginBottom={1}
+    title={chalk.bold('Next steps')}
+  >
+    <Box marginLeft={2} width={100} flexDirection="column">
+      <Text>Navigate into the project directory:</Text>
+      <Box marginBottom={1} flexDirection="column">
+        <Text bold>$ cd hello-world</Text>
+      </Box>
+      <Text>Start Prisma's development mode to enable access to</Text>
+      <Text>Prisma Studio and watch <Text bold>schema.prisma</Text> for changes:</Text>
+      <Box marginBottom={1} flexDirection="column">
+        <Text bold>$ prisma dev</Text>
+      </Box>
+      <Text>Explore the data model generated from introspection:</Text>
+      <Box marginBottom={1} flexDirection="column">
+        <Text bold>./prisma.schema</Text>
       </Box>
       <Text>Learn more about Prisma 2:</Text>
       <Text bold>https://github.com/prisma/prisma2/</Text>
