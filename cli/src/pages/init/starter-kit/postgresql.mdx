@@ -158,7 +158,7 @@ import BorderBox from '../../../components/Terminal/BorderBox'
   >
      <Box width={100}>
       <Color cyan>
-        <Box width={30}>
+        <Box width={32}>
           <Text bold>{figures.pointer} Create new PostgreSQL schema</Text>
         </Box>
         <Color dim>Start from scratch</Color>
@@ -167,7 +167,7 @@ import BorderBox from '../../../components/Terminal/BorderBox'
     </Box>
     <Box width={100}>
       <Color >
-        <Box width={30}>
+        <Box width={32}>
           <Color gray>  </Color>
           <Text>Use empty PostgreSQL schema</Text>
         </Box>
@@ -330,7 +330,7 @@ import BorderBox from '../../../components/Terminal/BorderBox'
    <Box width={100}>
       <Color cyan>
         <Text bold>{figures.pointer} Name:</Text>
-        <Color dim> my_db</Color>
+        <Color dim> my_schema</Color>
       </Color>
       <Box flexGrow={1}></Box>
     </Box>
@@ -406,7 +406,7 @@ import BorderBox from '../../../components/Terminal/BorderBox'
   </Box>
 </Terminal>
 
-- [Empty DB](#5-language-selection)
+- [Empty schema](#5-language-selection)
 
 ## (4.1) Select a schema
 
@@ -461,7 +461,7 @@ import BorderBox from '../../../components/Terminal/BorderBox'
   </Box>
 </Terminal>
 
-- [Empty DB](#5-language-selection)
+- [Empty schema](#5-language-selection)
 
 ## (4.2) Select a schema
 
@@ -478,7 +478,10 @@ import BorderBox from '../../../components/Terminal/BorderBox'
 <br />
 
 <Terminal>
-  <Box flexDirection="column" marginLeft={2} marginBottom={1}>
+  <Color green>
+    <Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Connected to PostgreSQL database server as <Text bold>admin</Text>
+  </Color>
+  <Box flexDirection="column" marginLeft={2} marginBottom={1} marginTop={1}>
     <Text bold>The schema `hello-world` doesn't exist on this PostgreSQL server.</Text>
     <Text bold>You can select an existing PostgreSQL schema instead.</Text>
     <Color dim>Found 3 empty PostgreSQL schemas</Color>
@@ -517,7 +520,7 @@ import BorderBox from '../../../components/Terminal/BorderBox'
   </Box>
 </Terminal>
 
-- [Empty DB](#5-language-selection)
+- [Empty schema](#5-language-selection)
 
 ## (4.3) Select a schema
 
@@ -534,7 +537,10 @@ import BorderBox from '../../../components/Terminal/BorderBox'
 <br />
 
 <Terminal>
-  <Box flexDirection="column" marginLeft={2} marginBottom={1}>
+  <Color green>
+    <Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Connected to PostgreSQL database server as <Text bold>admin</Text>
+  </Color>
+  <Box flexDirection="column" marginLeft={2} marginBottom={1} marginTop={1}>
     <Text bold>Select an existing PostgreSQL schema.</Text>
     <Color dim>Found 3 empty PostgreSQL schemas</Color>
   </Box>
@@ -572,7 +578,7 @@ import BorderBox from '../../../components/Terminal/BorderBox'
   </Box>
 </Terminal>
 
-- [Empty DB](#5-language-selection)
+- [Empty schema](#5-language-selection)
 
 ### (5) Language selection
 
