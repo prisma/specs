@@ -106,13 +106,13 @@ import BorderBox from '../../../components/Terminal/BorderBox'
 - Optional DB provided
   - Exists
     - [Empty](#6-language-selection)
-    - [Non-empty](#4-introspection)
+    - [Non-empty](#41-introspection)
   - **Doesn't** exist
-    - [Rights to create new DB](22-select-existing-database-or-create-a-new-one-with-provided-name)
-    - [**No** rights to create new DB](#32-select-a-database)
+    - [Rights to create new DB](21-select-existing-database-or-create-a-new-one-with-provided-name)
+    - [**No** rights to create new DB](#31-select-a-database)
 - Optional DB **not** provided
   - [Rights to create new DB](#2-select-existing-database-or-create-a-new-one)
-  - [**No** rights to create new DB](#31-select-a-database)
+  - [**No** rights to create new DB](#32-select-a-database)
 
 ## (2) Select existing database or create a new one
 
@@ -172,54 +172,10 @@ import BorderBox from '../../../components/Terminal/BorderBox'
   </Box>
 </Terminal>
 
-- [Create new MySQL database](#21-set-database-name)
+- [Create new MySQL database](#4-set-database-name)
 - [Use existing MySQL database](#3-select-a-database)
 
-## (2.1) Set database name
-
-<details><summary>Previous selections</summary>
-
-1. Blank project
-1. MySQL
-1. _entered DB credentials_ (optional DB not provided)
-1. _connection succesful_
-1. Create new database
-
-</details>
-<br />
-
-<Terminal>
-  <Box marginLeft={2} flexDirection="column" marginBottom={1}>
-    <Text bold>Enter name for the new database</Text>
-    <Color dim>The database will be created by user: <Text bold>admin</Text></Color>
-  </Box>
-  <BorderBox
-    flexDirection="column"
-    title={`${chalk.bold('MySQL database name')}`}
-    marginBottom={1}
-  >
-   <Box width={100}>
-      <Color cyan>
-        <Text bold>{figures.pointer} Name:</Text>
-        <Color dim> my_db</Color>
-      </Color>
-      <Box flexGrow={1}></Box>
-    </Box>
-  </BorderBox>
-  <Box>
-    <Color gray>{figures.pointer} </Color>
-    <Text bold>Create</Text>
-  </Box>
-  <Box>
-    <Color gray>❮ </Color>
-    <Text bold>Back</Text>
-    <Color dim> (Database options)</Color>
-  </Box>
-</Terminal>
-
-- [Create](#6-language-selection)
-
-### (2.2) Select existing database or create a new one with provided name
+### (2.1) Select existing database or create a new one with provided name
 
 <details><summary>Previous selections</summary>
 
@@ -344,79 +300,9 @@ import BorderBox from '../../../components/Terminal/BorderBox'
 </Terminal>
 
 - [Empty DB](#6-language-selection)
-- [Non-empty DB](#5-introspection)
+- [Non-empty DB](#41-introspection)
 
 ## (3.1) Select a database
-
-<details><summary>Previous selections</summary>
-
-1. Blank project
-1. MySQL
-1. _entered DB credentials_ (optional DB not provided)
-1. _connection succesful_ 
-1. _no rights to create new DB_
-
-</details>
-<br />
-
-<Terminal>
-  <Color green>
-    <Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Connected to MySQL database server as <Text bold>admin</Text>
-  </Color>
-  <Box flexDirection="column" marginLeft={2} marginBottom={1} marginTop={1}>
-    <Text bold>Select an existing MySQL database.</Text>
-    <Color dim>Found 1 empty and 3 non-empty MySQL databases</Color>
-  </Box>
-  <BorderBox
-    flexDirection="column"
-    title={`${chalk.bold('Empty databases')} ${chalk.gray('(Start new project)')}`}
-    marginBottom={1}
-  >
-    <Box width={100}>
-      <Color cyan>
-        {figures.pointer} <Text bold>public</Text>
-      </Color>
-      <Box flexGrow={1} />
-    </Box>
-  </BorderBox>
-  <BorderBox
-    flexDirection="column"
-    title={`${chalk.bold('Non-empty databases')} ${chalk.gray('(Introspect existing database)')}`}
-    marginBottom={1}
-  >
-    <Box width={100}>
-      <Box width={20} marginLeft={2}>
-        <Text>management</Text>
-      </Box>
-      <Color dim>2 tables, 1,341KB</Color>
-      <Box flexGrow={1}></Box>
-    </Box>
-    <Box width={100}>
-      <Box width={20} marginLeft={2}>
-        <Text>default$default</Text>
-      </Box>
-      <Color dim>5 tables, 1,341KB</Color>
-      <Box flexGrow={1}></Box>
-    </Box>
-    <Box width={100}>
-      <Box width={20} marginLeft={2}>
-        <Text>staging</Text>
-      </Box>
-      <Color dim>1 tables, 2,341KB</Color>
-      <Box flexGrow={1}></Box>
-    </Box>
-  </BorderBox>
-  <Box>
-    <Color gray>❮ </Color>
-    <Text bold>Back</Text>
-    <Color dim> (Database credentials)</Color>
-  </Box>
-</Terminal>
-
-- [Empty DB](#6-language-selection)
-- [Non-empty DB](#5-introspection)
-
-## (3.2) Select a database
 
 <details><summary>Previous selections</summary>
 
@@ -485,9 +371,123 @@ import BorderBox from '../../../components/Terminal/BorderBox'
 </Terminal>
 
 - [Empty DB](#6-language-selection)
-- [Non-empty DB](#5-introspection)
+- [Non-empty DB](#41-introspection)
 
-## (4) Introspection
+## (3.2) Select a database
+
+<details><summary>Previous selections</summary>
+
+1. Blank project
+1. MySQL
+1. _entered DB credentials_ (optional DB not provided)
+1. _connection succesful_ 
+1. _no rights to create new DB_
+
+</details>
+<br />
+
+<Terminal>
+  <Color green>
+    <Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Connected to MySQL database server as <Text bold>admin</Text>
+  </Color>
+  <Box flexDirection="column" marginLeft={2} marginBottom={1} marginTop={1}>
+    <Text bold>Select an existing MySQL database.</Text>
+    <Color dim>Found 1 empty and 3 non-empty MySQL databases</Color>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={`${chalk.bold('Empty databases')} ${chalk.gray('(Start new project)')}`}
+    marginBottom={1}
+  >
+    <Box width={100}>
+      <Color cyan>
+        {figures.pointer} <Text bold>public</Text>
+      </Color>
+      <Box flexGrow={1} />
+    </Box>
+  </BorderBox>
+  <BorderBox
+    flexDirection="column"
+    title={`${chalk.bold('Non-empty databases')} ${chalk.gray('(Introspect existing database)')}`}
+    marginBottom={1}
+  >
+    <Box width={100}>
+      <Box width={20} marginLeft={2}>
+        <Text>management</Text>
+      </Box>
+      <Color dim>2 tables, 1,341KB</Color>
+      <Box flexGrow={1}></Box>
+    </Box>
+    <Box width={100}>
+      <Box width={20} marginLeft={2}>
+        <Text>default$default</Text>
+      </Box>
+      <Color dim>5 tables, 1,341KB</Color>
+      <Box flexGrow={1}></Box>
+    </Box>
+    <Box width={100}>
+      <Box width={20} marginLeft={2}>
+        <Text>staging</Text>
+      </Box>
+      <Color dim>1 tables, 2,341KB</Color>
+      <Box flexGrow={1}></Box>
+    </Box>
+  </BorderBox>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Database credentials)</Color>
+  </Box>
+</Terminal>
+
+- [Empty DB](#6-language-selection)
+- [Non-empty DB](#41-introspection)
+
+## (4) Set database name
+
+<details><summary>Previous selections</summary>
+
+1. Blank project
+1. MySQL
+1. _entered DB credentials_ (optional DB not provided)
+1. _connection succesful_
+1. Create new database
+
+</details>
+<br />
+
+<Terminal>
+  <Box marginLeft={2} flexDirection="column" marginBottom={1}>
+    <Text bold>Enter name for the new database</Text>
+    <Color dim>The database will be created by user: <Text bold>admin</Text></Color>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={`${chalk.bold('MySQL database name')}`}
+    marginBottom={1}
+  >
+   <Box width={100}>
+      <Color cyan>
+        <Text bold>{figures.pointer} Name:</Text>
+        <Color dim> my_db</Color>
+      </Color>
+      <Box flexGrow={1}></Box>
+    </Box>
+  </BorderBox>
+  <Box>
+    <Color gray>{figures.pointer} </Color>
+    <Text bold>Create</Text>
+  </Box>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Database options)</Color>
+  </Box>
+</Terminal>
+
+- [Create](#6-language-selection)
+
+## (4.1) Introspection
 
 <details><summary>Previous selections</summary>
 
