@@ -961,6 +961,7 @@ await photon.disconnect()
 - [ ] Create many (https://github.com/prisma/prisma2/issues/284)
 - [ ] Group by
 - [ ] Rethink raw API fallbacks
+- [ ] Include ids of to-one relations by default (https://github.com/prisma/photonjs/issues/188)
 - [ ] Jump to definition
 - [ ] Meta responses
   - [ ] How to query records that were "touched" during nested writes
