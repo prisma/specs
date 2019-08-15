@@ -100,8 +100,8 @@ Environment variable to configure the binary for CLI (like `prisma2 lift` or `pr
 
 | Environment Variable      | Description                                                                               | Behavior                                                       |
 | ------------------------- | ----------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
-| `MIGRATION_ENGINE_BINARY` | (optional) Overrides the resolution path for migration engine binary for `Lift` commands. | Can be a relative (from CWD) or an absolute path to the binary |
-| `QUERY_ENGINE_BINARY`     | (optional) Overrides the resolution path for query engine binary for `generate` command.  | Can be a relative (from CWD) or an absolute path to the binary |
+| `PRISMA_MIGRATION_ENGINE_BINARY` | (optional) Overrides the resolution path for migration engine binary for `Lift` commands. | Can be a relative (from CWD) or an absolute path to the binary |
+| `PRISMA_QUERY_ENGINE_BINARY`     | (optional) Overrides the resolution path for query engine binary for `generate` command.  | Can be a relative (from CWD) or an absolute path to the binary |
 
 - CLI binaries can only be overridden by a path to a custom compiled or provided binary. It does not alter download behavior, it simply overrides the binary to use path for respective commands.
 
@@ -165,8 +165,8 @@ generator photon {
 As we do not have precompiled binaries for ARM architecture yet, the user would compile binaries manually for query-engine and migration-engine.
 
 ```sh
-export MIGRATION_ENGINE_BINARY=<path to compiled migration engine binary>
-export QUERY_ENGINE_BINARY=<path to compiled query engine binary>
+export PRISMA_MIGRATION_ENGINE_BINARY=<path to compiled migration engine binary>
+export PRISMA_QUERY_ENGINE_BINARY=<path to compiled query engine binary>
 ```
 
 Then `prisma2 lift` and `prisma2 generate` would use the respective compiled binaries.
