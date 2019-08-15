@@ -112,13 +112,13 @@ import BorderBox from '../../../components/Terminal/BorderBox'
 - Optional schema provided
   - Exists
     - [Schema provided (empty)](#6-language-selection)
-    - [Schema provided (non-empty)](#4-introspection)
+    - [Schema provided (non-empty)](#41-introspection)
   - **Doesn't** exist
-    - [Rights to create new schema](22-select-existing-schema-or-create-a-new-one-with-provided-name)
-    - [**No** rights to create new schema](#32-select-a-schema)
+    - [Rights to create new schema](21-select-existing-schema-or-create-a-new-one-with-provided-name)
+    - [**No** rights to create new schema](#31-select-a-schema)
 - Optional schema **not** provided
   - [Rights to create new schema](#2-select-existing-schema-or-create-a-new-one)
-  - [**No** rights to create new schema](#31-select-a-schema)
+  - [**No** rights to create new schema](#32-select-a-schema)
 
 ## (2) Select existing schema or create a new one
 
@@ -178,10 +178,10 @@ import BorderBox from '../../../components/Terminal/BorderBox'
   </Box>
 </Terminal>
 
-- [Create new PostgreSQL schema](#21-set-database-name)
+- [Create new PostgreSQL schema](#4-set-schema-name)
 - [Use existing PostgreSQL schema](#3-select-a-schema)
 
-## (2.1) Set database name
+## (4) Set schema name
 
 <details><summary>Previous selections</summary>
 
@@ -225,7 +225,7 @@ import BorderBox from '../../../components/Terminal/BorderBox'
 
 - [Create](#6-language-selection)
 
-### (2.2) Select existing schema or create a new one with provided name
+### (2.1) Select existing schema or create a new one with provided name
 
 <details><summary>Previous selections</summary>
 
@@ -290,9 +290,8 @@ import BorderBox from '../../../components/Terminal/BorderBox'
 
 1. Blank project
 1. PostgreSQL
-1. _entered DB credentials_ (optional schema not provided)
+1. _entered DB credentials_
 1. _connection succesful_
-1. _rights to create new schema_
 1. Use existing schema
 
 </details>
@@ -300,7 +299,7 @@ import BorderBox from '../../../components/Terminal/BorderBox'
 
 <Terminal>
   <Box flexDirection="column" marginLeft={2} marginBottom={1}>
-    <Text bold>Select a PostgreSQL schema</Text>
+    <Text bold>Select an existing PostgreSQL schema</Text>
     <Color dim>Found 1 empty and 3 non-empty PostgreSQL schemas</Color>
   </Box>
   <BorderBox
@@ -350,9 +349,9 @@ import BorderBox from '../../../components/Terminal/BorderBox'
 </Terminal>
 
 - [Empty schema](#6-language-selection)
-- [Non-empty schema](#5-introspection)
+- [Non-empty schema](#41-introspection)
 
-## (3.1) Select a database
+## (3.2) Select a schema
 
 <details><summary>Previous selections</summary>
 
@@ -419,10 +418,10 @@ import BorderBox from '../../../components/Terminal/BorderBox'
   </Box>
 </Terminal>
 
-- [Empty DB](#6-language-selection)
-- [Non-empty DB](#5-introspection)
+- [Empty schema](#6-language-selection)
+- [Non-empty schema](#41-introspection)
 
-## (3.2) Select a database
+## (3.1) Select a schema
 
 <details><summary>Previous selections</summary>
 
@@ -490,10 +489,10 @@ import BorderBox from '../../../components/Terminal/BorderBox'
   </Box>
 </Terminal>
 
-- [Empty DB](#6-language-selection)
-- [Non-empty DB](#5-introspection)
+- [Empty schema](#6-language-selection)
+- [Non-empty schema](#41-introspection)
 
-## (4) Introspection
+## (4.1) Introspection
 
 <details><summary>Previous selections</summary>
 
