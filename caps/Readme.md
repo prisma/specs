@@ -5,13 +5,13 @@
 - [Prisma Binary CLI](#prisma-binary-cli)
 - [Capability Map (for Schema Validation)](#capability-map-for-schema-validation)
 - [Schema Validation](#schema-validation)
-  * [How `check` works](#how-check-works)
+  - [How `check` works](#how-check-works)
 - [Client Generation](#client-generation)
-  * [Capability Map for Client Generation](#capability-map-for-client-generation)
-    + [Generic Schema](#generic-schema)
-    + [Connector Schema](#connector-schema)
-    + [Capabilities as a Spreadsheet](#capabilities-as-a-spreadsheet)
-    + [QueryGenerate(User Schema, Connector Schema): DMMF](#querygenerateuser-schema-connector-schema-dmmf)
+  - [Capability Map for Client Generation](#capability-map-for-client-generation)
+    - [Generic Schema](#generic-schema)
+    - [Connector Schema](#connector-schema)
+    - [Capabilities as a Spreadsheet](#capabilities-as-a-spreadsheet)
+    - [QueryGenerate(User Schema, Connector Schema): DMMF](#querygenerateuser-schema-connector-schema-dmmf)
 - [Query Validation](#query-validation)
 - [Query Execution](#query-execution)
 - [Connector Interface](#connector-interface)
@@ -332,8 +332,8 @@ The format of the `capabilityMap` is described in [Capability Map](#Capability-M
 
 # Client Generation
 
-Client generation describes taking the schema capability map and merging it with the user's schema AST to generate an intermediate representation, internally
-called the DMMF. The Query Generator loops over the capability map with the schema AST.
+Client generation describes taking the a connector's capability map and merging it with the user's schema AST to generate an intermediate representation,
+internally called the DMMF. The Query Generator loops over the capability map with the schema AST.
 
 ```
                          │ schema AST
