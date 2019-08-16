@@ -3,34 +3,47 @@
 <!-- toc -->
 
 - [Motivation](#motivation)
-- [Requirements](#requirements)
-- [Configuration API](#configuration-api)
-- [Basic Example](#basic-example)
-- [Scenarios](#scenarios)
-  - [1. Development machine is Mac but the deployment platform is AWS lambda.](#1-development-machine-is-mac-but-the-deployment-platform-is-aws-lambda)
-  - [2. Deterministically choose the binary-based a runtime environment variable](#2-deterministically-choose-the-binary-based-a-runtime-environment-variable)
-  - [3. Development machine is Mac but we need a custom binary in production](#3-development-machine-is-mac-but-we-need-a-custom-binary-in-production)
-  - [4. Development machine is a Raspberry Pi and the deployment platform is AWS Lambda](#4-development-machine-is-a-raspberry-pi-and-the-deployment-platform-is-aws-lambda)
-  - [5. We are using CLI in a build system from a provider for which we do not have a working pre-compiled binary](#5-we-are-using-cli-in-a-build-system-from-a-provider-for-which-we-do-not-have-a-working-pre-compiled-binary)
-- [Configuration](#configuration)
-  - [1. Both `binaryTargets` and `pinnedBinaryTarget` are not provided.](#1-both-binarytargets-and-pinnedbinarytarget-are-not-provided)
-  - [2. Field `binaryTargets` provided with multiple values and `pinnedBinaryTarget` is not provided.](#2-field-binarytargets-provided-with-multiple-values-and-pinnedbinarytarget-is-not-provided)
-  - [3. Field `binaryTargets` provided with multiple values and `pinnedBinaryTarget` is also provided.](#3-field-binarytargets-provided-with-multiple-values-and-pinnedbinarytarget-is-also-provided)
-- [Binary Resolution Error Handling](#binary-resolution-error-handling)
-- [Binary Naming Convention](#binary-naming-convention)
-- [Runtime Binary Resolution](#runtime-binary-resolution)
-- [Pre-built Binary Targets](#pre-built-binary-targets)
-  - [URL Scheme](#url-scheme)
-  - [Common Cloud Platforms TK Merge with table!](#common-cloud-platforms-tk-merge-with-table)
-    - [Tier 1](#tier-1)
-    - [Tier 2](#tier-2)
-- [Binary Process Management](#binary-process-management)
-  - [Connect](#connect)
-    - [Find Free Port](#find-free-port)
-    - [Binary Spawn](#binary-spawn)
-    - [Waiting for the Binary to be Ready](#waiting-for-the-binary-to-be-ready)
-    - [Error Handling](#error-handling)
-  - [Disconnect](#disconnect)
+  * [Architecture](#architecture)
+    + [Prisma Query Engine Binary](#prisma-query-engine-binary)
+    + [Prisma Migration Engine Binary](#prisma-migration-engine-binary)
+    + [Utility Binaries](#utility-binaries)
+      - [Prisma Format Binary](#prisma-format-binary)
+  * [Requirements](#requirements)
+  * [Use Cases](#use-cases)
+- [Binary Files](#binary-files)
+  * [Pre-built Binary Targets](#pre-built-binary-targets)
+    + [URL Scheme](#url-scheme)
+  * [Naming Convention](#naming-convention)
+  * [Custom Binary](#custom-binary)
+- [Binary Protocols](#binary-protocols)
+  * [Data Protocol](#data-protocol)
+    + [Prisma Query Engine Binary](#prisma-query-engine-binary-1)
+    + [Prisma Migration Engine Binary](#prisma-migration-engine-binary-1)
+  * [Process management](#process-management)
+    + [Prisma Query Engine Binary](#prisma-query-engine-binary-2)
+  * [Connect](#connect)
+      - [Find Free Port](#find-free-port)
+      - [Binary Spawn](#binary-spawn)
+      - [Waiting for the Binary to be Ready](#waiting-for-the-binary-to-be-ready)
+  * [Disconnect](#disconnect)
+    + [Prisma Migration Engine Binary](#prisma-migration-engine-binary-2)
+  * [Error Handling](#error-handling)
+    + [Prisma Query Engine Binary](#prisma-query-engine-binary-3)
+    + [Prisma Migration Engine Binary](#prisma-migration-engine-binary-3)
+- [Use Case: Prisma CLI](#use-case-prisma-cli)
+  * [Configuration](#configuration)
+  * [Configuration Error Handling](#configuration-error-handling)
+  * [Example Scenarios](#example-scenarios)
+    + [1. We are using CLI in a build system from a provider for which we do not have a working pre-compiled binary](#1-we-are-using-cli-in-a-build-system-from-a-provider-for-which-we-do-not-have-a-working-pre-compiled-binary)
+- [Use Case: Generators](#use-case-generators)
+  * [Configuration](#configuration-1)
+  * [Configuration Error Handling](#configuration-error-handling-1)
+  * [Runtime](#runtime)
+  * [Example Scenarios](#example-scenarios-1)
+    + [1. Development machine is Mac but the deployment platform is AWS lambda.](#1-development-machine-is-mac-but-the-deployment-platform-is-aws-lambda)
+    + [2. Deterministically choose the binary-based a runtime environment variable](#2-deterministically-choose-the-binary-based-a-runtime-environment-variable)
+    + [3. Development machine is Mac but we need a custom binary in production](#3-development-machine-is-mac-but-we-need-a-custom-binary-in-production)
+    + [4. Development machine is a Raspberry Pi and the deployment platform is AWS Lambda](#4-development-machine-is-a-raspberry-pi-and-the-deployment-platform-is-aws-lambda)
 - [Unresolved questions](#unresolved-questions)
 
 <!-- tocstop -->
@@ -77,7 +90,7 @@ Prisma CLI
 
 VSCode Prisma extension uses this binary for providing code formatting features.
 
-## Requirements TK Rethink header
+## Requirements
 
 Binaries (query engine binary and migration engine binary) are at the core of Photon, Lift and Prisma CLI via the Prisma SDK. They are, however compiled for a specific platform, that leads to the following requirements:
 
@@ -87,11 +100,13 @@ Binaries (query engine binary and migration engine binary) are at the core of Ph
 
 ## Use Cases
 
-See examples TK Make link
+[See Prisma CLI example scenarios](#example-scenarios)
 
-# Binary Files TK Rethink name
+[See generators (Photon, Nexus etc) example scenarios](#example-scenarios)
 
-## Pre-built Binary Targets TK Add ubuntu
+# Binary Files
+
+## Pre-built Binary Targets
 
 |        **Build**        | **Known Platforms** |                                                            **Query Engine**                                                            | **Migration Engine**                                                                                                                                  | **Prisma Format**                                                                                                           |
 | :---------------------: | :-----------------: | :------------------------------------------------------------------------------------------------------------------------------------: | ----------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
@@ -106,28 +121,6 @@ See examples TK Make link
 | linux-musl-libssl1.1.0  |       Alpine        | [prisma-query-\${build}](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.1.0/prisma-query-engine.gz)  | [prisma-migration-engine-\${build}](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.1.0/prisma-migration-engine.gz)  | [prisma-fmt-\${build}](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.1.0/prisma-fmt.gz)  |
 | linux-musl-libssl1.1.1  |       Alpine        | [prisma-query-\${build}](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.1.1/prisma-query-engine.gz)  | [prisma-migration-engine-\${build}](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.1.1/prisma-migration-engine.gz)  | [prisma-fmt-\${build}](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.1.1/prisma-fmt.gz)  |
 
-<details><summary>TK Merge this into the table</summary>
-<p>
-## Common Cloud Platforms TK Merge with table!
-
-### Tier 1
-
-- Lambda (Node 8)
-- Lambda (Node 10)
-- ZEIT
-- Netlify
-- Heroku
-- Google Cloud Functions
-- Azure Functions
-- CodeSandbox
-
-### Tier 2
-
-- Cloudflare workers
-- Raspberry Pi (ARM)
-  </p>
-  </details>
-
 ### URL Scheme
 
 To download the binary, replace `${package}` with a package (e.g. `darwin`) and `${name}` with the name of the binary above (e.g. `query-engine`):
@@ -139,13 +132,13 @@ From photon's perspective, we'll download the binaries to `./node_modules/@gener
 
 ## Naming Convention
 
-All downloaded binaries must follow the naming convention outlined by the [Table of Binaries](#table-of-binaries). TK Fix the link
+All downloaded binaries must follow the naming convention outlined by the [Table of Binaries](#pre-built-binary-targets).
 
 This includes both binaries downloaded for a generator and downloaded for CLI commands.
 
 ## Custom Binary
 
-In case a binary for your platform is not listed in the [Pre-built Binary Targets](#TK-Add-link). Please follow this section of the docs to build a custom binary. TK Link docs
+In case a binary for your platform is not listed in the [Pre-built Binary Targets](#pre-built-binary-targets). Please follow [this section](https://github.com/prisma/prisma2/blob/custom_binary/docs/core/generators/photonjs.md#compiling-custom-binary) of the docs to build a custom binary.
 
 # Binary Protocols
 
@@ -162,6 +155,11 @@ Prisma migration engine binary uses JSON RPC over HTTP.
 ## Process management
 
 ### Prisma Query Engine Binary
+
+<details><summary>Note about Photon</summary>
+
+<p>The Prisma SDK provides the primitives for generators to perform binary process management. The following section covers Prisma query engine binary process management in Photon</p>
+</details>
 
 Prisma SDK provide Photon with `connect`, `disconnect` methods for binary process management. If needed, Photon can lazily connect, when a request is received.
 
@@ -191,12 +189,15 @@ released.
 
 ### Prisma Migration Engine Binary
 
+<details><summary>Note about Lift</summary>
+
+<p>The Prisma SDK provides the primitives for CLI commands to perform binary process management. The following section covers Prisma migration engine binary process management in `lift` command.</p>
+</details>
+
 Prisma SDK provides a similar API for migration engine binary management. The actual process management is similar to query engine binary. With the following noted differences:
 
 1. Migration engine binary process is short lived.
 2. Migration engine binary uses JSON RPC over HTTP as the data protocol.
-
-TK This would vary one generators!! Add note
 
 ## Error Handling
 
@@ -215,7 +216,7 @@ Error handling has a separate spec [here](https://github.com/prisma/specs/tree/m
 
 ### Prisma Migration Engine Binary
 
-TODO: Fill this section
+TODO: Fill this section with possible scenarios where a lift command might fail.
 
 # Use Case: Prisma CLI
 
@@ -229,6 +230,12 @@ Environment variable to configure the binary for CLI (like `prisma2 lift` or `pr
 | `PRISMA_QUERY_ENGINE_BINARY`     | (optional) Overrides the resolution path for query engine binary for `generate` command.  | Can be a relative (from CWD) or an absolute path to the binary |
 
 - CLI binaries can only be overridden by a path to a custom compiled or provided binary. It does not alter download behavior, it simply overrides the binary to use path for respective commands.
+
+## Configuration Error Handling
+
+- If the environment variable path to a custom binary is not found, the respective generate command should throw.
+
+- If the environment variable path to a custom binary exists but the binary is incompatible with the current platform, the respective generate command should throw.
 
 ## Example Scenarios
 
@@ -247,40 +254,61 @@ Fields on the `generator` block to configure the availability of binaries for ge
 | `binaryTargets`      | _(optional)_ An array of binaries that are required by the application, string for known binaryTargets and path for custom binaries. | Declarative way to download the required binaries. |
 | `pinnedBinaryTarget` | _(optional)_ A string that points to the name of an object in the `binaryTargets` field, usually an environment variable             | Declarative way to choose the runtime binary       |
 
-- Both `binaryTargets` and `pinnedBinaryTarget` fields are optional, **however** when a custom binary is provided the `pinnedBinaryTarget` is required.
+- Both `binaryTargets` and `pinnedBinaryTarget` fields are optional, **however** when a custom binary is provided the `pinnedBinaryTarget` is required. Here are some scenarios
 
-- Custom binary path points Photon to use the pathv provided.
+  - Both `binaryTargets` and `pinnedBinaryTarget` are not provided.
+
+    ```groovy
+    generator photon {
+        provider = "photonjs"
+    }
+    ```
+
+    We download and use the binary for the current platform.
+
+  - Field `binaryTargets` provided with multiple values and `pinnedBinaryTarget` is not provided.
+
+    ```groovy
+    generator photon {
+        provider = "photonjs"
+        binaryTargets = ["native", "linux-glibc-libssl1.0.2"]
+    }
+    ```
+
+    Since we do not pin the platform here using `pinnedBinaryTarget`, we need to resolve the binary at runtime, see [Runtime binary resolution] for more details.
+
+  - Field `binaryTargets` provided with multiple values and `pinnedBinaryTarget` is also provided.
+
+  ```groovy
+  generator photon {
+    provider = "photonjs"
+    binaryTargets = ["native", "linux-glibc-libssl1.0.2"]
+    pinnedBinaryTarget = env("PLATFORM") // On local, "native" and in production, "linux-glibc-libssl1.0.2"
+  }
+  ```
+
+  ```groovy
+    generator photon {
+        provider = "photonjs"
+        binaryTargets = ["native", "linux-glibc-libssl1.0.2"]
+        pinnedBinaryTarget = env("PLATFORM") // On local, "native" and in production, "linux-glibc-libssl1.0.2"
+    }
+  ```
+
+  We use the `pinnedBinaryTarget` field to pin one of the downloaded binaries at runtime.
+
+  Note: In production setups with a dedicated CI, we can configure binaryTargets to only include the required binaries: `binaryTargets = ["linux-glibc-libssl1.0.2"]`
+
+  A configuration like `binaryTargets = ["native", "linux-glibc-libssl1.0.2"]` is only needed when the development machine is also the machine responsible to build
+  for production but the platform in production is different, like `AWS lambda`, `now`, etc.
+
+- Custom binary path points Photon to use the path provided.
 
 - Known binary path downloads a known binary to a OS cache path and copies it to generator path on `generate`.
 
-- Not all generators require all the binaries, the generator spec (it will be linked once it is ready) outlines the generator API that defines which binaries are needed.
+- Not all generators require all the binaries, the generator spec (TODO: link generator spec when ready) outlines the generator API that defines which binaries are needed.
 
-Both `binaryTargets` and `pinnedBinaryTarget` fields are optional, scenarios:
-
-### 1. Both `binaryTargets` and `pinnedBinaryTarget` are not provided.
-
-```groovy
-generator photon {
-    provider = "photonjs"
-}
-```
-
-We download and use the binary for the current platform.
-
-### 2. Field `binaryTargets` provided with multiple values and `pinnedBinaryTarget` is not provided.
-
-```groovy
-generator photon {
-    provider = "photonjs"
-    binaryTargets = ["native", "linux-glibc-libssl1.0.2"]
-}
-```
-
-Since we do not pin the platform here using `pinnedBinaryTarget`, we need to resolve the binary at runtime, see [Runtime binary resolution] for more details.
-
-**Error Handling**
-
-For fields on the `generator` block:
+## Configuration Error Handling
 
 - If the pinned binary is not found during the generation, generation should fail.
 
@@ -289,37 +317,6 @@ For fields on the `generator` block:
 - If the pinned binary is a known binary but does not work for the current platform, try other known binaries from `binaryTargets`. This would make the use cases work where build machine is different from deploy machine, like in the case of zeit's now.
 
 - If the pinned binary is a custom binary but does not work for the current platform, generated code's runtime should throw.
-
-For environment variables used to override the binary used by the CLI:
-
-- If the environment variable path to a custom binary is not found, the respective generate command should throw.
-
-- If the environment variable path to a custom binary exists but the binary is incompatible with the current platform, the respective generate command should throw.
-
-### 3. Field `binaryTargets` provided with multiple values and `pinnedBinaryTarget` is also provided.
-
-```groovy
-generator photon {
-    provider = "photonjs"
-    binaryTargets = ["native", "linux-glibc-libssl1.0.2"]
-    pinnedBinaryTarget = env("PLATFORM") // On local, "native" and in production, "linux-glibc-libssl1.0.2"
-}
-```
-
-```groovy
-generator photon {
-    provider = "photonjs"
-    binaryTargets = ["native", "linux-glibc-libssl1.0.2"]
-    pinnedBinaryTarget = env("PLATFORM") // On local, "native" and in production, "linux-glibc-libssl1.0.2"
-}
-```
-
-We use the `pinnedBinaryTarget` field to pin one of the downloaded binaries at runtime.
-
-Note: In production setups with a dedicated CI, we can configure binaryTargets to only include the required binaries: `binaryTargets = ["linux-glibc-libssl1.0.2"]`
-
-A configuration like `binaryTargets = ["native", "linux-glibc-libssl1.0.2"]` is only needed when the development machine is also the machine responsible to build
-for production but the platform in production is different, like `AWS lambda`, `now`, etc.
 
 ## Runtime
 
