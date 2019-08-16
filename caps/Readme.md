@@ -551,6 +551,24 @@ const capabilities = t.Capabilities(
 )
 ```
 
+In the future, we may want to use Excel and map this tree out visually. In Excel, this would look somethign like this:
+
+```
+| Capabilities                       | Postgres  |  SQLite  |  HTTP   |
+| :--------------------------------: | :------:  |  :----:  | :----:  |
+| findOne                            |   true    |   true   |  true   |
+|   output                           |   true    |   true   |  true   |
+|     concat(String, String): String |   true    |   true   |  true   |
+|   filter                           |   true    |   true   |  false  |
+|     equal(String, String): Boolean |   true    |   true   |  false  |
+|     gt(String, String): Boolean    |   false   |   false  |  false  |
+| create                             |   true    |   true   |  true   |
+|   input                            |   true    |   true   |  true   |
+|     concat(String, String): String |   true    |   false  |  true   |
+```
+
+- **Note** When you put `false` on a parent node, it should disable the whole tree
+
 - **TODO** Turn into the schema syntax as above
 - **TODO** It's still a bit unclear to me how many combinations we'll need to map out, it's recursive so it can't be all of them otherwise it'd be infinity
   combinations.
