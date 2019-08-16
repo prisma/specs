@@ -332,7 +332,7 @@ The format of the `capabilityMap` is described in [Capability Map](#Capability-M
 # Client Generation
 
 Client generation describes taking the schema capability map and merging it with the user's schema AST to generate an intermediate representation, internally
-called the DMMF. The Query Generator uses enumerates the capability map using the schema AST.
+called the DMMF. The Query Generator loops over the capability map with the schema AST.
 
 ```
                          │ schema AST
@@ -368,7 +368,8 @@ For client generation the capability map needs to be able to switch off expressi
 
 ### Generic Schema
 
-First, we start with a generic schema of all possible Prisma features.
+First, we start with a generic schema of all possible Prisma features. You can think of this like a coloring book, the structure is in place, but it's up to you
+to fill in what you need.
 
 ```ts
 // Root node. A list of datasources and their capabilities
@@ -498,7 +499,7 @@ type DateTimeFunction = {
 
 ### Connector Schema
 
-Now for each connector, we'll define a new schema in such a way that it's specific to the connector, but still a valid instance of the schema above.
+Now for each connector, we'll define a new schema in such a way that it's specific to the connector, but still follows the structure of the schema above.
 
 The following shows that Postgres supports `Create` and `FindOne` functions:
 
