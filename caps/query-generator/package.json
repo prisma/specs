@@ -1,0 +1,9 @@
+{
+  "name": "query-generator",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "pegjs": "0.10.0"
+  }
+}

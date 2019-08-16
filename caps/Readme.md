@@ -14,17 +14,13 @@
 
 <!-- tocstop -->
 
-The Prisma Binary is the driving force behind Prisma's products. We use this to
-generate photon clients, typecheck schemas, and execute queries on our
+The Prisma Binary is the driving force behind Prisma's products. We use this to generate photon clients, typecheck schemas, and execute queries on our
 datasources.
 
-Prisma uses _connectors_ talks to different datasources. Postgres, MongoDB, and
-even Google Sheets can be a connector. The Prisma Binary is designed to work
-with multiple connectors at once. Connectors are written in Rust, but may be
-higher-level in the future.
+Prisma uses _connectors_ talks to different datasources. Postgres, MongoDB, and even Google Sheets can be a connector. The Prisma Binary is designed to work
+with multiple connectors at once. Connectors are written in Rust, but may be higher-level in the future.
 
-The following is a high-level diagram of how different clients connect to the
-Prisma Binary and how they relate to the connectors.
+The following is a high-level diagram of how different clients connect to the Prisma Binary and how they relate to the connectors.
 
 ```
 ┌─────────────────────────┐┌─────────────────────────┐┌────────────────────────┐
@@ -87,7 +83,7 @@ A more in-depth version of the Prisma Binary:
                    │                           │            │                    │           │ │
                                                └────────────┘                    │           │ │  │
                    │                                  │                          │           │ │
-                                                      │ client blueprint         └─┬─────────┘ │  │
+                                                      │ DMMF                     └─┬─────────┘ │  │
                    │                    ┌─────────────┼─────────────┐              └───────────┘
                                         ▼             ▼             ▼                             │
                    │             ┌────────────┐┌────────────┐┌────────────┐
@@ -114,8 +110,7 @@ A more in-depth version of the Prisma Binary:
 
 # Prisma Binary CLI
 
-The entrypoint to the Prisma Binary is a CLI. This CLI can run one-off `check`
-commands or use `serve` to start a long-running server that will serve query
+The entrypoint to the Prisma Binary is a CLI. This CLI can run one-off `check` commands or use `serve` to start a long-running server that will serve query
 requests.
 
 ```
@@ -136,10 +131,10 @@ Commands:
   serve                Start the prisma service.
 ```
 
-# Capability Map
+# Capability Map (for Schema Validation)
 
-The capability map is a static structure written into the code that we've
-crafted by hand. The format of the capability map is the following:
+The capability map tells us what the connector supports. It's a declarative structure written into the code that we've crafted by hand. The format of the
+capability map is the following:
 
 ```ts
 type Capabilities = {
@@ -156,40 +151,40 @@ Example for Postgres:
 
 var postgres = &Postgres{
 	// type map
-	types: map[string]string{
+	types: map[string]bool{
 		// core
-		"String":    "text",
-		"String?":   "text?",
-		"String[]":  "text[]",
-		"String[]?": "text[]?",
+		"String":    true,
+		"String?":   true,
+		"String[]":  true,
+		"String[]?": true,
 
 		// custom type
-		// TODO: numeric(n, p)
-		"Citext": "String",
+    "Citext": true,
+    "Numeric(precision: Int, scale: Int)": true
 
 		// integers
-		"Integer":    "int",
-		"Integer?":   "int?",
-		"Integer[]":  "int[]",
-		"Integer[]?": "int[]?",
+		"Integer":    true,
+		"Integer?":   true,
+		"Integer[]":  true,
+		"Integer[]?": true,
 
 		// floats
-		"Float":    "float4",
-		"Float?":   "float4?",
-		"Float[]":  "float4[]",
-		"Float[]?": "float4[]?",
+		"Float":    true,
+		"Float?":   true,
+		"Float[]":  true,
+		"Float[]?": true,
 
 		// datetime
-		"DateTime":    "timestamp",
-		"DateTime?":   "timestamp?",
-		"DateTime[]":  "timestamp[]",
-		"DateTime[]?": "timestamp[]?",
+		"DateTime":    true,
+		"DateTime?":   true,
+		"DateTime[]":  true,
+		"DateTime[]?": true,
 
 		// boolean
-		"Boolean":    "boolean",
-		"Boolean?":   "boolean?",
-		"Boolean[]":  "boolean[]",
-		"Boolean[]?": "boolean[]?",
+		"Boolean":    true,
+		"Boolean?":   true,
+		"Boolean[]":  true,
+		"Boolean[]?": true,
 	},
 
 	// relation support
@@ -206,30 +201,27 @@ var postgres = &Postgres{
 
 	// field attributes
 	fieldAttrs: map[string]bool{
-		"id":     true,
-		"unique": true,
+		"id()":     true,
+		"unique()": true,
 	},
 
 	// model attributes
 	modelAttrs: map[string]bool{
 		"id":     true,
-		"unique": true,
+		"unique(fields: Field[])": true,
 	},
 }
 ```
 
-**TODO** Double-back on this. This is overly simplistic and already breaks down
-in some cases. We'll rather want to use "AST fragments" that we can walk over
+**TODO** Double-back on this. This is overly simplistic and already breaks down in some cases. We'll rather want to use "AST fragments" that we can walk over
 and check if all the arguments match up.
 
-**Side Note** To deal with schema changes, we should interact with these
-capibility maps using visitor pattern to pick out only the fields we care about.
-This will minimize breakage as we add more things to the map.
+**Sidenote** To deal with schema changes, we should interact with these capibility maps using visitor pattern to pick out only the fields we care about. This
+will minimize breakage as we add more things to the map.
 
 # Schema Validation
 
-Schema validation is used by editors like VSCode to for autocompletion and
-typechecking. Schema checking works in the following way:
+Schema validation is used by editors like VSCode to for autocompletion and typechecking. Schema checking works in the following way:
 
 ```
          ┌───────────────┐
@@ -298,8 +290,7 @@ type Error = {
 }
 ```
 
-These errors will contain line and column information that the plugin will use
-to show warnings and errors to the developer.
+These errors will contain line and column information that the plugin will use to show warnings and errors to the developer.
 
 ## How `check` works
 
@@ -322,25 +313,252 @@ to show warnings and errors to the developer.
         └────────────────────────────────────────────────────────────────┘
 ```
 
-We'll parse the schema generating a schema AST. The Schema AST is defined below
-in [Appendix: Schema AST](#Appendix:-Schema-AST). We'll also pull the
+We'll parse the schema generating a schema AST. The Schema AST is defined below in [Appendix: Schema AST](#Appendix:-Schema-AST). We'll also pull the
 `capabilityMap` from the connectors and merge them together.
 
-The format of the `capabilityMap` is described in
-[Capability Map](#Capability-Map).
+The format of the `capabilityMap` is described in [Capability Map](#Capability-Map).
 
 `check(schemaAST, capabilityMap)` runs the following operations:
 
-1. Walk the merged capability map of the connectors building an index of the
-   available types, available attributes and relationship support.
-2. Walk the schema comparing against this index. If there are errors or
-   warnings, we'll add them to the list and continue traversing each node.
+1. Walk the merged capability map of the connectors building an index of the available types, available attributes and relationship support.
+2. Walk the schema comparing against this index. If there are errors or warnings, we'll add them to the list and continue traversing each node.
 
 **TODO** describe the capability map merge.
 
 # Client Generation
 
-**TODO**
+Client generation describes taking the schema capability map and merging it with the user's schema AST to generate an intermediate representation, internally
+called the DMMF. The Query Generator uses enumerates the capability map using the schema AST.
+
+```
+                         │ schema AST
+                         ▼
+                  ┌────────────┐      static    ┌───────────┐
+                  │            │    capability  │           ├┐
+                  │   Query    │       map      │ Postgres  ││
+                  │ Generator  │◀───────────────│ Connector ││
+                  │            │                │           ││
+                  └────────────┘                └┬──────────┘│
+                         │                       └───────────┘
+                         │ DMMF
+           ┌─────────────┼─────────────┐
+           ▼             ▼             ▼
+    ┌────────────┐┌────────────┐┌────────────┐
+    │            ││            ││            │
+    │  PhotonJS  ││   Nexus    ││ Photon Go  │
+    │ Generator  ││ Generator  ││ Generator  │
+    │            ││            ││            │
+    └────────────┘└────────────┘└────────────┘
+           │ js code     │ nexus code  │ go code
+           ▼             ▼             ▼
+┌─────────────────────────────────────────────────┐
+│                                                 │
+│                  ./app/prisma                   │
+│                                                 │
+└─────────────────────────────────────────────────┘
+```
+
+## Capability Map for Client Generation
+
+**TODO** Merge with the capability map above.
+
+For client generation the capability map needs to be able to switch off expressions based on connector support.
+
+First, we start with a generic schema of all possible Prisma features.
+
+```ts
+// Root node. A list of datasources and their capabilities
+type Capabilities = {
+  type: 'Capabilities'
+  datasources: Datasource[]
+}
+
+// datasource, postgres, mysql, sqlite
+type Datasource = {
+  type: 'Datasource'
+  name: string
+  queries: Query[]
+}
+
+// queries, findOne, findMany, create, etc.
+type Query = {
+  type: 'Query'
+  name: string
+  conditions: Condition[]
+}
+
+type Condition = InputCondition | OutputCondition | FilterCondition
+
+// inserting data, { data: ... }
+type InputCondition = {
+  type: 'input'
+  properties: Property[]
+}
+
+// returning data, { select: ... }
+type OutputCondition = {
+  type: 'output'
+  properties: Property[]
+}
+
+// filtering data, { where: ... }
+type FilterCondition = {
+  type: 'filter'
+  expressions: BooleanExpression[]
+}
+
+// a key value mapping between a field and an expression
+// e.g. { full_name: concat(first_name, last_name) }
+type Property = {
+  type: 'Property'
+  key: FieldType
+  value: TypeExpression
+}
+
+type FieldType = BooleanFieldType | StringFieldType | IntegerFieldType | FloatFieldType | DateTimeFieldType
+type TypeExpression = BooleanExpression | StringExpression | IntegerExpression | FloatExpression | DateTimeExpression
+type StringExpression = StringFieldType | StringLiteralType | StringFunction
+type BooleanExpression = BooleanFieldType | BooleanLiteralType | BooleanFunction
+type IntegerExpression = IntegerFieldType | IntegerLiteralType | IntegerFunction
+type FloatExpression = FloatFieldType | FloatLiteralType | FloatFunction
+type DateTimeExpression = DateTimeFieldType | DateTimeLiteralType | DateTimeFunction
+
+// accepts a field that is a string type, "first_name"
+type StringFieldType = {
+  type: 'StringFieldType'
+}
+
+// accepts a string literal, "hi"
+type StringLiteralType = {
+  type: 'StringLiteralType'
+}
+
+// function that returns a string, lower(string): string
+type StringFunction = {
+  type: 'StringFunction'
+  name: string
+  args: TypeExpression[]
+}
+
+// accepts an integer field type, "age"
+type IntegerFieldType = {
+  type: 'IntegerFieldType'
+}
+
+// accepts an integer type, 5
+type IntegerLiteralType = {
+  type: 'IntegerLiteralType'
+}
+
+// function that returns an integer, add(5, 1): int
+type IntegerFunction = {
+  type: 'IntegerFunction'
+  name: string
+  args: TypeExpression[]
+}
+
+// accepts a boolean field, "active"
+type BooleanFieldType = {
+  kind: 'BooleanFieldType'
+}
+
+// accepts a boolean value, true
+type BooleanLiteralType = {
+  kind: 'BooleanLiteralType'
+}
+
+// a function that returns a boolean, equals(first_name, "alice"): boolean
+type BooleanFunction = {
+  kind: 'BooleanFunction'
+  name: string
+  args: TypeExpression[]
+}
+
+// accepts a datetime type, "created_at"
+type DateTimeFieldType = {
+  kind: 'DateTimeFieldType'
+}
+
+// accepts a datetime value, "6/10/19"
+type DateTimeLiteralType = {
+  kind: 'DateTimeLiteralType'
+}
+
+// a function that returns a datetime, "now()"
+type DateTimeFunction = {
+  kind: 'DateTimeFunction'
+  name: string
+  args: TypeExpression[]
+}
+```
+
+Now for each connector, we'll define a new schema in such a way that it's specific to the connector, but still a valid instance of the schema above.
+
+The following shows that Postgres supports `Create` and `FindOne` functions:
+
+- Create accepts Strings, Integers, Booleans, DateTime, etc. It even supports passing an integer into a float field. It also maps out the outputs, what can be
+  returned via `select`.
+- FindOne shows what types of filters we can pass in. We can pass in a boolean literal (e.g. `where: true`), but we can also pass in complex functions like
+  `{ where: { first_name: "lower(bob)" } }`.
+
+```ts
+const capabilities = t.Capabilities(
+  t.Postgres(
+    t.Create(
+      t.Input(
+        t.Property(t.StringFieldType(), t.StringLiteralType()),
+        t.Property(t.IntegerFieldType(), t.IntegerLiteralType()),
+        t.Property(t.BooleanFieldType(), t.BooleanLiteralType()),
+        t.Property(t.DateTimeFieldType(), t.DateTimeLiteralType()),
+        t.Property(t.FloatFieldType(), t.FloatLiteralType()),
+        // e.g. { data: { amount: 5 } }
+        t.Property(t.FloatFieldType(), t.IntegerLiteralType()),
+        // e.g. { data: { first_name: "lower(MATT)" } }
+        t.Property(t.StringFieldType(), t.StringFunction('lower', t.StringFieldType()))
+      ),
+      t.Output(
+        t.Property(t.StringFieldType(), t.StringLiteralType()),
+        t.Property(t.IntegerFieldType(), t.IntegerLiteralType()),
+        t.Property(t.BooleanFieldType(), t.BooleanLiteralType()),
+        t.Property(t.DateTimeFieldType(), t.DateTimeLiteralType()),
+        t.Property(t.FloatFieldType(), t.FloatLiteralType()),
+        // supports return an integer from a float field
+        // TODO: does this make sense for outputs?
+        t.Property(t.FloatFieldType(), t.IntegerLiteralType()),
+        // { select: first_name: "lower(first_name)" }
+        t.Property(t.StringFieldType(), t.StringFunction('lower', t.StringFieldType()))
+      )
+    ),
+    t.FindOne(
+      t.Filter(
+        // boolean filters
+        t.BooleanLiteralType(),
+        t.BooleanFunction('and', t.BooleanFieldType(), t.BooleanFieldType()),
+        t.BooleanFunction('or', t.BooleanFieldType(), t.BooleanFieldType()),
+        t.BooleanFunction('xor', t.BooleanFieldType(), t.BooleanFieldType()),
+        t.BooleanFunction('equals', t.BooleanFieldType(), t.BooleanFieldType()),
+        t.BooleanFunction('notEquals', t.BooleanFieldType(), t.BooleanFieldType()),
+
+        // string filters
+        t.BooleanFunction('equals', t.StringFieldType(), t.StringLiteralType()),
+        t.BooleanFunction('equals', t.StringFieldType(), t.StringFunction('lower', t.StringFieldType())),
+        t.BooleanFunction('notEquals', t.BooleanFieldType(), t.BooleanFieldType())
+      ),
+      t.Output()
+    )
+  ),
+  t.SQLite()
+)
+```
+
+- **TODO** Turn into the schema syntax as above
+- **TODO** It's still a bit unclear to me how many combinations we'll need to map out, it's recursive so it can't be all of them otherwise it'd be infinity
+  combinations.
+
+Now that we have a subset of the generic schema that's specific to Postgres, we can loop over our schema and generate the DMMF. The DMMF is then passed into the
+generators.
+
+- **TODO** I still haven't figured out how to do this. I want to talk to Tim next week to try and figure this out.
 
 # Query Validation
 
@@ -355,12 +573,9 @@ The format of the `capabilityMap` is described in
 Connectors have an interface with 4 methods:
 
 1. `Capabilities(): Capabilities` Returns a list of the connector's capabilities
-2. `Connect(): error`: Connects to the given data source. If this datasource is
-   stateless, connect may be empty.
-3. `Execute(query: string, variables: map[string]interface{}): RecordSet`
-   Executes a query with the given parameters and returns a `RecordSet`.
-4. `Close(): error`: Closes the datasource. If the datasource is stateless,
-   close may be empty.
+2. `Connect(): error`: Connects to the given data source. If this datasource is stateless, connect may be empty.
+3. `Execute(query: string, variables: map[string]interface{}): RecordSet` Executes a query with the given parameters and returns a `RecordSet`.
+4. `Close(): error`: Closes the datasource. If the datasource is stateless, close may be empty.
 
 # Appendix: Schema AST
 
