@@ -31,13 +31,15 @@
     + [Prisma Query Engine Binary](#prisma-query-engine-binary-3)
     + [Prisma Migration Engine Binary](#prisma-migration-engine-binary-3)
 - [Use Case: Prisma CLI](#use-case-prisma-cli)
-  * [Configuration](#configuration)
-  * [Configuration Error Handling](#configuration-error-handling)
+  * [How to Fetch Binaries](#how-to-fetch-binaries)
+    + [Environment Variables](#environment-variables)
+    + [Environment Variables Error Handling](#environment-variables-error-handling)
   * [Example Scenarios](#example-scenarios)
     + [1. We are using CLI in a build system from a provider for which we do not have a working pre-compiled binary](#1-we-are-using-cli-in-a-build-system-from-a-provider-for-which-we-do-not-have-a-working-pre-compiled-binary)
 - [Use Case: Generators](#use-case-generators)
-  * [Configuration](#configuration-1)
-  * [Configuration Error Handling](#configuration-error-handling-1)
+  * [How to Fetch Binaries](#how-to-fetch-binaries-1)
+    + [Configuration](#configuration)
+    + [Configuration Error Handling](#configuration-error-handling)
   * [Runtime](#runtime)
   * [Example Scenarios](#example-scenarios-1)
     + [1. Development machine is Mac but the deployment platform is AWS lambda.](#1-development-machine-is-mac-but-the-deployment-platform-is-aws-lambda)
@@ -220,7 +222,9 @@ TODO: Fill this section with possible scenarios where a lift command might fail.
 
 # Use Case: Prisma CLI
 
-## Configuration
+## How to Fetch Binaries
+
+### Environment Variables
 
 Environment variable to configure the binary for CLI (like `prisma2 lift` or `prisma2 generate`):
 
@@ -231,7 +235,7 @@ Environment variable to configure the binary for CLI (like `prisma2 lift` or `pr
 
 - CLI binaries can only be overridden by a path to a custom compiled or provided binary. It does not alter download behavior, it simply overrides the binary to use path for respective commands.
 
-## Configuration Error Handling
+### Environment Variables Error Handling
 
 - If the environment variable path to a custom binary is not found, the respective generate command should throw.
 
@@ -245,7 +249,9 @@ Since overriding CLI binary is an environment variable and these providers might
 
 # Use Case: Generators
 
-## Configuration
+## How to Fetch Binaries
+
+### Configuration
 
 Fields on the `generator` block to configure the availability of binaries for generators (like Photon, nexus, etc):
 
@@ -308,7 +314,7 @@ Fields on the `generator` block to configure the availability of binaries for ge
 
 - Not all generators require all the binaries, the generator spec (TODO: link generator spec when ready) outlines the generator API that defines which binaries are needed.
 
-## Configuration Error Handling
+### Configuration Error Handling
 
 - If the pinned binary is not found during the generation, generation should fail.
 
