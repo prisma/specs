@@ -3,10 +3,11 @@
 <!-- toc -->
 
 - [Prisma Binary CLI](#prisma-binary-cli)
-- [Capability Map](#capability-map)
+- [Capability Map (for Schema Validation)](#capability-map-for-schema-validation)
 - [Schema Validation](#schema-validation)
-  - [How `check` works](#how-check-works)
+  * [How `check` works](#how-check-works)
 - [Client Generation](#client-generation)
+  * [Capability Map for Client Generation](#capability-map-for-client-generation)
 - [Query Validation](#query-validation)
 - [Query Execution](#query-execution)
 - [Connector Interface](#connector-interface)
