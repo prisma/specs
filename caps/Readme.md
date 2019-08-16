@@ -8,6 +8,9 @@
   * [How `check` works](#how-check-works)
 - [Client Generation](#client-generation)
   * [Capability Map for Client Generation](#capability-map-for-client-generation)
+    + [Generic Schema](#generic-schema)
+    + [Connector Schema](#connector-schema)
+    + [QueryGenerate(User Schema, Connector Schema): DMMF](#querygenerateuser-schema-connector-schema-dmmf)
 - [Query Validation](#query-validation)
 - [Query Execution](#query-execution)
 - [Connector Interface](#connector-interface)
@@ -361,9 +364,9 @@ called the DMMF. The Query Generator uses enumerates the capability map using th
 
 ## Capability Map for Client Generation
 
-**TODO** Merge with the capability map above.
-
 For client generation the capability map needs to be able to switch off expressions based on connector support.
+
+### Generic Schema
 
 First, we start with a generic schema of all possible Prisma features.
 
@@ -493,6 +496,8 @@ type DateTimeFunction = {
 }
 ```
 
+### Connector Schema
+
 Now for each connector, we'll define a new schema in such a way that it's specific to the connector, but still a valid instance of the schema above.
 
 The following shows that Postgres supports `Create` and `FindOne` functions:
@@ -572,7 +577,9 @@ In the future, we may want to use Excel and map this tree out visually. In Excel
 
 - **TODO** Turn into the schema syntax as above
 - **TODO** It's still a bit unclear to me how many combinations we'll need to map out, it's recursive so it can't be all of them otherwise it'd be infinity
-  combinations.
+  combinations. **TODO** Merge with the capability map above.
+
+### QueryGenerate(User Schema, Connector Schema): DMMF
 
 Now that we have a subset of the generic schema that's specific to Postgres, we can loop over our schema and generate the DMMF. The DMMF is then passed into the
 generators.
