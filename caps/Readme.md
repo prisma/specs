@@ -5,12 +5,12 @@
 - [Prisma Binary CLI](#prisma-binary-cli)
 - [Capability Map (for Schema Validation)](#capability-map-for-schema-validation)
 - [Schema Validation](#schema-validation)
-  * [How `check` works](#how-check-works)
+  - [How `check` works](#how-check-works)
 - [Client Generation](#client-generation)
-  * [Capability Map for Client Generation](#capability-map-for-client-generation)
-    + [Generic Schema](#generic-schema)
-    + [Connector Schema](#connector-schema)
-    + [QueryGenerate(User Schema, Connector Schema): DMMF](#querygenerateuser-schema-connector-schema-dmmf)
+  - [Capability Map for Client Generation](#capability-map-for-client-generation)
+    - [Generic Schema](#generic-schema)
+    - [Connector Schema](#connector-schema)
+    - [QueryGenerate(User Schema, Connector Schema): DMMF](#querygenerateuser-schema-connector-schema-dmmf)
 - [Query Validation](#query-validation)
 - [Query Execution](#query-execution)
 - [Connector Interface](#connector-interface)
@@ -557,6 +557,8 @@ const capabilities = t.Capabilities(
   t.SQLite()
 )
 ```
+
+### Capabilities as a Spreadsheet
 
 In the future, we may want to use Excel and map this tree out visually. In Excel, this would look somethign like this:
 
