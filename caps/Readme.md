@@ -577,7 +577,7 @@ In the future, we may want to use Excel and map this tree out visually. In Excel
 |     concat(String, String): String |   true    |   false  |  true   |
 ```
 
-- **Note** When you put `false` on a parent node, it should disable the whole tree
+- **Note** When you put `false` on a parent node, it should disable the whole subtree
 
 - **TODO** Turn into the schema syntax as above
 - **TODO** It's still a bit unclear to me how many combinations we'll need to map out, it's recursive so it can't be all of them otherwise it'd be infinity
