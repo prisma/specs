@@ -99,7 +99,8 @@ const alice: User | null = await photon.user.find({ email: 'alice@prisma.io' })
 // Find using composite/multi-field unique indexes
 // Note: This example is not compatible with the example schema above.
 const john: User | null = await photon.user.find({
-  name: { firstName: 'John', lastName: 'Doe' },
+  firstName: 'John',
+  lastName: 'Doe',
 })
 
 // Find using unique relation
@@ -416,6 +417,84 @@ await photon.user
 ```
 
 ## Mental model: Graph traversal
+
+## Expressions
+
+- Kinds
+  - Criteria filters (`where`)
+  - Order by
+  - Write operations
+  - Select (aggregations)
+
+### Criteria Filters
+
+```ts
+// Find one
+await photon.user.find(u => u.email.eq('alice@prisma.io'))
+
+// Find many
+await photon.user.findMany({
+  where: u => u.firstName.subString(1, 4).eq('arl'),
+})
+await photon.user.findMany({ where: u => u.email.contains('@gmail.com') })
+await photon.user.findMany({
+  where: u => u.email.insensitive.contains('@gmail.com'),
+})
+await photon.user.findMany({
+  where: u => u.email.toLowerCase().contains('@gmail.com'),
+})
+```
+
+### Order By
+
+```ts
+await photon.user.findMany({ orderBy: u => u.email.asc() })
+await photon.user.findMany({
+  orderBy: (u, e) => e.and(u.email.asc(), u.firstName.desc()),
+})
+await photon.user.findMany({ orderBy: u => u.profile.imageSize.asc() })
+```
+
+### Write Operations (Update/Atomic)
+
+Set:
+
+```ts
+photon.users.findMany().updateMany({ email: u => u.email.set('bob@gmail.com') })
+```
+
+Type specific:
+
+See Mongo API: https://docs.mongodb.com/manual/reference/operator/update/
+
+```ts
+// String
+photon.users.findMany().updateMany({ email: u => u.email.concat('-v2') })
+photon.users.findMany().updateMany({ email: u => u.email.toLowerCase() })
+photon.users.findMany().updateMany({ email: u => u.email.subString(1, 4) })
+// ...
+
+// Numbers: Int, Float, ...
+photon.users.findMany().updateMany({ version: u => u.version.inc(5) })
+photon.users.findMany().updateMany({ version: u => u.version.mul(5) })
+photon.users.findMany().updateMany({ version: u => u.version.min(5, 10) })
+photon.users.findMany().updateMany({ version: u => u.version.max(5, 10) })
+
+// Boolean
+
+// Arrays
+```
+
+Top level callback
+
+```ts
+photon.users.findMany().updateMany(u => ({
+  firstName: u.firstName.toLowerCase(),
+  lastName: u.lastName.toLowerCase(),
+}))
+```
+
+### Aggregations
 
 ## TODO: `withPageInfo`
 
@@ -956,7 +1035,11 @@ await photon.disconnect()
 
 ## Bigger todos
 
-- [ ] Aggregrations
+- [ ] Expressions
+  - [ ] Aggregrations
+  - [ ] Update operations
+  - [ ] Atomic operations
+  - [ ] Criteria filters
 - [ ] Binary copying
 - [ ] Create many (https://github.com/prisma/prisma2/issues/284)
 - [ ] Group by
@@ -971,6 +1054,7 @@ await photon.disconnect()
   - [ ] Update(many) API to use existing values
 - [ ] Validate API with planned supported data sources
 - [ ] Modifiers
+- [ ] `.replace()` vs `.update({}, { replace: true })` (alternative: `overwrite: true`, `reset: true`)
 - [ ] Batching and Unit of work
 - [ ] Photon usage with Prisma server/cluster
 - [ ] Union queries
