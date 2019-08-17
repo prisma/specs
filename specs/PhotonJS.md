@@ -139,6 +139,11 @@ const userFound: boolean = await photon.user.find('bobs-id').exists()
 const foundAtLeastOneUser: boolean = await photon.user
   .findMany({ email: { containsInsensitive: '@gmail.com' } })
   .exists()
+
+// Simple aggregation short
+// TODO more examples
+const deletedCount: number = await photon.user.deleteMany().count()
+uts
 ```
 
 ## Writing Data
@@ -336,6 +341,13 @@ const userWithPostsAndFriends: DynamicResult2 = await photon.user
   .load({ include: { posts: { include: { comments: true } }, friends: true } })
 ```
 
+### Default selection set
+
+- Scalars
+- Relations
+- ID
+- Embeds
+
 ## Fluent API
 
 - TODO: Spec out different between chainable vs terminating
@@ -425,6 +437,7 @@ await photon.user
   - Order by
   - Write operations
   - Select (aggregations)
+  - Group by
 
 ### Criteria Filters
 
@@ -460,25 +473,36 @@ await photon.user.findMany({ orderBy: u => u.profile.imageSize.asc() })
 Set:
 
 ```ts
-photon.users.findMany().updateMany({ email: u => u.email.set('bob@gmail.com') })
+await photon.users
+  .findMany()
+  .updateMany({ email: u => u.email.set('bob@gmail.com') })
 ```
 
 Type specific:
 
-See Mongo API: https://docs.mongodb.com/manual/reference/operator/update/
+See:
+
+- Mongo API https://docs.mongodb.com/manual/reference/operator/update/
+- Dgraph https://docs.dgraph.io/query-language/#math-on-value-variables
 
 ```ts
 // String
-photon.users.findMany().updateMany({ email: u => u.email.concat('-v2') })
-photon.users.findMany().updateMany({ email: u => u.email.toLowerCase() })
-photon.users.findMany().updateMany({ email: u => u.email.subString(1, 4) })
+await photon.users.findMany().updateMany({ email: u => u.email.concat('-v2') })
+await photon.users.findMany().updateMany({ email: u => u.email.toLowerCase() })
+await photon.users
+  .findMany()
+  .updateMany({ email: u => u.email.subString(1, 4) })
 // ...
 
 // Numbers: Int, Float, ...
-photon.users.findMany().updateMany({ version: u => u.version.inc(5) })
-photon.users.findMany().updateMany({ version: u => u.version.mul(5) })
-photon.users.findMany().updateMany({ version: u => u.version.min(5, 10) })
-photon.users.findMany().updateMany({ version: u => u.version.max(5, 10) })
+await photon.users.findMany().updateMany({ version: u => u.version.inc(5) })
+await photon.users.findMany().updateMany({ version: u => u.version.dec(5) })
+await photon.users.findMany().updateMany({ version: u => u.version.mul(5) })
+await photon.users.findMany().updateMany({ version: u => u.version.div(5) })
+await photon.users.findMany().updateMany({ version: u => u.version.mod(5) })
+await photon.users.findMany().updateMany({ version: u => u.version.pow(5, 10) })
+await photon.users.findMany().updateMany({ version: u => u.version.min(5, 10) })
+await photon.users.findMany().updateMany({ version: u => u.version.max(5, 10) })
 
 // Boolean
 
@@ -488,13 +512,65 @@ photon.users.findMany().updateMany({ version: u => u.version.max(5, 10) })
 Top level callback
 
 ```ts
-photon.users.findMany().updateMany(u => ({
+await photon.users.findMany().updateMany(u => ({
   firstName: u.firstName.toLowerCase(),
   lastName: u.lastName.toLowerCase(),
 }))
 ```
 
 ### Aggregations
+
+- count
+- sum
+- avg
+- median
+- max
+- min
+
+```ts
+await photon.users.findMany({ where: { version: 5 } }).load({
+  include: { aggr: u => ({ postCount: u.posts.count() }) },
+})
+
+await photon.users
+  .findMany({ where: { version: 5 } })
+  .load({ include: { postCount: u => u.posts.count() } })
+
+await photon.users.findMany({ where: { version: 5 } }).load({
+  select: {
+    id: true,
+    postCount: u => u.posts({ where: { published: true } }).count(),
+  },
+})
+```
+
+### Group by
+
+```ts
+type DynamicResult4 = {
+  key: string
+  records: User[]
+}
+const groupByResult: DynamicResult4 = await photon.user
+  .findMany({
+    where: { isActive: true },
+    orderBy: { lastName: 'ASC' },
+    first: 100,
+  })
+  .group({
+    by: 'lastName',
+    having: g => g.age.avg.gt(10),
+    first: 10,
+  })
+  .load({ include: { avgAge: g => g.age.avg() } })
+
+await photon.user
+  .findMany({ where: u => u.age.lt(90) })
+  .group({ by: u => u.version.div(10) })
+  .load({ include: { versionSum: g => g.version.sum() } })
+
+await photon.user.findMany().group({ by: u => u.email.toLowerCase() })
+```
 
 ## TODO: `withPageInfo`
 
@@ -603,53 +679,14 @@ const distinctCount: number = await photon.post
 ## Design decisions
 
 - Choose boolean-based nested object syntax instead of array
+- language native DSL (Linq) vs string-based DSL (GraphQL)
 
-## Aggregations
+## Constructor
 
-- distinct
-  - count each distinct value
-- related: select, sort, filtering, groupBy, ...
-- big question: completely separate feature or integrated?
-  - if separate: enable simple things in query API
-- expressions DSL
-
-```ts
-type DynamicResult2 = (User & { aggregate: { age: { avg: number } } })[]
-const dynamicResult2: DynamicResult2 = await photon.user
-  .findMany()
-  .load({ select: { aggregate: { age: { avg: true } } } })
-
-type DynamicResult3 = User & {
-  posts: (Post & { aggregate: { count: number } })[]
-}
-const dynamicResult3: DynamicResult3 = await photon.user
-  .find('bobs-id')
-  .load({ select: { posts: { select: { aggregate: { count: true } } } } })
-
-// ???
-const deletedCount: number = await photon.user.deleteMany().count()
-```
-
-- total or record level
-
-### Expressions
-
-- raw API
-- optionally type-safe response
-
-```ts
-const result = myFn<{ sel1: number; sel2: string }>({
-  sel1: ``,
-  sel2: ``,
-  title: true,
-})
-```
-
-- fluent based shortcuts
-
-```ts
-const someAgg: number = await photon.post.findMany().agg<number>(`SUM(*)`)
-```
+- data source config
+- query engine binary
+- debug
+- modifiers
 
 <!--
 ## TODO: Operation/Query optimization
@@ -743,40 +780,6 @@ await photon.post('id').update({
 })
 ```
 
-## Group By
-
-```ts
-type DynamicResult4 = {
-  lastName: string
-  records: User[]
-  aggregate: { age: { avg: number } }
-}
-const groupByResult: DynamicResult4 = await photon.user.groupBy({
-  key: 'lastName',
-  having: { age: { avgGt: 10 } },
-  where: { isActive: true },
-  first: 100,
-  orderBy: { lastName: 'ASC' },
-  select: {
-    records: { first: 100 },
-    aggregate: { age: { avg: true } },
-  },
-})
-
-type DynamicResult5 = {
-  raw: any
-  records: User[]
-  aggregate: { age: { avg: number } }
-}
-const groupByResult2: DynamicResult5 = await photon.user.groupBy({
-  raw: { key: 'firstName || lastName', having: 'AVG(age) > 50' },
-  select: {
-    records: { $first: 100 },
-    aggregate: { age: { avg: true } },
-  },
-})
-```
-
 ## `raw` fallbacks
 
 ```ts
@@ -835,12 +838,6 @@ const userWithPostsAndFriends2 = await photon.user.find({
   },
 })
 ```
-
-## Constructor
-
-- data sources
-- query engine binary
-- debug
 
 ## Batching
 
@@ -1036,30 +1033,21 @@ await photon.disconnect()
 ## Bigger todos
 
 - [ ] Expressions
-  - [ ] Aggregrations
-  - [ ] Update operations
-  - [ ] Atomic operations
-  - [ ] Criteria filters
 - [ ] Binary copying
 - [ ] Create many (https://github.com/prisma/prisma2/issues/284)
-- [ ] Group by
 - [ ] Rethink raw API fallbacks
-- [ ] Include ids of to-one relations by default (https://github.com/prisma/photonjs/issues/188)
+- [ ] Default selection set: Include ids of to-one relations (https://github.com/prisma/photonjs/issues/188)
 - [ ] Jump to definition
 - [ ] Meta responses
   - [ ] How to query records that were "touched" during nested writes
 - [ ] edge concept in schema
-- [ ] Operation Expressions
-  - [ ] API for atomic operations
-  - [ ] Update(many) API to use existing values
-- [ ] Validate API with planned supported data sources
 - [ ] Modifiers
 - [ ] `.replace()` vs `.update({}, { replace: true })` (alternative: `overwrite: true`, `reset: true`)
 - [ ] Batching and Unit of work
 - [ ] Photon usage with Prisma server/cluster
 - [ ] Union queries
-- [ ] Real-time API (subscriptions/live queries)
 - [ ] Usage in browser
+- [ ] Validate API with planned supported data sources
 
 ## Small & self-contained
 
@@ -1075,8 +1063,6 @@ await photon.disconnect()
 - [ ] Exec
 - [ ] Rename `where` to Criteria (filter/unique criteria)
 - [ ] Streaming
-- [ ] Fluent API: Null behavior https://github.com/prisma/photonjs/issues/89#issuecomment-508509486
-  - [ ] Should we have `photon.user.find('bob').
 - [ ] Connection handling
 - [ ] Composite models: field grouping for efficient look ups
 
@@ -1094,3 +1080,4 @@ await photon.disconnect()
 
 - [ ] Non-CRUD API operations
 - [ ] Silent mutations [prisma/prisma#4075](https://github.com/prisma/prisma/issues/4075)
+- [ ] Real-time API (subscriptions/live queries)
