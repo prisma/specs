@@ -21,11 +21,11 @@
     + [Prisma Migration Engine Binary](#prisma-migration-engine-binary-1)
   * [Process management](#process-management)
     + [Prisma Query Engine Binary](#prisma-query-engine-binary-2)
-  * [Connect](#connect)
-      - [Find Free Port](#find-free-port)
-      - [Binary Spawn](#binary-spawn)
-      - [Waiting for the Binary to be Ready](#waiting-for-the-binary-to-be-ready)
-  * [Disconnect](#disconnect)
+      - [Connect](#connect)
+        * [Find Free Port](#find-free-port)
+        * [Binary Spawn](#binary-spawn)
+        * [Waiting for the Binary to be Ready](#waiting-for-the-binary-to-be-ready)
+      - [Disconnect](#disconnect)
     + [Prisma Migration Engine Binary](#prisma-migration-engine-binary-2)
   * [Error Handling](#error-handling)
     + [Prisma Query Engine Binary](#prisma-query-engine-binary-3)
@@ -165,26 +165,26 @@ Prisma migration engine binary uses JSON RPC over HTTP.
 
 Prisma SDK provide Photon with `connect`, `disconnect` methods for binary process management. If needed, Photon can lazily connect, when a request is received.
 
-## Connect
+#### Connect
 
 `connect` function is where Photon spawns the query engine binary and the following sequence of events happen
 
-#### Find Free Port
+##### Find Free Port
 
 Photon finds a free port by binding to port 0 with a light-weight TCP server (using node net -> createServer), this makes the OS allocate a random (albeit,
 pseudo serial) port to this server, then this server is closed and `Photon` saves the port in memory.
 
-#### Binary Spawn
+##### Binary Spawn
 
 Photon then spawns the binary as a child process and provide it the environment variables including the detected port
 
 This port is then provided to the binary as an environment variable and the binary starts an HTTP server on this port.
 
-#### Waiting for the Binary to be Ready
+##### Waiting for the Binary to be Ready
 
 In this workflow, Photon polls the query engine binary's HTTP server for its stats at an interval. This can be optimized further by reducing the interval or relying on a simple TCP protocol.
 
-## Disconnect
+#### Disconnect
 
 Calling the `disconnect` method is where Photon waits for any pending request promise to resolve and then kills the spawned process and the DB connection is
 released.
