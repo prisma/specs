@@ -35,7 +35,8 @@
     + [Environment Variables](#environment-variables)
     + [Environment Variables Error Handling](#environment-variables-error-handling)
   * [Example Scenarios](#example-scenarios)
-    + [1. We are using CLI in a build system from a provider for which we do not have a working pre-compiled binary](#1-we-are-using-cli-in-a-build-system-from-a-provider-for-which-we-do-not-have-a-working-pre-compiled-binary)
+    + [1. Development machine is a Raspberry Pi and the deployment platform is AWS Lambda](#1-development-machine-is-a-raspberry-pi-and-the-deployment-platform-is-aws-lambda)
+    + [2. We are using CLI in a build system from a provider for which we do not have a working pre-compiled binary](#2-we-are-using-cli-in-a-build-system-from-a-provider-for-which-we-do-not-have-a-working-pre-compiled-binary)
 - [Use Case: Generators](#use-case-generators)
   * [How to Fetch Binaries](#how-to-fetch-binaries-1)
     + [Configuration](#configuration)
@@ -243,7 +244,18 @@ Environment variable to configure the binary for CLI (like `prisma2 lift` or `pr
 
 ## Example Scenarios
 
-### 1. We are using CLI in a build system from a provider for which we do not have a working pre-compiled binary
+### 1. Development machine is a Raspberry Pi and the deployment platform is AWS Lambda
+
+As we do not have precompiled binaries for ARM architecture yet, the user would compile binaries manually for Prisma query engine and Prisma migration engine.
+
+```sh
+export PRISMA_MIGRATION_ENGINE_BINARY=<path to compiled migration engine binary>
+export PRISMA_QUERY_ENGINE_BINARY=<path to compiled query engine binary>
+```
+
+Then `prisma2 lift` and `prisma2 generate` would use the respective compiled binaries.
+
+### 2. We are using CLI in a build system from a provider for which we do not have a working pre-compiled binary
 
 Since overriding CLI binary is an environment variable and these providers might [not always allow](https://github.com/prisma/prisma2/issues/157#issuecomment-520501500) compiling a binary. There will be no workaround such a situation except us making the default downloaded binary for that provider work. We want to support all major providers out of the box and this use case should be rare.
 
@@ -389,16 +401,7 @@ generator photon {
 
 ### 4. Development machine is a Raspberry Pi and the deployment platform is AWS Lambda
 
-As we do not have precompiled binaries for ARM architecture yet, the user would compile binaries manually for query-engine and migration-engine.
-
-```sh
-export PRISMA_MIGRATION_ENGINE_BINARY=<path to compiled migration engine binary>
-export PRISMA_QUERY_ENGINE_BINARY=<path to compiled query engine binary>
-```
-
-Then `prisma2 lift` and `prisma2 generate` would use the respective compiled binaries.
-
-For development and deployment
+As we do not have precompiled binaries for ARM architecture yet, the user would compile binaries manually for Prisma query engine and use it as following:
 
 ```groovy
 generator photon {
