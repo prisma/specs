@@ -510,53 +510,245 @@ The following shows that Postgres supports `Create` and `FindOne` functions:
   `{ where: { first_name: "lower(bob)" } }`.
 
 ```ts
-const capabilities = t.Capabilities(
-  t.Postgres(
-    t.Create(
-      t.Input(
-        t.Property(t.StringFieldType(), t.StringLiteralType()),
-        t.Property(t.IntegerFieldType(), t.IntegerLiteralType()),
-        t.Property(t.BooleanFieldType(), t.BooleanLiteralType()),
-        t.Property(t.DateTimeFieldType(), t.DateTimeLiteralType()),
-        t.Property(t.FloatFieldType(), t.FloatLiteralType()),
-        // e.g. { data: { amount: 5 } }
-        t.Property(t.FloatFieldType(), t.IntegerLiteralType()),
-        // e.g. { data: { first_name: "lower(MATT)" } }
-        t.Property(t.StringFieldType(), t.StringFunction('lower', t.StringFieldType()))
-      ),
-      t.Output(
-        t.Property(t.StringFieldType(), t.StringLiteralType()),
-        t.Property(t.IntegerFieldType(), t.IntegerLiteralType()),
-        t.Property(t.BooleanFieldType(), t.BooleanLiteralType()),
-        t.Property(t.DateTimeFieldType(), t.DateTimeLiteralType()),
-        t.Property(t.FloatFieldType(), t.FloatLiteralType()),
-        // supports return an integer from a float field
-        // TODO: does this make sense for outputs?
-        t.Property(t.FloatFieldType(), t.IntegerLiteralType()),
-        // { select: first_name: "lower(first_name)" }
-        t.Property(t.StringFieldType(), t.StringFunction('lower', t.StringFieldType()))
-      )
-    ),
-    t.FindOne(
-      t.Filter(
-        // boolean filters
-        t.BooleanLiteralType(),
-        t.BooleanFunction('and', t.BooleanFieldType(), t.BooleanFieldType()),
-        t.BooleanFunction('or', t.BooleanFieldType(), t.BooleanFieldType()),
-        t.BooleanFunction('xor', t.BooleanFieldType(), t.BooleanFieldType()),
-        t.BooleanFunction('equals', t.BooleanFieldType(), t.BooleanFieldType()),
-        t.BooleanFunction('notEquals', t.BooleanFieldType(), t.BooleanFieldType()),
+const ast: t.Capabilities = {
+  kind: 'Capabilities',
 
-        // string filters
-        t.BooleanFunction('equals', t.StringFieldType(), t.StringLiteralType()),
-        t.BooleanFunction('equals', t.StringFieldType(), t.StringFunction('lower', t.StringFieldType())),
-        t.BooleanFunction('notEquals', t.BooleanFieldType(), t.BooleanFieldType())
-      ),
-      t.Output()
-    )
-  ),
-  t.SQLite()
-)
+  datasources: [
+    // postgres datasource
+    {
+      kind: 'Datasource',
+      name: 'Postgres',
+      queries: [
+        // create query
+        {
+          kind: 'Query',
+          name: 'create',
+          input: {
+            kind: 'Input',
+            properties: [
+              {
+                kind: 'Property',
+                key: {
+                  kind: 'StringFieldType',
+                },
+                value: {
+                  kind: 'StringLiteralType',
+                },
+              },
+              {
+                kind: 'Property',
+                key: {
+                  kind: 'IntegerFieldType',
+                },
+                value: {
+                  kind: 'IntegerLiteralType',
+                },
+              },
+              {
+                kind: 'Property',
+                key: {
+                  kind: 'BooleanFieldType',
+                },
+                value: {
+                  kind: 'BooleanLiteralType',
+                },
+              },
+              {
+                kind: 'Property',
+                key: {
+                  kind: 'DateTimeFieldType',
+                },
+                value: {
+                  kind: 'DateTimeLiteralType',
+                },
+              },
+              // e.g. { data: { amount: 5 } }
+              {
+                kind: 'Property',
+                key: {
+                  kind: 'FloatFieldType',
+                },
+                value: {
+                  kind: 'IntegerLiteralType',
+                },
+              },
+              // { data: { first_name: "lower('MATT')" } }
+              {
+                kind: 'Property',
+                key: {
+                  kind: 'StringFieldType',
+                },
+                value: {
+                  kind: 'StringFunction',
+                  name: 'lower',
+                  args: [
+                    {
+                      kind: 'StringLiteralType',
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+          output: {
+            kind: 'Output',
+            properties: [
+              {
+                kind: 'Property',
+                key: {
+                  kind: 'StringFieldType',
+                },
+                value: {
+                  kind: 'StringLiteralType',
+                },
+              },
+              {
+                kind: 'Property',
+                key: {
+                  kind: 'IntegerFieldType',
+                },
+                value: {
+                  kind: 'IntegerLiteralType',
+                },
+              },
+              {
+                kind: 'Property',
+                key: {
+                  kind: 'BooleanFieldType',
+                },
+                value: {
+                  kind: 'BooleanLiteralType',
+                },
+              },
+              {
+                kind: 'Property',
+                key: {
+                  kind: 'DateTimeFieldType',
+                },
+                value: {
+                  kind: 'DateTimeLiteralType',
+                },
+              },
+              {
+                kind: 'Property',
+                key: {
+                  kind: 'FloatFieldType',
+                },
+                value: {
+                  kind: 'FloatLiteralType',
+                },
+              },
+              // e.g. { select: first_name: "lower(first_name)" }
+              {
+                kind: 'Property',
+                key: {
+                  kind: 'StringFieldType',
+                },
+                value: {
+                  kind: 'StringFunction',
+                  name: 'lower',
+                  args: [
+                    {
+                      kind: 'StringLiteralType',
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+          filter: {
+            kind: 'Filter',
+            expressions: [
+              // boolean filters
+              {
+                kind: 'BooleanFieldType',
+              },
+              {
+                kind: 'BooleanLiteralType',
+              },
+              // e.g. and(boolean, boolean): boolean
+              {
+                kind: 'BooleanFunction',
+                name: 'and',
+                args: [
+                  {
+                    kind: 'BooleanFieldType',
+                  },
+                  {
+                    kind: 'BooleanFieldType',
+                  },
+                  // TODO: spread support
+                ],
+              },
+              // e.g. or(boolean, boolean): boolean
+              {
+                kind: 'BooleanFunction',
+                name: 'or',
+                args: [
+                  {
+                    kind: 'BooleanFieldType',
+                  },
+                  {
+                    kind: 'BooleanFieldType',
+                  },
+                  // TODO: spread support
+                ],
+              },
+              // e.g. xor(boolean, boolean): boolean
+              {
+                kind: 'BooleanFunction',
+                name: 'xor',
+                args: [
+                  {
+                    kind: 'BooleanFieldType',
+                  },
+                  {
+                    kind: 'BooleanFieldType',
+                  },
+                  // TODO: spread support
+                ],
+              },
+
+              // string filters
+              // e.g. equal(stringField, string): boolean
+              {
+                kind: 'BooleanFunction',
+                name: 'equals',
+                args: [
+                  {
+                    kind: 'StringFieldType',
+                  },
+                  {
+                    kind: 'StringLiteralType',
+                  },
+                ],
+              },
+              // e.g. notEqual(stringField, string): boolean
+              {
+                kind: 'BooleanFunction',
+                name: 'notEquals',
+                args: [
+                  {
+                    kind: 'StringFieldType',
+                  },
+                  {
+                    kind: 'StringLiteralType',
+                  },
+                ],
+              },
+            ],
+          },
+        },
+      ],
+    },
+    // sqlite datasource
+    {
+      kind: 'Datasource',
+      name: 'SQLite',
+      queries: [],
+    },
+  ],
+}
 ```
 
 ### Capabilities as a Spreadsheet
@@ -579,9 +771,10 @@ In the future, we may want to use Excel and map this tree out visually. In Excel
 
 - **Note** When you put `false` on a parent node, it should disable the whole subtree
 
-- **TODO** Turn into the schema syntax as above
 - **TODO** It's still a bit unclear to me how many combinations we'll need to map out, it's recursive so it can't be all of them otherwise it'd be infinity
-  combinations. **TODO** Merge with the capability map above.
+  combinations.
+  - **ANSWER:** Use `$ref`
+- **TODO** Merge with the capability map above.
 
 ### QueryGenerate(User Schema, Connector Schema): DMMF
 
