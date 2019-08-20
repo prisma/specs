@@ -58,7 +58,7 @@ There are two potential UX problems with tabs:
 - accidentally closing tabs that contain unsaved queries, filters or other changes
 - having a new tab open on each link click, potentially overflowing the tabbar with unused tabs
 
-In order to alleviate those problems, we need track (and indicate) tabs state and change it's behaviour accordingly.
+In order to alleviate those problems, we need track (and indicate) tab state and change it's behaviour accordingly.
 
 Tab can have three states: [preview](#preview-tab), [sticky](#sticky-tab) and [dirty](#dirty-tab).
 
@@ -94,6 +94,7 @@ A tab turns "dirty" as soon as there is some potential state or data that could 
   * sorting
   * (pagination?)
 - A databrowser tab, where user has switched to Photon query mode and customized the query
+- A databrowser tab, where user has changed data, but not commited it to database
 - A settings page where user has not saved their chages
 
 While in an _dirty_ tab and clicking on a sidebar link, the click target should open in a new _preview_ tab and focus into it.
@@ -150,7 +151,7 @@ The goal is to support as extensive usage of Studio through keyboard as possible
 
 - As a common navigation pattern, hitting `tab` key should generally move focus to the next element and `shift + tab` to the previous element.
 
-- Depending on the scope, that element might for for example be a tab, databrowser, result row or a result row cell.
+- Depending on the scope, that element might for example be a tab, databrowser, result row or a result row cell.
 
 - Generally, unless scope as has assigned a different behavior, the arrow keys should also move the focus inside the scope. Both horizontally and vertically, when applicable.
 
