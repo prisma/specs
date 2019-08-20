@@ -166,8 +166,8 @@ The goal is to support as extensive usage of Studio through keyboard as possible
 | Tabs | |
 |-|-|
 | Move to tab at index | `⌘ + [tab_index]` |
-| Move to next tab | `⌘ + tab` |
-| Move to previous tab | `⌘ + shift + tab` |
+| Move to next tab | `⌘ + alt + right arrow` |
+| Move to previous tab | `⌘ + alt + left arrow` |
 | Open a new tab | `⌘ + T` |
 | Close an open tab | `⌘ + W` |
 | Force close an open tab | `⌘ + shift + W` |
