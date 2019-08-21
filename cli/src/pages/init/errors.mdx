@@ -409,14 +409,36 @@ TBD
 ### General
 
 - [ ] Example API doesn't respond
-- [ ] Directory contains `schema.prisma`
+
+#### Directory contains `schema.prisma`
+
+<Terminal>
+  <Box marginBottom={1}><Color dim>~/Desktop $</Color> prisma init</Box>
+
+  <Box>
+    <Color flexDirection="column" bgKeyword="red">
+      <Text bold> ERROR </Text>
+    </Color>
+    <Color red>
+      {' '}
+      The project directory must not contain a <Text bold>schema.prisma</Text> file.
+    </Color>
+  </Box>
+  <Box flexDirection="column" marginBottom={1}>
+    <Text>
+      <Color bgKeyword="white" black>
+        <Text bold> FIX </Text>
+      </Color>{' '}
+      Run the command in a directory without a <Text bold>schema.prisma</Text> file
+    </Text>
+    <Text>or provide a project name, e.g.: <Text bold>prisma2 init hello-world</Text></Text>
+  </Box>
+</Terminal>
 
 #### Directory not empty when starter kit is selected
 
-## Starter kit vs Blank project
-
 <Terminal>
-  <Box marginBottom={1}><Color dim>~/Desktop $</Color> prisma init hello-world</Box>
+  <Box marginBottom={1}><Color dim>~/Desktop $</Color> prisma init</Box>
 
   <Box>
     <Color flexDirection="column" bgKeyword="red">
