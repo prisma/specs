@@ -1,7 +1,7 @@
 ---
 navGroup: init
 navOrder: 4
-navLabel: postgresql 
+navLabel: postgresql
 ---
 
 import Terminal from '../../../components/Terminal/Terminal'
@@ -26,11 +26,9 @@ import BorderBox from '../../../components/Terminal/BorderBox'
 
 ![](https://figma-image-proxy.prisma.now.sh/?id=1050:193&file=cRvu7bwRRC0zleOvtlTgmkOu)
 
-
 > **Note**: `rcts` means "Rights to create schema"
 
 ---
-
 
 # PostgreSQL
 
@@ -53,24 +51,24 @@ import BorderBox from '../../../components/Terminal/BorderBox'
   <BorderBox
     flexDirection="column"
     title={chalk.bold('PostgreSQL database credentials')}
-  > 
+  >
     <Box width={100}>
-      <Color gray>  </Color>
+      <Color gray> </Color>
       <Text>Host: </Text>
       <TextInput value="" placeholder="127.0.0.1" showCursor={false} />
-      <Box flexGrow={1}></Box>
+      <Box flexGrow={1} />
     </Box>
     <Box width={100}>
-      <Color gray>  </Color>
+      <Color gray> </Color>
       <Text>Port: </Text>
       <TextInput value="" placeholder="3306" showCursor={false} />
-      <Box flexGrow={1}></Box>
+      <Box flexGrow={1} />
     </Box>
     <Box width={100}>
-      <Color gray>  </Color>
+      <Color gray> </Color>
       <Text>User: </Text>
       <TextInput value="admin" showCursor={false} />
-      <Box flexGrow={1}></Box>
+      <Box flexGrow={1} />
     </Box>
     <Box width={100}>
       <Color cyan>{figures.pointer} </Color>
@@ -78,25 +76,25 @@ import BorderBox from '../../../components/Terminal/BorderBox'
         <Text bold>Password: </Text>
         <TextInput value="********" showCursor={false} />
       </Color>
-      <Box flexGrow={1}></Box>
+      <Box flexGrow={1} />
     </Box>
     <Box width={100}>
-      <Color gray>  </Color>
+      <Color gray> </Color>
       <Text>Database: </Text>
       <TextInput value="" showCursor={false} />
-      <Box flexGrow={1}></Box>
+      <Box flexGrow={1} />
     </Box>
     <Box width={100}>
-      <Color gray>  </Color>
+      <Color gray> </Color>
       <Text>Schema (optional): </Text>
       <TextInput value="" showCursor={false} />
-      <Box flexGrow={1}></Box>
+      <Box flexGrow={1} />
     </Box>
     <Box width={100}>
-      <Box flexGrow={1}></Box>
+      <Box flexGrow={1} />
     </Box>
     <Box width={100}>
-      <Color gray>  </Color>
+      <Color gray> </Color>
       <Text>{figures.squareSmall} Use SSL </Text>
     </Box>
   </BorderBox>
@@ -106,15 +104,19 @@ import BorderBox from '../../../components/Terminal/BorderBox'
     title={`${chalk.bold('Or')}`}
     extension
   >
-     <Box width={100}>
-      <Color gray>  </Color>
+    <Box width={100}>
+      <Color gray> </Color>
       <Text>URL: </Text>
-      <TextInput value="" placeholder="postgresql://localhost:5432/admin" showCursor={false} />
-      <Box flexGrow={1}></Box>
+      <TextInput
+        value=""
+        placeholder="postgresql://localhost:5432/admin"
+        showCursor={false}
+      />
+      <Box flexGrow={1} />
     </Box>
   </BorderBox>
   <Box>
-    <Color gray>❮ </Color> 
+    <Color gray>❮ </Color>
     <Text bold>Back</Text>
     <Color dim> (Database selection)</Color>
   </Box>
@@ -132,7 +134,7 @@ import BorderBox from '../../../components/Terminal/BorderBox'
   - [Rights to create new schema](#22-select-existing-schema-or-create-a-new-one)
   - [**No** rights to create new schema](#43-select-a-schema)
 
-## (2) Select existing schema or create a new one
+### (2) Select existing schema or create a new one
 
 <details><summary>Previous selections</summary>
 
@@ -148,16 +150,18 @@ import BorderBox from '../../../components/Terminal/BorderBox'
 
 <Terminal>
   <Color green>
-    <Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Connected to PostgreSQL database server as <Text bold>admin</Text>
+    <Color bgKeyword="green" white>
+      <Text bold> SUCCESS </Text>
+    </Color>{' '}
+    Connected to PostgreSQL database server as <Text bold>admin</Text>
   </Color>
-  <Box 
-    flexDirection="column" 
-    marginLeft={2} 
-    marginTop={1}
-    marginBottom={1}
-  >
-    <Text bold>The PostgreSQL schema <Text bold>`hello-world`</Text> is not empty.</Text>
-    <Text bold>When using a starter kit, you must provide an empty schema.</Text>
+  <Box flexDirection="column" marginLeft={2} marginTop={1} marginBottom={1}>
+    <Text bold>
+      The PostgreSQL schema <Text bold>`hello-world`</Text> is not empty.
+    </Text>
+    <Text bold>
+      When using a starter kit, you must provide an empty schema.
+    </Text>
     <Text bold>Create a new PostgreSQL schema or use an empty one.</Text>
     <Color dim>A PostgreSQL database server can host multiple schemas</Color>
   </Box>
@@ -166,24 +170,24 @@ import BorderBox from '../../../components/Terminal/BorderBox'
     title={`${chalk.bold('Schema options')}`}
     marginBottom={1}
   >
-     <Box width={100}>
+    <Box width={100}>
       <Color cyan>
         <Box width={32}>
           <Text bold>{figures.pointer} Create new PostgreSQL schema</Text>
         </Box>
         <Color dim>Start from scratch</Color>
       </Color>
-      <Box flexGrow={1}></Box>
+      <Box flexGrow={1} />
     </Box>
     <Box width={100}>
-      <Color >
+      <Color>
         <Box width={32}>
-          <Color gray>  </Color>
+          <Color gray> </Color>
           <Text>Use empty PostgreSQL schema</Text>
         </Box>
         <Color dim>Found 5 schemas</Color>
       </Color>
-      <Box flexGrow={1}></Box>
+      <Box flexGrow={1} />
     </Box>
   </BorderBox>
   <Box>
@@ -210,39 +214,46 @@ import BorderBox from '../../../components/Terminal/BorderBox'
 
 <Terminal>
   <Color green>
-    <Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Connected to PostgreSQL database server as <Text bold>admin</Text>
+    <Color bgKeyword="green" white>
+      <Text bold> SUCCESS </Text>
+    </Color>{' '}
+    Connected to PostgreSQL database server as <Text bold>admin</Text>
   </Color>
-  <Box 
-    flexDirection="column" 
-    marginLeft={2} 
-    marginTop={1}
-    marginBottom={1}
-  >
-    <Text bold>A schema named <Text bold>`hello-world`</Text> doesn't exist on this PostgreSQL server.</Text>
-    <Text bold>Create PostgreSQL schema `hello-world` or select an existing one.</Text>
-    <Color dim>The PostgreSQL schema will be created by user: <Text bold>admin</Text></Color>
+  <Box flexDirection="column" marginLeft={2} marginTop={1} marginBottom={1}>
+    <Text bold>
+      A schema named <Text bold>`hello-world`</Text> doesn't exist on this
+      PostgreSQL server.
+    </Text>
+    <Text bold>
+      Create PostgreSQL schema `hello-world` or select an existing one.
+    </Text>
+    <Color dim>
+      The PostgreSQL schema will be created by user: <Text bold>admin</Text>
+    </Color>
   </Box>
   <BorderBox
     flexDirection="column"
     title={`${chalk.bold('Schema options')}`}
     marginBottom={1}
   >
-     <Box width={100}>
+    <Box width={100}>
       <Color cyan>
         <Box width={30}>
-          <Text bold>{figures.pointer} Create PostgreSQL schema `hello-world`</Text>
+          <Text bold>
+            {figures.pointer} Create PostgreSQL schema `hello-world`
+          </Text>
         </Box>
       </Color>
-      <Box flexGrow={1}></Box>
+      <Box flexGrow={1} />
     </Box>
     <Box width={100}>
-      <Color >
+      <Color>
         <Box width={30}>
-          <Color gray>  </Color>
+          <Color gray> </Color>
           <Text>Select an existing PostgreSQL schema</Text>
         </Box>
       </Color>
-      <Box flexGrow={1}></Box>
+      <Box flexGrow={1} />
     </Box>
   </BorderBox>
   <Box>
@@ -269,38 +280,38 @@ import BorderBox from '../../../components/Terminal/BorderBox'
 
 <Terminal>
   <Color green>
-    <Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Connected to PostgreSQL database server as <Text bold>admin</Text>
+    <Color bgKeyword="green" white>
+      <Text bold> SUCCESS </Text>
+    </Color>{' '}
+    Connected to PostgreSQL database server as <Text bold>admin</Text>
   </Color>
-  <Box 
-    flexDirection="column" 
-    marginLeft={2} 
-    marginTop={1}
-    marginBottom={1}
-  >
+  <Box flexDirection="column" marginLeft={2} marginTop={1} marginBottom={1}>
     <Text bold>Create a new PostgreSQL schema or select an existing one.</Text>
-    <Color dim>The PostgreSQL schema will be created by user: <Text bold>admin</Text></Color>
+    <Color dim>
+      The PostgreSQL schema will be created by user: <Text bold>admin</Text>
+    </Color>
   </Box>
   <BorderBox
     flexDirection="column"
     title={`${chalk.bold('Schema options')}`}
     marginBottom={1}
   >
-     <Box width={100}>
+    <Box width={100}>
       <Color cyan>
         <Box width={30}>
           <Text bold>{figures.pointer} Create new PostgreSQL schema</Text>
         </Box>
       </Color>
-      <Box flexGrow={1}></Box>
+      <Box flexGrow={1} />
     </Box>
     <Box width={100}>
-      <Color >
+      <Color>
         <Box width={30}>
-          <Color gray>  </Color>
+          <Color gray> </Color>
           <Text>Select an existing PostgreSQL schema</Text>
         </Box>
       </Color>
-      <Box flexGrow={1}></Box>
+      <Box flexGrow={1} />
     </Box>
   </BorderBox>
   <Box>
@@ -313,7 +324,7 @@ import BorderBox from '../../../components/Terminal/BorderBox'
 - [Create new schema](#3-set-schema-name)
 - [Select an existing schema](#41-select-a-schema)
 
-## (3) Set schema name
+### (3) Set schema name
 
 <details><summary>Previous selections</summary>
 
@@ -330,19 +341,21 @@ import BorderBox from '../../../components/Terminal/BorderBox'
 <Terminal>
   <Box marginLeft={2} flexDirection="column" marginBottom={1}>
     <Text bold>Enter name for the new PostgreSQL schema</Text>
-    <Color dim>The PostgreSQL schema will be created by user: <Text bold>admin</Text></Color>
+    <Color dim>
+      The PostgreSQL schema will be created by user: <Text bold>admin</Text>
+    </Color>
   </Box>
   <BorderBox
     flexDirection="column"
     title={`${chalk.bold('PostgreSQL schema name')}`}
     marginBottom={1}
   >
-   <Box width={100}>
+    <Box width={100}>
       <Color cyan>
         <Text bold>{figures.pointer} Name:</Text>
         <Color dim> my_schema</Color>
       </Color>
-      <Box flexGrow={1}></Box>
+      <Box flexGrow={1} />
     </Box>
   </BorderBox>
   <Box>
@@ -358,7 +371,7 @@ import BorderBox from '../../../components/Terminal/BorderBox'
 
 - [Create](#5-language-selection)
 
-## (4) Select a schema
+### (4) Select a schema
 
 <details><summary>Previous selections</summary>
 
@@ -374,11 +387,18 @@ import BorderBox from '../../../components/Terminal/BorderBox'
 
 <Terminal>
   <Color green>
-    <Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Connected to PostgreSQL database server as <Text bold>admin</Text>
+    <Color bgKeyword="green" white>
+      <Text bold> SUCCESS </Text>
+    </Color>{' '}
+    Connected to PostgreSQL database server as <Text bold>admin</Text>
   </Color>
   <Box flexDirection="column" marginLeft={2} marginBottom={1} marginTop={1}>
-    <Text bold>The PostgreSQL schema <Text bold>`hello-world`</Text> is not empty.</Text>
-    <Text bold>When using a starter kit, you must provide an empty schema.</Text>
+    <Text bold>
+      The PostgreSQL schema <Text bold>`hello-world`</Text> is not empty.
+    </Text>
+    <Text bold>
+      When using a starter kit, you must provide an empty schema.
+    </Text>
     <Text bold>Select an empty PostgreSQL schema from the list.</Text>
     <Color dim>Found 3 empty PostgreSQL schemas</Color>
   </Box>
@@ -392,21 +412,21 @@ import BorderBox from '../../../components/Terminal/BorderBox'
         <Text>management</Text>
       </Box>
       <Color dim>2 tables, 1,341KB</Color>
-      <Box flexGrow={1}></Box>
+      <Box flexGrow={1} />
     </Box>
     <Box width={100}>
       <Box width={20} marginLeft={2}>
         <Text>default$default</Text>
       </Box>
       <Color dim>5 tables, 1,341KB</Color>
-      <Box flexGrow={1}></Box>
+      <Box flexGrow={1} />
     </Box>
     <Box width={100}>
       <Box width={20} marginLeft={2}>
         <Text>staging</Text>
       </Box>
       <Color dim>1 tables, 2,341KB</Color>
-      <Box flexGrow={1}></Box>
+      <Box flexGrow={1} />
     </Box>
   </BorderBox>
   <Box>
@@ -418,7 +438,7 @@ import BorderBox from '../../../components/Terminal/BorderBox'
 
 - [Empty schema](#5-language-selection)
 
-## (4.1) Select a schema
+### (4.1) Select a schema
 
 <details><summary>Previous selections</summary>
 
@@ -447,21 +467,21 @@ import BorderBox from '../../../components/Terminal/BorderBox'
         <Text>management</Text>
       </Box>
       <Color dim>2 tables, 1,341KB</Color>
-      <Box flexGrow={1}></Box>
+      <Box flexGrow={1} />
     </Box>
     <Box width={100}>
       <Box width={20} marginLeft={2}>
         <Text>default$default</Text>
       </Box>
       <Color dim>5 tables, 1,341KB</Color>
-      <Box flexGrow={1}></Box>
+      <Box flexGrow={1} />
     </Box>
     <Box width={100}>
       <Box width={20} marginLeft={2}>
         <Text>staging</Text>
       </Box>
       <Color dim>1 tables, 2,341KB</Color>
-      <Box flexGrow={1}></Box>
+      <Box flexGrow={1} />
     </Box>
   </BorderBox>
   <Box>
@@ -473,7 +493,7 @@ import BorderBox from '../../../components/Terminal/BorderBox'
 
 - [Empty schema](#5-language-selection)
 
-## (4.2) Select a schema
+### (4.2) Select a schema
 
 <details><summary>Previous selections</summary>
 
@@ -489,10 +509,15 @@ import BorderBox from '../../../components/Terminal/BorderBox'
 
 <Terminal>
   <Color green>
-    <Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Connected to PostgreSQL database server as <Text bold>admin</Text>
+    <Color bgKeyword="green" white>
+      <Text bold> SUCCESS </Text>
+    </Color>{' '}
+    Connected to PostgreSQL database server as <Text bold>admin</Text>
   </Color>
   <Box flexDirection="column" marginLeft={2} marginBottom={1} marginTop={1}>
-    <Text bold>The schema `hello-world` doesn't exist on this PostgreSQL server.</Text>
+    <Text bold>
+      The schema `hello-world` doesn't exist on this PostgreSQL server.
+    </Text>
     <Text bold>You can select an existing PostgreSQL schema instead.</Text>
     <Color dim>Found 3 empty PostgreSQL schemas</Color>
   </Box>
@@ -506,21 +531,21 @@ import BorderBox from '../../../components/Terminal/BorderBox'
         <Text>management</Text>
       </Box>
       <Color dim>2 tables, 1,341KB</Color>
-      <Box flexGrow={1}></Box>
+      <Box flexGrow={1} />
     </Box>
     <Box width={100}>
       <Box width={20} marginLeft={2}>
         <Text>default$default</Text>
       </Box>
       <Color dim>5 tables, 1,341KB</Color>
-      <Box flexGrow={1}></Box>
+      <Box flexGrow={1} />
     </Box>
     <Box width={100}>
       <Box width={20} marginLeft={2}>
         <Text>staging</Text>
       </Box>
       <Color dim>1 tables, 2,341KB</Color>
-      <Box flexGrow={1}></Box>
+      <Box flexGrow={1} />
     </Box>
   </BorderBox>
   <Box>
@@ -532,7 +557,7 @@ import BorderBox from '../../../components/Terminal/BorderBox'
 
 - [Empty schema](#5-language-selection)
 
-## (4.3) Select a schema
+### (4.3) Select a schema
 
 <details><summary>Previous selections</summary>
 
@@ -548,7 +573,10 @@ import BorderBox from '../../../components/Terminal/BorderBox'
 
 <Terminal>
   <Color green>
-    <Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Connected to PostgreSQL database server as <Text bold>admin</Text>
+    <Color bgKeyword="green" white>
+      <Text bold> SUCCESS </Text>
+    </Color>{' '}
+    Connected to PostgreSQL database server as <Text bold>admin</Text>
   </Color>
   <Box flexDirection="column" marginLeft={2} marginBottom={1} marginTop={1}>
     <Text bold>Select an existing PostgreSQL schema.</Text>
@@ -564,21 +592,21 @@ import BorderBox from '../../../components/Terminal/BorderBox'
         <Text>management</Text>
       </Box>
       <Color dim>2 tables, 1,341KB</Color>
-      <Box flexGrow={1}></Box>
+      <Box flexGrow={1} />
     </Box>
     <Box width={100}>
       <Box width={20} marginLeft={2}>
         <Text>default$default</Text>
       </Box>
       <Color dim>5 tables, 1,341KB</Color>
-      <Box flexGrow={1}></Box>
+      <Box flexGrow={1} />
     </Box>
     <Box width={100}>
       <Box width={20} marginLeft={2}>
         <Text>staging</Text>
       </Box>
       <Color dim>1 tables, 2,341KB</Color>
-      <Box flexGrow={1}></Box>
+      <Box flexGrow={1} />
     </Box>
   </BorderBox>
   <Box>
@@ -611,7 +639,9 @@ import BorderBox from '../../../components/Terminal/BorderBox'
     marginBottom={1}
   >
     <Box>
-      <Color cyan>{figures.pointer} <Text bold>JavaScript</Text></Color>
+      <Color cyan>
+        {figures.pointer} <Text bold>JavaScript</Text>
+      </Color>
     </Box>
     <Box>
       <Box marginLeft={2}>TypeScript</Box>
@@ -645,28 +675,54 @@ import BorderBox from '../../../components/Terminal/BorderBox'
 
 This success screen is dynamic. Learn more [here](./success-screens).
 
+---
 
+### One-off: Create schema with new name or use `public`
 
+<Terminal>
+  <Box marginLeft={2} flexDirection="column" marginBottom={1}>
+    <Text bold>
+      Use the default `public` PostgreSQL schema or create a new one.
+    </Text>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={`${chalk.bold('Existing schemas')}`}
+    marginBottom={1}
+  >
+    <Box width={100}>
+      <Box width={20} marginLeft={2}>
+        <Text>public</Text>
+      </Box>
+      <Color dim>Created by PostgreSQL</Color>
+      <Box flexGrow={1} />
+    </Box>
+  </BorderBox>
+  <BorderBox
+    flexDirection="column"
+    title={`${chalk.bold('PostgreSQL schema name')}`}
+    marginBottom={1}
+  >
+    <Box flexDirection="column" width={100}>
+      <Color cyan>
+        <Text bold>{figures.pointer} Name:</Text>
+        <Color dim> my_schema</Color>
+      </Color>
+      <Box marginTop={1}>
+        <Color gray>{figures.pointer} </Color>
+        <Text bold>Create</Text>
+      </Box>
+      <Box flexGrow={1} />
+    </Box>
+  </BorderBox>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Schema options)</Color>
+  </Box>
+</Terminal>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- 
+<!--
 
 ## (1) Enter database credentials (Found local database)
 
