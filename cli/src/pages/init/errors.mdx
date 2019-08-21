@@ -49,11 +49,20 @@ import chalk from 'chalk'
   </BorderBox>
   <Box>
     <Color bgKeyword="red">
-      <Text bold> ERROR </Text></Color><Color red> File doesn't exist at location: <Text bold>./my-cool.db</Text>.
+      <Text bold> ERROR </Text>
+    </Color>
+    <Color red>
+      {' '}
+      File doesn't exist at location: <Text bold>./my-cool.db</Text>.
     </Color>
   </Box>
   <Box flexDirection="column" marginBottom={1}>
-    <Text><Color bgKeyword="white" black><Text bold> FIX </Text></Color> Provide the path to a valid SQLite database file.</Text>
+    <Text>
+      <Color bgKeyword="white" black>
+        <Text bold> FIX </Text>
+      </Color>{' '}
+      Provide the path to a valid SQLite database file.
+    </Text>
   </Box>
   <Box>
     <Color gray>{figures.pointer} </Color>
@@ -94,11 +103,20 @@ import chalk from 'chalk'
   </BorderBox>
   <Box>
     <Color flexDirection="column" bgKeyword="red">
-      <Text bold> ERROR </Text></Color><Color red> The file at location <Text bold>./my-cool.db</Text> is not a valid SQLite file.
+      <Text bold> ERROR </Text>
+    </Color>
+    <Color red>
+      {' '}
+      The file at location <Text bold>./my-cool.db</Text> is not a valid SQLite file.
     </Color>
   </Box>
   <Box flexDirection="column" marginBottom={1}>
-    <Text><Color bgKeyword="white" black><Text bold> FIX </Text></Color> Make sure <Text bold>./my-cool.db</Text> is a valid SQLite file.</Text>
+    <Text>
+      <Color bgKeyword="white" black>
+        <Text bold> FIX </Text>
+      </Color>{' '}
+      Make sure <Text bold>./my-cool.db</Text> is a valid SQLite file.
+    </Text>
   </Box>
   <Box>
     <Color gray>{figures.pointer} </Color>
@@ -123,24 +141,24 @@ import chalk from 'chalk'
   <BorderBox
     flexDirection="column"
     title={chalk.bold('PostgreSQL database credentials')}
-  > 
+  >
     <Box width={100}>
-      <Color gray>  </Color>
+      <Color gray> </Color>
       <Text>Host: </Text>
       <TextInput value="" placeholder="127.0.0.1" showCursor={false} />
-      <Box flexGrow={1}></Box>
+      <Box flexGrow={1} />
     </Box>
     <Box width={100}>
-      <Color gray>  </Color>
+      <Color gray> </Color>
       <Text>Port: </Text>
       <TextInput value="" placeholder="5432" showCursor={false} />
-      <Box flexGrow={1}></Box>
+      <Box flexGrow={1} />
     </Box>
     <Box width={100}>
-      <Color gray>  </Color>
+      <Color gray> </Color>
       <Text>User: </Text>
       <TextInput value="admin" showCursor={false} />
-      <Box flexGrow={1}></Box>
+      <Box flexGrow={1} />
     </Box>
     <Box width={100}>
       <Color cyan>{figures.pointer} </Color>
@@ -148,25 +166,25 @@ import chalk from 'chalk'
         <Text bold>Password: </Text>
         <TextInput value="********" showCursor={false} />
       </Color>
-      <Box flexGrow={1}></Box>
+      <Box flexGrow={1} />
     </Box>
     <Box width={100}>
-      <Color gray>  </Color>
+      <Color gray> </Color>
       <Text>Database: </Text>
       <TextInput value="" showCursor={false} />
-      <Box flexGrow={1}></Box>
+      <Box flexGrow={1} />
     </Box>
     <Box width={100}>
-      <Color gray>  </Color>
+      <Color gray> </Color>
       <Text>Schema (optional): </Text>
       <TextInput value="" showCursor={false} />
-      <Box flexGrow={1}></Box>
-    </Box>    
-    <Box width={100}>
-      <Box flexGrow={1}></Box>
+      <Box flexGrow={1} />
     </Box>
     <Box width={100}>
-      <Color gray>  </Color>
+      <Box flexGrow={1} />
+    </Box>
+    <Box width={100}>
+      <Color gray> </Color>
       <Text>{figures.squareSmall} Use SSL </Text>
     </Box>
   </BorderBox>
@@ -176,24 +194,38 @@ import chalk from 'chalk'
     title={`${chalk.bold('Or')}`}
     extension
   >
-  <Box width={100}>
-    <Color gray>  </Color>
-    <Text>URL: </Text>
-    <TextInput value="" placeholder="postgresql://localhost:5432/admin" showCursor={false} />
-    <Box flexGrow={1}></Box>
-  </Box>
+    <Box width={100}>
+      <Color gray> </Color>
+      <Text>URL: </Text>
+      <TextInput
+        value=""
+        placeholder="postgresql://localhost:5432/admin"
+        showCursor={false}
+      />
+      <Box flexGrow={1} />
+    </Box>
   </BorderBox>
   <Box>
-  <Color flexDirection="column" bgKeyword="red">
-    <Text bold> ERROR </Text></Color><Color red> Could not connect to PostgreSQL server at <Text bold>127.0.0.1:5432</Text>.
-  </Color>
+    <Color flexDirection="column" bgKeyword="red">
+      <Text bold> ERROR </Text>
+    </Color>
+    <Color red>
+      {' '}
+      Could not connect to PostgreSQL server at <Text bold>127.0.0.1:5432</Text>.
+    </Color>
   </Box>
   <Box flexDirection="column" marginBottom={1}>
-    <Text><Color bgKeyword="white" black><Text bold> FIX </Text></Color> Make sure that a PostreSQL server is running at <Text bold>127.0.0.1:5432</Text> </Text>
+    <Text>
+      <Color bgKeyword="white" black>
+        <Text bold> FIX </Text>
+      </Color>{' '}
+      Make sure that a PostreSQL server is running at{' '}
+      <Text bold>127.0.0.1:5432</Text>{' '}
+    </Text>
     <Text>and that the provided database credentials are correct.</Text>
   </Box>
   <Box>
-    <Color gray>❮ </Color> 
+    <Color gray>❮ </Color>
     <Text bold>Back</Text>
     <Color dim> (Database selection)</Color>
   </Box>
@@ -222,22 +254,33 @@ import chalk from 'chalk'
     title={`${chalk.bold('PostgreSQL schema name')}`}
     marginBottom={1}
   >
-   <Box width={100}>
+    <Box width={100}>
       <Color cyan>
         <Text bold>{figures.pointer} Name:</Text>
         <Color dim> my_schema</Color>
       </Color>
-      <Box flexGrow={1}></Box>
+      <Box flexGrow={1} />
     </Box>
   </BorderBox>
   <Box>
     <Color flexDirection="column" bgKeyword="red">
-      <Text bold> ERROR </Text></Color><Color red> The name <Text bold>1hello-asd</Text> is invalid for a PostgreSQL schema.
+      <Text bold> ERROR </Text>
+    </Color>
+    <Color red>
+      {' '}
+      The name <Text bold>1hello-asd</Text> is invalid for a PostgreSQL schema.
     </Color>
   </Box>
   <Box flexDirection="column" marginBottom={1}>
-    <Text><Color bgKeyword="white" black><Text bold> FIX </Text></Color> Make sure the schema name is valid according to the docs at: </Text>
-    <Text>https://postgresql.org/docs/9.2/sql-syntax-lexical.html#SQL-SYNTAX-IDENTIFIERS</Text>
+    <Text>
+      <Color bgKeyword="white" black>
+        <Text bold> FIX </Text>
+      </Color>{' '}
+      Make sure the schema name is valid according to the docs at:{' '}
+    </Text>
+    <Text>
+      https://postgresql.org/docs/9.2/sql-syntax-lexical.html#SQL-SYNTAX-IDENTIFIERS
+    </Text>
   </Box>
   <Box>
     <Color gray>{figures.pointer} </Color>
@@ -267,24 +310,24 @@ import chalk from 'chalk'
   <BorderBox
     flexDirection="column"
     title={chalk.bold('MySQL database credentials')}
-  > 
+  >
     <Box width={100}>
-      <Color gray>  </Color>
+      <Color gray> </Color>
       <Text>Host: </Text>
       <TextInput value="" placeholder="127.0.0.1" showCursor={false} />
-      <Box flexGrow={1}></Box>
+      <Box flexGrow={1} />
     </Box>
     <Box width={100}>
-      <Color gray>  </Color>
+      <Color gray> </Color>
       <Text>Port: </Text>
       <TextInput value="" placeholder="3306" showCursor={false} />
-      <Box flexGrow={1}></Box>
+      <Box flexGrow={1} />
     </Box>
     <Box width={100}>
-      <Color gray>  </Color>
+      <Color gray> </Color>
       <Text>User: </Text>
       <TextInput value="admin" showCursor={false} />
-      <Box flexGrow={1}></Box>
+      <Box flexGrow={1} />
     </Box>
     <Box width={100}>
       <Color cyan>{figures.pointer} </Color>
@@ -292,19 +335,19 @@ import chalk from 'chalk'
         <Text bold>Password: </Text>
         <TextInput value="********" showCursor={false} />
       </Color>
-      <Box flexGrow={1}></Box>
+      <Box flexGrow={1} />
     </Box>
     <Box width={100}>
-      <Color gray>  </Color>
+      <Color gray> </Color>
       <Text>Database (optional): </Text>
       <TextInput value="" showCursor={false} />
-      <Box flexGrow={1}></Box>
+      <Box flexGrow={1} />
     </Box>
     <Box width={100}>
-      <Box flexGrow={1}></Box>
+      <Box flexGrow={1} />
     </Box>
     <Box width={100}>
-      <Color gray>  </Color>
+      <Color gray> </Color>
       <Text>{figures.squareSmall} Use SSL </Text>
     </Box>
   </BorderBox>
@@ -314,24 +357,38 @@ import chalk from 'chalk'
     title={`${chalk.bold('Or')}`}
     extension
   >
-     <Box width={100}>
-      <Color gray>  </Color>
+    <Box width={100}>
+      <Color gray> </Color>
       <Text>URL: </Text>
-      <TextInput value="" placeholder="mysql://localhost:3306/admin" showCursor={false} />
-      <Box flexGrow={1}></Box>
+      <TextInput
+        value=""
+        placeholder="mysql://localhost:3306/admin"
+        showCursor={false}
+      />
+      <Box flexGrow={1} />
     </Box>
   </BorderBox>
-    <Box>
-  <Color flexDirection="column" bgKeyword="red">
-    <Text bold> ERROR </Text></Color><Color red> Could not connect to MySQL server at <Text bold>127.0.0.1:3306</Text>.
-  </Color>
+  <Box>
+    <Color flexDirection="column" bgKeyword="red">
+      <Text bold> ERROR </Text>
+    </Color>
+    <Color red>
+      {' '}
+      Could not connect to MySQL server at <Text bold>127.0.0.1:3306</Text>.
+    </Color>
   </Box>
   <Box flexDirection="column" marginBottom={1}>
-    <Text><Color bgKeyword="white" black><Text bold> FIX </Text></Color> Make sure that a MySQL server is running at <Text bold>127.0.0.1:3306</Text> </Text>
+    <Text>
+      <Color bgKeyword="white" black>
+        <Text bold> FIX </Text>
+      </Color>{' '}
+      Make sure that a MySQL server is running at{' '}
+      <Text bold>127.0.0.1:3306</Text>{' '}
+    </Text>
     <Text>and that the provided database credentials are correct.</Text>
   </Box>
   <Box>
-    <Color gray>❮ </Color> 
+    <Color gray>❮ </Color>
     <Text bold>Back</Text>
     <Color dim> (Database selection)</Color>
   </Box>
@@ -345,10 +402,41 @@ TBD
 
 - [ ] DB does not exist
 
-### Starter examples
-
-- Example API doesn't respond
-
 ### Introspection
 
 - Introspection failed
+
+### General
+
+- [ ] Example API doesn't respond
+- [ ] Directory contains `schema.prisma`
+
+#### Directory not empty when starter kit is selected
+
+## Starter kit vs Blank project
+
+<Terminal>
+  <Box marginBottom={1}><Color dim>~/Desktop $</Color> prisma init hello-world</Box>
+
+  <Box>
+    <Color flexDirection="column" bgKeyword="red">
+      <Text bold> ERROR </Text>
+    </Color>
+    <Color red>
+      {' '}
+      Starter kits can only be selected in empty directories or 
+    </Color>
+      <Color red>
+      by providing a project name to the <Text bold>prisma2 init</Text> command.
+    </Color>
+  </Box>
+  <Box flexDirection="column" marginBottom={1}>
+    <Text>
+      <Color bgKeyword="white" black>
+        <Text bold> FIX </Text>
+      </Color>{' '}
+      Run the command in an empty directory or provide a project name, e.g.: 
+    </Text>
+    <Text bold>prisma2 init hello-world</Text>
+  </Box>
+</Terminal>
