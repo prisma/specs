@@ -95,7 +95,7 @@ VSCode Prisma extension uses this binary for providing code formatting features.
 
 ## Requirements
 
-Binaries (query engine binary and migration engine binary) are at the core of Photon, Lift and Prisma CLI via the Prisma SDK. They are, however compiled for a specific platform, that leads to the following requirements:
+Binaries (query engine binary and migration engine binary) are at the core of Photon, Lift and Prisma CLI via the Prisma SDK. They are, however, compiled for a specific platform, that leads to the following requirements:
 
 - Minimal configuration, simple mental model.
 - Possibility of a deterministic binary resolution both locally and production setup.
@@ -111,19 +111,19 @@ Binaries (query engine binary and migration engine binary) are at the core of Ph
 
 ## Pre-built Binary Targets
 
-|        **Build**        |      **Known Platforms**      |                                              **Query Engine**                                               | **Migration Engine**                                                                                                  | **Prisma Format**                                                                                               |
-| :---------------------: | :---------------------------: | :---------------------------------------------------------------------------------------------------------: | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
-|         darwin          |      (Local development)      |         [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/darwin/prisma.gz)          | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/darwin/migration-engine.gz)                  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/darwin/prisma-fmt.gz)                  |
-|         windows         |      (Local development)      |         [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/windows/prisma.gz)         | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/windows/migration-engine.gz)                 | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/windows/prisma-fmt.gz)                 |
-| linux-glibc-libssl1.0.1 |      Lambda Node 8, ZEIT      | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc-libssl1.0.1/prisma.gz) | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc-libssl1.0.1/migration-engine.gz) | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc-libssl1.0.1/prisma-fmt.gz) |
-| linux-glibc-libssl1.0.2 | Lambda (Node 10), Netlify, Up | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc-libssl1.0.2/prisma.gz) | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc-libssl1.0.2/migration-engine.gz) | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc-libssl1.0.2/prisma-fmt.gz) |
-| linux-glibc-libssl1.1.0 |               ?               | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc-libssl1.1.0/prisma.gz) | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc-libssl1.1.0/migration-engine.gz) | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc-libssl1.1.0/prisma-fmt.gz) |
-| linux-glibc-libssl1.1.1 |               ?               | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc-libssl1.1.1/prisma.gz) | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc-libssl1.1.1/migration-engine.gz) | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc-libssl1.1.1/prisma-fmt.gz) |
-| linux-musl-libssl1.0.1  |            Alpine             | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.0.1/prisma.gz)  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.0.1/migration-engine.gz)  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.0.1/prisma-fmt.gz)  |
-| linux-musl-libssl1.0.2  |            Alpine             | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.0.2/prisma.gz)  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.0.2/migration-engine.gz)  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.0.2/prisma-fmt.gz)  |
-| linux-musl-libssl1.1.0  |            Alpine             | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.1.0/prisma.gz)  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.1.0/migration-engine.gz)  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.1.0/prisma-fmt.gz)  |
-| linux-musl-libssl1.1.1  |            Alpine             | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.1.1/prisma.gz)  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.1.1/migration-engine.gz)  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.1.1/prisma-fmt.gz)  |
-|   linux-ubuntu-16-04    |         Ubuntu 16.04          | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.1.1/prisma.gz)  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.1.1/migration-engine.gz)  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.1.1/prisma-fmt.gz)  |
+|             **Build**              |      **Known Platforms**      |                                              **Query Engine**                                               | **Migration Engine**                                                                                                  | **Prisma Format**                                                                                               |
+| :--------------------------------: | :---------------------------: | :---------------------------------------------------------------------------------------------------------: | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+|               darwin               |      (Local development)      |         [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/darwin/prisma.gz)          | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/darwin/migration-engine.gz)                  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/darwin/prisma-fmt.gz)                  |
+|              windows               |      (Local development)      |         [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/windows/prisma.gz)         | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/windows/migration-engine.gz)                 | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/windows/prisma-fmt.gz)                 |
+|      linux-glibc-libssl1.0.1       |      Lambda Node 8, ZEIT      | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc-libssl1.0.1/prisma.gz) | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc-libssl1.0.1/migration-engine.gz) | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc-libssl1.0.1/prisma-fmt.gz) |
+|      linux-glibc-libssl1.0.2       | Lambda (Node 10), Netlify, Up | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc-libssl1.0.2/prisma.gz) | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc-libssl1.0.2/migration-engine.gz) | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc-libssl1.0.2/prisma-fmt.gz) |
+|      linux-glibc-libssl1.1.0       |               ?               | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc-libssl1.1.0/prisma.gz) | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc-libssl1.1.0/migration-engine.gz) | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc-libssl1.1.0/prisma-fmt.gz) |
+|      linux-glibc-libssl1.1.1       |               ?               | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc-libssl1.1.1/prisma.gz) | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc-libssl1.1.1/migration-engine.gz) | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc-libssl1.1.1/prisma-fmt.gz) |
+|       linux-musl-libssl1.0.1       |            Alpine             | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.0.1/prisma.gz)  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.0.1/migration-engine.gz)  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.0.1/prisma-fmt.gz)  |
+|       linux-musl-libssl1.0.2       |            Alpine             | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.0.2/prisma.gz)  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.0.2/migration-engine.gz)  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.0.2/prisma-fmt.gz)  |
+|       linux-musl-libssl1.1.0       |            Alpine             | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.1.0/prisma.gz)  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.1.0/migration-engine.gz)  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.1.0/prisma-fmt.gz)  |
+|       linux-musl-libssl1.1.1       |            Alpine             | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.1.1/prisma.gz)  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.1.1/migration-engine.gz)  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.1.1/prisma-fmt.gz)  |
+| linux-glibc-libssl1.0.2-ubuntu1604 |         Ubuntu 16.04          | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.1.1/prisma.gz)  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.1.1/migration-engine.gz)  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.1.1/prisma-fmt.gz)  |
 
 ### URL Scheme
 
@@ -165,7 +165,7 @@ Prisma migration engine binary uses JSON RPC over stdio.
 <p>The Prisma SDK provides the primitives for generators to perform binary process management. The following section covers Prisma query engine binary process management in Photon</p>
 </details>
 
-Prisma SDK provide Photon with `connect`, `disconnect` methods for binary process management. If needed, Photon can lazily connect, when a request is received.
+Prisma SDK provides Photon with `connect`, `disconnect` methods for binary process management. If needed, Photon can lazily connect, when a request is received.
 
 #### Connect
 
@@ -204,10 +204,11 @@ Prisma SDK provides a similar API for migration engine binary management. The ac
 
 ## Error Handling
 
+Note: Error handling has a separate detailed spec [here](https://github.com/prisma/specs/tree/master/errors). The following briefs on error handling but is not exhaustive.
+
 ### Prisma Query Engine Binary
 
-Photon throws if the engine ready polling does not yield success after N attempts. There may be several reasons why preparing a process with the required
-context might fail, including but not limited to:
+Photon throws if the engine ready polling does not yield success after N attempts. There may be several reasons why preparing a process with the required context might fail, including but not limited to:
 
 | Potential Error                            | Handling Strategy |
 | ------------------------------------------ | ----------------- |
@@ -215,11 +216,13 @@ context might fail, including but not limited to:
 | Binary is not compatible with the platform | Throw error       |
 | Binary fails to acquire a DB connection    | Throw error       |
 
-Error handling has a separate spec [here](https://github.com/prisma/specs/tree/master/errors).
-
 ### Prisma Migration Engine Binary
 
-TODO: Fill this section with possible scenarios where a lift command might fail.
+| Potential Error                    | Handling Strategy |
+| ---------------------------------- | ----------------- |
+| Database credentials are incorrect | Notify user       |
+| Database is not reachable          | Notify user       |
+| Prisma schema is not valid         | Throw error       |
 
 # Use Case: Prisma CLI
 
@@ -234,13 +237,13 @@ Environment variable to configure the binary for CLI (like `prisma2 lift` or `pr
 | `PRISMA_MIGRATION_ENGINE_BINARY` | (optional) Overrides the resolution path for migration engine binary for `Lift` commands. | Can be a relative (from CWD) or an absolute path to the binary |
 | `PRISMA_QUERY_ENGINE_BINARY`     | (optional) Overrides the resolution path for query engine binary for `generate` command.  | Can be a relative (from CWD) or an absolute path to the binary |
 
-- CLI binaries can only be overridden by a path to a custom compiled or provided binary. It does not alter download behavior, it simply overrides the binary to use path for respective commands.
+- CLI binaries can only be overridden by a path to a custom binary. It does not alter download behavior, it just overrides the binary path provided for respective commands. This means that using [known binaries](#pre-built-binary-targets) is not possible.
 
 ### Environment Variables Error Handling
 
-- If the environment variable path to a custom binary is not found, the respective generate command should throw.
+- If the environment variable path to a custom binary is not found, the respective CLI command should throw.
 
-- If the environment variable path to a custom binary exists but the binary is incompatible with the current platform, the respective generate command should throw.
+- If the environment variable path to a custom binary exists but the binary is incompatible with the current platform, the respective CLI command should throw.
 
 ## Example Scenarios
 
@@ -257,7 +260,7 @@ Then `prisma2 lift` and `prisma2 generate` would use the respective compiled bin
 
 ### 2. We are using CLI in a build system from a provider for which we do not have a working pre-compiled binary
 
-Since overriding CLI binary is an environment variable and these providers might [not always allow](https://github.com/prisma/prisma2/issues/157#issuecomment-520501500) compiling a binary. There will be no workaround such a situation except us making the default downloaded binary for that provider work. We want to support all major providers out of the box and this use case should be rare.
+Since overriding CLI binary is an environment variable and these providers might [not always allow](https://github.com/prisma/prisma2/issues/157#issuecomment-520501500) compiling a binary. There will be no work around such a situation except us making the default downloaded binary for that provider work. We want to support all major providers out of the box and this use case should be rare.
 
 # Use Case: Generators
 
@@ -267,14 +270,14 @@ Since overriding CLI binary is an environment variable and these providers might
 
 Fields on the `generator` block to configure the availability of binaries for generators (like Photon, nexus, etc):
 
-| Field                | Description                                                                                                                          | Behavior                                           |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------- |
-| `binaryTargets`      | _(optional)_ An array of binaries that are required by the application, string for known binaryTargets and path for custom binaries. | Declarative way to download the required binaries. |
-| `pinnedBinaryTarget` | _(optional)_ A string that points to the name of an object in the `binaryTargets` field, usually an environment variable             | Declarative way to choose the runtime binary       |
+| Field                        | Type                                                 | Description                                                                                                                                                        |
+| ---------------------------- | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `binaryTargets`              | Field on `generator` block in Prisma schema language | _(optional)_ An array of binaries that are required by the application, string for [known binary](#pre-built-binary-targets) targets and path for custom binaries. |
+| `PRISMA_QUERY_ENGINE_BINARY` | Environment variable in generated code               | _(optional)_ A string literal with a [known binary](#pre-built-binary-targets) name (like `darwin` or `linux-glibc-libssl1.0.2"` or path to a custom binary        |
 
-- Both `binaryTargets` and `pinnedBinaryTarget` fields are optional, **however** when a custom binary is provided the `pinnedBinaryTarget` is required. Here are some scenarios
+- Both `binaryTargets` field and `PRISMA_QUERY_ENGINE_BINARY` environment variable are optional. Here are some scenarios
 
-  - Both `binaryTargets` and `pinnedBinaryTarget` are not provided.
+  - `binaryTargets` is not provided.
 
     ```groovy
     generator photon {
@@ -284,7 +287,18 @@ Fields on the `generator` block to configure the availability of binaries for ge
 
     We download and use the binary for the current platform.
 
-  - Field `binaryTargets` provided with multiple values and `pinnedBinaryTarget` is not provided.
+  - Field `binaryTargets` provided with a single value
+
+    ```groovy
+    generator photon {
+        provider = "photonjs"
+        binaryTargets = ["native"]
+    }
+    ```
+
+    We download the provided binary and resolve it at runtime.
+
+  - Field `binaryTargets` provided with multiple values
 
     ```groovy
     generator photon {
@@ -293,42 +307,56 @@ Fields on the `generator` block to configure the availability of binaries for ge
     }
     ```
 
-    Since we do not pin the platform here using `pinnedBinaryTarget`, we need to resolve the binary at runtime, see [Runtime binary resolution] for more details.
+    We download both binaries and resolve the correct binary at runtime by detecting the platform.
 
-  - Field `binaryTargets` provided with multiple values and `pinnedBinaryTarget` is also provided.
+  - Field `binaryTargets` provided with multiple values and `PRISMA_QUERY_ENGINE_BINARY` environment variable provided.
 
-  ```groovy
-  generator photon {
-    provider = "photonjs"
-    binaryTargets = ["native", "linux-glibc-libssl1.0.2"]
-    pinnedBinaryTarget = env("PLATFORM") // On local, "native" and in production, "linux-glibc-libssl1.0.2"
-  }
-  ```
+    ```groovy
+    generator photon {
+      provider = "photonjs"
+      binaryTargets = ["native", "linux-glibc-libssl1.0.2"]
+    }
+    ```
+
+    ```sh
+    PRISMA_QUERY_ENGINE_BINARY=native # On Local
+    ```
+
+    ```sh
+    PRISMA_QUERY_ENGINE_BINARY=linux-glibc-libssl1.0.2 # In Production
+    ```
+
+    We download all the binaries specified by `binaryTargets` and use the binary specified by `PRISMA_QUERY_ENGINE_BINARY` environment variable.
+
+  Note: In production setups with a dedicated CI which has different platform than the deployment machine (think CircleCI, Netlify), we can configure binaryTargets to only include the required binaries:
 
   ```groovy
     generator photon {
-        provider = "photonjs"
-        binaryTargets = ["native", "linux-glibc-libssl1.0.2"]
-        pinnedBinaryTarget = env("PLATFORM") // On local, "native" and in production, "linux-glibc-libssl1.0.2"
+      provider = "photonjs"
+      binaryTargets = env("BINARY_TARGETS")
     }
   ```
 
-  We use the `pinnedBinaryTarget` field to pin one of the downloaded binaries at runtime.
+  With environment variable:
 
-  Note: In production setups with a dedicated CI, we can configure binaryTargets to only include the required binaries: `binaryTargets = ["linux-glibc-libssl1.0.2"]`
+  ```sh
+  BINARY_TARGETS=["linux-glibc-libssl1.1.0"] # In CI for CircleCI
+  ```
+
+  ```sh
+  BINARY_TARGETS=["linux-glibc-libssl1.0.2"] # In production for Netlify
+  ```
 
   A configuration like `binaryTargets = ["native", "linux-glibc-libssl1.0.2"]` is only needed when the development machine is also the machine responsible to build
   for production but the platform in production is different, like `AWS lambda`, `now`, etc.
 
-- Custom binary path points Photon to use the path provided.
-
-- Known binary path downloads a known binary to a OS cache path and copies it to generator path on `generate`.
+- Known binaries specified in `binaryTargets` downloads specified known binaries to an OS cache path and copies it to generator path on `generate`.
 
 - Not all generators require all the binaries, the generator spec (TODO: link generator spec when ready) outlines the generator API that defines which binaries are needed.
 
 ### Configuration Error Handling
 
-- If the pinned binary is not found during the generation, generation should fail.
+Note: pinned binary in this section refers to binary specified via `PRISMA_QUERY_ENGINE_BINARY` environment variable.
 
 - If the pinned binary is not found during the generated code's runtime, it should throw.
 
@@ -343,28 +371,26 @@ In the scenario where platforms field is defined but no pinnedPlatform field is 
 ```ts
 function detectPlatform(): string { ... }
 
+const pinnedPlatform = process.env.PRISMA_QUERY_ENGINE_BINARY
 const binaries = {
   'mac': <path>,
   'lambda': <path>,
 }
 let binaryPath
-if (!config.pinnedPlatform) {
+if (!pinnedPlatform) {
   const inferredPlatform = detectPlatform()
   binaryPath = binaries[inferredPlatform]
 } else {
-  binaryPath = binaries[config.pinnedPlatform]
+  binaryPath = binaries[pinnedPlatform]
 }
 
 ```
-
-For custom binaries, this pseudo-code will fail but pinnedPlatform can be used to choose the correct binary.
 
 ## Example Scenarios
 
 ### 1. Development machine is Mac but the deployment platform is AWS lambda.
 
-We can use `binaryTargets` **without** a `pinnedBinaryTarget`. `pinnedBinaryTarget` will be resolved at runtime, see [Runtime binary resolution](#runtime-binary-resolution)
-for more details.
+We can use `binaryTargets` **without** a `PRISMA_QUERY_ENGINE_BINARY` environment variable. Which binary to use will be resolved at runtime, see [Runtime](#runtime) for more details.
 
 ```groovy
 generator photon {
@@ -375,41 +401,56 @@ generator photon {
 
 ### 2. Deterministically choose the binary-based a runtime environment variable
 
-We can use `binaryTargets` **and** `pinnedBinaryTarget`. We set an environment variable
+We can use `binaryTargets` **and** provide a specific binary using `PRISMA_QUERY_ENGINE_BINARY` environment variable.
 
 ```groovy
 generator photon {
     provider = "photonjs"
     binaryTargets = ["native", "linux-glibc-libssl1.0.2"]
-    pinnedBinaryTarget = env("PLATFORM") // On local, "native" and in production, "linux-glibc-libssl1.0.2"
 }
 ```
 
-We define the binaryTargets and pin one of the binaryTargets.
+```sh
+PRISMA_QUERY_ENGINE_BINARY=native # On Local
+```
+
+```sh
+PRISMA_QUERY_ENGINE_BINARY=linux-glibc-libssl1.0.2 # In Production
+```
+
+We define the `binaryTargets` and use one of the `binaryTargets`.
 
 ### 3. Development machine is Mac but we need a custom binary in production
 
-In `binaryTargets`, we can use a custom path to `./custom-prisma-binary`.
+We use "native" (binary of the current platform) in `binaryTargets` and provide `PRISMA_QUERY_ENGINE_BINARY` in production.
 
 ```groovy
 generator photon {
     provider = "photonjs"
-    binaryTargets = ["native", "./custom-prisma-binary"]
-    pinnedBinaryTarget = env("PLATFORM") // On local, "native" and in production, "./custom-prisma-binary"
+    binaryTargets = ["native"]
 }
+```
+
+```sh
+PRISMA_QUERY_ENGINE_BINARY=custom-prisma-binary # In production
 ```
 
 ### 4. Development machine is a Raspberry Pi and the deployment platform is AWS Lambda
 
-As we do not have precompiled binaries for ARM architecture yet, the user would compile binaries manually for Prisma query engine and use it as following:
+As we do not have precompiled binaries for ARM architecture yet, the user would compile binaries manually for Prisma query engine and use it by providing `PRISMA_QUERY_ENGINE_BINARY` environment variable
 
 ```groovy
 generator photon {
     provider = "photonjs"
-    binaryTargets = ["./custom-query-engine-binary", "linux-glibc-libssl1.0.2"]
-    pinnedBinaryTarget = env("PLATFORM") // On local, "./custom-query-engine-binary" and in production, "linux-glibc-libssl1.0.2"
+    binaryTargets = ["linux-glibc-libssl1.0.2"]
 }
 ```
+
+```sh
+PRISMA_QUERY_ENGINE_BINARY=./custom-query-engine-binary # On local
+```
+
+Unset `PRISMA_QUERY_ENGINE_BINARY` in production for it to pick the only binary specified in `binaryTargets`.
 
 [Examples for other deployment scenarios](https://github.com/prisma/prisma-examples/tree/prisma2/deployment-platforms)
 
