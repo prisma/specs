@@ -1,6 +1,6 @@
 ---
 navGroup: init
-navOrder: 4
+navOrder: 2
 navLabel: mysql
 ---
 
@@ -24,23 +24,13 @@ import BorderBox from '../../../components/Terminal/BorderBox'
 
 ---
 
-![](https://figma-image-proxy.prisma.now.sh/?id=1050:381&file=cRvu7bwRRC0zleOvtlTgmkOu)
-
-> **Note**: `rctdb` means "Rights to create database"
+![](https://figma-image-proxy.prisma.now.sh/?id=1066:351&file=cRvu7bwRRC0zleOvtlTgmkOu)
 
 ---
 
 # MySQL
 
 ### (1) Enter database credentials
-
-<details><summary>Previous selections</summary>
-
-1. Blank project
-1. MySQL
-
-</details>
-<br />
 
 <Terminal>
   <Box flexDirection="column" marginLeft={2} marginBottom={1}>
@@ -113,400 +103,16 @@ import BorderBox from '../../../components/Terminal/BorderBox'
 
 - Optional DB provided
   - Exists
-    - [Empty](#6-language-selection)
-    - [Non-empty](#41-introspection)
+    - [Empty](#7-language-selection)
+    - [Non-empty](#5-introspection)
   - **Doesn't** exist
-    - [Rights to create new DB](21-select-existing-database-or-create-a-new-one-with-provided-name)
-    - [**No** rights to create new DB](#31-select-a-database)
+    - [Rights to create new DB](./mysql-db-selection#21-select-existing-database-or-create-a-new-one-with-provided-name)
+    - [**No** rights to create new DB](./mysql-db-selection#31-select-a-database)
 - Optional DB **not** provided
-  - [Rights to create new DB](#2-select-existing-database-or-create-a-new-one)
-  - [**No** rights to create new DB](#32-select-a-database)
+  - [Rights to create new DB](./mysql-db-selection#2-select-existing-database-or-create-a-new-one)
+  - [**No** rights to create new DB](./mysql-db-selection#32-select-a-database)
 
-### (2) Select existing database or create a new one
-
-<details><summary>Previous selections</summary>
-
-1. Blank project
-1. MySQL
-1. _entered DB credentials_ (optional DB not provided)
-1. _connection succesful_
-1. _rights to create new DB_
-
-</details>
-<br />
-
-<Terminal>
-  <Color green>
-    <Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Connected to MySQL database server as <Text bold>admin</Text>
-  </Color>
-  <Box 
-    flexDirection="column" 
-    marginLeft={2} 
-    marginTop={1}
-    marginBottom={1}
-  >
-    <Text bold>Create a new MySQL database or use an existing one</Text>
-    <Color dim>A MySQL database server can host multiple databases</Color>
-  </Box>
-  <BorderBox
-    flexDirection="column"
-    title={`${chalk.bold('Database options')}`}
-    marginBottom={1}
-  >
-     <Box width={100}>
-      <Color cyan>
-        <Box width={30}>
-          <Text bold>{figures.pointer} Create new MySQL database</Text>
-        </Box>
-        <Color dim>Start from scratch</Color>
-      </Color>
-      <Box flexGrow={1}></Box>
-    </Box>
-    <Box width={100}>
-      <Color >
-        <Box width={30}>
-          <Color gray>  </Color>
-          <Text>Use existing MySQL database</Text>
-        </Box>
-        <Color dim>Found 5 databases</Color>
-      </Color>
-      <Box flexGrow={1}></Box>
-    </Box>
-  </BorderBox>
-  <Box>
-    <Color gray>❮ </Color>
-    <Text bold>Back</Text>
-    <Color dim> (Database credentials)</Color>
-  </Box>
-</Terminal>
-
-- [Create new MySQL database](#4-set-database-name)
-- [Use existing MySQL database](#3-select-a-database)
-
-### (2.1) Select existing database or create a new one with provided name
-
-<details><summary>Previous selections</summary>
-
-1. PostgreSQL
-1. _entered DB credentials_ (optional DB provided)
-1. _connection succesful_
-1. _database doesn't exist_ & _rights to create new DB_
-
-</details>
-<br />
-
-<Terminal>
-  <Color green>
-    <Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Connected to MySQL database server as <Text bold>admin</Text>
-  </Color>
-  <Box 
-    flexDirection="column" 
-    marginLeft={2} 
-    marginTop={1}
-    marginBottom={1}
-  >
-    <Text bold>A database named <Text bold>`hello-world`</Text> doesn't exist on this MySQL server.</Text>
-    <Text bold>Create MySQL database `hello-world` or select an existing one.</Text>
-    <Color dim>The MySQL database will be created by user: <Text bold>admin</Text></Color>
-  </Box>
-  <BorderBox
-    flexDirection="column"
-    title={`${chalk.bold('Database options')}`}
-    marginBottom={1}
-  >
-     <Box width={100}>
-      <Color cyan>
-        <Box width={30}>
-          <Text bold>{figures.pointer} Create MySQL database `hello-world`</Text>
-        </Box>
-      </Color>
-      <Box flexGrow={1}></Box>
-    </Box>
-    <Box width={100}>
-      <Color >
-        <Box width={30}>
-          <Color gray>  </Color>
-          <Text>Select an existing MySQL database</Text>
-        </Box>
-      </Color>
-      <Box flexGrow={1}></Box>
-    </Box>
-  </BorderBox>
-  <Box>
-    <Color gray>❮ </Color>
-    <Text bold>Back</Text>
-    <Color dim> (Database credentials)</Color>
-  </Box>
-</Terminal>
-
-- [Create schema `hello-world`](#6-language-selection)
-- [Select an existing database](#3-select-a-database)
-
-### (3) Select a database
-
-<details><summary>Previous selections</summary>
-
-1. Blank project
-1. MySQL
-1. _entered DB credentials_ (optional DB not provided)
-1. _connection succesful_
-1. _rights to create new DB_
-1. Use existing database
-
-</details>
-<br />
-
-<Terminal>
-  <Box flexDirection="column" marginLeft={2} marginBottom={1}>
-    <Text bold>Select a MySQL database</Text>
-    <Color dim>Found 1 empty and 3 non-empty MySQL databases</Color>
-  </Box>
-  <BorderBox
-    flexDirection="column"
-    title={`${chalk.bold('Empty databases')} ${chalk.gray('(Start new project)')}`}
-    marginBottom={1}
-  >
-    <Box width={100}>
-      <Color cyan>
-        {figures.pointer} <Text bold>public</Text>
-      </Color>
-      <Box flexGrow={1} />
-    </Box>
-  </BorderBox>
-  <BorderBox
-    flexDirection="column"
-    title={`${chalk.bold('Non-empty databases')} ${chalk.gray('(Introspect existing database)')}`}
-    marginBottom={1}
-  >
-    <Box width={100}>
-      <Box width={20} marginLeft={2}>
-        <Text>management</Text>
-      </Box>
-      <Color dim>2 tables, 1,341KB</Color>
-      <Box flexGrow={1}></Box>
-    </Box>
-    <Box width={100}>
-      <Box width={20} marginLeft={2}>
-        <Text>default$default</Text>
-      </Box>
-      <Color dim>5 tables, 1,341KB</Color>
-      <Box flexGrow={1}></Box>
-    </Box>
-    <Box width={100}>
-      <Box width={20} marginLeft={2}>
-        <Text>staging</Text>
-      </Box>
-      <Color dim>1 tables, 2,341KB</Color>
-      <Box flexGrow={1}></Box>
-    </Box>
-  </BorderBox>
-  <Box>
-    <Color gray>❮ </Color>
-    <Text bold>Back</Text>
-    <Color dim> (Database options)</Color>
-  </Box>
-</Terminal>
-
-- [Empty DB](#6-language-selection)
-- [Non-empty DB](#41-introspection)
-
-### (3.1) Select a database
-
-<details><summary>Previous selections</summary>
-
-1. Blank project
-1. MySQL
-1. _entered DB credentials_ (optional DB provided)
-1. _connection succesful_ 
-1. _database doesn't exist_ & _no rights to create new DB_
-
-</details>
-<br />
-
-<Terminal>
-  <Color green>
-    <Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Connected to MySQL database server as <Text bold>admin</Text>
-  </Color>
-  <Box flexDirection="column" marginLeft={2} marginBottom={1} marginTop={1}>
-    <Text bold>The database `hello-world` doesn't exist on this MySQL server.</Text>
-    <Text bold>You can select an existing MySQL database instead.</Text>
-    <Color dim>Found 1 empty and 3 non-empty MySQL databases</Color>
-  </Box>
-  <BorderBox
-    flexDirection="column"
-    title={`${chalk.bold('Empty databases')} ${chalk.gray('(Start new project)')}`}
-    marginBottom={1}
-  >
-    <Box width={100}>
-      <Color cyan>
-        {figures.pointer} <Text bold>public</Text>
-      </Color>
-      <Box flexGrow={1} />
-    </Box>
-  </BorderBox>
-  <BorderBox
-    flexDirection="column"
-    title={`${chalk.bold('Non-empty databases')} ${chalk.gray('(Introspect existing database)')}`}
-    marginBottom={1}
-  >
-    <Box width={100}>
-      <Box width={20} marginLeft={2}>
-        <Text>management</Text>
-      </Box>
-      <Color dim>2 tables, 1,341KB</Color>
-      <Box flexGrow={1}></Box>
-    </Box>
-    <Box width={100}>
-      <Box width={20} marginLeft={2}>
-        <Text>default$default</Text>
-      </Box>
-      <Color dim>5 tables, 1,341KB</Color>
-      <Box flexGrow={1}></Box>
-    </Box>
-    <Box width={100}>
-      <Box width={20} marginLeft={2}>
-        <Text>staging</Text>
-      </Box>
-      <Color dim>1 tables, 2,341KB</Color>
-      <Box flexGrow={1}></Box>
-    </Box>
-  </BorderBox>
-  <Box>
-    <Color gray>❮ </Color>
-    <Text bold>Back</Text>
-    <Color dim> (Database credentials)</Color>
-  </Box>
-</Terminal>
-
-- [Empty DB](#6-language-selection)
-- [Non-empty DB](#41-introspection)
-
-### (3.2) Select a database
-
-<details><summary>Previous selections</summary>
-
-1. Blank project
-1. MySQL
-1. _entered DB credentials_ (optional DB not provided)
-1. _connection succesful_ 
-1. _no rights to create new DB_
-
-</details>
-<br />
-
-<Terminal>
-  <Color green>
-    <Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Connected to MySQL database server as <Text bold>admin</Text>
-  </Color>
-  <Box flexDirection="column" marginLeft={2} marginBottom={1} marginTop={1}>
-    <Text bold>Select an existing MySQL database.</Text>
-    <Color dim>Found 1 empty and 3 non-empty MySQL databases</Color>
-  </Box>
-  <BorderBox
-    flexDirection="column"
-    title={`${chalk.bold('Empty databases')} ${chalk.gray('(Start new project)')}`}
-    marginBottom={1}
-  >
-    <Box width={100}>
-      <Color cyan>
-        {figures.pointer} <Text bold>public</Text>
-      </Color>
-      <Box flexGrow={1} />
-    </Box>
-  </BorderBox>
-  <BorderBox
-    flexDirection="column"
-    title={`${chalk.bold('Non-empty databases')} ${chalk.gray('(Introspect existing database)')}`}
-    marginBottom={1}
-  >
-    <Box width={100}>
-      <Box width={20} marginLeft={2}>
-        <Text>management</Text>
-      </Box>
-      <Color dim>2 tables, 1,341KB</Color>
-      <Box flexGrow={1}></Box>
-    </Box>
-    <Box width={100}>
-      <Box width={20} marginLeft={2}>
-        <Text>default$default</Text>
-      </Box>
-      <Color dim>5 tables, 1,341KB</Color>
-      <Box flexGrow={1}></Box>
-    </Box>
-    <Box width={100}>
-      <Box width={20} marginLeft={2}>
-        <Text>staging</Text>
-      </Box>
-      <Color dim>1 tables, 2,341KB</Color>
-      <Box flexGrow={1}></Box>
-    </Box>
-  </BorderBox>
-  <Box>
-    <Color gray>❮ </Color>
-    <Text bold>Back</Text>
-    <Color dim> (Database credentials)</Color>
-  </Box>
-</Terminal>
-
-- [Empty DB](#6-language-selection)
-- [Non-empty DB](#41-introspection)
-
-### (4) Set database name
-
-<details><summary>Previous selections</summary>
-
-1. Blank project
-1. MySQL
-1. _entered DB credentials_ (optional DB not provided)
-1. _connection succesful_
-1. Create new database
-
-</details>
-<br />
-
-<Terminal>
-  <Box marginLeft={2} flexDirection="column" marginBottom={1}>
-    <Text bold>Enter name for the new database</Text>
-    <Color dim>The database will be created by user: <Text bold>admin</Text></Color>
-  </Box>
-  <BorderBox
-    flexDirection="column"
-    title={`${chalk.bold('MySQL database name')}`}
-    marginBottom={1}
-  >
-   <Box width={100}>
-      <Color cyan>
-        <Text bold>{figures.pointer} Name:</Text>
-        <Color dim> my_db</Color>
-      </Color>
-      <Box flexGrow={1}></Box>
-    </Box>
-  </BorderBox>
-  <Box>
-    <Color gray>{figures.pointer} </Color>
-    <Text bold>Create</Text>
-  </Box>
-  <Box>
-    <Color gray>❮ </Color>
-    <Text bold>Back</Text>
-    <Color dim> (Database options)</Color>
-  </Box>
-</Terminal>
-
-- [Create](#6-language-selection)
-
-### (4.1) Introspection
-
-<details><summary>Previous selections</summary>
-
-1. Blank project
-1. MySQL
-1. _entered DB credentials_ (optional DB not provided)
-1. _connection succesful_
-1. Use existing database (or _selected existing non-empty DB_)
-
-</details>
-<br />
+### (5) Introspection
 
 <Terminal>
 <BorderBox title={chalk.bold('Introspection in progress')} flexDirection="column">
@@ -519,21 +125,9 @@ import BorderBox from '../../../components/Terminal/BorderBox'
 </BorderBox>
 </Terminal>
 
-- [Introspection terminated](#5-tool-selection)
+- [Introspection terminated](#6-tool-selection)
 
-### (5) Tool selection
-
-<details><summary>Previous selections</summary>
-
-1. Blank project
-1. MySQL
-1. _entered DB credentials_ (optional DB not provided)
-1. _connection succesful_
-1. Use existing database (or _selected existing non-empty DB_)
-1. _introspected DB_ & _DB not empty_
-
-</details>
-<br />
+### (6) Tool selection
 
 <Terminal>
   <Color green><Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Introspection was successful.</Color>
@@ -575,20 +169,11 @@ import BorderBox from '../../../components/Terminal/BorderBox'
 
 **Note**: The text from the back button might also be "Database selection" depending on how we got to the tool selection.
 
-- [Photon](#61--62-language-selection)
-- [Photon & Lift](#61--62-language-selection)
-- [Lift](#86-success)
+- [Photon](#71--72-language-selection)
+- [Photon & Lift](#71--72-language-selection)
+- [Lift](#96-success)
 
-### (6) Language selection
-
-<details><summary>Previous selections</summary>
-
-1. Blank project
-1. MySQL
-1. Create new MySQL DB (or _existing DB is empty_ or _selected empty DB_)
-
-</details>
-<br />
+### (7) Language selection
 
 <Terminal>
   <Box flexDirection="column" marginLeft={2} marginBottom={1}>
@@ -621,23 +206,10 @@ import BorderBox from '../../../components/Terminal/BorderBox'
 
 **Note**: The text from the back button might also be "Database selection" depending on how we got to the language selection.
 
-- [JavaScript](#7-demo-script-selection)
-- [TypeScript](#7-demo-script-selection)
+- [JavaScript](#8-demo-script-selection)
+- [TypeScript](#8-demo-script-selection)
 
-### (6.1) & (6.2) Language selection
-
-<details><summary>Previous selections</summary>
-
-1. Blank project
-1. MySQL
-1. _entered DB credentials_ (optional DB not provided)
-1. _connection succesful_
-1. Use existing database (or _selected existing non-empty DB_)
-1. _introspected DB_ + _DB not empty_
-1. Photon or Photon + Lift
-
-</details>
-<br />
+### (7.1) & (7.2) Language selection
 
 <Terminal>
   <Box flexDirection="column" marginLeft={2} marginBottom={1}>
@@ -662,20 +234,10 @@ import BorderBox from '../../../components/Terminal/BorderBox'
   </Box>
 </Terminal>
 
-- [JavaScript](#71--72-demo-script-selection)
-- [TypeScript](#71--72-demo-script-selection)
+- [JavaScript](#81--82-demo-script-selection)
+- [TypeScript](#81--82-demo-script-selection)
 
-### (7) Demo script selection
-
-<details><summary>Previous selections</summary>
-
-1. Blank project
-1. MySQL
-1. Create new MySQL DB (or _existing DB is empty_ or _selected empty DB_)
-1. JavaScript/TypeScript
-
-</details>
-<br />
+### (8) Demo script selection
 
 <Terminal>
   <Box flexDirection="column" marginLeft={2} marginBottom={1}>
@@ -704,23 +266,10 @@ import BorderBox from '../../../components/Terminal/BorderBox'
   </Box>
 </Terminal>
 
-- [Demo script](#8-success)
-- [Just the Prisma schema](#81-success)
+- [Demo script](#9-success)
+- [Just the Prisma schema](#91-success)
 
-### (7.1) & (7.2) Demo script selection
-
-<details><summary>Previous selections</summary>
-
-1. Blank project
-1. MySQL
-1. Use existing MySQL database
-1. _connection succesful_
-1. _introspected DB_
-1. Photon
-1. JavaScript/TypeScript
-
-</details>
-<br />
+### (8.1) & (8.2) Demo script selection
 
 <Terminal>
   <Box flexDirection="column" marginLeft={2} marginBottom={1}>
@@ -749,21 +298,10 @@ import BorderBox from '../../../components/Terminal/BorderBox'
   </Box>
 </Terminal>
 
-- [Demo script](#82--84-success)
-- [Just the Prisma schema](#83--85-success)
+- [Demo script](#92--94-success)
+- [Just the Prisma schema](#93--95-success)
 
-### (8) Success
-
-<details><summary>Previous selections</summary>
-
-1. Blank project
-1. MySQL
-1. Create new MySQL DB (or _existing DB is empty_ or _selected empty DB_)
-1. JavaScript/TypeScript
-1. Demo script
-
-</details>
-<br />
+### (9) Success
 
 <Terminal>
   <Box marginLeft={2} marginBottom={1}>
@@ -816,18 +354,7 @@ import BorderBox from '../../../components/Terminal/BorderBox'
 
 **Note**: If the command was invoked **without** a project name (e.g. `prisma2 init` or `prisma2 init .`), the first success message should be: _"Your project directory is ready. It contains your Prisma schema: **schema.prisma**."_
 
-### (8.1) Success
-
-<details><summary>Previous selections</summary>
-
-1. Blank project
-1. MySQL
-1. Create new MySQL DB (or _existing DB is empty_ or _selected empty DB_)
-1. JavaScript/TypeScript
-1. Just the Prisma schema
-
-</details>
-<br />
+### (9.1) Success
 
 <Terminal>
   <Box marginLeft={2} marginBottom={1}>
@@ -880,21 +407,7 @@ import BorderBox from '../../../components/Terminal/BorderBox'
 
 **Note**: If the command was invoked **without** a project name (e.g. `prisma2 init` or `prisma2 init .`), the first success message should be: _"Your project directory is ready. It contains your Prisma schema: **schema.prisma**."_
 
-### (8.2) & (8.4) Success
-
-<details><summary>Previous selections</summary>
-
-1. Blank project
-1. MySQL
-1. Use existing MySQL database
-1. _connection succesful_
-1. _introspected DB_
-1. Photon
-1. JavaScript/TypeScript
-1. Demo script
-
-</details>
-<br />
+### (9.2) & (9.4) Success
 
 <Terminal>
   <Box marginLeft={2} marginBottom={1}>
@@ -944,21 +457,7 @@ import BorderBox from '../../../components/Terminal/BorderBox'
 
 **Note**: If the command was invoked **without** a project name (e.g. `prisma2 init` or `prisma2 init .`), the first success message should be: _"Your project directory is ready. It contains your Prisma schema: **schema.prisma**."_
 
-### (8.3) & (8.5) Success
-
-<details><summary>Previous selections</summary>
-
-1. Blank project
-1. MySQL
-1. Use existing MySQL database
-1. _connection succesful_
-1. _introspected DB_
-1. Photon
-1. JavaScript/TypeScript
-1. Just the Prisma schema
-
-</details>
-<br />
+### (9.3) & (9.5) Success
 
 <Terminal>
   <Box marginLeft={2} marginBottom={1}>
@@ -1007,19 +506,7 @@ import BorderBox from '../../../components/Terminal/BorderBox'
 
 **Note**: If the command was invoked **without** a project name (e.g. `prisma2 init` or `prisma2 init .`), the first success message should be: _"Your project directory is ready. It contains your Prisma schema: **schema.prisma**."_
 
-### (8.6) Success
-
-<details><summary>Previous selections</summary>
-
-1. Blank project
-1. MySQL
-1. Use existing MySQL DB
-1. _connection succesful_
-1. _introspected DB_
-1. Lift
-
-</details>
-<br />
+### (9.6) Success
 
 <Terminal>
   <Box marginLeft={2} marginBottom={1}>
@@ -1071,152 +558,3 @@ import BorderBox from '../../../components/Terminal/BorderBox'
 </Terminal>
 
 **Note**: If the command was invoked **without** a project name (e.g. `prisma2 init` or `prisma2 init .`), the first success message should be: _"Your project directory is ready. It contains your Prisma schema: **schema.prisma**."_
-
-
-<!-- 
-
-### (1) Enter database credentials (Found local database)
-
-**TODO**
-
-<Terminal>
-  <Box flexDirection="column" marginLeft={2}>
-    <Text bold>Log into your database</Text>
-    <Color  dim>Learn how to set up a MySQL database: https://www.prisma.io/docs</Color>
-  </Box>
-
-  <Box flexDirection="column" paddingTop={2}>
-    <Box>
-      <Color gray>┌──</Color>
-      <Text bold> Found a database on port 3306 </Text>
-      <Color gray>───────────────────────────┐</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Color cyan>{figures.pointer} </Color>
-      <Color cyan>
-        <Text bold>Autofill credentials</Text>
-      </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
-    </Box>
-  </Box>
-
-  <Box flexDirection="column" paddingTop={1} paddingBottom={1}>
-    <Box>
-      <Color gray>┌──</Color>
-      <Text bold> Enter MySQL credentials </Text>
-      <Color gray>─────────────────────────────────┐</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Color gray>  </Color>
-      <Text>Host: </Text>
-      <TextInput value="" placeholder="127.0.0.1" showCursor={false} />
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Color gray>  </Color>
-      <Text>Port: </Text>
-      <TextInput value="" placeholder="3306" showCursor={false} />
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Color gray>  </Color>
-      <Text>User: </Text>
-      <TextInput value="" showCursor={false} />
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Color gray>  </Color>
-      <Text bold>Password: </Text>
-      <TextInput value="" showCursor={false} />
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Color gray>  </Color>
-      <Text>Database (optional): </Text>
-      <TextInput value="" showCursor={false} />
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Color gray>  </Color>
-      <Text>{figures.squareSmall} Use SSL </Text>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>├────────────────────────────────────────────────────────────┤</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Color gray>  </Color>
-      <Text>Or URL: </Text>
-      <TextInput value="" placeholder="mysql://localhost:3306/admin" showCursor={false} />
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
-    </Box>
-  </Box>
-  <Box>
-    <Color gray>{figures.pointer} </Color>
-    <Text bold>Connect</Text>
-  </Box>
-  <Box>
-    <Color gray>❮ </Color>
-    <Text bold>Back</Text>
-    <Color  dim> (Database selection)</Color>
-  </Box>
-</Terminal>
-
- -->
