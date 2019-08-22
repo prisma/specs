@@ -6,7 +6,7 @@ Prisma obviously uses GitHub for hosting our git repositories. This document spe
 
 Repositories used for Prisma 2:
 
-### Core Prisma
+### Main
 
 - https://github.com/prisma/prisma2
 - https://github.com/prisma/photonjs
@@ -14,6 +14,7 @@ Repositories used for Prisma 2:
 - https://github.com/prisma/studio
 - https://github.com/prisma/specs
 - https://github.com/prisma/vscode-prisma
+- https://github.com/prisma/prisma-sdk-js
 
 ### Additional
 
