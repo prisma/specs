@@ -22,6 +22,7 @@ Repositories used for Prisma 2:
 
 - https://github.com/prisma/prisma-query
 - https://github.com/prisma/studio-code (private)
+- https://github.com/prisma/build-cli
 
 ### Additional
 
