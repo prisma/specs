@@ -23,20 +23,18 @@ Here is a list of tasks that need to be performed:
 
 1. Download the selected example project from GitHub
 1. Replace the `datasource` configuration in `schema.prisma` with the database credentials provided by the user
-1. Migrate the database with Lift, i.e. run:
-   1. `prisma2 lift save --name 'init'`
-   1. `prisma2 lift up`
 1. Generate Photon, i.e. run: `prisma2 generate`
 1. Install npm dependencies, i.e. run: `npm install`
 1. Seed the database, i.e. run: `npm run seed`
 1. Print success message based on [spec](./success-screens)
 
-Steps 1-4 are hardcoded in the CLI based on the following assumptions that all example projects (no matter what kind of examples are being added in the future) always:
+> **Note**: We previously also wanted to run an initial migration using `prisma lift save` and `prisma lift up` but decided against it so that users get their example in a "blank" state. The initial migration is also not needed because the ouput includes the instruction to immediately run `prisma dev` which auto-migrates the DB.
+
+Steps 1-3 are hardcoded in the CLI based on the following assumptions that all example projects (no matter what kind of examples are being added in the future) always:
 
 - will have a `prisma.schema` with a `datasource` configuration
-- are using Lift
 
-Steps 5-7 are performed dynamically per example and are included in the Prisma example API. The setup commands are included in the JSON data returend by the examples API under the `setupCommands` key.
+Steps 4-6 are performed dynamically per example and are included in the Prisma example API. The setup commands are included in the JSON data returend by the examples API under the `setupCommands` key.
 
 ## When is it used during `prisma2 init`?
 
@@ -66,170 +64,4 @@ Alternatively, it could be implemented via a GraphQL API that's based on a simil
 
 ## Example data (JSON)
 
-```jsonc
-{
-  "meta": {
-    "version": "1"
-  },
-  "examples": {
-    "javascript": {
-      "graphql": {
-        "name": "GraphQL API",
-        "description": "GraphQL server example (with graphql-yoga)",
-        "pathToSeedingFile": "prisma/seed.js",
-        "issuesLink": "https://github.com/prisma/prisma-examples/issues",
-        "nextStepInstructions": [
-          {
-            "description": "Start the GraphQL server (in a new terminal window/tab):",
-            "commands": ["npm start"]
-          }
-        ],
-        "setupCommands": ["npm install", "prisma2 generate", "npm run seed"],
-        "supportedDataSources": ["mysql", "postgresql", "sqlite"]
-      },
-      "graphql-auth": {
-        "name": "GraphQL API (+ Auth)",
-        "description": "GraphQL server example with authentication & permissions",
-        "pathToSeedingFile": "prisma/seed.js",
-        "issuesLink": "https://github.com/prisma/prisma-examples/issues",
-        "nextStepInstructions": [
-          {
-            "description": "Start the GraphQL server (in a new terminal window/tab):",
-            "commands": ["npm start"]
-          }
-        ],
-        "setupCommands": ["npm install", "prisma2 generate", "npm run seed"],
-        "supportedDataSources": ["mysql", "postgresql", "sqlite"]
-      },
-      "grpc": {
-        "name": "gRPC API",
-        "description": "gRPC client + server example",
-        "pathToSeedingFile": "prisma/seed.js",
-        "issuesLink": "https://github.com/prisma/prisma-examples/issues",
-        "nextStepInstructions": [
-          {
-            "description": "Start the gRPC server (in a new terminal window/tab):",
-            "commands": ["npm start"]
-          },
-          {
-            "description": "Invoke a gRPC client script, e.g.:",
-            "commands": [
-              "npm run feed       # fetch all posts",
-              "npm run signupUser # create new user"
-            ]
-          }
-        ],
-        "setupCommands": ["npm install", "prisma2 generate", "npm run seed"],
-        "supportedDataSources": ["mysql", "postgresql", "sqlite"]
-      },
-      "rest-express": {
-        "name": "REST API",
-        "description": "REST API example (with express.js)",
-        "pathToSeedingFile": "prisma/seed.js",
-        "issuesLink": "https://github.com/prisma/prisma-examples/issues",
-        "nextStepInstructions": [
-          {
-            "description": "Start the REST API server (in a new terminal window/tab):",
-            "commands": ["npm start"]
-          }
-        ],
-        "setupCommands": ["npm install", "prisma2 generate", "npm run seed"],
-        "supportedDataSources": ["mysql", "postgresql", "sqlite"]
-      },
-      "script": {
-        "name": "Script (Node.js)",
-        "description": "Node.js script with sample API calls",
-        "pathToSeedingFile": "prisma/seed.js",
-        "issuesLink": "https://github.com/prisma/prisma-examples/issues",
-        "nextStepInstructions": [
-          {
-            "description": "Start the REST API server (in a new terminal window/tab):",
-            "commands": ["npm start"]
-          }
-        ],
-        "setupCommands": ["npm install", "prisma2 generate", "npm run seed"],
-        "supportedDataSources": ["mysql", "postgresql", "sqlite"]
-      }
-    },
-    "typescript": {
-      "graphql": {
-        "name": "GraphQL API",
-        "description": "GraphQL server example (with graphql-yoga)",
-        "pathToSeedingFile": "prisma/seed.ts",
-        "issuesLink": "https://github.com/prisma/prisma-examples/issues",
-        "nextStepInstructions": [
-          {
-            "description": "Start the GraphQL server (in a new terminal window/tab):",
-            "commands": ["npm start"]
-          }
-        ],
-        "setupCommands": ["npm install", "prisma2 generate", "npm run seed"],
-        "supportedDataSources": ["mysql", "postgresql", "sqlite"]
-      },
-      "graphql-auth": {
-        "name": "GraphQL API (+ Auth)",
-        "description": "GraphQL server example with authentication & permissions",
-        "pathToSeedingFile": "prisma/seed.ts",
-        "issuesLink": "https://github.com/prisma/prisma-examples/issues",
-        "nextStepInstructions": [
-          {
-            "description": "Start the GraphQL server (in a new terminal window/tab):",
-            "commands": ["npm start"]
-          }
-        ],
-        "setupCommands": ["npm install", "prisma2 generate", "npm run seed"],
-        "supportedDataSources": ["mysql", "postgresql", "sqlite"]
-      },
-      "grpc": {
-        "name": "gRPC API",
-        "description": "gRPC client + server example",
-        "pathToSeedingFile": "prisma/seed.ts",
-        "issuesLink": "https://github.com/prisma/prisma-examples/issues",
-        "nextStepInstructions": [
-          {
-            "description": "Start the gRPC server (in a new terminal window/tab):",
-            "commands": ["npm start"]
-          },
-          {
-            "description": "Invoke a gRPC client script, e.g.:",
-            "commands": [
-              "npm run feed       # fetch all posts",
-              "npm run signupUser # create new user"
-            ]
-          }
-        ],
-        "setupCommands": ["npm install", "prisma2 generate", "npm run seed"],
-        "supportedDataSources": ["mysql", "postgresql", "sqlite"]
-      },
-      "rest-express": {
-        "name": "REST API",
-        "description": "REST API example (with express.js)",
-        "pathToSeedingFile": "prisma/seed.ts",
-        "issuesLink": "https://github.com/prisma/prisma-examples/issues",
-        "nextStepInstructions": [
-          {
-            "description": "Start the REST API server (in a new terminal window/tab):",
-            "commands": ["npm start"]
-          }
-        ],
-        "setupCommands": ["npm install", "prisma2 generate", "npm run seed"],
-        "supportedDataSources": ["mysql", "postgresql", "sqlite"]
-      },
-      "script": {
-        "name": "Script (TypeScript)",
-        "description": "TypeScript script with sample API calls",
-        "pathToSeedingFile": "prisma/seed.ts",
-        "issuesLink": "https://github.com/prisma/prisma-examples/issues",
-        "nextStepInstructions": [
-          {
-            "description": "Start the REST API server (in a new terminal window/tab):",
-            "commands": ["npm start"]
-          }
-        ],
-        "setupCommands": ["npm install", "prisma2 generate", "npm run seed"],
-        "supportedDataSources": ["mysql", "postgresql", "sqlite"]
-      }
-    }
-  }
-}
-```
+The example data can be found [here](https://github.com/prisma/prisma-examples/blob/prisma2/api.json).
