@@ -37,7 +37,7 @@
   * [Example Scenarios](#example-scenarios)
     + [1. Development machine is a Raspberry Pi and the deployment platform is AWS Lambda](#1-development-machine-is-a-raspberry-pi-and-the-deployment-platform-is-aws-lambda)
     + [2. We are using CLI in a build system from a provider for which we do not have a working pre-compiled binary](#2-we-are-using-cli-in-a-build-system-from-a-provider-for-which-we-do-not-have-a-working-pre-compiled-binary)
-- [Use Case: Generators](#use-case-generators)
+- [Use Case: Photon.js Generators](#use-case-photonjs-generators)
   * [How to Fetch Binaries](#how-to-fetch-binaries-1)
     + [Configuration](#configuration)
     + [Configuration Error Handling](#configuration-error-handling)
@@ -265,7 +265,7 @@ Then `prisma2 lift` and `prisma2 generate` would use the respective compiled bin
 
 Since overriding CLI binary is an environment variable and these providers might [not always allow](https://github.com/prisma/prisma2/issues/157#issuecomment-520501500) compiling a binary. There will be no work around such a situation except us making the default downloaded binary for that provider work. We want to support all major providers out of the box and this use case should be rare.
 
-# Use Case: Generators
+# Use Case: Photon.js Generators
 
 ## How to Fetch Binaries
 
@@ -273,11 +273,16 @@ Since overriding CLI binary is an environment variable and these providers might
 
 Fields on the `generator` block to configure the availability of binaries for generators (like Photon, nexus, etc):
 
-| Field                            | Type                                                 | Description                                                                                                                                                        |
-| -------------------------------- | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `binaryTargets`                  | Field on `generator` block in Prisma schema language | _(optional)_ An array of binaries that are required by the application, string for [known binary](#pre-built-binary-targets) targets and path for custom binaries. |
-| `PRISMA_QUERY_ENGINE_BINARY`     | Environment variable in the generated code           | _(optional)_ A string literal with a [known binary](#pre-built-binary-targets) name (like `darwin` or `linux-glibc-libssl1.0.2"` or path to a custom binary        |
-| `PRISMA_MIGRATION_ENGINE_BINARY` | Environment variable in the generated code           | _(optional)_ A string literal with a [known binary](#pre-built-binary-targets) name (like `darwin` or `linux-glibc-libssl1.0.2"` or path to a custom binary        |
+| Field           | Description                                                                                                                                                                                                 |
+| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `binaryTargets` | _(optional)_ An array of binaries that are required by the application, string for [known binary](#pre-built-binary-targets) targets and path for custom binaries. These are downloaded at generation time. |
+
+Environment variable to configure a specific binary for the generated code's runtime:
+
+| Environment Variable             | Description                                                                                                                                                 |
+| -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `PRISMA_MIGRATION_ENGINE_BINARY` | _(optional)_ A string literal with a [known binary](#pre-built-binary-targets) name (like `darwin` or `linux-glibc-libssl1.0.2"` or path to a custom binary |
+| `PRISMA_QUERY_ENGINE_BINARY`     | _(optional)_ A string literal with a [known binary](#pre-built-binary-targets) name (like `darwin` or `linux-glibc-libssl1.0.2"` or path to a custom binary |
 
 - Both `binaryTargets` field and `PRISMA_QUERY_ENGINE_BINARY` environment variable are optional. Here are some scenarios
 
