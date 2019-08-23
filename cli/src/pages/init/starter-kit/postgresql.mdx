@@ -69,13 +69,13 @@ import BorderBox from '../../../components/Terminal/BorderBox'
     </Box>
     <Box width={100}>
       <Color gray> </Color>
-      <Text>Database: </Text>
+      <Text>Database (optional):</Text>
       <TextInput value="" showCursor={false} />
       <Box flexGrow={1} />
     </Box>
     <Box width={100}>
       <Color gray> </Color>
-      <Text>Schema (optional): </Text>
+      <Text><Color dim> Schema (optional): </Color> </Text>
       <TextInput value="" showCursor={false} />
       <Box flexGrow={1} />
     </Box>
@@ -111,17 +111,25 @@ import BorderBox from '../../../components/Terminal/BorderBox'
   </Box>
 </Terminal>
 
-- Optional schema provided
-  - [Empty](6-success)
-  - Non-empty
-    - [Rights to create new schema](#2-select-existing-schema-or-create-a-new-one)
-    - [**No** rights to create new schema](#4-select-a-schema)
-  - Provided schema doesn't exist
-    - [Rights to create new schema](#21-select-existing-schema-or-create-a-new-one-with-provided-name)
-    - [**No** rights to create new schema](#42-select-a-schema)
-- Optional schema **not** provided
-  - [Rights to create new schema](#22-select-existing-schema-or-create-a-new-one)
-  - [**No** rights to create new schema](#43-select-a-schema)
+- Optional database provided
+  - Database exists
+    - Optional schema provided
+      - [Schema empty](#6-success)
+      - Schema non-empty
+        - [Rights to create new schema]()
+        - [**No** rights to create new schema]()
+      - Schema doesn't exist
+        - [Rights to create new schema]()
+        - [**No** rights to create new schema]()
+    - Optional **not** schema provided
+      - [Rights to create new schema]()
+      - [**No** rights to create new schema]()
+  - Database doesn't exist
+    - [Rights to create new database]()
+    - [**No** rights to create new database]()
+- Optional database **not** provided
+  - [Rights to create new database]()
+  - [**No** rights to create new database]()
 
 
 ### (5) Success

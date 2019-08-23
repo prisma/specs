@@ -107,7 +107,29 @@ import BorderBox from '../../../components/Terminal/BorderBox'
   </Box>
 </Terminal>
 
-- Optional schema provided
+- Optional database provided
+  - Database exists
+    - Optional schema provided
+      - [Schema empty](#10-language-selection)
+      - [Schema non-empty](#8-introspection)
+      - Schema doesn't exist
+        - Rights to create new schema (TBD)
+        - **No** rights to create new schema (TBD)
+    - Optional schema **not** provided
+      - Only `public` schema exists
+        - [Rights to create new schema](../postgresql-schema-selection#5-select-public-or-create-new-schema)
+        - [**No** rights to create new schema](#10-language-selection)
+      - More than `public` schema exist
+        - [Rights to create new schema](../postgresql-schema-selection#51-select-existing-schema-or-create-new-one)
+        - [**No** rights to create new schema](../postgresql-schema-selection#6-select-a-schema)
+  - Database doesn't exist
+    - [Rights to create new database](../postgresql-db-selection#21-select-existing-database-or-create-a-new-one-with-provided-name)
+    - [**No** rights to create new database](../postgresql-db-selection#31-select-a-database)
+- Optional database **not** provided
+  - [Rights to create new database](../postgresql-db-selection#2-select-existing-database-or-create-a-new-one)
+  - [**No** rights to create new database](../postgresql-db-selection#32-select-a-database)
+
+<!-- - Optional schema provided
   - Exists
     - [Schema provided (empty)](#10-language-selection)
     - [Schema provided (non-empty)](#8-introspection)
@@ -116,7 +138,7 @@ import BorderBox from '../../../components/Terminal/BorderBox'
     - [**No** rights to create new schema](#31-select-a-schema)
 - Optional schema **not** provided
   - [Rights to create new schema](#2-select-existing-schema-or-create-a-new-one)
-  - [**No** rights to create new schema](#32-select-a-schema)
+  - [**No** rights to create new schema](#32-select-a-schema) -->
 
 ### (8) Introspection
 
