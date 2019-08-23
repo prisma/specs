@@ -37,7 +37,7 @@
   * [Example Scenarios](#example-scenarios)
     + [1. Development machine is a Raspberry Pi and the deployment platform is AWS Lambda](#1-development-machine-is-a-raspberry-pi-and-the-deployment-platform-is-aws-lambda)
     + [2. We are using CLI in a build system from a provider for which we do not have a working pre-compiled binary](#2-we-are-using-cli-in-a-build-system-from-a-provider-for-which-we-do-not-have-a-working-pre-compiled-binary)
-- [Use Case: Photon.js Generators](#use-case-photonjs-generators)
+- [Use Case: Photon.js Generator](#use-case-photonjs-generator)
   * [How to Fetch Binaries](#how-to-fetch-binaries-1)
     + [Configuration](#configuration)
     + [Configuration Error Handling](#configuration-error-handling)
@@ -265,7 +265,7 @@ Then `prisma2 lift` and `prisma2 generate` would use the respective compiled bin
 
 Since overriding CLI binary is an environment variable and these providers might [not always allow](https://github.com/prisma/prisma2/issues/157#issuecomment-520501500) compiling a binary. There will be no work around such a situation except us making the default downloaded binary for that provider work. We want to support all major providers out of the box and this use case should be rare.
 
-# Use Case: Photon.js Generators
+# Use Case: Photon.js Generator
 
 ## How to Fetch Binaries
 
