@@ -28,7 +28,7 @@ Repositories used for Prisma 2:
 ### Additional
 
 - https://github.com/prisma/prisma2-private (private)
-- https://github.com/prisma/examples
+- https://github.com/prisma/prisma-examples
 - https://github.com/prisma/database-schema-examples
 
 ### Meta
