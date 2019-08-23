@@ -539,7 +539,7 @@ await photon.users
 await photon.users.findMany({ where: { version: 5 } }).load({
   select: {
     id: true,
-    postCount: u => u.posts({ where: { published: true } }).count(),
+    postCount: u => u.posts({ where: { p => p.comments().count().gt(10) } }).count(),
   },
 })
 ```
@@ -572,7 +572,9 @@ await photon.user
 await photon.user.findMany().group({ by: u => u.email.toLowerCase() })
 ```
 
-## TODO: `withPageInfo`
+## Meta response
+
+Note: This is a early draft for this feature and won't be implemented in the near future
 
 ```ts
 // PageInfo
@@ -596,6 +598,7 @@ const [bobsPosts, meta]: [Post[], Meta] = await photon.user
 - Meta
   - pageinfo
   - traces/performance
+  - which records have been touched during a (nested) write
 - Strategies
 
   - By extending load API + return object
@@ -643,6 +646,22 @@ await photon.user
   .if([{ model: 'User', where: 'alices-id', if: { name: 'Alice' } }])
 ```
 
+## Batching
+
+Note: Combined with OCC (i.e. `if`) also known as "unit of work"
+
+```ts
+// Batching, don't get the results with $noData
+const m1 = photon.user.create({ firstName: 'Alice' })
+const m2 = photon.post.create({ title: 'Hello world' })
+const [u1, p1]: [boolean, boolean] = await photon.batch([m1, m2])
+
+// TODO: `if` API
+
+// Batching with transaction
+await photon.batch([m1, m2], { transaction: true })
+```
+
 ## Distinct
 
 ```ts
@@ -687,6 +706,17 @@ const distinctCount: number = await photon.post
 - query engine binary
 - debug
 - modifiers
+
+## Connection management
+
+- Lazy connect by default
+
+```ts
+const photon = new Photon()
+await photon.connect()
+
+await photon.disconnect()
+```
 
 <!--
 ## TODO: Operation/Query optimization
@@ -839,35 +869,8 @@ const userWithPostsAndFriends2 = await photon.user.find({
 })
 ```
 
-## Batching
 
-```ts
-// Batching, don't get the results with $noData
-const m1 = photon.user.create({ firstName: 'Alice' }).select(false)
-const m2 = photon.post.create({ title: 'Hello world' }).select(false)
-const [u1, p1]: [User, Post] = await photon.batch([m1, m2])
-
-// Batching with "check consistent" or "check current"
-const [u2, p2]: [User, Post] = await photon.batch([
-  m1,
-  {
-    checkCurrent: [
-      {
-        User: {
-          id: 'bobs-id',
-          name: 'Bob',
-        },
-      },
-    ],
-  },
-  m2,
-])
-
-// Batching with transaction
-await photon.batch([m1, m2], { transaction: true })
-```
-
-## Options arg
+## Query options arg
 
 See `options` at https://docs.mongodb.com/manual/reference/method/db.collection.aggregate/#db.collection.aggregate
 
@@ -880,12 +883,14 @@ See `options` at https://docs.mongodb.com/manual/reference/method/db.collection.
 - response
   - performance (via debug/explain)
 
-## Tracing
+### Tracing
 
 - Request IDs
 - Open tracing
 
 ## Pagination / Streaming
+
+- streaming for writes?
 
 ```ts
 for await (const post of photon.post().$stream()) {
@@ -963,6 +968,7 @@ photon.on('User:beforeCreate', user => {
 ## Error Handling
 
 - [ ] Needs to satisfy https://github.com/prisma/prisma/issues/3392#issuecomment-514999567
+- [ ] https://github.com/prisma/photonjs/issues/195#issuecomment-524126404
 
 If any error should occur, Prisma client will throw. The resulting error instance will have a `.code` property.
 You can find the possible error codes that we have in Prisma 1 [here](https://github.com/prisma/prisma/blob/master/server/connectors/api-connector/src/main/scala/com/prisma/api/schema/Errors.scala)
@@ -988,29 +994,6 @@ photon.user.findMany({
 })
 ```
 
-## Connection management
-
-```ts
-const photon = new Photon()
-await photon.connect()
-
-await photon.disconnect()
-```
-
-- TODO: Will credentials be passed in here?
-
-# Drawbacks
-
-- Name clashes and confusion of schema-based methods vs Photon methods
-
-# Alternatives
-
-- `$nested` API
-
-# Adoption strategy
-
-# How we teach this
-
 -->
 
 # Unresolved questions
@@ -1032,37 +1015,31 @@ await photon.disconnect()
 
 ## Bigger todos
 
-- [ ] Expressions
+- [ ] Modifiers
+- [ ] Expressions API/DSL
 - [ ] Binary copying
-- [ ] Create many (https://github.com/prisma/prisma2/issues/284)
-- [ ] Rethink raw API fallbacks
+- [ ] Raw API fallbacks
 - [ ] Default selection set: Include ids of to-one relations (https://github.com/prisma/photonjs/issues/188)
 - [ ] Jump to definition
-- [ ] Meta responses
-  - [ ] How to query records that were "touched" during nested writes
 - [ ] edge concept in schema
-- [ ] Modifiers
 - [ ] `.replace()` vs `.update({}, { replace: true })` (alternative: `overwrite: true`, `reset: true`)
-- [ ] Batching and Unit of work
-- [ ] Photon usage with Prisma server/cluster
-- [ ] Union queries
-- [ ] Usage in browser
+- [x] Batching
 - [ ] Validate API with planned supported data sources
+- [ ] Bulk API / Streaming (read / write)
+  - [ ] Create many (https://github.com/prisma/prisma2/issues/284)
 
 ## Small & self-contained
 
 - [ ] Decouple engine `connect` API from Photon instance (solves: https://github.com/prisma/photonjs/issues/153)
-- [ ] Distinct
+- [x] Distinct
 - [ ] Tracing
 - [ ] Cascading deletes
 - [ ] Force indexes
 - [ ] `Photon` constructor API
-- [ ] API when using with Prisma server
 - [ ] Generator/binary versioning
 - [ ] Options argument
 - [ ] Exec
 - [ ] Rename `where` to Criteria (filter/unique criteria)
-- [ ] Streaming
 - [ ] Connection handling
 - [ ] Composite models: field grouping for efficient look ups
 
@@ -1081,3 +1058,10 @@ await photon.disconnect()
 - [ ] Non-CRUD API operations
 - [ ] Silent mutations [prisma/prisma#4075](https://github.com/prisma/prisma/issues/4075)
 - [ ] Real-time API (subscriptions/live queries)
+- [ ] Dependent batch writes (see GraphQL export directive https://github.com/graphql/graphql-js/issues/462)
+- [ ] Usage in browser (depends on WASM)
+- [ ] Photon usage with Prisma server/cluster
+- [ ] Meta responses
+  - [ ] How to query records that were "touched" during nested writes
+  - [ ] (Nested) page info
+- [ ] Union queries
