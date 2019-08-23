@@ -1,0 +1,67 @@
+---
+navGroup: init
+navOrder: 6
+navLabel: examples-api
+---
+
+# Prisma Examples API
+
+## Overview
+
+The [Prisma 2 example projects](https://github.com/prisma/prisma-examples/tree/prisma2) serve as "starter kits" for developers who are getting started with Prisma by providing ready-made setups for certain use cases (e.g. a GraphQL, REST or gRPC API).
+
+There are two ways of using an example project:
+
+- Cloning the `prisma-examples` repo and following the instructions in the README of the example
+- Selecting an example during the `prisma init` flow when starting with a new/empty database
+
+The first approach always is based on a SQLite database preconfigured in the example's Prisma schema.
+
+With the second approach, the Prisma CLI must download the example and perform a number of further tasks to make the example ready to use. **The examples API helps to perform these tasks dynamically.** The goal for this is to reduce the amount of hardcoded assumptions in the CLI about how to setup an example (e.g. whether it's needed to install dependencies, how to seed the DB, where examples are hosted, ...).
+
+Here is a list of tasks that need to be performed:
+
+1. Download the selected example project from GitHub
+1. Replace the `datasource` configuration in `schema.prisma` with the database credentials provided by the user
+1. Generate Photon, i.e. run: `prisma2 generate`
+1. Install npm dependencies, i.e. run: `npm install`
+1. Seed the database, i.e. run: `npm run seed`
+1. Print success message based on [spec](./success-screens)
+
+> **Note**: We previously also wanted to run an initial migration using `prisma lift save` and `prisma lift up` but decided against it so that users get their example in a "blank" state. The initial migration is also not needed because the ouput includes the instruction to immediately run `prisma dev` which auto-migrates the DB.
+
+Steps 1-3 are hardcoded in the CLI based on the following assumptions that all example projects (no matter what kind of examples are being added in the future) always:
+
+- will have a `prisma.schema` with a `datasource` configuration
+
+Steps 4-6 are performed dynamically per example and are included in the Prisma example API. The setup commands are included in the JSON data returend by the examples API under the `setupCommands` key.
+
+## When is it used during `prisma2 init`?
+
+The examples API is needed three times during the `prisma2 init` flow:
+
+1. Display all available examples (_screens_: [SQLite (4)](./sqlite#4-example-selection), [MySQL (5)](./mysql#5-example-selection), [PostgreSQL (5)](./postgresql#5-example-selection))
+1. Run the required setup commands
+1. [Success screens](./success-screens) (_screens_: SQLite (5), MySQL (6), PostgreSQL (6))
+
+## Implementation
+
+The Prisma examples API should provide an endpoint for the CLI. The CLI can use this endpoint to download the example project as well as related information in a structured way (e.g. what files were downloaded or what the next steps are).
+
+### Implementation approaches
+
+#### Naive (good enough)
+
+The examples API can be implemented via a simple JSON file that contains all the infos for all examples. The CLI fetches this file and can therefore print all dynamic elements required in a success message. Here is the JSON schema for the JSON file (see the full file [below](#example-data-json)):
+
+```jsonc
+// tbd
+```
+
+#### GraphQL
+
+Alternatively, it could be implemented via a GraphQL API that's based on a similar JSON file. However, as long as the size of the JSON file is manageable, this is probably overkill.
+
+## Example data (JSON)
+
+The example data can be found [here](https://github.com/prisma/prisma-examples/blob/prisma2/api.json).
