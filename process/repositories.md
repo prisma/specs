@@ -14,6 +14,7 @@ Repositories used for Prisma 2:
 - https://github.com/prisma/photonjs
 - https://github.com/prisma/lift
 - https://github.com/prisma/studio
+- https://github.com/prisma/prisma-engine
 - https://github.com/prisma/specs
 - https://github.com/prisma/vscode-prisma
 - https://github.com/prisma/prisma-sdk-js
@@ -22,7 +23,7 @@ Repositories used for Prisma 2:
 
 - https://github.com/prisma/prisma-query
 - https://github.com/prisma/studio-code (private)
-- https://github.com/prisma/build-cli
+- https://github.com/prisma/engine-build-cli
 
 ### Additional
 
