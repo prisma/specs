@@ -23,18 +23,18 @@ Here is a list of tasks that need to be performed:
 
 1. Download the selected example project from GitHub
 1. Replace the `datasource` configuration in `schema.prisma` with the database credentials provided by the user
-1. Generate Photon, i.e. run: `prisma2 generate`
 1. Install npm dependencies, i.e. run: `npm install`
+1. Migrate DB with: `prisma2 dev --non-interactive`
 1. Seed the database, i.e. run: `npm run seed`
 1. Print success message based on [spec](./success-screens)
 
-> **Note**: We previously also wanted to run an initial migration using `prisma lift save` and `prisma lift up` but decided against it so that users get their example in a "blank" state. The initial migration is also not needed because the ouput includes the instruction to immediately run `prisma dev` which auto-migrates the DB.
+> **Note**: We previously also wanted to run an initial migration using `prisma lift save` and `prisma lift up` but decided against it so that users get their example in a "blank" state. Instead, we're using `prisma2 dev --non-interactive` which currently is unofficial/undocumented to prepare the project for seeding.
 
-Steps 1-3 are hardcoded in the CLI based on the following assumptions that all example projects (no matter what kind of examples are being added in the future) always:
+Steps 1-2 are hardcoded in the CLI based on the following assumptions that all example projects (no matter what kind of examples are being added in the future) always:
 
 - will have a `prisma.schema` with a `datasource` configuration
 
-Steps 4-6 are performed dynamically per example and are included in the Prisma example API. The setup commands are included in the JSON data returend by the examples API under the `setupCommands` key.
+Steps 3-6 are performed dynamically per example and are included in the Prisma example API. The setup commands are included in the JSON data returend by the examples API under the `setupCommands` key.
 
 ## When is it used during `prisma2 init`?
 
