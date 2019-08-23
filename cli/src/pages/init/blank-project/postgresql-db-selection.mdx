@@ -1,7 +1,7 @@
 ---
 navGroup: init
 navOrder: 5
-navLabel: pg-db-selection 
+navLabel: pg-db-selection
 ---
 
 import Terminal from '../../../components/Terminal/Terminal'
@@ -24,159 +24,53 @@ import BorderBox from '../../../components/Terminal/BorderBox'
 
 ---
 
-![](https://figma-image-proxy.prisma.now.sh/?id=1050:471&file=cRvu7bwRRC0zleOvtlTgmkOu)
+![](https://figma-image-proxy.prisma.now.sh/?id=1066:657&file=cRvu7bwRRC0zleOvtlTgmkOu)
 
-> **Note**: `rcts` means "Rights to create schema"
+> **Note**: `rctdb` means "Rights to create database"
 
 ---
 
-# PostgreSQL
+# PostgreSQL - DB selection
 
-### (1) Enter database credentials
+### (2) Select existing database or create a new one
 
-<details><summary>Previous selections</summary>
-
-1. Blank project
-1. PostgreSQL
-
-</details>
-<br />
-
-<Terminal>
-  <Box flexDirection="column" marginLeft={2} marginBottom={1}>
-    <Text bold>Connect to your PostgreSQL database server</Text>
-    <Color dim>https://pris.ly/docs/core/connectors/mysql.md</Color>
-  </Box>
-  <BorderBox
-    flexDirection="column"
-    title={chalk.bold('PostgreSQL schema credentials')}
-  > 
-    <Box width={100}>
-      <Color gray>  </Color>
-      <Text>Host: </Text>
-      <TextInput value="" placeholder="127.0.0.1" showCursor={false} />
-      <Box flexGrow={1}></Box>
-    </Box>
-    <Box width={100}>
-      <Color gray>  </Color>
-      <Text>Port: </Text>
-      <TextInput value="" placeholder="3306" showCursor={false} />
-      <Box flexGrow={1}></Box>
-    </Box>
-    <Box width={100}>
-      <Color gray>  </Color>
-      <Text>User: </Text>
-      <TextInput value="admin" showCursor={false} />
-      <Box flexGrow={1}></Box>
-    </Box>
-    <Box width={100}>
-      <Color cyan>{figures.pointer} </Color>
-      <Color cyan>
-        <Text bold>Password: </Text>
-        <TextInput value="********" showCursor={false} />
-      </Color>
-      <Box flexGrow={1}></Box>
-    </Box>
-    <Box width={100}>
-      <Color gray>  </Color>
-      <Text>Database: </Text>
-      <TextInput value="" showCursor={false} />
-      <Box flexGrow={1}></Box>
-    </Box>
-      <Box width={100}>
-      <Color gray>  </Color>
-      <Text>Schema (optional): </Text>
-      <TextInput value="" showCursor={false} />
-      <Box flexGrow={1}></Box>
-    </Box>
-    <Box width={100}>
-      <Box flexGrow={1}></Box>
-    </Box>
-    <Box width={100}>
-      <Color gray>  </Color>
-      <Text>{figures.squareSmall} Use SSL </Text>
-    </Box>
-  </BorderBox>
-  <BorderBox
-    flexDirection="column"
-    marginBottom={1}
-    title={`${chalk.bold('Or')}`}
-    extension
-  >
-     <Box width={100}>
-      <Color gray>  </Color>
-      <Text>URL: </Text>
-      <TextInput value="" placeholder="mysql://localhost:3306/admin" showCursor={false} />
-      <Box flexGrow={1}></Box>
-    </Box>
-  </BorderBox>
-  <Box>
-    <Color gray>❮ </Color> 
-    <Text bold>Back</Text>
-    <Color dim> (Database selection)</Color>
-  </Box>
-</Terminal>
-
-- Optional schema provided
-  - Exists
-    - [Schema provided (empty)](#6-language-selection)
-    - [Schema provided (non-empty)](#41-introspection)
-  - **Doesn't** exist
-    - [Rights to create new schema](21-select-existing-schema-or-create-a-new-one-with-provided-name)
-    - [**No** rights to create new schema](#31-select-a-schema)
-- Optional schema **not** provided
-  - [Rights to create new schema](#2-select-existing-schema-or-create-a-new-one)
-  - [**No** rights to create new schema](#32-select-a-schema)
-
-### (2) Select existing schema or create a new one
-
-<details><summary>Previous selections</summary>
-
-1. Blank project
-1. PostgreSQL
-1. _entered DB credentials_ (optional schema not provided)
-1. _connection succesful_
-1. _rights to create new schema_
-
-</details>
-<br />
+- Optional DB **not** provided
+- Rights to create new DB
 
 <Terminal>
   <Color green>
-    <Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Connected to PostgreSQL database server as <Text bold>admin</Text>
+    <Color bgKeyword="green" white>
+      <Text bold> SUCCESS </Text>
+    </Color>{' '}
+    Connected to PostgreSQL database server as <Text bold>admin</Text>
   </Color>
-  <Box 
-    flexDirection="column" 
-    marginLeft={2} 
-    marginTop={1}
-    marginBottom={1}
-  >
-    <Text bold>Create a new PostgreSQL schema or use an existing one</Text>
-    <Color dim>A PostgreSQL database server can host multiple schemas</Color>
+  <Box flexDirection="column" marginLeft={2} marginTop={1} marginBottom={1}>
+    <Text bold>Create a new PostgreSQL database or use an existing one</Text>
+    <Color dim>A PostgreSQL database server can host multiple databases</Color>
   </Box>
   <BorderBox
     flexDirection="column"
-    title={`${chalk.bold('Schema options')}`}
+    title={`${chalk.bold('Database options')}`}
     marginBottom={1}
   >
-     <Box width={100}>
+    <Box width={100}>
       <Color cyan>
-        <Box width={30}>
-          <Text bold>{figures.pointer} Create new PostgreSQL schema</Text>
+        <Box width={35}>
+          <Text bold>{figures.pointer} Create new PostgreSQL database</Text>
         </Box>
         <Color dim>Start from scratch</Color>
       </Color>
-      <Box flexGrow={1}></Box>
+      <Box flexGrow={1} />
     </Box>
     <Box width={100}>
-      <Color >
-        <Box width={30}>
-          <Color gray>  </Color>
-          <Text>Use existing PostgreSQL schema</Text>
+      <Color>
+        <Box width={35}>
+          <Color gray> </Color>
+          <Text>Use existing PostgreSQL database</Text>
         </Box>
         <Color dim>Found 5 databases</Color>
       </Color>
-      <Box flexGrow={1}></Box>
+      <Box flexGrow={1} />
     </Box>
   </BorderBox>
   <Box>
@@ -186,38 +80,239 @@ import BorderBox from '../../../components/Terminal/BorderBox'
   </Box>
 </Terminal>
 
-- [Create new PostgreSQL schema](#4-set-schema-name)
-- [Use existing PostgreSQL schema](#3-select-a-schema)
+- [Create new PostgreSQL database](#4-set-database-name)
+- [Use existing PostgreSQL database](#3-select-a-database)
 
-### (4) Set schema name
+### (2.1) Select existing database or create a new one with provided name
 
-<details><summary>Previous selections</summary>
+- Optional DB provided: `hello-world`
+- Database `hello-world` doesn't exist
+- Rights to create new DB
 
-1. Blank project
-1. PostgreSQL
-1. _entered DB credentials_ (optional schema not provided)
-1. _connection succesful_
-1. Create new schema
+<Terminal>
+  <Color green>
+    <Color bgKeyword="green" white>
+      <Text bold> SUCCESS </Text>
+    </Color>{' '}
+    Connected to PostgreSQL database server as <Text bold>admin</Text>
+  </Color>
+  <Box flexDirection="column" marginLeft={2} marginTop={1} marginBottom={1}>
+    <Text bold>
+      A database named <Text bold>`hello-world`</Text> doesn't exist on this
+      PostgreSQL server.
+    </Text>
+    <Text bold>
+      Create PostgreSQL database `hello-world` or select an existing one.
+    </Text>
+    <Color dim>
+      The PostgreSQL database will be created by user: <Text bold>admin</Text>
+    </Color>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={`${chalk.bold('Database options')}`}
+    marginBottom={1}
+  >
+    <Box width={100}>
+      <Color cyan>
+        <Box width={35}>
+          <Text bold>
+            {figures.pointer} Create PostgreSQL database `hello-world`
+          </Text>
+        </Box>
+      </Color>
+      <Box flexGrow={1} />
+    </Box>
+    <Box width={100}>
+      <Color>
+        <Box width={35}>
+          <Color gray> </Color>
+          <Text>Select an existing PostgreSQL database</Text>
+        </Box>
+      </Color>
+      <Box flexGrow={1} />
+    </Box>
+  </BorderBox>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Database credentials)</Color>
+  </Box>
+</Terminal>
 
-</details>
-<br />
+- [Create schema `hello-world`](../mysql#6-language-selection)
+- [Select an existing database](#3-select-a-database)
+
+### (3) Select a database
+
+- Got here from 2.X
+
+<Terminal>
+  <Box flexDirection="column" marginLeft={2} marginBottom={1}>
+    <Text bold>Select a PostgreSQL database</Text>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={`${chalk.bold('PostgreSQL databases')}`}
+    marginBottom={1}
+  >
+    <Box width={100}>
+      <Color cyan>
+        {figures.pointer} <Text bold>somedb</Text>
+      </Color>
+      <Box flexGrow={1} />
+    </Box>
+    <Box width={100}>
+      <Box width={20} marginLeft={2}>
+        <Text>default$default</Text>
+      </Box>
+      <Color dim>Contains 4 schemas</Color>
+      <Box flexGrow={1} />
+    </Box>
+    <Box width={100}>
+      <Box width={20} marginLeft={2}>
+        <Text>staging</Text>
+      </Box>
+      <Color dim>Contains 7 schemas</Color>
+      <Box flexGrow={1} />
+    </Box>
+  </BorderBox>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Database options)</Color>
+  </Box>
+</Terminal>
+
+- [Empty DB](../mysql#6-language-selection)
+- [Non-empty DB](../mysql#5-introspection)
+
+### (3.1) Select a database
+
+- Optional DB provided: `hello-world`
+- Database `hello-world` doesn't exist
+- **No** rights to create new DB
+
+<Terminal>
+  <Color green>
+    <Color bgKeyword="green" white>
+      <Text bold> SUCCESS </Text>
+    </Color>{' '}
+    Connected to PostgreSQL database server as <Text bold>admin</Text>
+  </Color>
+  <Box flexDirection="column" marginLeft={2} marginBottom={1} marginTop={1}>
+    <Text bold>
+      The database `hello-world` doesn't exist on this PostgreSQL server.
+    </Text>
+    <Text bold>You can select an existing PostgreSQL database instead.</Text>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={`${chalk.bold('PostgreSQL databases')}`}
+    marginBottom={1}
+  >
+    <Box width={100}>
+      <Color cyan>
+        {figures.pointer} <Text bold>somedb</Text>
+      </Color>
+      <Box flexGrow={1} />
+    </Box>
+    <Box width={100}>
+      <Box width={20} marginLeft={2}>
+        <Text>default$default</Text>
+      </Box>
+      <Color dim>Contains 4 schemas</Color>
+      <Box flexGrow={1} />
+    </Box>
+    <Box width={100}>
+      <Box width={20} marginLeft={2}>
+        <Text>staging</Text>
+      </Box>
+      <Color dim>Contains 7 schemas</Color>
+      <Box flexGrow={1} />
+    </Box>
+  </BorderBox>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Database credentials)</Color>
+  </Box>
+</Terminal>
+
+- [Empty DB](../mysql#6-language-selection)
+- [Non-empty DB](../mysql#5-introspection)
+
+### (3.2) Select a database
+
+- Optional DB **not** provided
+- **No** rights to create new DB
+
+<Terminal>
+  <Color green>
+    <Color bgKeyword="green" white>
+      <Text bold> SUCCESS </Text>
+    </Color>{' '}
+    Connected to PostgreSQL database server as <Text bold>admin</Text>
+  </Color>
+  <Box flexDirection="column" marginLeft={2} marginBottom={1} marginTop={1}>
+    <Text bold>Select an existing PostgreSQL database.</Text>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={`${chalk.bold('PostgreSQL databases')}`}
+    marginBottom={1}
+  >
+    <Box width={100}>
+      <Color cyan>
+        {figures.pointer} <Text bold>somedb</Text>
+      </Color>
+      <Box flexGrow={1} />
+    </Box>
+    <Box width={100}>
+      <Box width={20} marginLeft={2}>
+        <Text>default$default</Text>
+      </Box>
+      <Color dim>Contains 4 schemas</Color>
+      <Box flexGrow={1} />
+    </Box>
+    <Box width={100}>
+      <Box width={20} marginLeft={2}>
+        <Text>staging</Text>
+      </Box>
+      <Color dim>Contains 7 schemas</Color>
+      <Box flexGrow={1} />
+    </Box>
+  </BorderBox>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Database credentials)</Color>
+  </Box>
+</Terminal>
+
+- [Empty DB](../mysql#6-language-selection)
+- [Non-empty DB](../mysql#5-introspection)
+
+### (4) Set database name
 
 <Terminal>
   <Box marginLeft={2} flexDirection="column" marginBottom={1}>
     <Text bold>Enter name for the new database</Text>
-    <Color dim>The database will be created by user: <Text bold>admin</Text></Color>
+    <Color dim>
+      The database will be created by user: <Text bold>admin</Text>
+    </Color>
   </Box>
   <BorderBox
     flexDirection="column"
-    title={`${chalk.bold('PostgreSQL schema name')}`}
+    title={`${chalk.bold('PostgreSQL database name')}`}
     marginBottom={1}
   >
-   <Box width={100}>
+    <Box width={100}>
       <Color cyan>
         <Text bold>{figures.pointer} Name:</Text>
         <Color dim> my_db</Color>
       </Color>
-      <Box flexGrow={1}></Box>
+      <Box flexGrow={1} />
     </Box>
   </BorderBox>
   <Box>
@@ -227,1000 +322,8 @@ import BorderBox from '../../../components/Terminal/BorderBox'
   <Box>
     <Color gray>❮ </Color>
     <Text bold>Back</Text>
-    <Color dim> (Schema options)</Color>
+    <Color dim> (Database options)</Color>
   </Box>
 </Terminal>
 
-- [Create](#6-language-selection)
-
-### (2.1) Select existing schema or create a new one with provided name
-
-<details><summary>Previous selections</summary>
-
-1. PostgreSQL
-1. _entered DB credentials_ (optional schema provided)
-1. _connection succesful_
-1. _schema doesn't exist_ & _rights to create new schema_
-
-</details>
-<br />
-
-<Terminal>
-  <Color green>
-    <Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Connected to PostgreSQL database server as <Text bold>admin</Text>
-  </Color>
-  <Box 
-    flexDirection="column" 
-    marginLeft={2} 
-    marginTop={1}
-    marginBottom={1}
-  >
-    <Text bold>A schema named <Text bold>`hello-world`</Text> doesn't exist on this PostgreSQL server.</Text>
-    <Text bold>Create PostgreSQL schema `hello-world` or select an existing one.</Text>
-    <Color dim>The PostgreSQL schema will be created by user: <Text bold>admin</Text></Color>
-  </Box>
-  <BorderBox
-    flexDirection="column"
-    title={`${chalk.bold('Schema options')}`}
-    marginBottom={1}
-  >
-     <Box width={100}>
-      <Color cyan>
-        <Box width={30}>
-          <Text bold>{figures.pointer} Create PostgreSQL schema `hello-world`</Text>
-        </Box>
-      </Color>
-      <Box flexGrow={1}></Box>
-    </Box>
-    <Box width={100}>
-      <Color >
-        <Box width={30}>
-          <Color gray>  </Color>
-          <Text>Select an existing PostgreSQL schema</Text>
-        </Box>
-      </Color>
-      <Box flexGrow={1}></Box>
-    </Box>
-  </BorderBox>
-  <Box>
-    <Color gray>❮ </Color>
-    <Text bold>Back</Text>
-    <Color dim> (Database credentials)</Color>
-  </Box>
-</Terminal>
-
-- [Create schema `hello-world`](#6-language-selection)
-- [Select an existing schema](#3-select-a-schema)
-
-### (3) Select a schema
-
-<details><summary>Previous selections</summary>
-
-1. Blank project
-1. PostgreSQL
-1. _entered DB credentials_
-1. _connection succesful_
-1. Use existing schema
-
-</details>
-<br />
-
-<Terminal>
-  <Box flexDirection="column" marginLeft={2} marginBottom={1}>
-    <Text bold>Select an existing PostgreSQL schema</Text>
-    <Color dim>Found 1 empty and 3 non-empty PostgreSQL schemas</Color>
-  </Box>
-  <BorderBox
-    flexDirection="column"
-    title={`${chalk.bold('Empty schemas')} ${chalk.gray('(Start new project)')}`}
-    marginBottom={1}
-  >
-    <Box width={100}>
-      <Color cyan>
-        {figures.pointer} <Text bold>public</Text>
-      </Color>
-      <Box flexGrow={1} />
-    </Box>
-  </BorderBox>
-  <BorderBox
-    flexDirection="column"
-    title={`${chalk.bold('Non-empty schemas')} ${chalk.gray('(Introspect existing schema)')}`}
-    marginBottom={1}
-  >
-    <Box width={100}>
-      <Box width={20} marginLeft={2}>
-        <Text>management</Text>
-      </Box>
-      <Color dim>2 tables, 1,341KB</Color>
-      <Box flexGrow={1}></Box>
-    </Box>
-    <Box width={100}>
-      <Box width={20} marginLeft={2}>
-        <Text>default$default</Text>
-      </Box>
-      <Color dim>5 tables, 1,341KB</Color>
-      <Box flexGrow={1}></Box>
-    </Box>
-    <Box width={100}>
-      <Box width={20} marginLeft={2}>
-        <Text>staging</Text>
-      </Box>
-      <Color dim>1 tables, 2,341KB</Color>
-      <Box flexGrow={1}></Box>
-    </Box>
-  </BorderBox>
-  <Box>
-    <Color gray>❮ </Color>
-    <Text bold>Back</Text>
-    <Color dim> (Schema options)</Color>
-  </Box>
-</Terminal>
-
-- [Empty schema](#6-language-selection)
-- [Non-empty schema](#41-introspection)
-
-### (3.2) Select a schema
-
-<details><summary>Previous selections</summary>
-
-1. Blank project
-1. PostgreSQL
-1. _entered DB credentials_ (optional schema not provided)
-1. _connection succesful_ 
-1. _no rights to create new schema_
-
-</details>
-<br />
-
-<Terminal>
-  <Color green>
-    <Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Connected to PostgreSQL database server as <Text bold>admin</Text>
-  </Color>
-  <Box flexDirection="column" marginLeft={2} marginBottom={1} marginTop={1}>
-    <Text bold>Select an existing PostgreSQL schema.</Text>
-    <Color dim>Found 1 empty and 3 non-empty PostgreSQL schemas</Color>
-  </Box>
-  <BorderBox
-    flexDirection="column"
-    title={`${chalk.bold('Empty schemas')} ${chalk.gray('(Start new project)')}`}
-    marginBottom={1}
-  >
-    <Box width={100}>
-      <Color cyan>
-        {figures.pointer} <Text bold>public</Text>
-      </Color>
-      <Box flexGrow={1} />
-    </Box>
-  </BorderBox>
-  <BorderBox
-    flexDirection="column"
-    title={`${chalk.bold('Non-empty schemas')} ${chalk.gray('(Introspect existing schema)')}`}
-    marginBottom={1}
-  >
-    <Box width={100}>
-      <Box width={20} marginLeft={2}>
-        <Text>management</Text>
-      </Box>
-      <Color dim>2 tables, 1,341KB</Color>
-      <Box flexGrow={1}></Box>
-    </Box>
-    <Box width={100}>
-      <Box width={20} marginLeft={2}>
-        <Text>default$default</Text>
-      </Box>
-      <Color dim>5 tables, 1,341KB</Color>
-      <Box flexGrow={1}></Box>
-    </Box>
-    <Box width={100}>
-      <Box width={20} marginLeft={2}>
-        <Text>staging</Text>
-      </Box>
-      <Color dim>1 tables, 2,341KB</Color>
-      <Box flexGrow={1}></Box>
-    </Box>
-  </BorderBox>
-  <Box>
-    <Color gray>❮ </Color>
-    <Text bold>Back</Text>
-    <Color dim> (Database credentials)</Color>
-  </Box>
-</Terminal>
-
-- [Empty schema](#6-language-selection)
-- [Non-empty schema](#41-introspection)
-
-### (3.1) Select a schema
-
-<details><summary>Previous selections</summary>
-
-1. Blank project
-1. PostgreSQL
-1. _entered DB credentials_ (optional schema provided)
-1. _connection succesful_ 
-1. _schema doesn't exist_ & _no rights to create new schema_
-
-</details>
-<br />
-
-<Terminal>
-  <Color green>
-    <Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Connected to PostgreSQL database server as <Text bold>admin</Text>
-  </Color>
-  <Box flexDirection="column" marginLeft={2} marginBottom={1} marginTop={1}>
-    <Text bold>The schema `hello-world` doesn't exist on this PostgreSQL server.</Text>
-    <Text bold>You can select an existing PostgreSQL schema instead.</Text>
-    <Color dim>Found 1 empty and 3 non-empty PostgreSQL schemas</Color>
-  </Box>
-  <BorderBox
-    flexDirection="column"
-    title={`${chalk.bold('Empty schemas')} ${chalk.gray('(Start new project)')}`}
-    marginBottom={1}
-  >
-    <Box width={100}>
-      <Color cyan>
-        {figures.pointer} <Text bold>public</Text>
-      </Color>
-      <Box flexGrow={1} />
-    </Box>
-  </BorderBox>
-  <BorderBox
-    flexDirection="column"
-    title={`${chalk.bold('Non-empty schemas')} ${chalk.gray('(Introspect existing schema)')}`}
-    marginBottom={1}
-  >
-    <Box width={100}>
-      <Box width={20} marginLeft={2}>
-        <Text>management</Text>
-      </Box>
-      <Color dim>2 tables, 1,341KB</Color>
-      <Box flexGrow={1}></Box>
-    </Box>
-    <Box width={100}>
-      <Box width={20} marginLeft={2}>
-        <Text>default$default</Text>
-      </Box>
-      <Color dim>5 tables, 1,341KB</Color>
-      <Box flexGrow={1}></Box>
-    </Box>
-    <Box width={100}>
-      <Box width={20} marginLeft={2}>
-        <Text>staging</Text>
-      </Box>
-      <Color dim>1 tables, 2,341KB</Color>
-      <Box flexGrow={1}></Box>
-    </Box>
-  </BorderBox>
-  <Box>
-    <Color gray>❮ </Color>
-    <Text bold>Back</Text>
-    <Color dim> (Database credentials)</Color>
-  </Box>
-</Terminal>
-
-- [Empty schema](#6-language-selection)
-- [Non-empty schema](#41-introspection)
-
-### (4.1) Introspection
-
-<details><summary>Previous selections</summary>
-
-1. Blank project
-1. PostgreSQL
-1. _entered DB credentials_ (optional schema not provided)
-1. _connection succesful_
-1. Use existing schema (or _selected existing non-empty schema_)
-
-</details>
-<br />
-
-<Terminal>
-<BorderBox title={chalk.bold('Introspection in progress')} flexDirection="column">
-  <Box marginLeft={1} marginBottom={1}>Introspecting PostgreSQL schema <Text bold>my_schema</Text> as <Text bold>admin</Text> ...</Box>
-  <Color green>
-    <Box marginLeft={1} marginRight={1}><Text bold>42%</Text></Box>
-    <ProgressBar percent={0.42} columns={50} />
-    <Color dim><ProgressBar percent={0.35} columns={50} character="░" /></Color>
-  </Color>
-</BorderBox>
-</Terminal>
-
-- [Introspection terminated](#5-tool-selection)
-
-### (5) Tool selection
-
-<details><summary>Previous selections</summary>
-
-1. Blank project
-1. PostgreSQL
-1. _entered DB credentials_ (optional schema not provided)
-1. _connection succesful_
-1. Use existing schema (or _selected existing non-empty schema_)
-1. _introspected schema_ & _schema not empty_
-
-</details>
-<br />
-
-<Terminal>
-  <Color green><Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Introspection was successful.</Color>
-  <Box marginLeft={2} flexDirection="column" marginBottom={1} marginTop={1}>
-    <Text bold>Select the Prisma 2 tools you want to use</Text>
-    <Color  dim>Learn more: https://github.com/prisma/prisma2</Color>
-  </Box>
-  <BorderBox
-    flexDirection="column"
-    title={chalk.bold('Prisma 2 tools')}
-    marginBottom={1}
-  >
-    <Box>
-      <Color cyan>
-        <Box width={10}>{figures.pointer} {figures.squareSmallFilled} Photon</Box>
-        <Color dim>  Type-safe database client</Color>
-      </Color>
-    </Box>
-    <Box>
-      <Box width={10} marginLeft={2}>{figures.squareSmallFilled} Lift</Box>
-      <Color dim>Declarative data modeling & migrations</Color>
-    </Box>
-    <Box marginLeft={2} marginTop={1}>
-      <Color dim>Note: You can still add a tool to your project later</Color>
-    </Box>
-  </BorderBox>
-  <Box>
-    <Color gray>{figures.pointer} </Color>
-    <Text bold>Confirm</Text>
-  </Box>
-  <Box>
-    <Color gray>❮ </Color>
-    <Text bold>Back</Text>
-    <Color  dim> (Database credentials)</Color>
-  </Box>
-</Terminal>
-
-**Note**: In this view, Photon and Lift should be checked by default.
-
-**Note**: The text from the back button might also be "Schema selection" depending on how we got to the tool selection.
-
-- [Photon](#61--62-language-selection)
-- [Photon & Lift](#61--62-language-selection)
-- [Lift](#86-success)
-
-### (6) Language selection
-
-<details><summary>Previous selections</summary>
-
-1. Blank project
-1. PostgreSQL
-1. Create new PostgreSQL schema (or _existing schema is empty_ or _selected empty schema_)
-
-</details>
-<br />
-
-<Terminal>
-  <Box flexDirection="column" marginLeft={2} marginBottom={1}>
-    <Text bold>Select the programming language you want to use</Text>
-    <Color dim>Specifies the language for Photon (database client)</Color>
-  </Box>
-  <BorderBox
-    flexDirection="column"
-    title={chalk.bold('Photon is available in these languages')}
-    marginBottom={1}
-  >
-    <Box>
-      <Color cyan>{figures.pointer} <Text bold>JavaScript</Text></Color>
-    </Box>
-    <Box>
-      <Box marginLeft={2}>TypeScript</Box>
-    </Box>
-    <Box>
-      <Box marginLeft={2}>
-        <Color dim>Go (Coming soon)</Color>
-      </Box>
-    </Box>
-  </BorderBox>
-  <Box>
-    <Color gray>❮ </Color>
-    <Text bold>Back</Text>
-    <Color dim> (Database credentials)</Color>
-  </Box>
-</Terminal>
-
-**Note**: The text from the back button might also be "Schema selection" depending on how we got to the language selection.
-
-- [JavaScript](#7-demo-script-selection)
-- [TypeScript](#7-demo-script-selection)
-
-### (6.1) & (6.2) Language selection
-
-<details><summary>Previous selections</summary>
-
-1. Blank project
-1. PostgreSQL
-1. _entered DB credentials_ (optional schema not provided)
-1. _connection succesful_
-1. Use existing schema (or _selected existing non-empty schema_)
-1. _introspected schema_ + _schema not empty_
-1. Photon or Photon + Lift
-
-</details>
-<br />
-
-<Terminal>
-  <Box flexDirection="column" marginLeft={2} marginBottom={1}>
-    <Text bold>Select the programming language you want to use</Text>
-    <Color dim>Specifies the language for Photon (database client)</Color>
-  </Box>
-  <BorderBox
-    flexDirection="column"
-    title={chalk.bold('Photon is available in these languages')}
-    marginBottom={1}
-  >
-    <Box>
-      <Color cyan>{figures.pointer} <Text bold>JavaScript</Text></Color>
-    </Box>
-    <Box marginLeft={2}>TypeScript</Box>
-    <Box marginLeft={2}><Color dim>Go (Coming soon)</Color></Box>
-  </BorderBox>
-  <Box>
-    <Color gray>❮ </Color>
-    <Text bold>Back</Text>
-    <Color dim> (Tool selection)</Color>
-  </Box>
-</Terminal>
-
-- [JavaScript](#71--72-demo-script-selection)
-- [TypeScript](#71--72-demo-script-selection)
-
-### (7) Demo script selection
-
-<details><summary>Previous selections</summary>
-
-1. Blank project
-1. PostgreSQL
-1. Create new PostgreSQL schema (or _existing schema is empty_ or _selected empty schema_)
-1. JavaScript/TypeScript
-
-</details>
-<br />
-
-<Terminal>
-  <Box flexDirection="column" marginLeft={2} marginBottom={1}>
-    <Text bold>Start with a runnable demo script or just the Prisma schema</Text>
-    <Color dim>Demo scripts showcase usage of the Photon API</Color>
-  </Box>
-  <BorderBox
-    flexDirection="column"
-    title={chalk.bold('')}
-  >
-    <Box>
-      <Color cyan>
-        <Box width={24} marginRight={2}>{figures.pointer} <Text bold>Demo script</Text></Box>
-        <Color dim>Simple script with API examples</Color>
-      </Color>
-    </Box>
-    <Box>
-      <Box width={24} marginLeft={2}>Just the Prisma schema</Box>
-      <Color dim>Most minimal setup</Color>
-    </Box>
-  </BorderBox>
-  <Box>
-    <Color gray>❮ </Color>
-    <Text bold>Back</Text>
-    <Color dim> (Language selection)</Color>
-  </Box>
-</Terminal>
-
-- [Demo script](#8-success)
-- [Just the Prisma schema](#81-success)
-
-### (7.1) & (7.2) Demo script selection
-
-<details><summary>Previous selections</summary>
-
-1. Blank project
-1. PostgreSQL
-1. Use existing PostgreSQL schema
-1. _connection succesful_
-1. _introspected schema_
-1. Photon
-1. JavaScript/TypeScript
-
-</details>
-<br />
-
-<Terminal>
-  <Box flexDirection="column" marginLeft={2} marginBottom={1}>
-    <Text bold>Start with a runnable demo script or just the Prisma schema</Text>
-    <Color dim>Demo scripts showcase usage of the Photon API</Color>
-  </Box>
-  <BorderBox
-    flexDirection="column"
-    title={chalk.bold('')}
-  >
-    <Box>
-      <Color cyan>
-        <Box width={24} marginRight={2}>{figures.pointer} <Text bold>Demo script</Text></Box>
-        <Color dim>Simple script with API examples</Color>
-      </Color>
-    </Box>
-    <Box>
-      <Box width={24} marginLeft={2}>Just the Prisma schema</Box>
-      <Color dim>Most minimal setup</Color>
-    </Box>
-  </BorderBox>
-  <Box>
-    <Color gray>❮ </Color>
-    <Text bold>Back</Text>
-    <Color dim> (Language selection)</Color>
-  </Box>
-</Terminal>
-
-- [Demo script](#82--84-success)
-- [Just the Prisma schema](#83--85-success)
-
-### (8) Success
-
-<details><summary>Previous selections</summary>
-
-1. Blank project
-1. PostgreSQL
-1. Create new PostgreSQL schema (or _existing schema is empty_ or _selected empty schema_)
-1. JavaScript/TypeScript
-1. Demo script
-
-</details>
-<br />
-
-<Terminal>
-  <Box marginLeft={2} marginBottom={1}>
-    <Color green><Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Congratulations, you're all set!</Color>
-  </Box>
-  <BorderBox flexDirection="column" title={chalk.bold('Info')}>
-    <Box marginLeft={2} marginBottom={1} flexDirection="column">
-      <Text>
-        The <Text bold>hello-world</Text> directory was created. It contains
-        your{' '}
-      </Text>
-      <Text>Prisma schema: <Text bold>schema.prisma</Text>.</Text>
-    </Box>
-    <Box marginLeft={2} marginBottom={1} flexDirection="column">
-      <Text>Prisma is connected to your database at:</Text>
-      <Text>
-        <Text bold>./dev.db</Text>
-      </Text>
-    </Box>
-    <Box marginLeft={2} flexDirection="column">
-      <Text>If you encounter any issues, please report them here:</Text>
-      <Text bold>https://github.com/prisma/prisma2/issues</Text>
-    </Box>
-  </BorderBox>
-  <BorderBox
-    flexDirection="column"
-    marginTop={1}
-    marginBottom={1}
-    title={chalk.bold('Next steps')}
-  >
-    <Box marginLeft={2} width={100} flexDirection="column">
-      <Text>Navigate into the project directory:</Text>
-      <Box marginBottom={1} flexDirection="column">
-        <Text bold>$ cd hello-world</Text>
-      </Box>
-      <Text>Start Prisma's development mode to enable access to</Text>
-      <Text>Prisma Studio and watch <Text bold>schema.prisma</Text> for changes:</Text>
-      <Box marginBottom={1} flexDirection="column">
-        <Text bold>$ prisma dev</Text>
-      </Box>
-      <Text>Run the sample script (in a new terminal window/tab):</Text>
-      <Box marginBottom={1} flexDirection="column">
-        <Text bold>$ npm start</Text>
-      </Box>
-      <Text>Learn more about Prisma 2:</Text>
-      <Text bold>https://github.com/prisma/prisma2/</Text>
-    </Box>
-  </BorderBox>
-</Terminal>
-
-**Note**: If the command was invoked **without** a project name (e.g. `prisma2 init` or `prisma2 init .`), the first success message should be: _"Your project directory is ready. It contains your Prisma schema: **schema.prisma**."_
-
-### (8.1) Success
-
-<details><summary>Previous selections</summary>
-
-1. Blank project
-1. PostgreSQL
-1. Create new PostgreSQL schema (or _existing schema is empty_ or _selected empty schema_)
-1. JavaScript/TypeScript
-1. Just the Prisma schema
-
-</details>
-<br />
-
-<Terminal>
-  <Box marginLeft={2} marginBottom={1}>
-    <Color green><Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Congratulations, you're all set!</Color>
-  </Box>
-  <BorderBox flexDirection="column" title={chalk.bold('Info')}>
-    <Box marginLeft={2} marginBottom={1} flexDirection="column">
-      <Text>
-        The <Text bold>hello-world</Text> directory was created. It contains
-        your{' '}
-      </Text>
-      <Text>Prisma schema: <Text bold>schema.prisma</Text>.</Text>
-    </Box>
-    <Box marginLeft={2} marginBottom={1} flexDirection="column">
-      <Text>Prisma is connected to your database at:</Text>
-      <Text>
-        <Text bold>./dev.db</Text>
-      </Text>
-    </Box>
-    <Box marginLeft={2} flexDirection="column">
-      <Text>If you encounter any issues, please report them here:</Text>
-      <Text bold>https://github.com/prisma/prisma2/issues</Text>
-    </Box>
-  </BorderBox>
-  <BorderBox
-    flexDirection="column"
-    marginTop={1}
-    marginBottom={1}
-    title={chalk.bold('Next steps')}
-  >
-    <Box marginLeft={2} width={100} flexDirection="column">
-      <Text>Navigate into the project directory:</Text>
-      <Box marginBottom={1} flexDirection="column">
-        <Text bold>$ cd hello-world</Text>
-      </Box>
-      <Text>Start Prisma's development mode to enable access to</Text>
-      <Text>Prisma Studio and watch <Text bold>schema.prisma</Text> for changes:</Text>
-      <Box marginBottom={1} flexDirection="column">
-        <Text bold>$ prisma dev</Text>
-      </Box>
-      <Text>Your data model is empty. Learn about data modeling:</Text>
-      <Box marginBottom={1} flexDirection="column">
-        <Text bold>https://github.com/prisma/prisma2/blob/master/docs/data-modeling.md/</Text>
-      </Box>
-      <Text>Learn more about Prisma 2:</Text>
-      <Text bold>https://github.com/prisma/prisma2/</Text>
-    </Box>
-  </BorderBox>
-</Terminal>
-
-**Note**: If the command was invoked **without** a project name (e.g. `prisma2 init` or `prisma2 init .`), the first success message should be: _"Your project directory is ready. It contains your Prisma schema: **schema.prisma**."_
-
-### (8.2) & (8.4) Success
-
-<details><summary>Previous selections</summary>
-
-1. Blank project
-1. PostgreSQL
-1. Use existing PostgreSQL schema
-1. _connection succesful_
-1. _introspected schema_
-1. Photon
-1. JavaScript/TypeScript
-1. Demo script
-
-</details>
-<br />
-
-<Terminal>
-  <Box marginLeft={2} marginBottom={1}>
-    <Color green><Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Congratulations, you're all set!</Color>
-  </Box>
-  <BorderBox flexDirection="column" title={chalk.bold('Info')}>
-    <Box marginLeft={2} marginBottom={1} flexDirection="column">
-      <Text>The <Text bold>hello-world</Text> directory was created. It contains</Text>
-      <Text>your Prisma setup and a script to demonstrate API calls.</Text>
-    </Box>
-    <Box marginLeft={2} marginBottom={1} flexDirection="column">
-      <Text>Prisma is connected to your database at:</Text>
-      <Text>
-        <Text bold>./dev.db</Text>
-      </Text>
-    </Box>
-    <Box marginLeft={2} flexDirection="column">
-      <Text>If you encounter any issues, please report them here:</Text>
-      <Text bold>https://github.com/prisma/prisma2/issues</Text>
-    </Box>
-  </BorderBox>
-  <BorderBox
-    flexDirection="column"
-    marginTop={1}
-    marginBottom={1}
-    title={chalk.bold('Next steps')}
-  >
-    <Box marginLeft={2} width={100} flexDirection="column">
-      <Text>Navigate into the project directory:</Text>
-      <Box marginBottom={1} flexDirection="column">
-        <Text bold>$ cd hello-world</Text>
-      </Box>
-      <Text>Start Prisma's development mode to enable access to</Text>
-      <Text>Prisma Studio and watch <Text bold>schema.prisma</Text> for changes:</Text>
-      <Box marginBottom={1} flexDirection="column">
-        <Text bold>$ prisma dev</Text>
-      </Box>
-      <Text>Run the sample script (in a new terminal window/tab):</Text>
-      <Box marginBottom={1} flexDirection="column">
-        <Text bold>$ npm start</Text>
-      </Box>
-      <Text>Learn more about Prisma 2:</Text>
-      <Text bold>https://github.com/prisma/prisma2/</Text>
-    </Box>
-  </BorderBox>
-</Terminal>
-
-**Note**: If the command was invoked **without** a project name (e.g. `prisma2 init` or `prisma2 init .`), the first success message should be: _"Your project directory is ready. It contains your Prisma schema: **schema.prisma**."_
-
-### (8.3) & (8.5) Success
-
-<details><summary>Previous selections</summary>
-
-1. Blank project
-1. PostgreSQL
-1. Use existing PostgreSQL schema
-1. _connection succesful_
-1. _introspected schema_
-1. Photon
-1. JavaScript/TypeScript
-1. Just the Prisma schema
-
-</details>
-<br />
-
-<Terminal>
-  <Box marginLeft={2} marginBottom={1}>
-    <Color green><Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Congratulations, you're all set!</Color>
-  </Box>
-  <BorderBox flexDirection="column" title={chalk.bold('Info')}>
-    <Box marginLeft={2} marginBottom={1} flexDirection="column">
-      <Text>
-        The <Text bold>hello-world</Text> directory was created. It contains
-        your{' '}
-      </Text>
-      <Text>Prisma schema: <Text bold>schema.prisma</Text>.</Text>
-    </Box>
-    <Box marginLeft={2} marginBottom={1} flexDirection="column">
-      <Text>Prisma is connected to your database at:</Text>
-      <Text>
-        <Text bold>./dev.db</Text>
-      </Text>
-    </Box>
-    <Box marginLeft={2} flexDirection="column">
-      <Text>If you encounter any issues, please report them here:</Text>
-      <Text bold>https://github.com/prisma/prisma2/issues</Text>
-    </Box>
-  </BorderBox>
-  <BorderBox
-    flexDirection="column"
-    marginTop={1}
-    marginBottom={1}
-    title={chalk.bold('Next steps')}
-  >
-    <Box marginLeft={2} width={100} flexDirection="column">
-      <Text>Navigate into the project directory:</Text>
-      <Box marginBottom={1} flexDirection="column">
-        <Text bold>$ cd hello-world</Text>
-      </Box>
-      <Text>Start Prisma's development mode to enable access to</Text>
-      <Text>Prisma Studio and watch <Text bold>schema.prisma</Text> for changes:</Text>
-      <Box marginBottom={1} flexDirection="column">
-        <Text bold>$ prisma dev</Text>
-      </Box>
-      <Text>Learn more about Prisma 2:</Text>
-      <Text bold>https://github.com/prisma/prisma2/</Text>
-    </Box>
-  </BorderBox>
-</Terminal>
-
-**Note**: If the command was invoked **without** a project name (e.g. `prisma2 init` or `prisma2 init .`), the first success message should be: _"Your project directory is ready. It contains your Prisma schema: **schema.prisma**."_
-
-### (8.6) Success
-
-<details><summary>Previous selections</summary>
-
-1. Blank project
-1. PostgreSQL
-1. Use existing PostgreSQL DB
-1. _connection succesful_
-1. _introspected schema_
-1. Lift
-
-</details>
-<br />
-
-<Terminal>
-  <Box marginLeft={2} marginBottom={1}>
-    <Color green><Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> Congratulations, you're all set!</Color>
-  </Box>
-  <BorderBox flexDirection="column" title={chalk.bold('Info')}>
-    <Box marginLeft={2} marginBottom={1} flexDirection="column">
-      <Text>
-        The <Text bold>hello-world</Text> directory was created. It contains
-        your{' '}
-      </Text>
-      <Text>Prisma schema: <Text bold>schema.prisma</Text>.</Text>
-    </Box>
-    <Box marginLeft={2} marginBottom={1} flexDirection="column">
-      <Text>Prisma is connected to your database at:</Text>
-      <Text>
-        <Text bold>./dev.db</Text>
-      </Text>
-    </Box>
-    <Box marginLeft={2} flexDirection="column">
-      <Text>If you encounter any issues, please report them here:</Text>
-      <Text bold>https://github.com/prisma/prisma2/issues</Text>
-    </Box>
-  </BorderBox>
-  <BorderBox
-    flexDirection="column"
-    marginTop={1}
-    marginBottom={1}
-    title={chalk.bold('Next steps')}
-  >
-    <Box marginLeft={2} width={100} flexDirection="column">
-      <Text>Navigate into the project directory:</Text>
-      <Box marginBottom={1} flexDirection="column">
-        <Text bold>$ cd hello-world</Text>
-      </Box>
-      <Text>Start Prisma's development mode to enable access to</Text>
-      <Text>Prisma Studio and watch <Text bold>schema.prisma</Text> for changes:</Text>
-      <Box marginBottom={1} flexDirection="column">
-        <Text bold>$ prisma dev</Text>
-      </Box>
-      <Text>Explore the data model generated from introspection:</Text>
-      <Box marginBottom={1} flexDirection="column">
-        <Text bold>./prisma.schema</Text>
-      </Box>
-      <Text>Learn more about Prisma 2:</Text>
-      <Text bold>https://github.com/prisma/prisma2/</Text>
-    </Box>
-  </BorderBox>
-</Terminal>
-
-**Note**: If the command was invoked **without** a project name (e.g. `prisma2 init` or `prisma2 init .`), the first success message should be: _"Your project directory is ready. It contains your Prisma schema: **schema.prisma**."_
-
-<!-- 
-
-### (1) Enter database credentials (Found local database)
-
-**TODO**
-
-<Terminal>
-  <Box flexDirection="column" marginLeft={2}>
-    <Text bold>Log into your database</Text>
-    <Color  dim>Learn how to set up a PostgreSQL schema: https://www.prisma.io/docs</Color>
-  </Box>
-
-  <Box flexDirection="column" paddingTop={2}>
-    <Box>
-      <Color gray>┌──</Color>
-      <Text bold> Found a database on port 5432 </Text>
-      <Color gray>───────────────────────────┐</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Color cyan>{figures.pointer} </Color>
-      <Color cyan>
-        <Text bold>Autofill credentials</Text>
-      </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
-    </Box>
-  </Box>
-
-  <Box flexDirection="column" paddingTop={1} paddingBottom={1}>
-    <Box>
-      <Color gray>┌──</Color>
-      <Text bold> Enter PostgreSQL credentials </Text>
-      <Color gray>─────────────────────────────────┐</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Color gray>  </Color>
-      <Text>Host: </Text>
-      <TextInput value="" placeholder="127.0.0.1" showCursor={false} />
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Color gray>  </Color>
-      <Text>Port: </Text>
-      <TextInput value="" placeholder="5432" showCursor={false} />
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Color gray>  </Color>
-      <Text>User: </Text>
-      <TextInput value="" showCursor={false} />
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Color gray>  </Color>
-      <Text bold>Password: </Text>
-      <TextInput value="" showCursor={false} />
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Color gray>  </Color>
-      <Text>Database (optional): </Text>
-      <TextInput value="" showCursor={false} />
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Color gray>  </Color>
-      <Text>{figures.squareSmall} Use SSL </Text>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>├────────────────────────────────────────────────────────────┤</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Color gray>  </Color>
-      <Text>Or URL: </Text>
-      <TextInput value="" placeholder="postgresql://localhost:5432/admin" showCursor={false} />
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
-    </Box>
-  </Box>
-  <Box>
-    <Color gray>{figures.pointer} </Color>
-    <Text bold>Connect</Text>
-  </Box>
-  <Box>
-    <Color gray>❮ </Color>
-    <Text bold>Back</Text>
-    <Color  dim> (Database selection)</Color>
-  </Box>
-</Terminal>
-
--->
+- [Create](../mysql#6-language-selection)
