@@ -50,7 +50,7 @@ import BorderBox from '../../../components/Terminal/BorderBox'
     <Box width={100}>
       <Color gray> </Color>
       <Text>Port: </Text>
-      <TextInput value="" placeholder="3306" showCursor={false} />
+      <TextInput value="" placeholder="5432s" showCursor={false} />
       <Box flexGrow={1} />
     </Box>
     <Box width={100}>
@@ -114,24 +114,30 @@ import BorderBox from '../../../components/Terminal/BorderBox'
 - Optional database provided
   - Database exists
     - Optional schema provided
-      - [Schema empty](#6-success)
+      - [Schema empty](#8-success)
       - Schema non-empty
-        - [Rights to create new schema]()
-        - [**No** rights to create new schema]()
+        - Rights to create new schema (TBD)
+        - **No** rights to create new schema (TBD)
       - Schema doesn't exist
-        - [Rights to create new schema]()
-        - [**No** rights to create new schema]()
-    - Optional **not** schema provided
-      - [Rights to create new schema]()
-      - [**No** rights to create new schema]()
+        - Rights to create new schema (TBD)
+        - **No** rights to create new schema (TBD)
+    - Optional schema **not** provided
+      - Only `public` schema exists
+        - [Rights to create new schema](../postgresql-schema-selection#5-select-public-or-create-new-schema)
+        - [**No** rights to create new schema](#8-success)
+      - More than `public` schema exists
+        - [Rights to create new schema](../postgresql-schema-selection#51-select-existing-schema-or-create-new-one)
+        - [**No** rights to create new schema](../postgresql-schema-selection#6-select-a-schema)
   - Database doesn't exist
-    - [Rights to create new database]()
-    - [**No** rights to create new database]()
+    - [Rights to create new database](../postgresql-db-selection#21-select-existing-database-or-create-a-new-one-with-provided-name)
+    - [**No** rights to create new database](../postgresql-db-selection#31-select-a-database)
 - Optional database **not** provided
-  - [Rights to create new database]()
-  - [**No** rights to create new database]()
+  - [Rights to create new database](../postgresql-db-selection#2-select-existing-database-or-create-a-new-one)
+  - [**No** rights to create new database](../postgresql-db-selection#32-select-a-database)
+
+---
 
 
-### (5) Success
+### (8) Success
 
 This success screen is dynamic. Learn more [here](./success-screens).
