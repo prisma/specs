@@ -544,14 +544,14 @@ Models may have multiple references to the same model. To prevent ambiguities, w
 ```groovy
 model User {
   id        Int         @id
-  asked     Question[]  @relation("asker")
-  answered  Question[]  @relation("answerer")
+  asked     Question[]  @relation("Question_User_Asked")
+  answered  Question[]  @relation("Question_User_Answerered")
 }
 
 model Question {
   id        Int   @id
-  asker     User  @relation("asker")
-  answerer  User  @relation("answerer")
+  asker     User  @relation("Question_User_Asked")
+  answerer  User  @relation("Question_User_Answerered")
 }
 ```
 
