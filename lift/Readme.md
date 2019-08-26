@@ -1,3 +1,5 @@
+🚨 **NOTE: This spec is outdated**
+
 - Start Date: 2019-03-22
 - RFC PR: (leave this empty)
 - Prisma Issue: (leave this empty)

@@ -18,6 +18,39 @@ import chalk from 'chalk'
 
 # `prisma2 init`
 
+## Language selection
+
+<Terminal>
+  <Box flexDirection="column" marginLeft={2}>
+    <Text bold>Select the language for your starter kit.</Text>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    marginTop={1}
+    marginBottom={1}
+    title={chalk.bold('Starter kits are available in these languages')}
+  >
+    <Box>
+      <Color cyan>
+        {figures.pointer} <Text bold>JavaScript</Text>
+      </Color>
+    </Box>
+    <Box>
+      <Box marginLeft={2}>TypeScript</Box>
+    </Box>
+    <Box>
+      <Box marginLeft={2}>
+        <Color dim>Go (Coming soon)</Color>
+      </Box>
+    </Box>
+  </BorderBox>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Project options)</Color>
+  </Box>
+</Terminal>
+
 ## Starter kit selection
 
 <Terminal>
@@ -37,7 +70,7 @@ import chalk from 'chalk'
           <Box width={19}>
             {figures.pointer} <Text bold>GraphQL API</Text>
           </Box>
-          <Color dim>  GraphQL server (graphql-yoga)</Color>
+          <Color dim> GraphQL server (graphql-yoga)</Color>
         </Color>
       </Box>
     </Box>
@@ -77,7 +110,7 @@ import chalk from 'chalk'
   <Box>
     <Color gray>❮ </Color>
     <Text bold>Back</Text>
-    <Color dim> (Project options)</Color>
+    <Color dim> (Language selection)</Color>
   </Box>
 </Terminal>
 
