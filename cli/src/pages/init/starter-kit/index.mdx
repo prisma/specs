@@ -23,12 +23,13 @@ import chalk from 'chalk'
 <Terminal>
   <Box flexDirection="column" marginLeft={2}>
     <Text bold>Select the language for your starter kit.</Text>
+    <Color dim>Starter kits are available in several programming languages.</Color>
   </Box>
   <BorderBox
     flexDirection="column"
     marginTop={1}
     marginBottom={1}
-    title={chalk.bold('Starter kits are available in these languages')}
+    title={chalk.bold('Supported languages')}
   >
     <Box>
       <Color cyan>
@@ -51,6 +52,8 @@ import chalk from 'chalk'
   </Box>
 </Terminal>
 
+- [Language](#starter-kit-selection)
+
 ## Starter kit selection
 
 <Terminal>
@@ -62,7 +65,7 @@ import chalk from 'chalk'
     flexDirection="column"
     marginTop={1}
     marginBottom={1}
-    title={chalk.bold('Available starter kits')}
+    title={chalk.bold('Starter kits (JavaScript)')}
   >
     <Box width={100}>
       <Box>
@@ -117,6 +120,9 @@ import chalk from 'chalk'
 - [Starter kit](#database-selection)
 
 > **Note**: The available examples are loaded dynamically from the [examples API](../examples-api).
+
+> **Note**: The language `JavaScript` in `Starter kits (JavaScript)` is dynamic based on the previous selection.
+
 
 ## Database selection
 
