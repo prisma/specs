@@ -361,3 +361,19 @@ Previous selections:
     </Box>
   </BorderBox>
 </Terminal>
+
+## Example download
+
+When a user succesfully went through the starter kit flow and the respective example is being downloaded, the CLI will provide live information about the downloading and preparation process of the example.
+
+<Terminal>
+  <Box flexDirection="column" marginLeft={2} marginBottom={1}>
+    <Text>Preparing your starter kit: <Text bold>GraphQL API ...</Text></Text>
+  </Box>
+  <Box flexDirection="column" marginLeft={2} marginBottom={1}>
+    <Color green><Text>{figures.tick}  Downloading the starter kit from GitHub ...</Text></Color>
+    <Color green><Text>{figures.tick}  Installing dependencies with: `npm install` ...</Text></Color>
+    <Text>⡿  Preparing your database ...</Text>
+    <Color dim><Text>4  Seeding your database with: `npm run seed` ...</Text></Color>
+  </Box>
+</Terminal>
