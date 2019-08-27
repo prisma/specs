@@ -37,9 +37,9 @@ import chalk from 'chalk'
 <br />
 
 <Terminal>
-  <Box 
-    flexDirection="column" 
-    marginLeft={2} 
+  <Box
+    flexDirection="column"
+    marginLeft={2}
     marginBottom={1}
   >
     <Text bold>Create a new SQLite database file or use an existing one</Text>
@@ -676,6 +676,45 @@ import chalk from 'chalk'
       </Box>
       <Text>Learn more about Prisma 2:</Text>
       <Text bold>https://github.com/prisma/prisma2/</Text>
+    </Box>
+  </BorderBox>
+</Terminal>
+<br/>
+<Terminal>
+  <Box marginLeft={2} marginBottom={1} flexDirection="column">
+    <Color green><Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> The <Text bold>hello-world</Text> directory was created!</Color>
+    <Color green><Color bgKeyword="green" white><Text bold> SUCCESS </Text></Color> <Text>Prisma is connected to your database at </Text><Text bold>./dev.db</Text></Color>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    marginTop={1}
+    marginBottom={1}
+    title={chalk.bold('Next steps')}
+  >
+    <Box marginLeft={2} width={100} flexDirection="column">
+      <Color dim>Navigate into the project directory:</Color>
+      <Box marginBottom={1}>
+        <Text bold>$ cd hello-world</Text>
+      </Box>
+      <Color dim>Start Prisma's development mode to enable access to</Color>
+      <Color dim><Text>Prisma Studio and watch <Text bold>schema.prisma</Text> for changes:</Text></Color>
+      <Box marginBottom={1}>
+        <Text bold>$ prisma dev</Text>
+      </Box>
+      <Color dim>Explore the data model generated from introspection:</Color>
+      <Box marginBottom={1}>
+        <Text bold>./prisma.schema</Text>
+      </Box>
+      <Color dim>
+        <Box flexDirection="column">
+          <Text>Learn more about Prisma 2:</Text>
+          <Box marginBottom={1}>
+            <Text underline>https://github.com/prisma/prisma2/</Text>
+          </Box>
+          <Text>If you encounter any issues, please report them here:</Text>
+          <Text underline>https://github.com/prisma/prisma2/issues</Text>
+        </Box>
+      </Color>
     </Box>
   </BorderBox>
 </Terminal>
