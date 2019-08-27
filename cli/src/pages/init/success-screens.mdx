@@ -362,18 +362,65 @@ Previous selections:
   </BorderBox>
 </Terminal>
 
-## Example download
+## Starter kit download
 
 When a user succesfully went through the starter kit flow and the respective example is being downloaded, the CLI will provide live information about the downloading and preparation process of the example.
 
 <Terminal>
   <Box flexDirection="column" marginLeft={2} marginBottom={1}>
-    <Text>Preparing your starter kit: <Text bold>GraphQL API ...</Text></Text>
+    <Text>Preparing your starter kit: <Text bold>GraphQL API</Text>  ...</Text>
   </Box>
   <Box flexDirection="column" marginLeft={2} marginBottom={1}>
     <Color green><Text>{figures.tick}  Downloading the starter kit from GitHub ...</Text></Color>
     <Color green><Text>{figures.tick}  Installing dependencies with: `npm install` ...</Text></Color>
     <Text>⡿  Preparing your database ...</Text>
     <Color dim><Text>4  Seeding your database with: `npm run seed` ...</Text></Color>
+  </Box>
+</Terminal>
+
+## Blank project
+
+### Demo script
+
+#### No introspection
+
+<Terminal>
+  <Box flexDirection="column" marginLeft={2} marginBottom={1}>
+    <Text>Preparing your demo script <Text bold>(TypeScript)</Text> ...</Text>
+  </Box>
+  <Box flexDirection="column" marginLeft={2} marginBottom={1}>
+    <Color green><Text>{figures.tick}  Downloading the demo script from GitHub ...</Text></Color>
+    <Color green><Text>{figures.tick}  Installing dependencies with: `npm install` ...</Text></Color>
+    <Text>⡿  Preparing your database ...</Text>
+  </Box>
+</Terminal>
+
+#### Introspection
+
+<Terminal>
+  <Box flexDirection="column" marginLeft={2} marginBottom={1}>
+    <Text>Preparing your demo script <Text bold>(TypeScript)</Text> ...</Text>
+  </Box>
+  <Box flexDirection="column" marginLeft={2} marginBottom={1}>
+    <Color green><Text>{figures.tick}  Generating demo script ...</Text></Color>
+    <Text>⡿  Installing dependencies with: `npm install` ...</Text>
+  </Box>
+</Terminal>
+
+### Just the Prisma schema
+
+#### No introspection
+
+<Terminal>
+  <Box flexDirection="column" marginLeft={2} marginBottom={1}>
+    <Text>Generating your Prisma schema ...</Text>
+  </Box>
+</Terminal>
+
+#### Introspection
+
+<Terminal>
+  <Box flexDirection="column" marginLeft={2} marginBottom={1}>
+    <Text>Generating your Prisma schema ...</Text>
   </Box>
 </Terminal>
