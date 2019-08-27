@@ -1,0 +1,80 @@
+---
+navOrder: 99
+navLabel: Telemetry
+---
+
+import Terminal from '../components/Terminal/Terminal'
+import BorderBox from '../components/Terminal/BorderBox'
+import figures from 'figures'
+import chalk from 'chalk'
+import {
+  multiSelectItemComponent,
+  multiSelectIndicatorComponent,
+  multiSelectCheckboxComponent,
+  selectInputItemComponent,
+  selectInputIndicatorComponent,
+  Divider,
+} from '../components/inkHelpers'
+import MultiSelect from 'ink-multi-select'
+import SelectInput from 'ink-select-input'
+import TextInput from 'ink-text-input'
+import { Box, Text, Color } from 'ink'
+
+# Telemetry
+
+The term **telemetry** refers to the collection of certain usage data to help _improve the quality of a piece of software_. Prisma 2 uses telemetry in the context of **error reports**.
+
+When there's an unexpected error in the CLI it crashes. In order for us to learn about the cause of the crash, we catch the error and before the CLI process terminates, we trigger an interactive prompt to the user where they can decide whether or not an error report should be submitted. Below is the spec for the prompt:
+
+<Terminal>
+  <Box marginLeft={2} marginBottom={1}>
+    <Color flexDirection="column" bgKeyword="red">
+      <Text bold> ERROR </Text>
+    </Color>
+    <Color red>
+      {'  '}Oops, an unexpected error occured!
+    </Color>
+  </Box>
+  <Box marginLeft={2} flexDirection="column" marginBottom={1}>
+    <Text bold>Please help us improve Prisma 2 by submitting an error report.</Text>
+    <Text bold>Error reports never contain personal or other sensitive information.</Text>
+    <Color dim>Learn more: https://pris.ly/docs/telemetry.md</Color>
+  </Box>
+  <BorderBox
+    title={chalk.bold('Submit error report')}
+    marginBottom={1}
+    flexDirection="column"
+  >
+    <Box width={100}>
+      <Box width={10}>
+         <Color cyan><Text bold>{figures.pointer} Yes</Text></Color>
+      </Box>
+      <Color dim>{'  '}Send error report once</Color>
+      <Box flexGrow={1}></Box>
+    </Box>
+    <Box width={100}>
+      <Box width={10} marginLeft={2}>
+        <Text>No</Text>
+      </Box>
+      <Color dim>Don't send error report</Color>
+      <Box flexGrow={1}></Box>
+    </Box>
+        <Box width={100}>
+      <Box width={10} marginLeft={2}>
+        <Text>Always</Text>
+      </Box>
+      <Color dim>Save response for future errors</Color>
+      <Box flexGrow={1}></Box>
+    </Box>
+    <Box width={100}>
+      <Box width={10} marginLeft={2}>
+        <Text>Never</Text>
+      </Box>
+      <Color dim>Save response for future errors</Color>
+      <Box flexGrow={1}></Box>
+    </Box>
+  </BorderBox>
+  <Box marginLeft={2} flexDirection="column" marginBottom={1}>
+    <Text bold>Thank you for helping us making Prisma 2 more stable! 🙏</Text>
+  </Box>
+</Terminal>
