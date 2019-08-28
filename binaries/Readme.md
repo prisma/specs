@@ -151,7 +151,7 @@ Prisma migration engine binary uses JSON RPC over stdio.
 
 ## Process Management
 
-[This spec](../sdk-js/engine-runtime) covers the process management.
+This is covered in the [Prisma Engine Runtime (for JavaScript/TypeScript) spec](../sdk-js/engine-runtime).
 
 # Use Case: Prisma CLI
 
