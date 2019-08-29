@@ -36,7 +36,7 @@ export const useGitHubURL = (path: string) => {
 }
 
 const CategoryGroup = ({name, links, categories}) => {
-  const [isExpanded, setExpanded] = useState(false)
+  const [isExpanded, setExpanded] = useState(true)
 
   return <>
     <CategoryLink onClick={() => setExpanded(!isExpanded)}>
