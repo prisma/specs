@@ -38,12 +38,16 @@ import chalk from 'chalk'
     <Box>
       <Color cyan>
         <Box width={15} marginRight={2}>{figures.pointer} <Text bold>Blank project</Text></Box>
-        <Color dim>Supports introspecting your existing DB</Color>
+        <Color dim>Supports introspecting an existing DB</Color>
       </Color>
     </Box>
     <Box>
       <Box width={15} marginLeft={2}>Starter kit</Box>
       <Color dim>Sample setups for GraphQL, REST, gRPC, ...</Color>
+    </Box>
+    <Box flexDirection="column" width={15} marginLeft={2} marginTop={1}>
+      <Color dim>Note: Select "Blank project" to use Prisma in an</Color>
+      <Color dim>existing project.</Color>
     </Box>
   </BorderBox>
 </Terminal>
