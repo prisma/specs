@@ -5,24 +5,25 @@
 - [Motivation](#motivation)
 - [Packages](#packages)
 - [Prisma Query Engine](#prisma-query-engine)
-  - [Environment](#environment)
-  - [Process Management](#process-management)
-    - [Start](#start)
+  * [Environment](#environment)
+  * [Process Management](#process-management)
+    + [Start](#start)
       - [Find Free Port](#find-free-port)
       - [Binary Spawn](#binary-spawn)
       - [Waiting for the Binary to be Ready](#waiting-for-the-binary-to-be-ready)
-    - [Stop](#stop)
-  - [Examples](#examples)
-    - [Photon.js](#photonjs)
-    - [CLI `generate` Command](#cli-generate-command)
-  - [API](#api)
+    + [Stop](#stop)
+  * [Examples](#examples)
+    + [Photon.js](#photonjs)
+    + [CLI `generate` Command](#cli-generate-command)
+  * [API](#api)
 - [Prisma Migration Engine](#prisma-migration-engine)
-  - [Environment](#environment-1)
-  - [Process Management](#process-management-1)
-  - [Examples](#examples-1)
-    - [Use Case: Prisma Test Utils](#use-case-prisma-test-utils)
-    - [Use Case: CLI `lift` command](#use-case-cli-lift-command)
-  - [API](#api-1)
+  * [Environment](#environment-1)
+  * [Process Management](#process-management-1)
+  * [Examples](#examples-1)
+    + [Prisma Test Utils](#prisma-test-utils)
+    + [CLI `lift` command](#cli-lift-command)
+  * [API](#api-1)
+- [Error Handling](#error-handling)
 - [Future](#future)
 - [Open Questions](#open-questions)
 
@@ -116,11 +117,11 @@ The actual process management is similar to query engine binary. With the follow
 
 ## Examples
 
-### Use Case: Prisma Test Utils
+### Prisma Test Utils
 
 Prisma test utils uses the `LiftEngine` to create multiple isolated databases and performs schema migration on them at its runtime for parallelizing testing with database state.
 
-### Use Case: CLI `lift` command
+### CLI `lift` command
 
 The `prisma2 lift` command and its sub-commands use the Prisma migration engine binary to perform migrations on the database.
 
