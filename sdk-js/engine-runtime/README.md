@@ -5,24 +5,24 @@
 - [Motivation](#motivation)
 - [Packages](#packages)
 - [Prisma Query Engine](#prisma-query-engine)
-  * [Environment](#environment)
-  * [Process Management](#process-management)
-    + [Start](#start)
+  - [Environment](#environment)
+  - [Process Management](#process-management)
+    - [Start](#start)
       - [Find Free Port](#find-free-port)
       - [Binary Spawn](#binary-spawn)
       - [Waiting for the Binary to be Ready](#waiting-for-the-binary-to-be-ready)
-    + [Stop](#stop)
-  * [Examples](#examples)
-    + [Photon.js](#photonjs)
-    + [CLI `generate` Command](#cli-generate-command)
-  * [API](#api)
+    - [Stop](#stop)
+  - [Examples](#examples)
+    - [Photon.js](#photonjs)
+    - [CLI `generate` Command](#cli-generate-command)
+  - [API](#api)
 - [Prisma Migration Engine](#prisma-migration-engine)
-  * [Environment](#environment-1)
-  * [Process Management](#process-management-1)
-  * [Examples](#examples-1)
-    + [Use Case: Prisma Test Utils](#use-case-prisma-test-utils)
-    + [Use Case: CLI `lift` command](#use-case-cli-lift-command)
-  * [API](#api-1)
+  - [Environment](#environment-1)
+  - [Process Management](#process-management-1)
+  - [Examples](#examples-1)
+    - [Use Case: Prisma Test Utils](#use-case-prisma-test-utils)
+    - [Use Case: CLI `lift` command](#use-case-cli-lift-command)
+  - [API](#api-1)
 - [Future](#future)
 - [Open Questions](#open-questions)
 
@@ -130,6 +130,12 @@ RPC API is listed as its TS types here.
 https://github.com/prisma/lift/blob/master/src/types.ts#L48-L136
 
 // TODO: Move the calls here and write description
+
+# Error Handling
+
+Prisma SDK acts as the interface between the binaries and tooling like generators and CLI tools. This means most of the error handling responsibility around binary process management and a lot of error handling around data validation/network related errors must be handled in the SDK.
+
+// TODO: Evolve this as error spec evolves.
 
 # Future
 
