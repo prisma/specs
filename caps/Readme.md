@@ -3,19 +3,19 @@
 <!-- toc -->
 
 - [Query Capabilities](#query-capabilities)
-  * [Inputables](#inputables)
-  * [Filterables](#filterables)
-  * [Outputables](#outputables)
-  * [Query Capability AST](#query-capability-ast)
-    + [Generating Photon clients](#generating-photon-clients)
-    + [Validating Queries](#validating-queries)
-  * [Spreadsheet Frontend](#spreadsheet-frontend)
+  - [Inputables](#inputables)
+  - [Filterables](#filterables)
+  - [Outputables](#outputables)
+  - [Query Capability AST](#query-capability-ast)
+    - [Generating Photon clients](#generating-photon-clients)
+    - [Validating Queries](#validating-queries)
+  - [Spreadsheet Frontend](#spreadsheet-frontend)
 - [Schema Capabilities](#schema-capabilities)
-  * [Schema Capability AST](#schema-capability-ast)
-    + [Validating the user's Prisma Schema](#validating-the-users-prisma-schema)
+  - [Schema Capability AST](#schema-capability-ast)
+    - [Validating the user's Prisma Schema](#validating-the-users-prisma-schema)
       - [Prisma Language Server](#prisma-language-server)
       - [Migration Engine](#migration-engine)
-  * [Spreadsheet Frontend](#spreadsheet-frontend-1)
+  - [Spreadsheet Frontend](#spreadsheet-frontend-1)
 - [Terminology](#terminology)
 - [Additional Resources](#additional-resources)
 - [Unanswered Questions](#unanswered-questions)
@@ -60,7 +60,7 @@ insert into users ("id", "first_name", "full_name", "active")
 values (gen_random_uuid(), 'Alice', 'Alice' || ' ' || 'Prismo', TRUE);
 ```
 
-> TODO: In the future, this may be split into **natively supported** and **prisma supported**.
+> In the future, this may be split into **natively supported** and **prisma supported**.
 
 ### Filterables
 
@@ -72,7 +72,7 @@ update users set active = false
 where customer_id is null and created_at <= now() - interval '14 days';
 ```
 
-> TODO: In the future, this may be split into **natively supported** and **prisma supported**.
+> In the future, this may be split into **natively supported** and **prisma supported**.
 
 ### Outputables
 
@@ -83,7 +83,7 @@ for the `select` and `returning` clauses:
 select id, first_name || ' ' || last_name, coalesce(updated_at, created_at, now()) from users;
 ```
 
-> TODO: In the future, this may be split into **natively supported** and **prisma supported**.
+> In the future, this may be split into **natively supported** and **prisma supported**.
 
 ### Query Capability AST
 
