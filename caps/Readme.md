@@ -17,6 +17,7 @@
       - [Migration Engine](#migration-engine)
   * [Spreadsheet Frontend](#spreadsheet-frontend-1)
 - [Terminology](#terminology)
+- [Additional Resources](#additional-resources)
 - [Unanswered Questions](#unanswered-questions)
 
 <!-- tocstop -->
@@ -145,7 +146,7 @@ type NamedType = {
 }
 ```
 
-Combined with the data source schema, the tree is used in 2 ways:
+Combined with the user's Prisma Schema, the tree is used in 2 ways:
 
 1. [Generating Photon clients](#)
 1. [Validating Queries](#)
@@ -244,6 +245,11 @@ We can visualize the schema capabilities in a spreadsheet in the following way:
 - **Capability Map:** Static tree representation comprising of the Query and Schema capabilities
 - **Query Compatibility AST**: The tree representation of a data source's query capabilities
 - **Schema Compatibility AST**: The tree representation of a data source's schema capabilities
+
+## Additional Resources
+
+- [Query Capabilities Part I](https://www.dropbox.com/preview/recordings/Prisma/Capabilities%201.mp4)
+- [Query Capabilities Part II](https://www.dropbox.com/preview/recordings/Prisma/Capabilities%202.mp4)
 
 ## Unanswered Questions
 
