@@ -19,17 +19,7 @@
   * [Data Protocol](#data-protocol)
     + [Prisma Query Engine Binary](#prisma-query-engine-binary-1)
     + [Prisma Migration Engine Binary](#prisma-migration-engine-binary-1)
-  * [Process management](#process-management)
-    + [Prisma Query Engine Binary](#prisma-query-engine-binary-2)
-      - [Connect](#connect)
-        * [Find Free Port](#find-free-port)
-        * [Binary Spawn](#binary-spawn)
-        * [Waiting for the Binary to be Ready](#waiting-for-the-binary-to-be-ready)
-      - [Disconnect](#disconnect)
-    + [Prisma Migration Engine Binary](#prisma-migration-engine-binary-2)
-  * [Error Handling](#error-handling)
-    + [Prisma Query Engine Binary](#prisma-query-engine-binary-3)
-    + [Prisma Migration Engine Binary](#prisma-migration-engine-binary-3)
+  * [Process Management](#process-management)
 - [Use Case: Prisma CLI](#use-case-prisma-cli)
   * [How to Fetch Binaries](#how-to-fetch-binaries)
     + [Environment Variables](#environment-variables)
@@ -159,73 +149,9 @@ Prisma query engine binary uses GraphQL over HTTP.
 
 Prisma migration engine binary uses JSON RPC over stdio.
 
-## Process management
+## Process Management
 
-### Prisma Query Engine Binary
-
-<details><summary>Note about Photon</summary>
-
-<p>The Prisma SDK provides the primitives for generators to perform binary process management. The following section covers Prisma query engine binary process management in Photon</p>
-</details>
-
-Prisma SDK provides Photon with `connect`, `disconnect` methods for binary process management. If needed, Photon can lazily connect, when a request is received.
-
-#### Connect
-
-`connect` function is where Photon spawns the query engine binary and the following sequence of events happen
-
-##### Find Free Port
-
-Photon finds a free port by binding to port 0 with a light-weight TCP server (using node net -> createServer), this makes the OS allocate a random (albeit,
-pseudo serial) port to this server, then this server is closed and `Photon` saves the port in memory.
-
-##### Binary Spawn
-
-Photon then spawns the binary as a child process and provide it the environment variables including the detected port
-
-This port is then provided to the binary as an environment variable and the binary starts an HTTP server on this port.
-
-##### Waiting for the Binary to be Ready
-
-In this workflow, Photon polls the query engine binary's HTTP server for its stats at an interval. This can be optimized further by reducing the interval or relying on a simple TCP protocol.
-
-#### Disconnect
-
-Calling the `disconnect` method is where Photon waits for any pending request promise to resolve and then kills the spawned process and the DB connection is
-released.
-
-### Prisma Migration Engine Binary
-
-<details><summary>Note about Lift</summary>
-
-<p>The Prisma SDK provides the primitives for CLI commands to perform binary process management. The following section covers Prisma migration engine binary process management in `lift` command.</p>
-</details>
-
-Prisma SDK provides a similar API for migration engine binary management. The actual process management is similar to query engine binary. With the following noted differences:
-
-1. Migration engine binary uses JSON RPC over stdio as the data protocol.
-
-## Error Handling
-
-Note: Error handling has a separate detailed spec [here](https://github.com/prisma/specs/tree/master/errors). The following briefs on error handling but is not exhaustive.
-
-### Prisma Query Engine Binary
-
-Photon throws if the engine ready polling does not yield success after N attempts. There may be several reasons why preparing a process with the required context might fail, including but not limited to:
-
-| Potential Error                            | Handling Strategy |
-| ------------------------------------------ | ----------------- |
-| Unable to bind to a free port              | Throw error       |
-| Binary is not compatible with the platform | Throw error       |
-| Binary fails to acquire a DB connection    | Throw error       |
-
-### Prisma Migration Engine Binary
-
-| Potential Error                    | Handling Strategy |
-| ---------------------------------- | ----------------- |
-| Database credentials are incorrect | Notify user       |
-| Database is not reachable          | Notify user       |
-| Prisma schema is not valid         | Throw error       |
+This is covered in the [Prisma Engine Runtime (for JavaScript/TypeScript) spec](../sdk-js/engine-runtime).
 
 # Use Case: Prisma CLI
 
