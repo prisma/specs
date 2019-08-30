@@ -16,136 +16,74 @@ const ast: t.Capabilities = {
           name: 'create',
           input: {
             kind: 'Input',
-            properties: [
-              {
-                kind: 'Property',
-                key: {
-                  kind: 'StringFieldType',
-                },
-                value: {
-                  kind: 'StringLiteralType',
-                },
-              },
-              {
-                kind: 'Property',
-                key: {
-                  kind: 'IntegerFieldType',
-                },
-                value: {
-                  kind: 'IntegerLiteralType',
-                },
-              },
-              {
-                kind: 'Property',
-                key: {
-                  kind: 'BooleanFieldType',
-                },
-                value: {
-                  kind: 'BooleanLiteralType',
-                },
-              },
-              {
-                kind: 'Property',
-                key: {
-                  kind: 'DateTimeFieldType',
-                },
-                value: {
-                  kind: 'DateTimeLiteralType',
-                },
-              },
-              // e.g. { data: { amount: 5 } }
-              {
-                kind: 'Property',
-                key: {
-                  kind: 'FloatFieldType',
-                },
-                value: {
-                  kind: 'IntegerLiteralType',
-                },
-              },
-              // { data: { first_name: "lower('MATT')" } }
-              {
-                kind: 'Property',
-                key: {
-                  kind: 'StringFieldType',
-                },
-                value: {
-                  kind: 'StringFunction',
-                  name: 'lower',
-                  args: [
-                    {
-                      kind: 'StringLiteralType',
-                    },
-                  ],
-                },
-              },
-            ],
+            input: [],
           },
           output: {
             kind: 'Output',
-            properties: [
-              {
-                kind: 'Property',
-                key: {
-                  kind: 'StringFieldType',
-                },
-                value: {
-                  kind: 'StringLiteralType',
-                },
-              },
-              {
-                kind: 'Property',
-                key: {
-                  kind: 'IntegerFieldType',
-                },
-                value: {
-                  kind: 'IntegerLiteralType',
-                },
-              },
-              {
-                kind: 'Property',
-                key: {
-                  kind: 'BooleanFieldType',
-                },
-                value: {
-                  kind: 'BooleanLiteralType',
-                },
-              },
-              {
-                kind: 'Property',
-                key: {
-                  kind: 'DateTimeFieldType',
-                },
-                value: {
-                  kind: 'DateTimeLiteralType',
-                },
-              },
-              {
-                kind: 'Property',
-                key: {
-                  kind: 'FloatFieldType',
-                },
-                value: {
-                  kind: 'FloatLiteralType',
-                },
-              },
-              // e.g. { select: first_name: "lower(first_name)" }
-              {
-                kind: 'Property',
-                key: {
-                  kind: 'StringFieldType',
-                },
-                value: {
-                  kind: 'StringFunction',
-                  name: 'lower',
-                  args: [
-                    {
-                      kind: 'StringLiteralType',
-                    },
-                  ],
-                },
-              },
-            ],
+            output: [],
+            // properties: [
+            //   {
+            //     kind: 'Property',
+            //     key: {
+            //       kind: 'StringFieldType',
+            //     },
+            //     value: {
+            //       kind: 'StringLiteralType',
+            //     },
+            //   },
+            //   {
+            //     kind: 'Property',
+            //     key: {
+            //       kind: 'IntegerFieldType',
+            //     },
+            //     value: {
+            //       kind: 'IntegerLiteralType',
+            //     },
+            //   },
+            //   {
+            //     kind: 'Property',
+            //     key: {
+            //       kind: 'BooleanFieldType',
+            //     },
+            //     value: {
+            //       kind: 'BooleanLiteralType',
+            //     },
+            //   },
+            //   {
+            //     kind: 'Property',
+            //     key: {
+            //       kind: 'DateTimeFieldType',
+            //     },
+            //     value: {
+            //       kind: 'DateTimeLiteralType',
+            //     },
+            //   },
+            //   {
+            //     kind: 'Property',
+            //     key: {
+            //       kind: 'FloatFieldType',
+            //     },
+            //     value: {
+            //       kind: 'FloatLiteralType',
+            //     },
+            //   },
+            //   // e.g. { select: first_name: "lower(first_name)" }
+            //   {
+            //     kind: 'Property',
+            //     key: {
+            //       kind: 'StringFieldType',
+            //     },
+            //     value: {
+            //       kind: 'StringFunction',
+            //       name: 'lower',
+            //       args: [
+            //         {
+            //           kind: 'StringLiteralType',
+            //         },
+            //       ],
+            //     },
+            //   },
+            // ],
           },
           filter: {
             kind: 'Filter',

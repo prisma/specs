@@ -19,18 +19,12 @@ export type Query = {
 
 type Input = {
   kind: 'Input'
-  properties: Property[]
+  input: InputExpression
 }
 
 type Output = {
   kind: 'Output'
-  properties: Property[]
-}
-
-type Property = {
-  kind: 'Property'
-  key: FieldType
-  value: TypeExpression
+  output: OutputExpression
 }
 
 type Filter = {
@@ -63,7 +57,18 @@ export type LogicalOperand = AndOperand | OrOperand
 export type AndOperand = '&&'
 export type OrOperand = '||'
 
-export type TypeExpression = BooleanExpression | StringExpression | IntegerExpression | FloatExpression | DateTimeExpression
+export type InputExpression = TypeExpression
+export type OutputExpression = TypeExpression
+export type TypeExpression =
+  | BooleanExpression
+  | StringExpression
+  | IntegerExpression
+  | FloatExpression
+  | DateTimeExpression
+  | TypeMapExpression
+  | TypeListExpression
+export type TypeListExpression = Array<BooleanExpression | StringExpression | IntegerExpression | FloatExpression | DateTimeExpression | TypeMapExpression>
+export type TypeMapExpression = { [key: string]: TypeExpression }
 export type StringExpression = StringFieldType | StringLiteralType | StringFunction
 export type IntegerExpression = IntegerFieldType | IntegerLiteralType | IntegerFunction
 export type FloatExpression = FloatFieldType | FloatLiteralType | FloatFunction

@@ -1,937 +1,233 @@
-# The Prisma Binary
+# Capabilities
 
 <!-- toc -->
 
-- [Prisma Binary CLI](#prisma-binary-cli)
-- [Capability Map (for Schema Validation)](#capability-map-for-schema-validation)
-- [Schema Validation](#schema-validation)
-  - [How `check` works](#how-check-works)
-- [Client Generation](#client-generation)
-  - [Capability Map for Client Generation](#capability-map-for-client-generation)
-    - [Generic Schema](#generic-schema)
-    - [Connector Schema](#connector-schema)
-    - [Capabilities as a Spreadsheet](#capabilities-as-a-spreadsheet)
-    - [QueryGenerate(User Schema, Connector Schema): DMMF](#querygenerateuser-schema-connector-schema-dmmf)
-- [Query Validation](#query-validation)
-- [Query Execution](#query-execution)
-- [Connector Interface](#connector-interface)
-- [Appendix: Schema AST](#appendix-schema-ast)
+We want to be able to take full advantage of the query and schema capabilities of each provided data source. To do this we'll build a static map of a data
+source's capabilities.
 
-<!-- tocstop -->
+There are 2 properties of the capability map: **query capabilities** & **schema capabilities**.
 
-The Prisma Binary is the driving force behind Prisma's products. We use this to generate photon clients, typecheck schemas, and execute queries on our
-datasources.
+## Query Capabilities
 
-Prisma uses _connectors_ talks to different datasources. Postgres, MongoDB, and even Google Sheets can be a connector. The Prisma Binary is designed to work
-with multiple connectors at once. Connectors are written in Rust, but may be higher-level in the future.
+Query capabilities describe what types of queries we can perform on the data source. They also define what functions, expressions and relational queries are
+available to us for each query.
 
-The following is a high-level diagram of how different clients connect to the Prisma Binary and how they relate to the connectors.
+Query capabilities are grouped into one of 3 sub-categories:
 
-```
-┌─────────────────────────┐┌─────────────────────────┐┌────────────────────────┐
-│                         ││                         ││                        │
-│  schema.prisma inside   ││    Generate a Photon    ││    Photon inside an    │
-│         VSCode          ││          Client         ││      Application       │
-│                         ││                         ││                        │
-└─────────────────────────┘└─────────────────────────┘└────────────────────────┘
-             ▲                          ▲                          ▲
-             │ typecheck                │ generate                 │ execute
-             ▼                          ▼                          ▼
-┌─────────────────┬────────────────────────────────────────────────────────────┐
-│  Prisma Binary  │                                                            │
-├─────────────────┘                                                            │
-│ ┌──────────────┐┌───────────────┐┌───────────────┐┌────────────────┐         │
-│ │              ││               ││               ││                │         │
-│ │    Parser    ││    Checker    ││   Generator   ││    Executer    │         │
-│ │              ││               ││               ││                │         │
-│ └──────────────┘└───────────────┘└───────────────┘└────────────────┘         │
-│ ┌─────────────────────┐┌─────────────────────┐┌────────────────────┐         │
-│ │                     ││                     ││                    │         │
-│ │ Postgres Connector  ││   MySQL Connector   ││ MongoDB Connector  │  •••    │
-│ │                     ││                     ││                    │         │
-│ └─────────────────────┘└─────────────────────┘└────────────────────┘         │
-└──────────────────────────────────────────────────────────────────────────────┘
+1. [Inputables](#)
+2. [Filterables](#)
+3. [Outputables](#)
+
+A query may contain one or more of these categories. In [PhotonJS for Postgres](https://github.com/prisma/prisma2/blob/master/docs/photon/api.md#api-reference),
+we have the following queries:
+
+1. `create({ data: Inputable, select?: Outputable })`
+1. `find({ where: Filterable, select?: Outputable })`
+1. `findMany({ where: Filterable, select?: Outputable })`
+1. `update({ data: Inputable, where: Filterable, select?: Outputable })`
+1. `updateMany({ data: Inputable[], where: Filterable, select?: Outputable })`
+1. `upsert({ create: Inputable, update: Inputable, where: Filterable, select?: Outputable })`
+1. `delete({ where: Filterable, select?: Outputable })`
+1. `deleteMany({ where: Filterable, select?: Outputable })`
+
+### Inputables
+
+An Inputable is the range of acceptable inputs that data source **natively supports**. For example, in Postgres an Inputable is all the acceptable inputs for
+the `values` clause:
+
+```sql
+insert into users ("id", "first_name", "full_name", "active")
+values (gen_random_uuid(), 'Alice', 'Alice' || ' ' || 'Prismo', TRUE);
 ```
 
-A more in-depth version of the Prisma Binary:
+> TODO: In the future, this may be split into **natively supported** and **prisma supported**.
 
-```
-                         ┌───────────────┐   ┌─────────────────┐
-                         │ vscode "save" │   │ prisma generate │
-                         │     event     │   └─────────────────┘
-                         └───────────────┘            │
-                                 │                    │
-                   ┌ ─ ─ ─ ─ ─ ─ ┼ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─│─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─┌─────────────┐
-                                 │                    │                             │Prisma Binary│
-                   │  ┌──────────┴────────────────────┴─────────────┐               └─────────────┘
-                      │                                             │                             │
-                   │  │                Schema Parser                │
-                      │                                             │                             │
-                   │  └──────────┬────────────────────┬─────────────┘
-                                 │ schema AST         │ schema AST      static   ┌───────────┐    │
-                   │  ┌──────────┴────────────────────┴─────────────┐ capability │           ├─┐
-                      │                                             │    map     │           │ │  │
-                   │  │                  Validate                   │◀───────────│           │ │
-                      │                                             │            │           │ │  │
-                   │  └──────────┬────────────────────┬─────────────┘            │           │ │
-                                 │                    │                          │           │ │  │
-┌────────────┐     │             │                    │                          │           │ │
-│   Prisma   │                   │                    │                          │           │ │  │
-│   VSCode   │◀────┼─────────────┘                    │                          │ Postgres  │ │
-│ Extension  │ errors, warnings   ┌───────────────────┤                          │ Connector │ │  │
-└────────────┘     │              │                   │ schema AST               │           │ │
-                                  │                   ▼                          │           │ │  │
-┌────────────┐     │              │            ┌────────────┐            static  │           │ │
-│ Prisma CLI │        errors      │            │            │          capability│           │ │  │
-│   Output   │◀────┼──────────────┘            │   Query    │             map    │           │ │
-└────────────┘                                 │ Generator  │◀───────────────────┤           │ │  │
-                   │                           │            │                    │           │ │
-                                               └────────────┘                    │           │ │  │
-                   │                                  │                          │           │ │
-                                                      │ DMMF                     └─┬─────────┘ │  │
-                   │                    ┌─────────────┼─────────────┐              └───────────┘
-                                        ▼             ▼             ▼                             │
-                   │             ┌────────────┐┌────────────┐┌────────────┐
-                                 │            ││            ││            │                       │
-                   │             │  PhotonJS  ││   Nexus    ││ Photon Go  │
-                                 │ Generator  ││ Generator  ││ Generator  │                       │
-                   │             │            ││            ││            │
-                                 └────────────┘└────────────┘└────────────┘                       │
-                   │                    │             │             │
-                    ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┼ ─ ─ ─ ─ ─ ─ ┼ ─ ─ ─ ─ ─ ─ ┼ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘
-                                        │             │             │
-                                        │ js code     │ nexus code  │ go code
-                                        ▼             ▼             ▼
-                             ┌─────────────────────────────────────────────────┐
-                             │                                                 │
-                             │                  ./app/prisma                   │
-                             │                                                 │
-                             └─────────────────────────────────────────────────┘
+### Filterables
+
+A Filterable is the range of acceptable filters that data source **natively supports**. For example, in Postgres a Filterable is all the acceptable filters for
+the `where` clause:
+
+```sql
+update users set active = false
+where customer_id is null and created_at <= now() - interval '14 days';
 ```
 
-- **TODO** add query execution (`photon.users.find`) to this diagram
-- **TODO** decide how deep we want to go in the introduction
-- **TODO** add formatting to the mix
+> TODO: In the future, this may be split into **natively supported** and **prisma supported**.
 
-# Prisma Binary CLI
+### Outputables
 
-The entrypoint to the Prisma Binary is a CLI. This CLI can run one-off `check` commands or use `serve` to start a long-running server that will serve query
-requests.
+An Outputable is the range of acceptable outputs that data source **natively supports**. For example, in Postgres an Outputable is all the acceptable outputs
+for the `select` and `returning` clauses:
 
-```
-$ prisma -h
-
-Usage:
-
-  prisma [<flags>] <command> [<args> ...]
-
-Flags:
-
-  -h, --help  Output usage information.
-
-Commands:
-
-  help                 Show help for a command.
-  check                Check a schema for errors.
-  serve                Start the prisma service.
+```sql
+select id, first_name || ' ' || last_name, coalesce(updated_at, created_at, now()) from users;
 ```
 
-# Capability Map (for Schema Validation)
+> TODO: In the future, this may be split into **natively supported** and **prisma supported**.
 
-The capability map tells us what the connector supports. It's a declarative structure written into the code that we've crafted by hand. The format of the
-capability map is the following:
+### Query Capability AST
+
+The Query Capability AST is a **tree structure** that defines all possible inputables, filterables, and outputables for each query in each data source.
 
 ```ts
 type Capabilities = {
-  types: Object<string, string>
-  relations: Object<string, boolean>
-  embeds: Object<string, boolean>
-  attributes: Object<string, string>
-}
-```
-
-Example for Postgres:
-
-```go
-
-var postgres = &Postgres{
-	// type map
-	types: map[string]bool{
-		// core
-		"String":    true,
-		"String?":   true,
-		"String[]":  true,
-		"String[]?": true,
-
-		// custom type
-    "Citext": true,
-    "Numeric(precision: Int, scale: Int)": true
-
-		// integers
-		"Integer":    true,
-		"Integer?":   true,
-		"Integer[]":  true,
-		"Integer[]?": true,
-
-		// floats
-		"Float":    true,
-		"Float?":   true,
-		"Float[]":  true,
-		"Float[]?": true,
-
-		// datetime
-		"DateTime":    true,
-		"DateTime?":   true,
-		"DateTime[]":  true,
-		"DateTime[]?": true,
-
-		// boolean
-		"Boolean":    true,
-		"Boolean?":   true,
-		"Boolean[]":  true,
-		"Boolean[]?": true,
-	},
-
-	// relation support
-	relations: map[string]bool{
-		"one-to-one":  true,
-		"one-to-many": true,
-	},
-
-	// embed support
-	embeds: map[string]bool{
-		"one-to-one":  false,
-		"one-to-many": false,
-	},
-
-	// field attributes
-	fieldAttrs: map[string]bool{
-		"id()":     true,
-		"unique()": true,
-	},
-
-	// model attributes
-	modelAttrs: map[string]bool{
-		"id":     true,
-		"unique(fields: Field[])": true,
-	},
-}
-```
-
-**TODO** Double-back on this. This is overly simplistic and already breaks down in some cases. We'll rather want to use "AST fragments" that we can walk over
-and check if all the arguments match up.
-
-**Sidenote** To deal with schema changes, we should interact with these capibility maps using visitor pattern to pick out only the fields we care about. This
-will minimize breakage as we add more things to the map.
-
-# Schema Validation
-
-Schema validation is used by editors like VSCode to for autocompletion and typechecking. Schema checking works in the following way:
-
-```
-         ┌───────────────┐
-         │ schema.prisma │
-         │  with VSCode  │
-         │   extension   │
-         └───────────────┘
-                 │
-    ┌───────────┐│     /bin/prisma check ./schema.prisma   ┌────────────┐
-    │ save file │├───────────────────┐                     │   Prisma   │
-    └───────────┘│                   └────────────────────▶│   Binary   │
-                 │                                         └────────────┘
-                 │                                                │
-                 │                                                │┌───────┐
-                 │                        ┌───────────────────────┤│ check │
-                 │◀───────────────────────┘                       │└───────┘
-                 │                                                │
-                 │            {                                   │
-                 │              errors: Error[],                  ▼
-                 │              warnings: Warning[]           exit: 0
-                 │            }
-                 │
-                 │
-─ ─ ─ ─ ─ ─ ─ ─ ─│─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─
-                 │                                         ┌────────────┐
-    ┌───────────┐│     /bin/prisma check ./schema.prisma   │   Prisma   │
-    │ save file │├────────────────────────────────────────▶│   Binary   │
-    └───────────┘│                                         └────────────┘
-                 │                                                │
-                 │                                                │┌───────┐
-                 │                        ┌───────────────────────┤│ check │
-                 │                        │                       │└───────┘
-                 │◀───────────────────────┘                       │
-                 │                                                │
-                 │            {                                   │
-                 │              errors: Error[],                  ▼
-                 │              warnings: Warning[]           exit: 0
-                 ⋮            }
-                 │
-                 ▼
-```
-
-```ts
-type ValidateInput = {
-  schema: string
+  type: 'capabilities'
+  datasources: DataSource[]
 }
 
-type ValidateOutput = {
-  errors: Error[]
-  warnings: Warning[]
-}
-
-type Warning = {
-  code: string
-  message: string
-  start: Int
-  end: Int
-}
-
-type Error = {
-  code: string
-  message: string
-  stack: string
-  start: Int
-  end: Int
-}
-```
-
-These errors will contain line and column information that the plugin will use to show warnings and errors to the developer.
-
-## How `check` works
-
-```
-                                         ┌────────────┐                  ┌────────────┐
-                                         │  Postgres  │                  │  MongoDB   │
-                                         │ Connector  │                  │ Connector  │
-                                         └────────────┘                  └────────────┘
-                                                │        capabilityMap          │
-                                                └────────────────────────┬──────┘
-                                                                         ▼
-┌──────────────┐              ┌───────────────┐                 ┌─────────────────┐
-│schema.prisma │   schema     │               │                 │check(           │
-│ with VSCode  │   string     │     Parse     │  schemaAST      │  schemaAST,     │
-│  extension   │─────────────▶│    Schema     │────────────────▶│  capabilityMap  │
-│              │              │               │                 │)                │
-└──────────────┘              └───────────────┘                 └─────────────────┘
-        ▲                                                                │
-        │                       errors, warnings                         │
-        └────────────────────────────────────────────────────────────────┘
-```
-
-We'll parse the schema generating a schema AST. The Schema AST is defined below in [Appendix: Schema AST](#Appendix:-Schema-AST). We'll also pull the
-`capabilityMap` from the connectors and merge them together.
-
-The format of the `capabilityMap` is described in [Capability Map](#Capability-Map).
-
-`check(schemaAST, capabilityMap)` runs the following operations:
-
-1. Walk the merged capability map of the connectors building an index of the available types, available attributes and relationship support.
-2. Walk the schema comparing against this index. If there are errors or warnings, we'll add them to the list and continue traversing each node.
-
-**TODO** describe the capability map merge.
-
-# Client Generation
-
-Client generation describes taking the a connector's capability map and merging it with the user's schema AST to generate an intermediate representation,
-internally called the DMMF. The Query Generator loops over the capability map with the schema AST.
-
-```
-                         │ schema AST
-                         ▼
-                  ┌────────────┐      static    ┌───────────┐
-                  │            │    capability  │           ├┐
-                  │   Query    │       map      │ Postgres  ││
-                  │ Generator  │◀───────────────│ Connector ││
-                  │            │                │           ││
-                  └────────────┘                └┬──────────┘│
-                         │                       └───────────┘
-                         │ DMMF
-           ┌─────────────┼─────────────┐
-           ▼             ▼             ▼
-    ┌────────────┐┌────────────┐┌────────────┐
-    │            ││            ││            │
-    │  PhotonJS  ││   Nexus    ││ Photon Go  │
-    │ Generator  ││ Generator  ││ Generator  │
-    │            ││            ││            │
-    └────────────┘└────────────┘└────────────┘
-           │ js code     │ nexus code  │ go code
-           ▼             ▼             ▼
-┌─────────────────────────────────────────────────┐
-│                                                 │
-│                  ./app/prisma                   │
-│                                                 │
-└─────────────────────────────────────────────────┘
-```
-
-## Capability Map for Client Generation
-
-For client generation the capability map needs to be able to switch off expressions based on connector support.
-
-### Generic Schema
-
-First, we start with a generic schema of all possible Prisma features. You can think of this like a coloring book, the structure is in place, but it's up to you
-to fill in what you need.
-
-```ts
-// Root node. A list of datasources and their capabilities
-type Capabilities = {
-  type: 'Capabilities'
-  datasources: Datasource[]
-}
-
-// datasource, postgres, mysql, sqlite
-type Datasource = {
-  type: 'Datasource'
+type DataSources = {
+  type: 'datasource'
   name: string
   queries: Query[]
 }
 
-// queries, findOne, findMany, create, etc.
 type Query = {
-  type: 'Query'
+  type: 'query'
   name: string
-  conditions: Condition[]
+  inputables?: Inputable[]
+  filterables?: Filterable[]
+  outputables?: Outputable[]
 }
 
-type Condition = InputCondition | OutputCondition | FilterCondition
+type Inputable = Expression
+type Filterable = Expression
+type Outputable = Expression
 
-// inserting data, { data: ... }
-type InputCondition = {
-  type: 'input'
-  properties: Property[]
-}
+type Expression = Function | DataType
 
-// returning data, { select: ... }
-type OutputCondition = {
-  type: 'output'
-  properties: Property[]
-}
-
-// filtering data, { where: ... }
-type FilterCondition = {
-  type: 'filter'
-  expressions: BooleanExpression[]
-}
-
-// a key value mapping between a field and an expression
-// e.g. { full_name: concat(first_name, last_name) }
-type Property = {
-  type: 'Property'
-  key: FieldType
-  value: TypeExpression
-}
-
-type FieldType = BooleanFieldType | StringFieldType | IntegerFieldType | FloatFieldType | DateTimeFieldType
-type TypeExpression = BooleanExpression | StringExpression | IntegerExpression | FloatExpression | DateTimeExpression
-type StringExpression = StringFieldType | StringLiteralType | StringFunction
-type BooleanExpression = BooleanFieldType | BooleanLiteralType | BooleanFunction
-type IntegerExpression = IntegerFieldType | IntegerLiteralType | IntegerFunction
-type FloatExpression = FloatFieldType | FloatLiteralType | FloatFunction
-type DateTimeExpression = DateTimeFieldType | DateTimeLiteralType | DateTimeFunction
-
-// accepts a field that is a string type, "first_name"
-type StringFieldType = {
-  type: 'StringFieldType'
-}
-
-// accepts a string literal, "hi"
-type StringLiteralType = {
-  type: 'StringLiteralType'
-}
-
-// function that returns a string, lower(string): string
-type StringFunction = {
-  type: 'StringFunction'
+type Function = {
+  type: 'function'
   name: string
-  args: TypeExpression[]
+  arguments: Argument[]
+  returns: DataType
 }
 
-// accepts an integer field type, "age"
-type IntegerFieldType = {
-  type: 'IntegerFieldType'
-}
-
-// accepts an integer type, 5
-type IntegerLiteralType = {
-  type: 'IntegerLiteralType'
-}
-
-// function that returns an integer, add(5, 1): int
-type IntegerFunction = {
-  type: 'IntegerFunction'
+type Argument = {
+  type: 'argument'
   name: string
-  args: TypeExpression[]
+  datatype: DataType
 }
 
-// accepts a boolean field, "active"
-type BooleanFieldType = {
-  kind: 'BooleanFieldType'
+type DataType = OptionalType | ListType | NamedType
+
+type OptionalType = {
+  type: 'optional_type'
+  inner: ListType | NamedType
 }
 
-// accepts a boolean value, true
-type BooleanLiteralType = {
-  kind: 'BooleanLiteralType'
+type ListType = {
+  type: 'list_type'
+  inner: DataType
 }
 
-// a function that returns a boolean, equals(first_name, "alice"): boolean
-type BooleanFunction = {
-  kind: 'BooleanFunction'
-  name: string
-  args: TypeExpression[]
-}
-
-// accepts a datetime type, "created_at"
-type DateTimeFieldType = {
-  kind: 'DateTimeFieldType'
-}
-
-// accepts a datetime value, "6/10/19"
-type DateTimeLiteralType = {
-  kind: 'DateTimeLiteralType'
-}
-
-// a function that returns a datetime, "now()"
-type DateTimeFunction = {
-  kind: 'DateTimeFunction'
-  name: string
-  args: TypeExpression[]
+type NamedType = {
+  type: 'named_type'
+  name: 'String' | 'Boolean' | 'DateTime' | 'Integer' | 'Float'
 }
 ```
 
-### Connector Schema
+Combined with the data source schema, the tree is used in 2 ways:
 
-Now for each connector, we'll define a new schema in such a way that it's specific to the connector, but still follows the structure of the schema above.
+1. [Generating Photon clients](#)
+1. [Validating Queries](#)
 
-The following shows that Postgres supports `Create` and `FindOne` functions:
+#### Generating Photon clients
 
-- Create accepts Strings, Integers, Booleans, DateTime, etc. It even supports passing an integer into a float field. It also maps out the outputs, what can be
-  returned via `select`.
-- FindOne shows what types of filters we can pass in. We can pass in a boolean literal (e.g. `where: true`), but we can also pass in complex functions like
-  `{ where: { first_name: "lower(bob)" } }`.
+Paired with the user's Prisma Schema AST, we'll use the Query Capability AST to generate type-safe Photon clients that adapt their API based on the capabilities
+of the data source.
+
+> TODO: provide a minimal example of how this will work
+
+#### Validating Queries
+
+Inbound queries must also be validated by Prisma's Query Engine before they're executed against the data sources. We'll use the Query Capability AST and the
+user's Prisma Schema AST to validate these queries.
+
+> TODO: provide a minimal example of how this will work
+
+### Spreadsheet Frontend
+
+We can visualize the query capabilities in a spreadsheet in the following way:
+
+|  Data Types  | Postgres | SQLite | MongoDB |
+| :----------: | :------: | :----: | :-----: |
+|   `String`   |    IO    |   IO   |   IO    |
+|  `String?`   |    IO    |   IO   |   IO    |
+|  `String[]`  |    IO    |   –    |   IO    |
+| `String[]?`  |    IO    |   –    |   IO    |
+|  `Boolean`   |    IO    |   IO   |   IO    |
+|  `Boolean?`  |    IO    |   IO   |   IO    |
+| `Boolean[]`  |    IO    |   –    |   IO    |
+| `Boolean[]?` |    IO    |   –    |   IO    |
+
+|                     Functions                     | Postgres | SQLite | MongoDB |
+| :-----------------------------------------------: | :------: | :----: | ------- |
+|           `lower(text: String): String`           |    IO    |   IO   | –       |
+| `starts_with(text: String, sub: String): Boolean` |   IFO    |  IFO   | F       |
+|      `and(a: Boolean, b: Boolean): Boolean`       |   IFO    |  IFO   | F       |
+|      `concat(a: String, b: String): String`       |    IO    |   IO   | F       |
+|     `equal(a: Integer, b: Integer): Boolean`      |   IFO    |  IFO   | F       |
+|        `not(condition: Boolean): Boolean`         |   IFO    |  IFO   | F       |
+
+- **I** is an inputable
+- **F** is a filterable
+- **O** is an outputable
+
+**Example**: IFO means that this expression can be an inputable, filterable and an outputable. If there is a dash (**–**), it means that this capability isn't
+supported at all by the data source.
+
+## Schema Capabilities
+
+Schema capabilities define the structural possibilities of a data source. Schema capabilities are grouped into the following sub-categories:
+
+1. [Data Types](#)
+2. [Field Attributes](#)
+3. [Model Attributes](#)
+4. [Enums](#)
+
+These categories describe what values can be placed where. A capability may have one or more of these categories. In
+[PhotonJS for Postgres](https://github.com/prisma/prisma2/blob/master/docs/photon/api.md#api-reference), we have the following queries:
+
+### Schema Capability AST
+
+The Schema Capability AST is a tree structure that defines the acceptable data types, constraints,
 
 ```ts
-const ast: t.Capabilities = {
-  kind: 'Capabilities',
-
-  datasources: [
-    // postgres datasource
-    {
-      kind: 'Datasource',
-      name: 'Postgres',
-      queries: [
-        // create query
-        {
-          kind: 'Query',
-          name: 'create',
-          input: {
-            kind: 'Input',
-            properties: [
-              {
-                kind: 'Property',
-                key: {
-                  kind: 'StringFieldType',
-                },
-                value: {
-                  kind: 'StringLiteralType',
-                },
-              },
-              {
-                kind: 'Property',
-                key: {
-                  kind: 'IntegerFieldType',
-                },
-                value: {
-                  kind: 'IntegerLiteralType',
-                },
-              },
-              {
-                kind: 'Property',
-                key: {
-                  kind: 'BooleanFieldType',
-                },
-                value: {
-                  kind: 'BooleanLiteralType',
-                },
-              },
-              {
-                kind: 'Property',
-                key: {
-                  kind: 'DateTimeFieldType',
-                },
-                value: {
-                  kind: 'DateTimeLiteralType',
-                },
-              },
-              // e.g. { data: { amount: 5 } }
-              {
-                kind: 'Property',
-                key: {
-                  kind: 'FloatFieldType',
-                },
-                value: {
-                  kind: 'IntegerLiteralType',
-                },
-              },
-              // { data: { first_name: "lower('MATT')" } }
-              {
-                kind: 'Property',
-                key: {
-                  kind: 'StringFieldType',
-                },
-                value: {
-                  kind: 'StringFunction',
-                  name: 'lower',
-                  args: [
-                    {
-                      kind: 'StringLiteralType',
-                    },
-                  ],
-                },
-              },
-            ],
-          },
-          output: {
-            kind: 'Output',
-            properties: [
-              {
-                kind: 'Property',
-                key: {
-                  kind: 'StringFieldType',
-                },
-                value: {
-                  kind: 'StringLiteralType',
-                },
-              },
-              {
-                kind: 'Property',
-                key: {
-                  kind: 'IntegerFieldType',
-                },
-                value: {
-                  kind: 'IntegerLiteralType',
-                },
-              },
-              {
-                kind: 'Property',
-                key: {
-                  kind: 'BooleanFieldType',
-                },
-                value: {
-                  kind: 'BooleanLiteralType',
-                },
-              },
-              {
-                kind: 'Property',
-                key: {
-                  kind: 'DateTimeFieldType',
-                },
-                value: {
-                  kind: 'DateTimeLiteralType',
-                },
-              },
-              {
-                kind: 'Property',
-                key: {
-                  kind: 'FloatFieldType',
-                },
-                value: {
-                  kind: 'FloatLiteralType',
-                },
-              },
-              // e.g. { select: first_name: "lower(first_name)" }
-              {
-                kind: 'Property',
-                key: {
-                  kind: 'StringFieldType',
-                },
-                value: {
-                  kind: 'StringFunction',
-                  name: 'lower',
-                  args: [
-                    {
-                      kind: 'StringLiteralType',
-                    },
-                  ],
-                },
-              },
-            ],
-          },
-          filter: {
-            kind: 'Filter',
-            expressions: [
-              // boolean filters
-              {
-                kind: 'BooleanFieldType',
-              },
-              {
-                kind: 'BooleanLiteralType',
-              },
-              // e.g. and(boolean, boolean): boolean
-              {
-                kind: 'BooleanFunction',
-                name: 'and',
-                args: [
-                  {
-                    kind: 'BooleanFieldType',
-                  },
-                  {
-                    kind: 'BooleanFieldType',
-                  },
-                  // TODO: spread support
-                ],
-              },
-              // e.g. or(boolean, boolean): boolean
-              {
-                kind: 'BooleanFunction',
-                name: 'or',
-                args: [
-                  {
-                    kind: 'BooleanFieldType',
-                  },
-                  {
-                    kind: 'BooleanFieldType',
-                  },
-                  // TODO: spread support
-                ],
-              },
-              // e.g. xor(boolean, boolean): boolean
-              {
-                kind: 'BooleanFunction',
-                name: 'xor',
-                args: [
-                  {
-                    kind: 'BooleanFieldType',
-                  },
-                  {
-                    kind: 'BooleanFieldType',
-                  },
-                  // TODO: spread support
-                ],
-              },
-
-              // string filters
-              // e.g. equal(stringField, string): boolean
-              {
-                kind: 'BooleanFunction',
-                name: 'equals',
-                args: [
-                  {
-                    kind: 'StringFieldType',
-                  },
-                  {
-                    kind: 'StringLiteralType',
-                  },
-                ],
-              },
-              // e.g. notEqual(stringField, string): boolean
-              {
-                kind: 'BooleanFunction',
-                name: 'notEquals',
-                args: [
-                  {
-                    kind: 'StringFieldType',
-                  },
-                  {
-                    kind: 'StringLiteralType',
-                  },
-                ],
-              },
-            ],
-          },
-        },
-      ],
-    },
-    // sqlite datasource
-    {
-      kind: 'Datasource',
-      name: 'SQLite',
-      queries: [],
-    },
-  ],
-}
+// TODO
 ```
 
-### Capabilities as a Spreadsheet
+Combined with the user's Prisma Schema AST, the tree is used in following way:
 
-In the future, we may want to use Excel and map this tree out visually. In Excel, this would look somethign like this:
+1. [Validating the user's Prisma Schema](#)
 
-```
-| Capabilities                       | Postgres  |  SQLite  |  HTTP   |
-| :--------------------------------: | :------:  |  :----:  | :----:  |
-| findOne                            |   true    |   true   |  true   |
-|   output                           |   true    |   true   |  true   |
-|     concat(String, String): String |   true    |   true   |  true   |
-|   filter                           |   true    |   true   |  false  |
-|     equal(String, String): Boolean |   true    |   true   |  false  |
-|     gt(String, String): Boolean    |   false   |   false  |  false  |
-| create                             |   true    |   true   |  true   |
-|   input                            |   true    |   true   |  true   |
-|     concat(String, String): String |   true    |   false  |  true   |
-```
+#### Validating the user's Prisma Schema
 
-- **Note** When you put `false` on a parent node, it should disable the whole subtree
+We'll use the Schema capabilities to validate schemas in the **Prisma Language Server** and in the **Migration Engine**.
 
-- **TODO** It's still a bit unclear to me how many combinations we'll need to map out, it's recursive so it can't be all of them otherwise it'd be infinity
-  combinations.
-  - **ANSWER:** Use `$ref`
-- **TODO** Merge with the capability map above.
+##### Prisma Language Server
 
-### QueryGenerate(User Schema, Connector Schema): DMMF
+> TODO: provide a minimal example of how this will work
 
-Now that we have a subset of the generic schema that's specific to Postgres, we can loop over our schema and generate the DMMF. The DMMF is then passed into the
-generators.
+##### Migration Engine
 
-- **TODO** I still haven't figured out how to do this. I want to talk to Tim next week to try and figure this out.
+> TODO: provide a minimal example of how this will work
 
-# Query Validation
+### Spreadsheet Frontend
 
-**TODO**
+We can visualize the schema capabilities in a spreadsheet in the following way:
 
-# Query Execution
+> TODO: finish me
 
-**TODO**
+## Terminology
 
-# Connector Interface
+- **Prisma Schema:** Your `schema.prisma` file and it's dependencies
+- **Prisma Schema AST:** The AST tree representation of a resolved (fully imported) `schema.prisma`
+- **Capability Map:** Static tree representation comprising of the Query and Schema capabilities
+- **Query Compatibility AST**: The tree representation of a data source's query capabilities
+- **Schema Compatibility AST**: The tree representation of a data source's schema capabilities
 
-Connectors have an interface with 4 methods:
+## Unanswered Questions
 
-1. `Capabilities(): Capabilities` Returns a list of the connector's capabilities
-2. `Connect(): error`: Connects to the given data source. If this datasource is stateless, connect may be empty.
-3. `Execute(query: string, variables: map[string]interface{}): RecordSet` Executes a query with the given parameters and returns a `RecordSet`.
-4. `Close(): error`: Closes the datasource. If the datasource is stateless, close may be empty.
-
-# Appendix: Schema AST
-
-The schema AST currently looks like this.
-
-**TODO** Translate into english.
-
-```go
-package schema
-
-// Datamodel struct
-type Datamodel struct {
-	Declarations []Declaration
-}
-
-// Declaration interface
-type Declaration interface{ declaration() }
-
-// Declaration Compliance
-func (*ModelDeclaration) declaration() {}
-func (*SourceBlock) declaration()      {}
-func (*GeneratorBlock) declaration()   {}
-func (*EnumDeclaration) declaration()  {}
-
-// ModelDeclaration struct
-type ModelDeclaration struct {
-	Name       *Identifier
-	Fields     []*Field
-	Directives []*Directive
-}
-
-// SourceBlock struct
-type SourceBlock struct {
-	Name       *Identifier
-	Properties []*Argument
-}
-
-// GeneratorBlock struct
-type GeneratorBlock struct {
-	Name       *Identifier
-	Properties []*Argument
-}
-
-// EnumDeclaration struct
-type EnumDeclaration struct {
-	Name       *Identifier
-	Values     []*EnumValue
-	Directives []*Directive
-}
-
-// Field struct
-type Field struct {
-	FieldType *Identifier
-	Name      *Identifier
-	Arity     FieldArity
-	Directive []*Directive
-}
-
-// FieldArity type
-type FieldArity int
-
-// Arity
-const (
-	Required FieldArity = 0
-	Optional            = 1
-	List                = 2
-)
-
-// EnumValue struct
-type EnumValue struct {
-	Name string
-}
-
-// Directive struct
-type Directive struct {
-	Name      *Identifier
-	Arguments []*Argument
-}
-
-// Argument struct
-type Argument struct {
-	Name  *Identifier
-	Value Value
-}
-
-// Identifier struct
-type Identifier struct {
-	Name string
-}
-
-// Value interface
-type Value interface{ value() }
-
-// Value compliance
-func (*Number) value()   {}
-func (*String) value()   {}
-func (*Boolean) value()  {}
-func (*Constant) value() {}
-func (*Function) value() {}
-func (*Array) value()    {}
-
-// Number struct
-type Number struct {
-	Value string
-}
-
-// String struct
-type String struct {
-	Value string
-}
-
-// Boolean struct
-type Boolean struct {
-	Value string
-}
-
-// Constant struct
-type Constant struct {
-	Name      string
-	Arguments []Argument
-}
-
-// Function struct
-type Function struct {
-	Name      string
-	Arguments []Argument
-}
-
-// Array struct
-type Array struct {
-	Elements []Value
-}
-
-```
-
-**TODO** this is how we do it currently, we might want to revisit the design.
+- Handle relationships
+- How to handle `ORDER BY`
+- How to handle Postgres extensions
