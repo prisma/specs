@@ -2,6 +2,25 @@
 
 <!-- toc -->
 
+- [Query Capabilities](#query-capabilities)
+  * [Inputables](#inputables)
+  * [Filterables](#filterables)
+  * [Outputables](#outputables)
+  * [Query Capability AST](#query-capability-ast)
+    + [Generating Photon clients](#generating-photon-clients)
+    + [Validating Queries](#validating-queries)
+  * [Spreadsheet Frontend](#spreadsheet-frontend)
+- [Schema Capabilities](#schema-capabilities)
+  * [Schema Capability AST](#schema-capability-ast)
+    + [Validating the user's Prisma Schema](#validating-the-users-prisma-schema)
+      - [Prisma Language Server](#prisma-language-server)
+      - [Migration Engine](#migration-engine)
+  * [Spreadsheet Frontend](#spreadsheet-frontend-1)
+- [Terminology](#terminology)
+- [Unanswered Questions](#unanswered-questions)
+
+<!-- tocstop -->
+
 We want to be able to take full advantage of the query and schema capabilities of each provided data source. To do this we'll build a static map of a data
 source's capabilities.
 
