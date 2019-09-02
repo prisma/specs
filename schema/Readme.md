@@ -928,8 +928,15 @@ datasource pg {
 }
 ```
 
-In this case `env` represents the outside environment. The `provider` must be static and cannot be an environment variable. Our general philosophy is that you
-want to generate environment variables **as late as possible**. The sections below describe this behavior.
+You can also provide a default if the environment variable is not specified:
+
+```groovy
+  provider = "sqlite"
+  url      = env("SQLITE_PATH", default: "file.db")
+```
+
+The `provider` must be static and cannot be an environment variable. Our general philosophy is that you want to generate environment variables **as late as
+possible**. The sections below describe this behavior.
 
 ### Introspect Behavior
 
