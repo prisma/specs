@@ -239,7 +239,7 @@ Field names are:
 
 ### Data Types
 
-Prisma has a couple core primitive types. How these core types are defined may vary across connectors. Every connector **must** implement these core types. It's
+Prisma has several core primitive types. How these core types are defined may vary across connectors. Every connector **must** implement these core types. It's
 part of the connectors interface to Prisma. If a connector doesn't have a core type, it should provide a **best-effort implementation**.
 
 | Type     | Description           |
