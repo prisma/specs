@@ -1,65 +1,7 @@
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
-
-- [Prisma Engine Runtime (for JavaScript/TypeScript)](#prisma-engine-runtime-for-javascripttypescript)
-- [Motivation](#motivation)
-- [Packages](#packages)
-- [Prisma Query Engine](#prisma-query-engine)
-  - [Environment](#environment)
-  - [Process Management](#process-management)
-    - [Start](#start)
-      - [Find Free Port](#find-free-port)
-      - [Binary Spawn](#binary-spawn)
-      - [Waiting for the Binary to be Ready](#waiting-for-the-binary-to-be-ready)
-    - [Stop](#stop)
-  - [Examples](#examples)
-    - [Photon.js](#photonjs)
-    - [CLI `generate` Command](#cli-generate-command)
-  - [API](#api)
-- [Prisma Migration Engine](#prisma-migration-engine)
-  - [Environment](#environment-1)
-  - [Process Management](#process-management-1)
-  - [Examples](#examples-1)
-    - [Prisma Test Utils](#prisma-test-utils)
-    - [CLI `lift` command](#cli-lift-command)
-  - [API](#api-1)
-- [Error Handling](#error-handling)
-- [Future](#future)
-- [Open Questions](#open-questions)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 # Prisma Engine Runtime (for JavaScript/TypeScript)
 
-<!-- toc -->
-
-- [Motivation](#motivation)
-- [Packages](#packages)
-- [Prisma Query Engine](#prisma-query-engine)
-  * [Environment](#environment)
-  * [Process Management](#process-management)
-    + [Start](#start)
-      - [Find Free Port](#find-free-port)
-      - [Binary Spawn](#binary-spawn)
-      - [Waiting for the Binary to be Ready](#waiting-for-the-binary-to-be-ready)
-    + [Stop](#stop)
-  * [Examples](#examples)
-    + [Photon.js](#photonjs)
-    + [CLI `generate` Command](#cli-generate-command)
-  * [API](#api)
-- [Prisma Migration Engine](#prisma-migration-engine)
-  * [Environment](#environment-1)
-  * [Process Management](#process-management-1)
-  * [Examples](#examples-1)
-    + [Prisma Test Utils](#prisma-test-utils)
-    + [CLI `lift` command](#cli-lift-command)
-  * [API](#api-1)
-- [Error Handling](#error-handling)
-- [Future](#future)
-- [Open Questions](#open-questions)
-
-<!-- tocstop -->
+<!-- START doctoc -->
+<!-- END doctoc -->
 
 # Motivation
 
