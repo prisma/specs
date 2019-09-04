@@ -1,8 +1,41 @@
 # Summary
 Specs for Studio design and features
 
-<!-- START doctoc -->
-<!-- END doctoc -->
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Overview](#overview)
+  - [Sections of Studio](#sections-of-studio)
+- [Tabbar](#tabbar)
+  - [Opening a new tab](#opening-a-new-tab)
+  - [Tab states](#tab-states)
+    - [Preview tab](#preview-tab)
+    - [Sticky tab](#sticky-tab)
+    - [Dirty tab](#dirty-tab)
+- [Tools sidebar](#tools-sidebar)
+- [Page](#page)
+- [Databrowser](#databrowser)
+  - [Query](#query)
+  - [Photon query](#photon-query)
+  - [Filters query](#filters-query)
+  - [Result](#result)
+  - [Table result](#table-result)
+  - [Tree result](#tree-result)
+- [Unsaved data changes](#unsaved-data-changes)
+- [Dashboard](#dashboard)
+- [Keyboard navigation](#keyboard-navigation)
+  - [Global scopes](#global-scopes)
+  - [Tabbar scope](#tabbar-scope)
+  - [Page scope](#page-scope)
+  - [Databrowser scope](#databrowser-scope)
+  - [Photon query scope](#photon-query-scope)
+  - [Filters query scope](#filters-query-scope)
+  - [Table result scope](#table-result-scope)
+  - [Tree result scope](#tree-result-scope)
+- [Theming](#theming)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # Overview
 
