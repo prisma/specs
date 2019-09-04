@@ -1,20 +1,3 @@
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
-
-- [Summary](#summary)
-- [Basic example](#basic-example)
-- [Motivation](#motivation)
-- [Detailed design](#detailed-design)
-  - [Operators](#operators)
-  - [Usage](#usage)
-    - [Examples](#examples)
-- [Drawbacks](#drawbacks)
-- [Alternatives](#alternatives)
-- [Adoption strategy](#adoption-strategy)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 - Start Date: 2019-01-23
 - RFC PR: (leave this empty)
 - Prisma Issue: (leave this empty)
@@ -25,19 +8,8 @@ This RFC proposes a basic aggregation mechanism to prisma.
 
 This RFC depends on [prisma expression language](https://github.com/prisma/rfcs/pull/3).
 
-<!-- toc -->
-
-- [Basic example](#basic-example)
-- [Motivation](#motivation)
-- [Detailed design](#detailed-design)
-  * [Operators](#operators)
-  * [Usage](#usage)
-    + [Examples](#examples)
-- [Drawbacks](#drawbacks)
-- [Alternatives](#alternatives)
-- [Adoption strategy](#adoption-strategy)
-
-<!-- tocstop -->
+<!-- START doctoc -->
+<!-- END doctoc -->
 
 # Basic example
 
