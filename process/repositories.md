@@ -37,9 +37,9 @@ Repositories used for Prisma 2:
 
 - https://github.com/prisma/prisma-label-sync - GitHub Label automation
 
-## Guidelines
+## Repository Creation Guidelines
 
-- In theory everything could live in one big, happy repo
-- Split if clearly defined separate product (è.g. `photonjs`, `lift`)
+- In theory everything could live in one big, happy repo 🎅
+- Split if clearly defined separate product (e.g. `photonjs`, `lift`)
 - Split if issues should be collected in separate location (e.g. `prisma-engine`)
 - Split if separation necessary for technical reasons (CI, commits)  (e.g. `prisma-engine`)
