@@ -1,3 +1,24 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**
+
+- [Summary](#summary)
+- [Basic example](#basic-example)
+- [Motivation](#motivation)
+- [Detailed design](#detailed-design)
+  - [Capabilities of Expressions](#capabilities-of-expressions)
+  - [Limitations of Expressions](#limitations-of-expressions)
+  - [Identifiers and Functions](#identifiers-and-functions)
+  - [Interoperability with the GraphQL API](#interoperability-with-the-graphql-api)
+- [Drawbacks](#drawbacks)
+- [Alternatives](#alternatives)
+- [Adoption strategy](#adoption-strategy)
+  - [Implementation Plan and related DB capabilities](#implementation-plan-and-related-db-capabilities)
+- [How we teach this](#how-we-teach-this)
+- [Unresolved questions](#unresolved-questions)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 - Start Date: 2017-01-17
 - RFC PR: (leave this empty)
 - Prisma Issue: (leave this empty)

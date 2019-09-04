@@ -1,3 +1,30 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**
+
+- [Summary](#summary)
+- [Motivation](#motivation)
+- [Detailed design](#detailed-design)
+  - [Generator configuration from `prisma.yml`](#generator-configuration-from-prismayml)
+  - [Generator resolution](#generator-resolution)
+  - [Generator interface](#generator-interface)
+    - [TypeScript](#typescript)
+    - [Non-TypeScript](#non-typescript)
+  - [Official Generators](#official-generators)
+  - [Installing 3rd party generators](#installing-3rd-party-generators)
+  - [Inclusion in the Prisma SDK](#inclusion-in-the-prisma-sdk)
+  - [Generating the client into `node_modules`](#generating-the-client-into-node_modules)
+    - [New Client generation output](#new-client-generation-output)
+  - [How client generation hooks in to migrate](#how-client-generation-hooks-in-to-migrate)
+    - [`prisma generate`](#prisma-generate)
+- [Drawbacks](#drawbacks)
+- [Alternatives](#alternatives)
+- [Adoption strategy](#adoption-strategy)
+- [How we teach this](#how-we-teach-this)
+- [Unresolved questions](#unresolved-questions)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 🚨 **NOTE: This spec is outdated**
 
 - Start Date: 2019-01-18

@@ -1,3 +1,24 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**
+
+- [Summary](#summary)
+- [How raw gets generated](#how-raw-gets-generated)
+- [MySQL & Postgres](#mysql--postgres)
+  - [Raw Query](#raw-query)
+  - [Photon JS](#photon-js)
+  - [Photon Go](#photon-go)
+    - [photon.RawTemplate](#photonrawtemplate)
+    - [photon.Raw](#photonraw)
+  - [Other Complex SQL statements](#other-complex-sql-statements)
+- [MongoDB](#mongodb)
+  - [Raw Query](#raw-query-1)
+  - [Photon JS](#photon-js-1)
+  - [Photon Go](#photon-go-1)
+- [HTTP Datasources?](#http-datasources)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 - Start Date: 2019-07-04
 - RFC PR:
 - Prisma Issue:

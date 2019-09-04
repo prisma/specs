@@ -1,3 +1,47 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**
+
+- [Binaries](#binaries)
+- [Motivation](#motivation)
+  - [Architecture](#architecture)
+    - [Prisma Query Engine Binary](#prisma-query-engine-binary)
+    - [Prisma Migration Engine Binary](#prisma-migration-engine-binary)
+    - [Utility Binaries](#utility-binaries)
+      - [Prisma Format Binary](#prisma-format-binary)
+  - [Requirements](#requirements)
+  - [Use Cases](#use-cases)
+- [Binary Files](#binary-files)
+  - [Pre-built Binary Targets](#pre-built-binary-targets)
+    - [URL Scheme](#url-scheme)
+  - [Naming Convention](#naming-convention)
+  - [Custom Binary](#custom-binary)
+- [Binary Protocols](#binary-protocols)
+  - [Data Protocol](#data-protocol)
+    - [Prisma Query Engine Binary](#prisma-query-engine-binary-1)
+    - [Prisma Migration Engine Binary](#prisma-migration-engine-binary-1)
+  - [Process Management](#process-management)
+- [Use Case: Prisma CLI](#use-case-prisma-cli)
+  - [How to Fetch Binaries](#how-to-fetch-binaries)
+    - [Environment Variables](#environment-variables)
+    - [Environment Variables Error Handling](#environment-variables-error-handling)
+  - [Example Scenarios](#example-scenarios)
+    - [1. Development machine is a Raspberry Pi and the deployment platform is AWS Lambda](#1-development-machine-is-a-raspberry-pi-and-the-deployment-platform-is-aws-lambda)
+    - [2. We are using CLI in a build system from a provider for which we do not have a working pre-compiled binary](#2-we-are-using-cli-in-a-build-system-from-a-provider-for-which-we-do-not-have-a-working-pre-compiled-binary)
+- [Use Case: Photon.js Generator](#use-case-photonjs-generator)
+  - [How to Fetch Binaries](#how-to-fetch-binaries-1)
+    - [Configuration](#configuration)
+    - [Configuration Error Handling](#configuration-error-handling)
+  - [Runtime](#runtime)
+  - [Example Scenarios](#example-scenarios-1)
+    - [1. Development machine is Mac but the deployment platform is AWS lambda.](#1-development-machine-is-mac-but-the-deployment-platform-is-aws-lambda)
+    - [2. Deterministically choose the binary-based a runtime environment variable](#2-deterministically-choose-the-binary-based-a-runtime-environment-variable)
+    - [3. Development machine is Mac but we need a custom binary in production](#3-development-machine-is-mac-but-we-need-a-custom-binary-in-production)
+    - [4. Development machine is a Raspberry Pi and the deployment platform is AWS Lambda](#4-development-machine-is-a-raspberry-pi-and-the-deployment-platform-is-aws-lambda)
+- [Unresolved questions](#unresolved-questions)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Binaries
 
 <!-- toc -->
