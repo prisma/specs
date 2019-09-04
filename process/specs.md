@@ -24,7 +24,11 @@ TBD
 
 ## How are spec files structured?
 
-TODO
+- First headline with `# Topic` mirrors the filename and general content
+- An introductionary paragraph might follow
+- A TOC is automatically created on commit, it's location after the introduction is marked with `...TODO`
+- The next headline with `## Section` starts the first actual content section
+- Each section might contain any number of subsections (`### Subsection` and so on)
 
 ### Folders and Filenames
 
