@@ -1015,6 +1015,7 @@ photon.user.findMany({
 
 ## Bigger todos
 
+- [ ] Lazy fields (Related: https://github.com/prisma/nexus-prisma/issues/301)
 - [ ] Modifiers
 - [ ] Expressions API/DSL
 - [ ] Binary copying
