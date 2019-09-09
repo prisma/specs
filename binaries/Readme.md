@@ -3,40 +3,40 @@
 <!-- toc -->
 
 - [Motivation](#motivation)
-  * [Architecture](#architecture)
-    + [Prisma Query Engine Binary](#prisma-query-engine-binary)
-    + [Prisma Migration Engine Binary](#prisma-migration-engine-binary)
-    + [Utility Binaries](#utility-binaries)
+  - [Architecture](#architecture)
+    - [Prisma Query Engine Binary](#prisma-query-engine-binary)
+    - [Prisma Migration Engine Binary](#prisma-migration-engine-binary)
+    - [Utility Binaries](#utility-binaries)
       - [Prisma Format Binary](#prisma-format-binary)
-  * [Requirements](#requirements)
-  * [Use Cases](#use-cases)
+  - [Requirements](#requirements)
+  - [Use Cases](#use-cases)
 - [Binary Files](#binary-files)
-  * [Pre-built Binary Targets](#pre-built-binary-targets)
-    + [URL Scheme](#url-scheme)
-  * [Naming Convention](#naming-convention)
-  * [Custom Binary](#custom-binary)
+  - [Pre-built Binary Targets](#pre-built-binary-targets)
+    - [URL Scheme](#url-scheme)
+  - [Naming Convention](#naming-convention)
+  - [Custom Binary](#custom-binary)
 - [Binary Protocols](#binary-protocols)
-  * [Data Protocol](#data-protocol)
-    + [Prisma Query Engine Binary](#prisma-query-engine-binary-1)
-    + [Prisma Migration Engine Binary](#prisma-migration-engine-binary-1)
-  * [Process Management](#process-management)
+  - [Data Protocol](#data-protocol)
+    - [Prisma Query Engine Binary](#prisma-query-engine-binary-1)
+    - [Prisma Migration Engine Binary](#prisma-migration-engine-binary-1)
+  - [Process Management](#process-management)
 - [Use Case: Prisma CLI](#use-case-prisma-cli)
-  * [How to Fetch Binaries](#how-to-fetch-binaries)
-    + [Environment Variables](#environment-variables)
-    + [Environment Variables Error Handling](#environment-variables-error-handling)
-  * [Example Scenarios](#example-scenarios)
-    + [1. Development machine is a Raspberry Pi and the deployment platform is AWS Lambda](#1-development-machine-is-a-raspberry-pi-and-the-deployment-platform-is-aws-lambda)
-    + [2. We are using CLI in a build system from a provider for which we do not have a working pre-compiled binary](#2-we-are-using-cli-in-a-build-system-from-a-provider-for-which-we-do-not-have-a-working-pre-compiled-binary)
+  - [How to Fetch Binaries](#how-to-fetch-binaries)
+    - [Environment Variables](#environment-variables)
+    - [Environment Variables Error Handling](#environment-variables-error-handling)
+  - [Example Scenarios](#example-scenarios)
+    - [1. Development machine is a Raspberry Pi and the deployment platform is AWS Lambda](#1-development-machine-is-a-raspberry-pi-and-the-deployment-platform-is-aws-lambda)
+    - [2. We are using CLI in a build system from a provider for which we do not have a working pre-compiled binary](#2-we-are-using-cli-in-a-build-system-from-a-provider-for-which-we-do-not-have-a-working-pre-compiled-binary)
 - [Use Case: Photon.js Generator](#use-case-photonjs-generator)
-  * [How to Fetch Binaries](#how-to-fetch-binaries-1)
-    + [Configuration](#configuration)
-    + [Configuration Error Handling](#configuration-error-handling)
-  * [Runtime](#runtime)
-  * [Example Scenarios](#example-scenarios-1)
-    + [1. Development machine is Mac but the deployment platform is AWS lambda.](#1-development-machine-is-mac-but-the-deployment-platform-is-aws-lambda)
-    + [2. Deterministically choose the binary-based a runtime environment variable](#2-deterministically-choose-the-binary-based-a-runtime-environment-variable)
-    + [3. Development machine is Mac but we need a custom binary in production](#3-development-machine-is-mac-but-we-need-a-custom-binary-in-production)
-    + [4. Development machine is a Raspberry Pi and the deployment platform is AWS Lambda](#4-development-machine-is-a-raspberry-pi-and-the-deployment-platform-is-aws-lambda)
+  - [How to Fetch Binaries](#how-to-fetch-binaries-1)
+    - [Configuration](#configuration)
+    - [Configuration Error Handling](#configuration-error-handling)
+  - [Runtime](#runtime)
+  - [Example Scenarios](#example-scenarios-1)
+    - [1. Development machine is Mac but the deployment platform is AWS lambda.](#1-development-machine-is-mac-but-the-deployment-platform-is-aws-lambda)
+    - [2. Deterministically choose the binary-based a runtime environment variable](#2-deterministically-choose-the-binary-based-a-runtime-environment-variable)
+    - [3. Development machine is Mac but we need a custom binary in production](#3-development-machine-is-mac-but-we-need-a-custom-binary-in-production)
+    - [4. Development machine is a Raspberry Pi and the deployment platform is AWS Lambda](#4-development-machine-is-a-raspberry-pi-and-the-deployment-platform-is-aws-lambda)
 - [Unresolved questions](#unresolved-questions)
 
 <!-- tocstop -->
@@ -101,22 +101,22 @@ Binaries (query engine binary and migration engine binary) are at the core of Ph
 
 ## Pre-built Binary Targets
 
-|             **Build**              |      **Known Platforms**      |                                                    **Query Engine**                                                    | **Migration Engine**                                                                                                  | **Prisma Format**                                                                                               |
-| :--------------------------------: | :---------------------------: | :--------------------------------------------------------------------------------------------------------------------: | --------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
-|               darwin               |      (Local development)      |               [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/darwin/prisma.gz)               | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/darwin/migration-engine.gz)                  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/darwin/prisma-fmt.gz)                  |
-|              windows               |      (Local development)      |              [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/windows/prisma.gz)               | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/windows/migration-engine.gz)                 | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/windows/prisma-fmt.gz)                 |
-|      linux-glibc-libssl1.0.1       |      Lambda Node 8, ZEIT      |      [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc-libssl1.0.1/prisma.gz)       | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc-libssl1.0.1/migration-engine.gz) | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc-libssl1.0.1/prisma-fmt.gz) |
-|      linux-glibc-libssl1.0.2       | Lambda (Node 10), Netlify, Up |      [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc-libssl1.0.2/prisma.gz)       | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc-libssl1.0.2/migration-engine.gz) | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc-libssl1.0.2/prisma-fmt.gz) |
-|      linux-glibc-libssl1.1.0       |               ?               |      [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc-libssl1.1.0/prisma.gz)       | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc-libssl1.1.0/migration-engine.gz) | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc-libssl1.1.0/prisma-fmt.gz) |
-|      linux-glibc-libssl1.1.1       |               ?               |      [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc-libssl1.1.1/prisma.gz)       | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc-libssl1.1.1/migration-engine.gz) | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc-libssl1.1.1/prisma-fmt.gz) |
-|       linux-musl-libssl1.0.1       |            Alpine             |       [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.0.1/prisma.gz)       | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.0.1/migration-engine.gz)  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.0.1/prisma-fmt.gz)  |
-|       linux-musl-libssl1.0.2       |            Alpine             |       [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.0.2/prisma.gz)       | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.0.2/migration-engine.gz)  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.0.2/prisma-fmt.gz)  |
-|       linux-musl-libssl1.1.0       |            Alpine             |       [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.1.0/prisma.gz)       | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.1.0/migration-engine.gz)  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.1.0/prisma-fmt.gz)  |
-|       linux-musl-libssl1.1.1       |            Alpine             |       [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.1.1/prisma.gz)       | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.1.1/migration-engine.gz)  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.1.1/prisma-fmt.gz)  |
-| linux-glibc-libssl1.0.1-ubuntu1604 |         Ubuntu 16.04          | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc-libssl1.0.1-ubuntu1604/prisma.gz) | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.1.1/migration-engine.gz)  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.1.1/prisma-fmt.gz)  |
-| linux-glibc-libssl1.0.2-ubuntu1604 |         Ubuntu 16.04          | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc-libssl1.0.2-ubuntu1604/prisma.gz) | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.1.1/migration-engine.gz)  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.1.1/prisma-fmt.gz)  |
-| linux-glibc-libssl1.1.0-ubuntu1604 |         Ubuntu 16.04          | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc-libssl1.1.0-ubuntu1604/prisma.gz) | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.1.1/migration-engine.gz)  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.1.1/prisma-fmt.gz)  |
-| linux-glibc-libssl1.1.1-ubuntu1604 |         Ubuntu 16.04          | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-glibc-libssl1.1.1-ubuntu1604/prisma.gz) | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.1.1/migration-engine.gz)  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/linux-musl-libssl1.1.1/prisma-fmt.gz)  |
+|             **Build**              |      **Known Platforms**      |                                                    **Query Engine**                                                     | **Migration Engine**                                                                                                   | **Prisma Format**                                                                                                |
+| :--------------------------------: | :---------------------------: | :---------------------------------------------------------------------------------------------------------------------: | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+|               darwin               |      (Local development)      |               [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/darwin/prisma.gz)               | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/darwin/migration-engine.gz)                  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/darwin/prisma-fmt.gz)                  |
+|              windows               |      (Local development)      |            [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/windows/prisma.exe.gz)             | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/windows/migration-engine.exe.gz)             | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/windows/prisma-fmt.exe.gz)             |
+|      linux-glibc-libssl1.0.1       |      Lambda Node 8, ZEIT      |      [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-glibc-libssl1.0.1/prisma.gz)       | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-glibc-libssl1.0.1/migration-engine.gz) | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-glibc-libssl1.0.1/prisma-fmt.gz) |
+|      linux-glibc-libssl1.0.2       | Lambda (Node 10), Netlify, Up |      [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-glibc-libssl1.0.2/prisma.gz)       | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-glibc-libssl1.0.2/migration-engine.gz) | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-glibc-libssl1.0.2/prisma-fmt.gz) |
+|      linux-glibc-libssl1.1.0       |               ?               |      [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-glibc-libssl1.1.0/prisma.gz)       | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-glibc-libssl1.1.0/migration-engine.gz) | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-glibc-libssl1.1.0/prisma-fmt.gz) |
+|      linux-glibc-libssl1.1.1       |               ?               |      [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-glibc-libssl1.1.1/prisma.gz)       | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-glibc-libssl1.1.1/migration-engine.gz) | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-glibc-libssl1.1.1/prisma-fmt.gz) |
+|       linux-musl-libssl1.0.1       |            Alpine             |       [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-musl-libssl1.0.1/prisma.gz)       | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-musl-libssl1.0.1/migration-engine.gz)  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-musl-libssl1.0.1/prisma-fmt.gz)  |
+|       linux-musl-libssl1.0.2       |            Alpine             |       [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-musl-libssl1.0.2/prisma.gz)       | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-musl-libssl1.0.2/migration-engine.gz)  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-musl-libssl1.0.2/prisma-fmt.gz)  |
+|       linux-musl-libssl1.1.0       |            Alpine             |       [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-musl-libssl1.1.0/prisma.gz)       | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-musl-libssl1.1.0/migration-engine.gz)  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-musl-libssl1.1.0/prisma-fmt.gz)  |
+|       linux-musl-libssl1.1.1       |            Alpine             |       [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-musl-libssl1.1.1/prisma.gz)       | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-musl-libssl1.1.1/migration-engine.gz)  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-musl-libssl1.1.1/prisma-fmt.gz)  |
+| linux-glibc-libssl1.0.1-ubuntu1604 |         Ubuntu 16.04          | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-glibc-libssl1.0.1-ubuntu1604/prisma.gz) | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-musl-libssl1.1.1/migration-engine.gz)  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-musl-libssl1.1.1/prisma-fmt.gz)  |
+| linux-glibc-libssl1.0.2-ubuntu1604 |         Ubuntu 16.04          | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-glibc-libssl1.0.2-ubuntu1604/prisma.gz) | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-musl-libssl1.1.1/migration-engine.gz)  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-musl-libssl1.1.1/prisma-fmt.gz)  |
+| linux-glibc-libssl1.1.0-ubuntu1604 |         Ubuntu 16.04          | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-glibc-libssl1.1.0-ubuntu1604/prisma.gz) | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-musl-libssl1.1.1/migration-engine.gz)  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-musl-libssl1.1.1/prisma-fmt.gz)  |
+| linux-glibc-libssl1.1.1-ubuntu1604 |         Ubuntu 16.04          | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-glibc-libssl1.1.1-ubuntu1604/prisma.gz) | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-musl-libssl1.1.1/migration-engine.gz)  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-musl-libssl1.1.1/prisma-fmt.gz)  |
 
 ### URL Scheme
 
