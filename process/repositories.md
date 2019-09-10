@@ -4,6 +4,8 @@
 - Stakeholders: @schickling, @dpetrick
 - Spec State: stable
 
+Prisma obviously uses GitHub for hosting our git repositories. This document specifies which repositories we consider part of our main offering, and how we decide when to create an additional repository.
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
@@ -17,11 +19,6 @@
 - [Repository Creation Guidelines](#repository-creation-guidelines)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-Prisma obviously uses GitHub for hosting our git repositories. This document specifies which repositories we consider part of our main offering, and how we decide when to create an additional repository.
-
-<!-- toc -->
-<!-- tocend -->
 
 ## Repositories in use
 
