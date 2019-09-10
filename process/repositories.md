@@ -43,6 +43,7 @@ Repositories used for Prisma 2:
 ## Repository Creation Guidelines
 
 - In theory everything could live in one big, happy repo 🎅
-- Split if clearly defined separate product (e.g. `photonjs`, `lift`)
+- Split if clearly defined separate tool (e.g. `photonjs`, `lift`)
 - Split if issues should be collected in separate location (e.g. `prisma-engine`)
 - Split if separation necessary for technical reasons (CI, commits)  (e.g. `prisma-engine`)
+- Split if usage outside of Prisma could be useful (e.g. `prisma-query`)
