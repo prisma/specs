@@ -1017,6 +1017,7 @@ photon.user.findMany({
 
 - [ ] Lazy fields (Related: https://github.com/prisma/nexus-prisma/issues/301)
 - [ ] Modifiers
+- [ ] transactions by default (e.g. high throughput operations)
 - [ ] Expressions API/DSL
 - [ ] Binary copying
 - [ ] Raw API fallbacks
