@@ -1,1 +1,4 @@
 # specs [![Netlify Status](https://api.netlify.com/api/v1/badges/17fd71c4-de5a-4759-83dc-90d6656ae79b/deploy-status)](https://app.netlify.com/sites/prisma-specs/deploys)
+
+<!-- START doctoc -->
+<!-- END doctoc -->
