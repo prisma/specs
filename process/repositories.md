@@ -1,6 +1,6 @@
 # Prisma 2 Repositories
 
-- Owner: Jan
+- Owner: @janpio
 - Stakeholders: Johannes, Dom
 - State: stable
 
