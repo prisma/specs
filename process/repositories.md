@@ -2,6 +2,9 @@
 
 Prisma obviously uses GitHub for hosting our git repositories. This document specifies which repositories we consider part of our main offering, and how we decide when to create an additional repository.
 
+<!-- toc -->
+<!-- tocend -->
+
 ## Repositories in use
 
 Repositories used for Prisma 2:
@@ -12,7 +15,7 @@ Repositories used for Prisma 2:
 
 - https://github.com/prisma/prisma2 - Prisma 2: CLI and Docs
 - https://github.com/prisma/specs - Specification of Prisma 2
-- https://github.com/prisma/photonjs - PhotonJS
+- https://github.com/prisma/photonjs - Photon.js
 - https://github.com/prisma/lift - Lift
 - https://github.com/prisma/studio - Studio
 - https://github.com/prisma/vscode-prisma - VSCode Extension for Prisma
