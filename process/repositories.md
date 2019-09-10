@@ -1,7 +1,7 @@
 # Prisma 2 Repositories
 
 - Owner: @janpio
-- Stakeholders: Johannes, Dom
+- Stakeholders: @schickling, @dpetrick
 - State: stable
 
 Prisma obviously uses GitHub for hosting our git repositories. This document specifies which repositories we consider part of our main offering, and how we decide when to create an additional repository.
