@@ -60,14 +60,14 @@ We don't only spec the software itself, but also how we work on it and on these 
 
 #### Process
 
-- [GitHub labels](process/github-labels.md) 🚧
-- [Issue Triage](process/issue-triage.md) 🚧
+- [GitHub labels](process/labels.md) ✅
+- [Issue Triage](process/issue-triage.md) ✅
 - [Repositories](process/repositories.md) ✅
 
 #### Meta
 
 - [Specs](meta/specs.md) 🚧
-- [Table of Contents](meta/table-of-contents.md) 🚧
+- [Table of Contents](meta/table-of-contents.md) ✅
 
 ---
 
@@ -75,7 +75,7 @@ Emoji key:
 
 - ❔ - unknown state
 - ✅ - current, stable
-- 🚧 - work in progress (see [Pull Requests](https://github.com/prisma/specs/pulls)
+- 🚧 - work in progress (see [Pull Requests](https://github.com/prisma/specs/pulls))
 - 🚨 - outdated, needs work
 - ❌ - does not exist yet
 
