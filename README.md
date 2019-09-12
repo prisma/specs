@@ -63,6 +63,7 @@ We don't only spec the software itself, but also how we work on it and on these 
 - [GitHub labels](process/labels.md) ✅
 - [Issue Triage](process/issue-triage.md) ✅
 - [Repositories](process/repositories.md) ✅
+- [Release Milestones](process/release-milestones.md) ✅
 
 #### Meta
 
