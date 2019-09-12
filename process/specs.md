@@ -13,7 +13,8 @@ This specification specs what *Specs* are, [who](#who) creates and maintains the
 
 
 - [Spec?](#spec)
-  - [Functional and technical specs](#functional-and-technical-specs)
+  - [Specs at Prisma](#specs-at-prisma)
+  - [Functional vs. technical specs](#functional-vs-technical-specs)
   - [Pain Points](#pain-points)
 - [Who](#who)
   - [For who?](#for-who)
@@ -25,7 +26,10 @@ This specification specs what *Specs* are, [who](#who) creates and maintains the
 - [What should be specified in a spec?](#what-should-be-specified-in-a-spec)
   - [How are spec files structured?](#how-are-spec-files-structured)
   - [Functional vs. Technical Specification](#functional-vs-technical-specification)
-  - [What state is a spec in?](#what-state-is-a-spec-in)
+  - [Top Level State](#top-level-state)
+    - [Spec State](#spec-state)
+    - [Implementation State](#implementation-state)
+  - [State in Spec](#state-in-spec)
   - [How do we specify which individual parts of a spec are not implemented yet?](#how-do-we-specify-which-individual-parts-of-a-spec-are-not-implemented-yet)
   - [Folders and Filenames](#folders-and-filenames)
   - [Where should we link to specs?](#where-should-we-link-to-specs)
@@ -33,6 +37,7 @@ This specification specs what *Specs* are, [who](#who) creates and maintains the
   - [When are specs created?](#when-are-specs-created)
   - [Do specs reflect the present or the future?](#do-specs-reflect-the-present-or-the-future)
 - [Spec Workflow](#spec-workflow)
+- [How](#how)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
