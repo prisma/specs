@@ -92,6 +92,7 @@ datasource mgo2 {
   - `postgresql`
   - `mongodb`
   - `mysql`
+  - `sqlite`
 - `url` Connection url including auth info. Each datasource provider documents the url syntax. most providers use the syntax provided by the database
 - `enabled` Use environment variables to enable/disable a datasource
 
