@@ -2,9 +2,11 @@
 
 - Owner: @janpio
 - Stakeholders: @schickling, @matthewmueller, @divyenduz
-- State: Stable
+- State:
+    - Spec: Stable ✅
+    - Implementation: In Progress 👷‍
 
-This spec specs what *Specs* are, [who](#who) creates and maintains them, [what](#what) we usually put in there and [when](#when) specs should actually be created and what timeframe they target. It also describes how we organize these specs in this `specs` repository.
+This specification specs what *Specs* are, [who](#who) creates and maintains them, [what](#what) we usually put in there and [when](#when) specs should actually be created and what timeframe they target. It also describes how we organize these specs in this `specs` repository.
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -40,19 +42,21 @@ This spec specs what *Specs* are, [who](#who) creates and maintains them, [what]
 
 > A specification often refers to a set of documented requirements to be satisfied by a material, design, product, or service. A specification is often a type of technical standard. [...] The word _specification_ is broadly defined as "to state explicitly or in detail" or "to be specific"
 
+### Specs at Prisma
+
 For Prisma specs are documents collected in the [`prisma/specs` repository](https://github.com/prisma/specs) that define different parts of Prisma: tools, features, APIs, file formats and even the specs and their process themselves (you are reading that one right now).
 
-### Functional and technical specs
-
-> It seems that specs are like flossing: everybody knows they should be writing them, but nobody does.
+### Functional vs. technical specs
 
 Our usage and format of specs are highly influenced by the ["Painless Functional Specifications" article series of Joel Spolsky](https://www.joelonsoftware.com/2000/10/02/painless-functional-specifications-part-1-why-bother/), which explains why you want to have specs, what they could/should look like and also who writes them.
+
+> It seems that specs are like flossing: everybody knows they should be writing them, but nobody does.
 
 As Prisma is a pretty technical product, in contrast to Joel's opinion we sometime _do_ include elaborate technical specifications as well.
 
 ### Pain Points
 
-We acknowledge that our definition of specs and specs in general always have some pain points, that are hard or impossible to get rid of.
+We acknowledge that our definition of specs and specs in general always have some pain points, that are hard or impossible to get rid of. The following 
 
 - granularity
     - low vs. high level
@@ -72,17 +76,17 @@ We acknowledge that our definition of specs and specs in general always have som
 
 ### For who?
 
-Product, 
+Product, Engineering, Community
 
 
 ### Who writes specs?
 
 Product, Engineering
-conversation
+conversation between both
 
 #### Who can update specs?
 
-Everyone - via PR!
+Everyone - via PR or issue to trigger changes.
 
 ### Owner
 
@@ -111,7 +115,7 @@ Every spec is different, so we do not have one template that can just be adapted
    <!-- toc -->
    <!-- endtoc -->
    ```
-   TODO
+   (For more information see [Table of Contents](table-of-contents))
 - The next headline with `## Section` starts the first actual content section
 - Each section might contain any number of subsections (`### Subsection` and so on)
 
@@ -122,28 +126,33 @@ Every spec is different, so we do not have one template that can just be adapted
 
 
 
-### What state is a spec in?
+### Top Level State
+
+#### Spec State
+
+- Stable ✅ 
+- Draft 🚧 
+- Outdated 🚨 
+- Missing ❌
+
+#### Implementation State
+
+- Future 👽
+- In Progress 👷‍
+- Fully implemented 🌼
 
 
-Spec State:
-- Draft
-- ✅ Stable
-- 🚨 Outdated
-
-Implementation State:
-- Future
-- In Progress
-- Fully implemented
-
+### State in Spec
 
 ### How do we specify which individual parts of a spec are not implemented yet?
 
 > ⚠ This is not implemented yet.
 
+Notes in text:
+
 `> ⚠ This is not implemented yet.`
 
 
-Notes in text
 
 
 
@@ -191,4 +200,15 @@ Are of conflict: Write what we _want_ or what we _have_? As specs should be crea
 - Talks to stakeholders
 - Integrates more and more stakeholders, based on iteration
 - Publication via All-Hands meeting ("Specs update")
+- 
+
+
+## How
+
+- Start PR
+- Start with Front Matter (Owner, Stakeholders, State) and Introduction sentence
+- Get first buy-in from Stakeholders
+- Start with usage scenario
+- Confirm with Stakeholders
+- Flesh out the details, probably together with Stakeholders
 - 
