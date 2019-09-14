@@ -168,6 +168,7 @@ const usersByProfile: User[] = await photon.user.findMany({
 })
 
 // Where / filtering
+await photon.user.findMany({ where: { email: 'alice@gmail.com' } })
 await photon.user.findMany({ where: { email: { contains: '@gmail.com' } } })
 await photon.user.findMany({
   where: { email: { containsInsensitive: '@gmail.com' } },
