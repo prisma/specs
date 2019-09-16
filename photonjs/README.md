@@ -3,37 +3,36 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-
-  - [Prisma Schema](#prisma-schema)
-  - [Types](#types)
-  - [Basic Queries](#basic-queries)
-  - [Writing Data](#writing-data)
-    - [Write operations](#write-operations)
-      - [Nested Write API](#nested-write-api)
-      - [Fluent Write API](#fluent-write-api)
-    - [Many operations](#many-operations)
-    - [Nested writes](#nested-writes)
-  - [Load: Select / Include API](#load-select--include-api)
-    - [Default selection set](#default-selection-set)
-  - [Fluent API](#fluent-api)
-    - [Null narrowing](#null-narrowing)
-    - [Expressing the same query using fluent API syntax and nested writes](#expressing-the-same-query-using-fluent-api-syntax-and-nested-writes)
-  - [Mental model: Graph traversal](#mental-model-graph-traversal)
-  - [Expressions](#expressions)
-    - [Criteria Filters](#criteria-filters)
-    - [Order By](#order-by)
-    - [Write Operations (Update/Atomic)](#write-operations-updateatomic)
-    - [Aggregations](#aggregations)
-    - [Group by](#group-by)
-  - [Meta response](#meta-response)
-  - [Optimistic Concurrency Control / Optimistic Offline Lock](#optimistic-concurrency-control--optimistic-offline-lock)
-    - [Supported operations](#supported-operations)
-  - [Batching](#batching)
-  - [Distinct](#distinct)
-  - [Criteria API](#criteria-api)
-  - [Design decisions](#design-decisions)
-  - [Constructor](#constructor)
-  - [Connection management](#connection-management)
+- [Prisma Schema](#prisma-schema)
+- [Types](#types)
+- [Basic Queries](#basic-queries)
+- [Writing Data](#writing-data)
+  - [Write operations](#write-operations)
+    - [Nested Write API](#nested-write-api)
+    - [Fluent Write API](#fluent-write-api)
+  - [Many operations](#many-operations)
+  - [Nested writes](#nested-writes)
+- [Load: Select / Include API](#load-select--include-api)
+  - [Default selection set](#default-selection-set)
+- [Fluent API](#fluent-api)
+  - [Null narrowing](#null-narrowing)
+  - [Expressing the same query using fluent API syntax and nested writes](#expressing-the-same-query-using-fluent-api-syntax-and-nested-writes)
+- [Mental model: Graph traversal](#mental-model-graph-traversal)
+- [Expressions](#expressions)
+  - [Criteria Filters](#criteria-filters)
+  - [Order By](#order-by)
+  - [Write Operations (Update/Atomic)](#write-operations-updateatomic)
+  - [Aggregations](#aggregations)
+  - [Group by](#group-by)
+- [Meta response](#meta-response)
+- [Optimistic Concurrency Control / Optimistic Offline Lock](#optimistic-concurrency-control--optimistic-offline-lock)
+  - [Supported operations](#supported-operations)
+- [Batching](#batching)
+- [Distinct](#distinct)
+- [Criteria API](#criteria-api)
+- [Design decisions](#design-decisions)
+- [Constructor](#constructor)
+- [Connection management](#connection-management)
 - [Unresolved questions](#unresolved-questions)
   - [Figured out but needs spec](#figured-out-but-needs-spec)
   - [Bigger todos](#bigger-todos)
@@ -1040,6 +1039,40 @@ photon.user.findMany({
 ```
 
 -->
+
+# Error Handling
+
+## Error Character Encoding
+
+Photon generates pretty error messages with ANSI characters for features like color coding errors and warnings in queries and newlines that are very useful for development as they usually pin point the issue.
+
+However, when this data is serialized it contains a lot of unicode characters.
+
+<details><summary>Serialized Photon error</summary>
+
+<p>
+
+```
+
+Error: ^[[31mInvalid ^[[1m`const data = await photon.users.findMany()`^[[22m invocation in ^[[4m/Users/divyendusingh/Documents/prisma/p2-studio/index.js:8:37^[[24m^[[39m ^[[2m ^[[90m 4 ^[[39m^[[36mconst^[[39m photon = ^[[36mnew^[[39m Photon^[[38;2;107;139;140m(^[[39m^[[38;2;107;139;140m)^[[39m^[[22m ^[[2m ^[[90m 5 ^[[39m^[[22m ^[[2m ^[[90m 6 ^[[39m^[[36masync^[[39m ^[[36mfunction^[[39m ^[[36mmain^[[39m^[[38;2;107;139;140m(^[[39m^[[38;2;107;139;140m)^[[39m ^[[38;2;107;139;140m{^[[39m^[[22m ^[[2m ^[[90m 7 ^[[39m ^[[36mtry^[[39m ^[[38;2;107;139;140m{^[[39m^[[22m ^[[31m^[[1m→^[[22m^[[39m ^[[90m 8 ^[[39m ^[[36mconst^[[39m data = ^[[36mawait^[[39m photon^[[38;2;107;139;140m.^[[39musers^[[38;2;107;139;140m.^[[39m^[[36mfindMany^[[39m^[[38;2;107;139;140m(^[[39m{ ^[[91munknown^[[39m: ^[[2m'1'^[[22m^[[2m^[[22m ^[[91m~~~~~~~^[[39m ^[[2m^[[22m}^[[2m)^[[22m Unknown arg ^[[91m`unknown`^[[39m in ^[[1munknown^[[22m for type ^[[1mUser^[[22m. Did you mean `^[[92mskip^[[39m`? ^[[2mAvailable args:^[[22m ^[[2mtype^[[22m ^[[1m^[[2mfindManyUser^[[1m^[[22m ^[[2m{^[[22m ^[[2m^[[32mwhere^[[39m?: ^[[37mUserWhereInput^[[39m^[[22m ^[[2m^[[32morderBy^[[39m?: ^[[37mUserOrderByInput^[[39m^[[22m ^[[2m^[[32mskip^[[39m?: ^[[37mInt^[[39m^[[22m ^[[2m^[[32mafter^[[39m?: ^[[37mString^[[39m^[[22m ^[[2m^[[32mbefore^[[39m?: ^[[37mString^[[39m^[[22m ^[[2m^[[32mfirst^[[39m?: ^[[37mInt^[[39m^[[22m ^[[2m^[[32mlast^[[39m?: ^[[37mInt^[[39m^[[22m ^[[2m}^[[22m
+
+```
+
+</p>
+
+</details>
+
+There are two prominent use cases amongst others for disabling/better structuring the error logs:
+
+1. In Production logs, one might want to read the error messages thrown by Photon.
+
+2. In tools like Studio, it currently strips the ANSI characters (like [this](https://codesandbox.io/s/photon-pretty-errors-m4l77)) and displays the output as the error message.
+
+To solve these two use case, Photon can do the following:
+
+1. Use `NODE_ENV`. When `NODE_ENV` is set to `development` or is unset, Photon can emit logs with ANSI characters. However, when `NODE_ENV` is set to `production` Photon can omit ANSI characters and any additional newline characters from the logs.
+
+2. Photon can additionally offer `prettyLogs` as a constructor argument (defaults to `true`) to switch off the pretty error logging.
 
 # Unresolved questions
 
