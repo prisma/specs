@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/matthewmueller/prisma/specs/photongo/photon-go/prisma"
-	"github.com/matthewmueller/prisma/specs/photongo/photon-go/prisma/comment"
-	"github.com/matthewmueller/prisma/specs/photongo/photon-go/prisma/post"
-	"github.com/matthewmueller/prisma/specs/photongo/photon-go/prisma/user"
+	"github.com/prisma/photon-go/prisma"
+	"github.com/prisma/photon-go/prisma/comment"
+	"github.com/prisma/photon-go/prisma/post"
+	"github.com/prisma/photon-go/prisma/user"
 )
 
 func main() {

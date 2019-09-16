@@ -1,50 +1,108 @@
-package comment
+package post
 
 import (
 	"time"
 
-	"github.com/matthewmueller/prisma/specs/photongo/photon-go/prisma"
+	"github.com/prisma/photon-go/prisma"
 )
 
-// ID field
-type ID string
+// Title field
+type Title string
 
 // CreatedAt field
 type CreatedAt time.Time
 
-// Text field
-type Text string
-
-// Comment model
-type Comment struct {
-	ID
-	CreatedAt
-	Text
+// Post model
+type Post struct {
 }
 
-// New comment input
-func New() *prisma.CommentInput {
-	return &prisma.CommentInput{}
+// New post input
+func New() *prisma.PostInput {
+	return &prisma.PostInput{}
 }
+
+// // Condition interface
+// type Condition interface {
+// 	condition() *condition
+// }
+
+// // contains condition state
+// type condition struct {
+// }
 
 // Where condition
-func Where() *prisma.CommentWhere {
-	return &prisma.CommentWhere{}
+func Where() *prisma.PostWhere {
+	return &prisma.PostWhere{}
 }
 
-// Order condition
-func Order() *prisma.CommentOrder {
-	return &prisma.CommentOrder{}
+// Connect condition
+func Connect() *prisma.PostConnect {
+	return &prisma.PostConnect{}
 }
 
-// Find a comment by a condition
-func Find(db prisma.Client, conditions ...prisma.CommentCondition) (comment *Comment, err error) {
-	return comment, err
+// First condition
+func First(first int) *prisma.PostFirst {
+	return &prisma.PostFirst{}
 }
 
-// FindMany comments by a condition
-func FindMany(db prisma.Client, conditions ...prisma.CommentCondition) (comments []*Comment, err error) {
-	return comments, err
+// After condition
+func After(after string) *prisma.PostAfter {
+	return &prisma.PostAfter{}
+}
+
+// Before condition
+func Before(before string) *prisma.PostBefore {
+	return &prisma.PostBefore{}
+}
+
+// Skip condition
+func Skip(skip int) *prisma.PostSkip {
+	return &prisma.PostSkip{}
+}
+
+// Last condition
+func Last(last int) *prisma.PostLast {
+	return &prisma.PostLast{}
+}
+
+// WithComments comments
+func WithComments(conditions ...*prisma.CommentCondition) *prisma.PostWith {
+	return nil
+}
+
+// Find a post by a condition
+func Find(db prisma.Client, conditions ...prisma.PostCondition) (post *prisma.Post, err error) {
+	return post, err
+}
+
+// FindMany posts by a condition
+func FindMany(db prisma.Client, conditions ...prisma.PostCondition) (posts []*prisma.Post, err error) {
+	return posts, err
+}
+
+// Create a post
+func Create(db prisma.Client, input *prisma.PostInput) (post *prisma.Post, err error) {
+	return post, err
+}
+
+// Update a post
+func Update(db prisma.Client, post *prisma.PostInput, where *prisma.PostWhere) (*prisma.Post, error) {
+	return nil, nil
+}
+
+// UpdateMany a posts
+func UpdateMany(db prisma.Client, post *prisma.PostInput, where *prisma.PostWhere) (*prisma.Post, error) {
+	return nil, nil
+}
+
+// Delete a post
+func Delete(db prisma.Client, where *prisma.PostWhere) (*prisma.Post, error) {
+	return nil, nil
+}
+
+// DeleteMany posts
+func DeleteMany(db prisma.Client, where *prisma.PostWhere) (*prisma.Post, error) {
+	return nil, nil
 }
 
 // // Input for a user
