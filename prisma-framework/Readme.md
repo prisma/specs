@@ -6,7 +6,7 @@ databases and programming languages.
 **Editor's Note:** This specification is both a _draft_ and _forward-looking_. This spec was derived from an
 [end-to-end prototype](https://github.com/prisma/reconnaissance). Engineering has not yet vetted the spec or the prototype.
 
-The goals of this spec are to:
+The goal of this spec is to:
 
 - Provide a clear, unified picture of where we see the Prisma Framework going
 - Scout ahead of engineering with a throwaway prototype and a product spec that's grounded in reality
