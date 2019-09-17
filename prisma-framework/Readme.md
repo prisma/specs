@@ -1722,6 +1722,9 @@ interface Queryer {
 }
 ```
 
+**TODO** Update the prototype and the spec to match backend's plan. This isn't aligned with how backend engineering is thinking about this. They plan to provide
+higher-level CRUD interface.
+
 You'll notice that the connector's Queryer interface is as the Access Client.
 
 <details>
