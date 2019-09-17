@@ -1142,7 +1142,327 @@ export type DeleteFieldAttribute = {
 
 </details>
 
-### Capabilities
+### Capability Map
+
+The Capability Map is a structure that describes what Prisma features a datasource can perform. We decide these features. For example, the Capability Map has a
+`upsert` query. The capability map also includes features like functions, lists of strings, and datetimes.
+
+Once we have this capability map, we then go to the datasource and see if we can perform this operation or store this data type. If we can, it appears in the
+datasource's Capability Map. If we can't, the capability is omitted. The structure of the Capability Map can be adjusted over time as we find new features we'd
+like to add to Prisma.
+
+<details>
+<summary>Capability Map Type<summary>
+
+```typescript
+export type Map = {
+  datasource: string
+  datatypes: {
+    [type: string]: DataType
+  }
+  queries: QueryType[]
+}
+
+export type QueryType = CreateType | FindType | UpdateType | DeleteType | UpsertType
+
+export type CreateType = {
+  type: 'create_type'
+  inputs: InputType[]
+  outputs: OutputType[]
+}
+
+export type FindType = {
+  type: 'find_type'
+  filters: FilterType[]
+  outputs: OutputType[]
+}
+
+export type UpdateType = {
+  type: 'update_type'
+  inputs: InputType[]
+  filters: FilterType[]
+  outputs: OutputType[]
+}
+
+export type DeleteType = {
+  type: 'delete_type'
+  filters: FilterType[]
+  outputs: OutputType[]
+}
+
+export type UpsertType = {
+  type: 'upsert_type'
+  inputs: InputType[]
+  filters: FilterType[]
+  outputs: OutputType[]
+}
+
+export type InputType = ExpressionType
+export type FilterType = ExpressionType
+export type OutputType = ExpressionType
+
+export type ExpressionType = FunctionType | DataType
+
+export type FunctionType = {
+  type: 'function_type'
+  name: string
+  arguments: ArgumentType[]
+  returns: DataType
+}
+
+export type ArgumentType = {
+  type: 'argument_type'
+  name: string
+  datatype: DataType
+}
+
+export type DataType = OptionalType | ListType | NamedType
+
+export type OptionalType = {
+  type: 'optional_type'
+  inner: ListType | NamedType
+}
+
+export type ListType = {
+  type: 'list_type'
+  inner: DataType
+}
+
+export type NamedType = {
+  type: 'named_type'
+  name: 'String' | 'Boolean' | 'DateTime' | 'Int' | 'Float'
+}
+
+export type QueryValue = CreateValue | FindValue | UpdateValue | DeleteValue | UpsertValue
+
+export type CreateValue = {
+  type: 'create_value'
+  model: string
+  inputs: InputValue[]
+  outputs: OutputValue[]
+}
+
+export type FindValue = {
+  type: 'find_value'
+  model: string
+  filters: FilterValue[]
+  outputs: OutputValue[]
+}
+
+export type UpdateValue = {
+  type: 'update_value'
+  model: string
+  inputs: InputType[]
+  filters: FilterValue[]
+  outputs: OutputValue[]
+}
+
+export type DeleteValue = {
+  type: 'delete_value'
+  model: string
+  filters: FilterValue[]
+  outputs: OutputValue[]
+}
+
+export type UpsertValue = {
+  type: 'upsert_value'
+  model: string
+  inputs: InputType[]
+  filters: FilterValue[]
+  outputs: OutputValue[]
+}
+
+export type InputValue = {
+  type: 'input_value'
+  name: string
+  value: Value
+}
+
+export type FilterValue = {
+  type: 'filter_value'
+  name: string
+  value: Value
+}
+
+export type OutputValue = {
+  type: 'filter_value'
+  name: string
+  value: Value
+}
+
+export type Value = FunctionValue | StringValue | IntValue | BooleanValue | DateTimeValue | FloatValue
+
+export type FunctionValue = {
+  type: 'function_value'
+  name: string
+  alias?: string
+  arguments: Value[]
+}
+
+export type StringValue = {
+  type: 'string_value'
+  value: string
+}
+
+export type IntValue = {
+  type: 'int_value'
+  value: number
+}
+
+export type BooleanValue = {
+  type: 'boolean_value'
+  value: boolean
+}
+
+export type DateTimeValue = {
+  type: 'datetime_value'
+  value: Date
+}
+
+export type FloatValue = {
+  type: 'float_value'
+  value: number
+}
+```
+
+</details>
+
+<details>
+<summary>Capability Map Example<summary>
+
+This is an incomplete capability map for Postgres:
+
+```typescript
+{
+  "datasource": "postgres",
+  "datatypes": {
+    "integer": {
+      "type": "named_type",
+      "name": "Int"
+    },
+    "text": {
+      "type": "named_type",
+      "name": "String"
+    },
+    "bigint": {
+      "type": "named_type",
+      "name": "Int"
+    },
+    "boolean": {
+      "type": "named_type",
+      "name": "Boolean"
+    },
+    "timestamp without time zone": {
+      "type": "named_type",
+      "name": "DateTime"
+    },
+    "citext": {
+      "type": "named_type",
+      "name": "String"
+    },
+    "point": {
+      "type": "list_type",
+      "inner": {
+        "type": "named_type",
+        "name": "Int"
+      }
+    }
+  },
+  "queries": [
+    {
+      "type": "create_type",
+      "inputs": [
+        {
+          "type": "named_type",
+          "name": "String"
+        },
+        {
+          "type": "named_type",
+          "name": "Int"
+        },
+        {
+          "type": "named_type",
+          "name": "Float"
+        },
+        {
+          "type": "named_type",
+          "name": "Boolean"
+        },
+        {
+          "type": "named_type",
+          "name": "DateTime"
+        },
+        {
+          "type": "list_type",
+          "inner": {
+            "type": "named_type",
+            "name": "Int"
+          }
+        },
+        {
+          "type": "function_type",
+          "name": "concat",
+          "arguments": [
+            {
+              "type": "argument_type",
+              "name": "first",
+              "datatype": {
+                "type": "named_type",
+                "name": "String"
+              }
+            },
+            {
+              "type": "argument_type",
+              "name": "second",
+              "datatype": {
+                "type": "named_type",
+                "name": "String"
+              }
+            }
+          ],
+          "returns": {
+            "type": "named_type",
+            "name": "String"
+          }
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "type": "find_type",
+      "filters": [],
+      "outputs": []
+    },
+    {
+      "type": "update_type",
+      "inputs": [],
+      "filters": [],
+      "outputs": []
+    },
+    {
+      "type": "delete_type",
+      "filters": [],
+      "outputs": []
+    },
+    {
+      "type": "upsert_type",
+      "inputs": [],
+      "filters": [],
+      "outputs": []
+    }
+  ]
+}
+```
+
+</details>
+
+<details>
+<summary>All Possible Capabilities<summary>
+
+**TODO:** functions like `toLower(string) string`, `endsWith(string, string) boolean`. This will need to be a list of all the things the most capable datasource
+can do. It's doubtful that any off the shelf database will fully comply with this list.
+
+</details>
 
 ## Core Workflows
 
