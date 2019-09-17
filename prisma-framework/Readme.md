@@ -1144,12 +1144,12 @@ export type DeleteFieldAttribute = {
 
 ### Capability Map
 
-The Capability Map is a structure that describes what Prisma features a datasource can perform. We decide these features. For example, the Capability Map has a
-`upsert` query. The Capability Map also includes features like functions, lists of strings, and datetimes.
+The Capability Map is a structure that describes what Prisma features a datasource can perform. We decide these features. For example, we've decided that the
+Capability Map has a `upsert` query. We've also decided that Capability Map includes features like functions, lists of strings, datetimes, etc.
 
-Once we have this Capability Map, we then go to the datasource and see if we can perform this operation or store this data type. If we can, it appears in the
-datasource's Capability Map. If we can't, the capability is omitted. The structure of the Capability Map can be adjusted over time as we find new features we'd
-like to add to Prisma.
+Once we have this Capability Map, we then go to the datasource and see if we can perform this operation or properly store this type of data. If we can, it
+appears in the datasource's Capability Map. If we can't, the capability is omitted. The structure of the Capability Map can be adjusted over time as we find new
+features we'd like to add to Prisma.
 
 <details>
 
@@ -1475,7 +1475,8 @@ This is an incomplete capability map for Postgres:
 **TODO:** functions like `toLower(string) string`, `endsWith(string, string) boolean`. This will need to be a list of all the things the most capable datasource
 can do. It's doubtful that any off the shelf database will fully comply with this list.
 
-This is a bit of an art in grouping features of different datasources together. I'll be filling this in once we have a few working connectors.
+This will be a bit of an art in grouping features of different datasources together. We can start with the [OpenCRUD](https://github.com/opencrud/opencrud)
+features and work from there. I'll be filling this in once we have a few working connectors.
 
 </details>
 
@@ -1602,9 +1603,8 @@ async introspect(): Promise<Prisma.Schema> {
 
 ### Generate
 
-Generation is the process of taking a Prisma Schema and a capability map and generating a datasource client. We call these generated datasource client
-**Photon**. The API of these clients will depend on the datasource's capabilities. For example, the Postgres client will be a lot more capable than the Redis
-client.
+Generation is the process of taking a Prisma Schema and a capability map and generating a datasource client. We call a generated datasource client **Photon**.
+The API of these clients will depend on the datasource's capabilities. For example, the Postgres client will be a lot more capable than the Redis client.
 
 To generate datasource clients, Generators must implement the `generate` interface:
 
