@@ -8,13 +8,12 @@ databases and programming languages.
 
 The goals of this spec are to:
 
-- Scout ahead of engineering with a spec and throwaway prototype that's grounded in reality
+- Scout ahead of engineering with a throwaway prototype and a product spec that's grounded in reality
 - Provide a clear, unified picture of where we see the Prisma Framework going
 - Spread knowledge across Prisma of how the pieces of the Prisma Framework fit together
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
 
 - [Core Objects](#core-objects)
   - [Schema](#schema)
