@@ -3,13 +3,13 @@
 The Prisma Framework is a suite of independent tools and workflows to make working with data easier. The Prisma Framework is built to work across a variety of
 databases and programming languages.
 
-**Author's Note:** This specification is both a _draft_ and _forward-looking_. This spec was derived from an end-to-end prototype of throwaway code. Engineering
-has not yet vetted the spec. The goals of this document are to start a constructive dialog between product and engineering, to provide a sharper picture of
-where we see the product going and to spread information across the organization of how the components of the Prisma Framework fit together.
+**Author's Note:** This specification is both a _draft_ and _forward-looking_. This spec was derived from an
+[end-to-end prototype](https://github.com/prisma/reconnaissance). Engineering has not yet vetted the spec. The goals of this document are to start a
+constructive dialog between product and engineering, to provide a sharper picture of where we see the product going and to spread information across the
+organization of how the components of the Prisma Framework fit together.
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
 
 - [Terminology](#terminology)
 - [Core Structures](#core-structures)
@@ -1143,7 +1143,7 @@ export type DeleteFieldAttribute = {
 
 ## Core Workflows
 
-### Introspection
+### Introspect
 
 Introspection is the process of understanding and reconstructing a datasource's models, fields and relationships from an existing datasource. Introspection
 works. Introspection allows brownfield applications to get started with the Prisma Framework with minimal hassle.
@@ -1158,23 +1158,23 @@ To enable introspection on a datasource, a connector must implement the followin
 
 #### Mongo
 
-### Generation
+### Generate
 
 Generation is the process of
 
 ### Access
 
-### Migration
+### Migrate
 
-### Management
+### Manage
 
 ### Schema
 
-#### parse
+#### Parse
 
-#### format
+#### Format
 
-#### generate
+#### Generate
 
 ## Terminology
 
