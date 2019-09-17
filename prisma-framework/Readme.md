@@ -11,20 +11,23 @@ where we see the product going and to spread information across the organization
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Terminology](#terminology)
 - [Core Structures](#core-structures)
   - [Schema](#schema)
-  - [Lift Migration](#lift-migration)
-  - [Capability Map](#capability-map)
+  - [Migration](#migration)
+  - [Capabilities](#capabilities)
 - [Core Workflows](#core-workflows)
-- [Introspect](#introspect)
-  - [Postgres](#postgres)
-  - [Mongo](#mongo)
-- [Generate](#generate)
-- [Access](#access)
-- [Migrate](#migrate)
-- [Manage](#manage)
-- [Schema](#schema-1)
+  - [Introspection](#introspection)
+    - [Postgres](#postgres)
+    - [Mongo](#mongo)
+  - [Generation](#generation)
+  - [Access](#access)
+  - [Migration](#migration-1)
+  - [Management](#management)
+  - [Schema](#schema-1)
+    - [parse](#parse)
+    - [format](#format)
+    - [generate](#generate)
+- [Terminology](#terminology)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
