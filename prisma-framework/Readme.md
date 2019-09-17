@@ -8,7 +8,7 @@ databases and programming languages.
 
 The goals of this spec are to:
 
-- Start a constructive dialog between product and engineering
+- Better assist engineering with a product spec that's grounded in reality
 - Provide a sharper picture of where we see the product going
 - Spread information across the organization of how the components of the Prisma Framework fit together
 
