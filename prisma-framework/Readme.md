@@ -2685,8 +2685,6 @@ function serializeNamedType(namedType: Prisma.NamedType): string {
 
 ## Terminology
 
-Before we get started, it's important to align on the terminology:
-
 - **Schema:** The structure of your application's data. A schema contains datasources, generators, models, fields, and relationhips.
 - **Prisma Schema Language:** A syntax for describing your application's Schema. You'll find the Prisma Schema Language in files with the `.prisma` extension.
 - **schema.prisma:** The default file that holds your application's schema. This file is written in the Prisma Schema Language.
