@@ -10,7 +10,7 @@ The goals of this spec are to:
 
 - Scout ahead of engineering with a spec and throwaway prototype that's grounded in reality
 - Provide a sharper picture of where we see the product going and the terminology we may use
-- Spread information across the organization of how the components of the Prisma Framework fit together
+- Spread knowledge across Prisma of how the pieces of the Prisma Framework fit together
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
