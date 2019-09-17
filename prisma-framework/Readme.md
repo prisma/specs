@@ -15,22 +15,29 @@ The goals of this spec are to:
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-- [Core Structures](#core-structures)
+
+- [Core Objects](#core-objects)
   - [Schema](#schema)
   - [Migration](#migration)
-  - [Capabilities](#capabilities)
+  - [Capability Map](#capability-map)
 - [Core Workflows](#core-workflows)
-  - [Introspection](#introspection)
+  - [Introspect](#introspect)
     - [Postgres](#postgres)
     - [Mongo](#mongo)
-  - [Generation](#generation)
+  - [Generate](#generate)
   - [Access](#access)
-  - [Migration](#migration-1)
-  - [Management](#management)
+    - [Client](#client)
+    - [Server](#server)
+  - [Migrate](#migrate)
+    - [Client](#client-1)
+    - [Server](#server-1)
+  - [Manage](#manage)
   - [Schema](#schema-1)
-    - [parse](#parse)
-    - [format](#format)
-    - [generate](#generate)
+    - [Parse](#parse)
+    - [Format](#format)
+    - [Diff](#diff)
+    - [Patch](#patch)
+    - [Assemble](#assemble)
 - [Terminology](#terminology)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
