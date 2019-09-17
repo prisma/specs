@@ -1,7 +1,7 @@
 # Introspection
 
 - Owner: @matthewmueller 
-- Stakeholders: @do4gr 
+- Stakeholders: @do4gr @timsuchanek
 - State: 
   - Spec: In Progress 🚧
   - Implementation: Unknown ❔
@@ -10,16 +10,8 @@ When a user gets started with Prisma in a brownfield project, they can let Prism
 
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
-
-- [Motivation](#motivation)
-- [Implementation](#implementation)
-  - [Current](#current)
-  - [Future 👽](#future-)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+<!-- START doctoc -->
+<!-- END doctoc -->
 
 ## Motivation
 
