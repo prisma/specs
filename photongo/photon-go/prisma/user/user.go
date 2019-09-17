@@ -1,6 +1,6 @@
 package user
 
-import "github.com/prisma/photon-go/prisma"
+import "github.com/prisma/specs/photongo/photon-go/prisma"
 
 // Users table
 const Users = "users"

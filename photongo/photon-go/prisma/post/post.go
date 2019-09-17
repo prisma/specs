@@ -3,7 +3,7 @@ package post
 import (
 	"time"
 
-	"github.com/prisma/photon-go/prisma"
+	"github.com/prisma/specs/photongo/photon-go/prisma"
 )
 
 // Title field
