@@ -4,8 +4,8 @@ The Prisma Framework is a suite of independent tools and workflows to make worki
 databases and programming languages.
 
 **Editor's Note:** This specification is both a _draft_ and _forward-looking_. This spec was derived from an
-[end-to-end prototype](https://github.com/prisma/reconnaissance). Engineering has not yet vetted the spec. The goals of this document are to start a
-constructive dialog between product and engineering, to provide a sharper picture of where we see the product going and to spread information across the
+[end-to-end prototype](https://github.com/prisma/reconnaissance). Engineering has not yet vetted the spec or the prototype. The goals of this document are to
+start a constructive dialog between product and engineering, to provide a sharper picture of where we see the product going and to spread information across the
 organization of how the components of the Prisma Framework fit together.
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
