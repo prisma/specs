@@ -1667,7 +1667,7 @@ generate(capabilities: Capability.Map, schema: Prisma.Schema): string {
 
 Access is the how Photon builds up queries to send to the datasources. Data access has a client-server relationship.
 
-#### Access Client
+#### Client
 
 The Access Client is a simple HTTP client that's embedded inside Photon. The HTTP client implements the `Queryer` interface:
 
@@ -1679,7 +1679,7 @@ interface Queryer {
 
 **TODO** properly define `QueryResult`
 
-#### Access Server
+#### Server
 
 **Editor's Note:** This is currently called the query engine.
 
@@ -1845,11 +1845,11 @@ export default class Postgres implements Queryer {
 
 Migrate is the process of safely changing the structure of one or more datasources. Migrate has a client-server relationship.
 
-#### Migrate Client
+#### Client
 
 The Migrate Client is a runtime library that lives inside the Prisma CLI.
 
-#### Migrate Server
+#### Server
 
 The Migrate Server can run either locally as a sidecar process or remotely as a coordination server. While the Migrate Server does support HTTP for triggering
 commands, it has different requirements than the Access Server. Unlike data access, migrating your data may take hours or even days to complete. We can't expect
