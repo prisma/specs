@@ -4,6 +4,24 @@ The Prisma Framework is a suite of independent tools and workflows to make worki
 databases and programming languages.
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Terminology](#terminology)
+- [Core Structures](#core-structures)
+  - [Schema](#schema)
+  - [Lift Migration](#lift-migration)
+  - [Capability Map](#capability-map)
+- [Core Workflows](#core-workflows)
+- [Introspect](#introspect)
+  - [Postgres](#postgres)
+  - [Mongo](#mongo)
+- [Generate](#generate)
+- [Access](#access)
+- [Migrate](#migrate)
+- [Manage](#manage)
+- [Schema](#schema-1)
+
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Terminology
