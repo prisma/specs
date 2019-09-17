@@ -1145,14 +1145,15 @@ export type DeleteFieldAttribute = {
 ### Capability Map
 
 The Capability Map is a structure that describes what Prisma features a datasource can perform. We decide these features. For example, the Capability Map has a
-`upsert` query. The capability map also includes features like functions, lists of strings, and datetimes.
+`upsert` query. The Capability Map also includes features like functions, lists of strings, and datetimes.
 
-Once we have this capability map, we then go to the datasource and see if we can perform this operation or store this data type. If we can, it appears in the
+Once we have this Capability Map, we then go to the datasource and see if we can perform this operation or store this data type. If we can, it appears in the
 datasource's Capability Map. If we can't, the capability is omitted. The structure of the Capability Map can be adjusted over time as we find new features we'd
 like to add to Prisma.
 
 <details>
-<summary>Capability Map Type<summary>
+
+<summary>Capability Map Type</summary>
 
 ```typescript
 export type Map = {
@@ -1334,7 +1335,7 @@ export type FloatValue = {
 </details>
 
 <details>
-<summary>Capability Map Example<summary>
+<summary>Capability Map Example</summary>
 
 This is an incomplete capability map for Postgres:
 
@@ -1469,7 +1470,7 @@ This is an incomplete capability map for Postgres:
 </details>
 
 <details>
-<summary>All Possible Capabilities<summary>
+<summary>All Possible Capabilities</summary>
 
 **TODO:** functions like `toLower(string) string`, `endsWith(string, string) boolean`. This will need to be a list of all the things the most capable datasource
 can do. It's doubtful that any off the shelf database will fully comply with this list.
