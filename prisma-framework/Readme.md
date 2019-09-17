@@ -2156,7 +2156,7 @@ The schema implements the `Formatter` interface:
 
 ```typescript
 interface Formatter {
-  assemble(input: string): string
+  format(input: string): string
 }
 ```
 
