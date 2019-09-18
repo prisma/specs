@@ -1,16 +1,16 @@
 # Prisma Framework
 
-The Prisma Framework is a suite of independent tools and workflows to make working with data easier. The Prisma Framework is built to work across a variety of
-databases and programming languages.
+The Prisma Framework is a suite of independent tools and workflows to make working with data easier. The Prisma Framework is built for a variety of databases
+and programming languages.
 
-**Editor's Note:** This specification is both a _draft_ and _forward-looking_. This spec was derived from an
-[end-to-end prototype](https://github.com/prisma/reconnaissance). Engineering has not yet vetted the spec or the prototype.
+**Editor's Note:** This spec is both a _draft_ and _forward-looking_. It was derived from an [end-to-end prototype](https://github.com/prisma/reconnaissance).
+Engineering has not vetted the prototype or the spec.
 
 The goal of this spec is to:
 
-- Provide a clear, unified picture of where we see the Prisma Framework going
+- Provide a complete, unified picture of where we see the Prisma Framework going
 - Scout ahead of engineering with a throwaway prototype and a product spec that's grounded in reality
-- Spread knowledge across Prisma of how the pieces of the Prisma Framework fit together
+- Spread knowledge across the organization about how the pieces of the Prisma Framework fit together
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -47,8 +47,8 @@ Core objects describe the format of the shared data structures across workflows.
 
 ### Schema
 
-The Schema is an AST representation of your Prisma Schema Language files. Workflows will work with this structured representation of the `*.prisma` files rather
-than the file data itself.
+The Schema is an AST representation of Prisma Schema Language files. Workflows will work with this structured representation of the `*.prisma` files rather than
+the raw file data.
 
 <details>
 <summary>Schema Type</summary>
@@ -178,6 +178,45 @@ export type FloatValue = {
 
 <details>
 <summary>Schema Example</summary>
+
+The following schema:
+
+```groovy
+datasource pg {
+  url = "postgres://localhost:5432/prisma-blog"
+}
+model Blog {
+  id Int
+  website String
+  createdAt DateTime
+}
+model Comment {
+  id Int
+  postId Int
+  comment String
+  createdAt DateTime
+}
+model Migrate {
+  version Int
+}
+model Post {
+  id Int
+  blogId Int
+  authorId Int
+  title String
+  createdAt DateTime
+}
+model User {
+  id Int
+  email String
+  location Int[]
+  firstName String
+  lastName String
+  createdAt DateTime
+}
+```
+
+Translates into:
 
 ```json
 {
@@ -414,7 +453,7 @@ export type FloatValue = {
 **DRAFT**
 
 A Migration is a sequence of steps to change a datasource's structure. Some changes may include adding a new model, changing a field name or removing a
-relationship. Each step is a single command we run against the datasource. A migration runs the steps inside a transaction whenever possible.
+relationship. Each step is a single command we run against the datasource. A single migration runs its steps inside a transaction whenever possible.
 
 <details>
 <summary>Migration Type</summary>
@@ -1154,12 +1193,16 @@ export type DeleteFieldAttribute = {
 
 ### Capability Map
 
-The Capability Map is a structure that describes what Prisma features a datasource can perform. We decide these features. For example, we've decided that the
-Capability Map has a `upsert` query. We've also decided that Capability Map includes features like functions, lists of strings, datetimes, etc.
+The Capability Map is a structure that describes what Prisma features a datasource has. We've decided on these features. For example, we've decided that the
+Capability Map has a `upsert` query. We've also decided that Capability Map includes functions, lists of strings, datetimes, etc.
 
-Once we have this Capability Map, we then go to the datasource and see if we can perform this operation or properly store this type of data. If we can, it
-appears in the datasource's Capability Map. If we can't, the capability is omitted. The structure of the Capability Map can be adjusted over time as we find new
-features we'd like to add to Prisma.
+The Capability Map also plays a role in mapping a datasource's raw data types to and from Prisma's core data types. For example, Postgres has a `Money` type
+that we'd translate to a `String` in Prisma. The Capability Map knows about this mapping.
+
+Once we have this Capability Map, we then look to the datasource to see if we can perform this operation or store this type of data. If we can, we include it in
+the datasource's Capability Map. If we can't, the capability is omitted.
+
+The structure of the Capability Map will be adjusted over time as we find new features we'd like to add to Prisma.
 
 <details>
 
@@ -1482,11 +1525,13 @@ This is an incomplete capability map for Postgres:
 <details>
 <summary>All Possible Capabilities</summary>
 
-**TODO:** functions like `toLower(string) string`, `endsWith(string, string) boolean`. This will need to be a list of all the things the most capable datasource
-can do. It's doubtful that any off the shelf database will fully comply with this list.
+**TODO:**
 
-This will be a bit of an art in grouping features of different datasources together. We can start with the [OpenCRUD](https://github.com/opencrud/opencrud)
-features and work from there. I'll be filling this in once we have a few working connectors.
+This list will include functions like `toLower(string) string`, `endsWith(string, string) boolean`. This will be a finite list of possibilities. It's doubtful
+that any off the shelf database will fully comply with this list.
+
+Creating this list will be a bit of an art in grouping features of different datasources together. We can start with the
+[OpenCRUD](https://github.com/opencrud/opencrud) features and work from there. Once we have a few working connectors, we'll start compiling this list.
 
 </details>
 
@@ -1495,9 +1540,9 @@ features and work from there. I'll be filling this in once we have a few working
 ### Introspect
 
 Introspection is the process of understanding and reconstructing a datasource's models, fields and relationships from an existing datasource. Introspection
-allows brownfield applications to get started with the Prisma Framework with minimal hassle.
+allows brownfield applications to get started with minimal hassle.
 
-To enable introspection on a datasource, a connector must implement the `Instrospecter` interface:
+To enable introspection on a datasource, a connector must implement the `Introspecter` interface:
 
 ```typescript
 // Schema core object is defined above
@@ -1510,8 +1555,8 @@ interface Introspecter {
 
 #### Postgres
 
-Postgres supports rich introspection capabilities. Each postgres database comes with an internal schema called `information_schema`. This is where you'll find
-information on the structure of the data. Introspecting Postgres requires
+Postgres supports a rich set of introspection capabilities. Each postgres database comes with an internal schema called the `information_schema`. This is where
+you'll find metadata on the structure of our data.
 
 <details>
 <summary>Introspection Example</summary>
@@ -1616,7 +1661,7 @@ async introspect(): Promise<Prisma.Schema> {
 Generation is the process of taking a Prisma Schema and a capability map and generating a datasource client. We call a generated datasource client **Photon**.
 The API of these clients will depend on the datasource's capabilities. For example, the Postgres client will be a lot more capable than the Redis client.
 
-To generate datasource clients, Generators must implement the `generate` interface:
+To generate datasource clients, Generators must implement the `Generator` interface:
 
 ```ts
 import * as Capability from '../ast/capability'
@@ -1691,19 +1736,14 @@ interface Queryer {
 
 #### Server
 
-**Editor's Note:** This is currently called the query engine.
+**Editor's Note:** This is currently called the Query Engine.
 
-The Access Server responds to HTTP requests from the Access Client. The Access Server is a long-running service that's either run as a local "sidecar" process
-alongside your application or as a remote HTTP server. Typically when you're just getting started, you'll run the Access Server as a sidecar and later, as your
-business grows, you'll transition to a multi-tiered architecture with a remote HTTP server.
+The Access Server responds to HTTP requests from the Access Client. The Access Server is a long-running service that's either run alongside your application as
+"sidecar process" or as a remote HTTP server. Typically when you're just getting started, you'll run the Access Server as a sidecar and later, as your business
+grows, you'll transition to a multi-tiered architecture with access control.
 
 The Access Server will try to connect to the provided datasources **on launch**. In order to do this, the Access Server needs to know the connection strings.
 For this we'll need to pass in a path to the `schema.prisma` file: `./access-server --schema ./schema.prisma`.
-
-**TODO** better understand the implications of this configuration dependency. How we will deploy this configuration, etc.
-
-The Access Server is precompiled with common Connectors like Postgres, MySQL, SQLite and MongoDB. The Access Server will delegate establishing the datasource
-connection to the connectors. Once the connections have been established, the Access Server is ready for queries from the Access Client.
 
 <details>
 <summary>Access Server Example Implementation</summary>
@@ -1714,6 +1754,14 @@ Live Implementation: https://github.com/prisma/reconnaissance/blob/master/prisma
 
 </details>
 
+**TODO** better understand the implications of this configuration dependency. How we will deploy this configuration, etc.
+
+#### Connector
+
+The connector is a datasource-specific library that is passed into the Access Server. The Access Server is precompiled with common Connectors like Postgres,
+MySQL, SQLite and MongoDB. The Access Server will delegate establishing the datasource connection to the connectors. Once the connections have been established,
+the Access Server is ready for queries from the Access Client.
+
 In order for a Connector to be queryable, it must implement the `Queryer` interface:
 
 ```ts
@@ -1722,15 +1770,15 @@ interface Queryer {
 }
 ```
 
-**TODO** Update the prototype and the spec to match backend's plan. This isn't aligned with how backend engineering is thinking about this. They plan to provide
-higher-level CRUD interface.
-
 You'll notice that the connector's Queryer interface is as the Access Client.
 
 <details>
 <summary>Connector Example Implementation</summary>
 
 Live implementation in the prototype: https://github.com/prisma/reconnaissance/blob/master/datasources/postgres.ts
+
+**TODO** Update the prototype and the spec to match backend's plan. This isn't aligned with how backend engineering is thinking about this. They plan to provide
+higher-level CRUD interface.
 
 ```typescript
 export default class Postgres implements Queryer {
@@ -1862,14 +1910,21 @@ Migrate is the process of safely changing the structure of one or more datasourc
 
 The Migrate Client is a runtime library that lives inside the Prisma CLI.
 
+**TODO** finish
+
 #### Server
 
 The Migrate Server can run either locally as a sidecar process or remotely as a coordination server. While the Migrate Server does support HTTP for triggering
 commands, it has different requirements than the Access Server. Unlike data access, migrating your data may take hours or even days to complete. We can't expect
-to have a reliable connection for the duration of these long-running processes. So additional to HTTP, the Migrate server also supports websocket for
-subscribing to update events.
+to have a reliable connection for the duration of these long-running processes.
+
+So additional to HTTP, the Migrate server also supports websocket for subscribing to update events.
+
+**TODO** finish
 
 ### Manage
+
+**TODO** studio workflows
 
 ### Schema
 
@@ -2704,6 +2759,6 @@ function serializeNamedType(namedType: Prisma.NamedType): string {
   application is Google Search.
 - **Greenfield Applications:** Greenfield refers to applications that are starting new without constraints. An example of a greenfield application is your next
   startup.
-- **AST:** AST stands for an abstract syntax tree. An abstract syntax tree is
+- **AST:** AST stands for an abstract syntax tree. An abstract syntax tree is a tree structure representing the syntactic structure of a text string.
 - **Prisma CLI:** A commandline interface that bundles Prisma's workflows into one tool
 - **Prisma SDK:** The programmatic API to Prisma's tools.
