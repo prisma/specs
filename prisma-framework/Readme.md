@@ -28,6 +28,7 @@ The goal of this spec is to:
   - [Access](#access)
     - [Client](#client)
     - [Server](#server)
+    - [Connector](#connector)
   - [Migrate](#migrate)
     - [Client](#client-1)
     - [Server](#server-1)
