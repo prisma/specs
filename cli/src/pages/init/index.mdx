@@ -1,7 +1,7 @@
 ---
 navGroup: init
 navOrder: 0
-navLabel: Init
+navLabel: prisma2-init
 ---
 
 import Terminal from '../../components/Terminal/Terminal'
@@ -13,90 +13,44 @@ import {
 import { Box, Text, Color } from 'ink'
 import SelectInput from 'ink-select-input'
 import figures from 'figures'
+import BorderBox from '../../components/Terminal/BorderBox'
+import chalk from 'chalk'
 
-# Prisma Init
+# `prisma2 init`
 
 ---
 
-## Flows
-
-<img
-  src="https://prisma-specs.prisma.now.sh/cli/figma-proxy?id=822:4"
-  width="100%"
-/>
-
-## Database options
+## Starter kit vs Blank project
 
 <Terminal>
-  <Box marginBottom={1}><Color dim>~/Code/app $</Color> prisma init</Box>
+  <Box marginBottom={1}><Color dim>~/Desktop $</Color> prisma init hello-world</Box>
 
-  <Box flexDirection="column" marginLeft={2}>
-    <Text bold>Which programming language do you want to use?</Text>
-    <Color whiteBright dim>Learn more about the tools at https://github.com/prisma/prisma2</Color>
-  </Box>
-
-  <Box flexDirection="column" paddingTop={2} paddingBottom={1}>
+<Box flexDirection="column" marginLeft={2}>
+  <Text bold>Get started with a blank project or a starter kit.</Text>
+  <Color dim>Starter kits provide ready-made setups for various use cases.</Color>
+</Box>
+  <BorderBox
+    flexDirection="column"
+    title={chalk.bold('Project options')}
+    marginBottom={1}
+    marginTop={1} 
+  >
     <Box>
-      <Color gray>┌──</Color>
-      <Text bold> Databases </Text>
-      <Color gray>───────────────────────────────────────────────┐</Color>
+      <Color cyan>
+        <Box width={15} marginRight={2}>{figures.pointer} <Text bold>Blank project</Text></Box>
+        <Color dim>Supports introspecting an existing DB</Color>
+      </Color>
     </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
+    <Box>
+      <Box width={15} marginLeft={2}>Starter kit</Box>
+      <Color dim>Sample setups for GraphQL, REST, gRPC, ...</Color>
     </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box>
-        <Color cyanBright>
-          <Box width={15}>{figures.pointer} <Text bold>SQLite</Text></Box>
-          <Color dim>  Easiest to set up</Color>
-        </Color>
-      </Box>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
+    <Box flexDirection="column" width={15} marginLeft={2} marginTop={1}>
+      <Color dim>Note: Select "Blank project" to use Prisma in an</Color>
+      <Color dim>existing project.</Color>
     </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box marginLeft={2}>
-        <Box width={15}><Font>MySQL</Font></Box>
-        <Color dim>Requires running a MySQL database</Color>
-      </Box>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box marginLeft={2}>
-        <Box width={15}><Font>PostgreSQL</Font></Box>
-        <Color dim>Requires running a PostgreSQL database</Color>
-      </Box>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box marginLeft={2}>
-        <Color whiteBright dim>
-          <Box width={15}>MongoDB</Box>
-          <Font>(Coming soon)</Font>
-        </Color>
-      </Box>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>│ </Color>
-      <Box flexGrow={1}></Box>
-      <Color gray> │</Color>
-    </Box>
-    <Box width={100}>
-      <Color gray>└────────────────────────────────────────────────────────────┘</Color>
-    </Box>
-  </Box>
+  </BorderBox>
 </Terminal>
 
-## Todo
-
-- [ ] Success screen for introspection: Spec out how `main.ts` (and other languages) should be generated @nikolasburk
+- [Starter kit](./starter-kit/)
+- [Blank project](./blank-project)

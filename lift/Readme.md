@@ -1,3 +1,5 @@
+🚨 **NOTE: This spec is outdated**
+
 - Start Date: 2019-03-22
 - RFC PR: (leave this empty)
 - Prisma Issue: (leave this empty)
@@ -6,7 +8,9 @@
 
 In order to make Prismas existing migration system more powerful, we introduce a migration folder which includes datamodel snapshots per migration.
 
-<!-- toc -->
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
 
 - [Basic example](#basic-example)
 - [Motivation](#motivation)
@@ -43,7 +47,7 @@ In order to make Prismas existing migration system more powerful, we introduce a
 - [How we teach this](#how-we-teach-this)
 - [Unresolved questions](#unresolved-questions)
 
-<!-- tocstop -->
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # Basic example
 

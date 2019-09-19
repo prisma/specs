@@ -5,29 +5,29 @@ import stringWidth from 'string-width'
 
 // Select Input
 export const selectInputItemComponent = ({ isSelected, label }: any) => (
-  <Color cyanBright={isSelected}>{label}</Color>
+  <Color cyan={isSelected}>{label}</Color>
 )
 
 export const selectInputIndicatorComponent = ({ isSelected }: any) => (
   <Box marginRight={1}>
-    {isSelected ? <Color cyanBright>{figures.pointer}</Color> : ' '}
+    {isSelected ? <Color cyan>{figures.pointer}</Color> : ' '}
   </Box>
 )
 
 // Multi Select
 export const multiSelectItemComponent = ({ isHighlighted, label }: any) => (
-  <Color cyanBright={isHighlighted}>{label}</Color>
+  <Color cyan={isHighlighted}>{label}</Color>
 )
 
 export const multiSelectIndicatorComponent = ({ isHighlighted }: any) => (
   <Box marginRight={1}>
-    {isHighlighted ? <Color cyanBright>{figures.pointer}</Color> : ' '}
+    {isHighlighted ? <Color cyan>{figures.pointer}</Color> : ' '}
   </Box>
 )
 
 export const multiSelectCheckboxComponent = ({ isSelected }: any) => (
   <Box marginRight={1}>
-    <Color cyanBright>
+    <Color cyan>
       {isSelected ? figures.squareSmallFilled : figures.checkboxOff}
     </Color>
   </Box>

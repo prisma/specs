@@ -1,0 +1,68 @@
+---
+navGroup: init
+navOrder: 0
+navLabel: select-db
+---
+
+import Terminal from '../../../components/Terminal/Terminal'
+import {
+  selectInputItemComponent,
+  selectInputIndicatorComponent,
+  Divider,
+} from '../../../components/inkHelpers'
+import { Box, Text, Color } from 'ink'
+import SelectInput from 'ink-select-input'
+import figures from 'figures'
+import BorderBox from '../../../components/Terminal/BorderBox'
+import chalk from 'chalk'
+import { Link } from "gatsby"
+
+# `prisma2 init`
+
+## Database selection
+
+<Terminal>
+  <Box flexDirection="column" marginLeft={2}>
+    <Text bold>Select the database you want to use.</Text>
+    <Color dim>Use SQLite if you don't have a database running yet.</Color>
+  </Box>
+  <BorderBox flexDirection="column" marginTop={1} marginBottom={1} title={chalk.bold('Supported databases')}>
+    <Box width={100}>
+      <Box>
+        <Color cyan>
+          <Box width={15}>{figures.pointer} <Text bold>SQLite</Text></Box>
+          <Color dim>  Easiest to set up</Color>
+        </Color>
+      </Box>
+    </Box>
+    <Box width={100}>
+      <Box marginLeft={2}>
+        <Box width={15}><Font>MySQL</Font></Box>
+        <Color dim>Requires running a MySQL database</Color>
+      </Box>
+    </Box>
+    <Box width={100}>
+      <Box marginLeft={2}>
+        <Box width={15}><Font>PostgreSQL</Font></Box>
+        <Color dim>Requires running a PostgreSQL database</Color>
+      </Box>
+    </Box>
+    <Box width={100}>
+      <Box marginLeft={2}>
+        <Color  dim>
+          <Box width={15}>MongoDB</Box>
+          <Font>(Coming soon)</Font>
+        </Color>
+      </Box>
+    </Box>
+  </BorderBox>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Project options)</Color>
+  </Box>
+</Terminal>
+
+- <Link to="./init/blank-project/sqlite">SQLite</Link>
+- <Link to="./init/blank-project/mysql">MySQL</Link>
+- <Link to="./init/blank-project/postgresql">PostgreSQL</Link>

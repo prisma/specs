@@ -1,29 +1,50 @@
-import React from 'react'
+import React, { useContext, useReducer } from 'react'
 import styled, { createGlobalStyle, ThemeProvider } from 'styled-components'
 import { StaticQuery, graphql } from 'gatsby'
 import Sidebar from './Sidebar'
 import generateNavLinks from '../../utils/generateNavLinks'
 import theme from '../../utils/theme'
+import createPersistedState from 'use-persisted-state'
+
+const StateContext = React.createContext(null)
+const StateProvider = ({ reducer, initialState, children }) => (
+  <StateContext.Provider value={useReducer(reducer, initialState)}>
+    {children}
+  </StateContext.Provider>
+)
+export const useStateValue: any = () => useContext(StateContext)
+
+const storageKey = 'selectedTheme'
+const localStorageFallback = {
+  getItem: () => null,
+  setItem: () => {},
+}
+const localStorage =
+  typeof window !== 'undefined' ? window.localStorage : localStorageFallback
 
 const Layout = ({ children, location, pageContext }) => (
   <StaticQuery
     query={query}
     render={data => {
       const pagesData = data.allSitePage.edges
-      const navLinks = generateNavLinks(pagesData)
+      const pagesPath = data.site.siteMetadata.directory
+      const navLinks = generateNavLinks(pagesPath, pagesData)
+
+      const useActiveThemeKeyState = createPersistedState(
+        storageKey,
+        localStorage
+      )
 
       return (
-        <ThemeProvider theme={theme}>
-          <Wrapper>
-            <GlobalStyles />
-            <Sidebar
-              links={navLinks}
-              pathName={location.pathname}
-              pageContext={pageContext}
-            />
-            <Main>{children}</Main>
-          </Wrapper>
-        </ThemeProvider>
+        <StateProvider initialState={useActiveThemeKeyState} reducer={() => {}}>
+          <ThemeProvider theme={theme}>
+            <Wrapper>
+              <GlobalStyles />
+              <Sidebar nav={navLinks} pageContext={pageContext} />
+              <Main>{children}</Main>
+            </Wrapper>
+          </ThemeProvider>
+        </StateProvider>
       )
     }}
   />
@@ -47,6 +68,11 @@ const query = graphql`
         }
       }
     }
+    site {
+      siteMetadata {
+        directory
+      }
+    }
   }
 `
 
@@ -56,6 +82,7 @@ const GlobalStyles = createGlobalStyle`
     --system-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Ubuntu, Arial, 'Helvetica Neue', sans-serif, 'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';
     --headline-font: 'Montserrat', var(--system-font);
     --body-font: 'Open Sans', var(--system-font);
+    --code-font: 'Roboto Mono', SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
   }
 
   html {
@@ -105,6 +132,26 @@ const GlobalStyles = createGlobalStyle`
     color: inherit;
     text-decoration: inherit;
   }
+
+  code {
+    font-family: var(--code-font);
+    font-size: 14px;
+    background-color: ${p => p.theme.gray200};
+    border-radius: 6px;
+    padding: 0 4px;
+  }
+
+  pre {
+    background-color: ${p => p.theme.gray200};
+    padding: 8px 12px;
+    border-radius: 6px;
+
+    code {
+      background-color: transparent;
+      padding: 0;
+      border-radius: 0;
+    }
+  }
 `
 
 // Styles
@@ -116,6 +163,11 @@ const Wrapper = styled.div`
 const Main = styled.div`
   max-width: 900px;
   padding: 32px;
+
+  a {
+    color: ${p => p.theme.purple500};
+    text-decoration: underline;
+  }
 `
 
 export default Layout

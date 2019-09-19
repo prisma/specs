@@ -1,0 +1,378 @@
+---
+navGroup: init
+navOrder: 6
+navLabel: pg-schema-selection
+---
+
+import Terminal from '../../../components/Terminal/Terminal'
+import {
+  multiSelectItemComponent,
+  multiSelectIndicatorComponent,
+  multiSelectCheckboxComponent,
+  selectInputItemComponent,
+  selectInputIndicatorComponent,
+  Divider,
+} from '../../../components/inkHelpers'
+import MultiSelect from 'ink-multi-select'
+import SelectInput from 'ink-select-input'
+import TextInput from 'ink-text-input'
+import ProgressBar from 'ink-progress-bar'
+import { Box, Text, Color } from 'ink'
+import figures from 'figures'
+import chalk from 'chalk'
+import BorderBox from '../../../components/Terminal/BorderBox'
+
+---
+
+![](https://figma-image-proxy.prisma.now.sh/?id=1066:688&file=cRvu7bwRRC0zleOvtlTgmkOu)
+
+> **Note**: `rcts` means "Rights to create schema"
+
+---
+
+# PostgreSQL - Schema selection
+
+### (5) Select `public` or create new schema
+
+- Optional DB provided
+- Optional schema **not** provided
+- Only the `public` schema exists in provided DB
+- Rights to create new schema
+
+<Terminal>
+  <Color green>
+    <Color bgKeyword="green" white>
+      <Text bold> SUCCESS </Text>
+    </Color>{' '}
+    Connected to PostgreSQL database server as <Text bold>admin</Text>
+  </Color>
+  <Box flexDirection="column" marginLeft={2} marginTop={1} marginBottom={1}>
+    <Text bold>
+      Use the existing `public` schema or create a new PostgreSQL schema.
+    </Text>
+    <Color dim>
+      You're connected to the PostgreSQL database: <Text bold>mydb</Text>
+    </Color>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={`${chalk.bold('Schema options')}`}
+    marginBottom={1}
+  >
+    <Box width={100}>
+      <Color cyan>
+        <Box width={32}>
+          <Text bold>{figures.pointer} Use schema `public`</Text>
+        </Box>
+      </Color>
+      <Color dim>Contains 0 tables (0 kb)</Color>
+      <Box flexGrow={1} />
+    </Box>
+    <Box width={100}>
+      <Color>
+        <Box width={32}>
+          <Color gray> </Color>
+          <Text>Create new PostgreSQL schema</Text>
+        </Box>
+      </Color>
+      <Color dim>Provide schema name next</Color>
+      <Box flexGrow={1} />
+    </Box>
+  </BorderBox>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Database credentials)</Color>
+  </Box>
+</Terminal>
+
+- Use schema `public`
+  - [`public` is empty](../postgresql#8-success)
+- [Create new PostgreSQL schema](#7-set-schema-name)
+
+### (5.1) Select existing schema or create a new one
+
+- Optional DB provided
+- Optional schema **not** provided
+- More than just the `public` schema exists in provided DB
+- Rights to create new schema
+
+<Terminal>
+  <Color green>
+    <Color bgKeyword="green" white>
+      <Text bold> SUCCESS </Text>
+    </Color>{' '}
+    Connected to PostgreSQL database server as <Text bold>admin</Text>
+  </Color>
+  <Box flexDirection="column" marginLeft={2} marginTop={1} marginBottom={1}>
+    <Text bold>Create a new PostgreSQL schema or use an existing one.</Text>
+    <Color dim>A PostgreSQL database can have multiple schemas.</Color>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={`${chalk.bold('Schema options')}`}
+    marginBottom={1}
+  >
+    <Box width={100}>
+      <Color cyan>
+        <Box width={35}>
+          <Text bold>{figures.pointer} Create new PostgreSQL schema</Text>
+        </Box>
+        <Color dim>Start from scratch</Color>
+      </Color>
+      <Box flexGrow={1} />
+    </Box>
+    <Box width={100}>
+      <Color>
+        <Box width={35}>
+          <Color gray> </Color>
+          <Text>Use existing PostgreSQL schema</Text>
+        </Box>
+        <Color dim>Found 5 schemas</Color>
+      </Color>
+      <Box flexGrow={1} />
+    </Box>
+  </BorderBox>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Database credentials)</Color>
+  </Box>
+</Terminal>
+
+- [Create new PostgreSQL schema](#7-set-schema-name)
+- [Use existing PostgreSQL schema](#61-select-a-schema)
+
+### (5.2) Select `public` or create new schema
+
+_Same as 5 but without the success message._
+
+- Selected DB in `<DB Selection>` flow
+- Only the `public` schema exists in provided DB
+- Rights to create new schema
+
+<Terminal>
+  <Box flexDirection="column" marginLeft={2} marginBottom={1}>
+    <Text bold>
+      Use the existing `public` schema or create a new PostgreSQL schema.
+    </Text>
+    <Color dim>
+      You're connected to the PostgreSQL database: <Text bold>mydb</Text>
+    </Color>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={`${chalk.bold('Schema options')}`}
+    marginBottom={1}
+  >
+    <Box width={100}>
+      <Color cyan>
+        <Box width={32}>
+          <Text bold>{figures.pointer} Use schema `public`</Text>
+        </Box>
+      </Color>
+      <Color dim>Contains 0 tables (0 kb)</Color>
+      <Box flexGrow={1} />
+    </Box>
+    <Box width={100}>
+      <Color>
+        <Box width={32}>
+          <Color gray> </Color>
+          <Text>Create new PostgreSQL schema</Text>
+        </Box>
+      </Color>
+      <Color dim>Provide schema name next</Color>
+      <Box flexGrow={1} />
+    </Box>
+  </BorderBox>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Database selection)</Color>
+  </Box>
+</Terminal>
+
+- Use schema `public`
+  - [`public` is empty](../postgresql#8-success)
+  - [`public` is **not** empty](../postgresql#8-introspection)
+- [Create new PostgreSQL schema](#7-set-schema-name)
+
+### (5.3) Select existing schema or create a new one
+
+_Same as 5.1 but without the success message._
+
+- Selected DB in `<DB Selection>` flow
+- More than just the `public` schema exists in provided DB
+- Rights to create new schema
+
+<Terminal>
+  <Box flexDirection="column" marginLeft={2} marginBottom={1}>
+    <Text bold>Create a new PostgreSQL schema or use an existing one.</Text>
+    <Color dim>A PostgreSQL database can have multiple schemas.</Color>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={`${chalk.bold('Schema options')}`}
+    marginBottom={1}
+  >
+    <Box width={100}>
+      <Color cyan>
+        <Box width={35}>
+          <Text bold>{figures.pointer} Create new PostgreSQL schema</Text>
+        </Box>
+        <Color dim>Start from scratch</Color>
+      </Color>
+      <Box flexGrow={1} />
+    </Box>
+    <Box width={100}>
+      <Color>
+        <Box width={35}>
+          <Color gray> </Color>
+          <Text>Use existing PostgreSQL schema</Text>
+        </Box>
+        <Color dim>Found 5 schemas</Color>
+      </Color>
+      <Box flexGrow={1} />
+    </Box>
+  </BorderBox>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Database credentials)</Color>
+  </Box>
+</Terminal>
+
+- [Create new PostgreSQL schema](#7-set-schema-name)
+- [Use existing PostgreSQL schema](#61-select-a-schema)
+
+### (6) Select a schema
+
+- Optional DB provided
+- Optional schema **not** provided
+- More than just the `public` schema exists in provided DB
+- **No** rights to create new schema
+
+<Terminal>
+  <Color green>
+    <Color bgKeyword="green" white>
+      <Text bold> SUCCESS </Text>
+    </Color>{' '}
+    Connected to PostgreSQL database server as <Text bold>admin</Text>
+  </Color>
+  <Box flexDirection="column" marginLeft={2} marginBottom={1} marginTop={1}>
+    <Text bold>Select an existing PostgreSQL schema.</Text>
+    <Color dim>Found 3 existing PostgreSQL schemas.</Color>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={`${chalk.bold('Empty PostgreSQL schemas')}`}
+    marginBottom={1}
+  >
+    <Box width={100}>
+      <Box width={20} marginLeft={2}>
+        <Text>management</Text>
+      </Box>
+      <Box flexGrow={1} />
+    </Box>
+    <Box width={100}>
+    <Color cyan>
+      <Box width={20} marginRight={2}>
+        <Text>{figures.pointer} <Text bold>public</Text></Text>
+      </Box>
+      <Box flexGrow={1} />
+    </Color>
+    </Box>
+    <Box width={100}>
+      <Box width={20} marginLeft={2}>
+        <Text>staging</Text>
+      </Box>
+      <Box flexGrow={1} />
+    </Box>
+  </BorderBox>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Schema options)</Color>
+  </Box>
+</Terminal>
+
+- [Empty schema](../postgresql#8-success)
+- [Non-empty schema](../postgresql#8-introspection)
+
+### (6.1) Select a schema
+
+_Same as 6 but without the success message._
+
+<Terminal>
+  <Box flexDirection="column" marginLeft={2} marginBottom={1}>
+    <Text bold>Select an existing PostgreSQL schema.</Text>
+    <Color dim>Found 3 existing PostgreSQL schemas.</Color>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={`${chalk.bold('Empty PostgreSQL schemas')}`}
+    marginBottom={1}
+  >
+    <Box width={100}>
+      <Box width={20} marginLeft={2}>
+        <Text>management</Text>
+      </Box>
+      <Box flexGrow={1} />
+    </Box>
+    <Box width={100}>
+    <Color cyan>
+      <Box width={20} marginRight={2}>
+        <Text>{figures.pointer} <Text bold>public</Text></Text>
+      </Box>
+      <Box flexGrow={1} />
+    </Color>
+    </Box>
+    <Box width={100}>
+      <Box width={20} marginLeft={2}>
+        <Text>staging</Text>
+      </Box>
+      <Box flexGrow={1} />
+    </Box>
+  </BorderBox>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Schema options)</Color>
+  </Box>
+</Terminal>
+
+- [Empty schema](../postgresql#8-success)
+- [Non-empty schema](../postgresql#8-introspection)
+
+### (7) Set schema name
+
+<Terminal>
+  <Box marginLeft={2} flexDirection="column" marginBottom={1}>
+    <Text bold>Enter name for the new PostgreSQL schema</Text>
+    <Color dim>The schema will be created by user: <Text bold>admin</Text></Color>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={`${chalk.bold('PostgreSQL schema name')}`}
+    marginBottom={1}
+  >
+   <Box width={100}>
+      <Color cyan>
+        <Text bold>{figures.pointer} Name:</Text>
+        <Color dim> my_schema</Color>
+      </Color>
+      <Box flexGrow={1}></Box>
+    </Box>
+  </BorderBox>
+  <Box>
+    <Color gray>{figures.pointer} </Color>
+    <Text bold>Create</Text>
+  </Box>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Schema options)</Color>
+  </Box>
+</Terminal>
+
+- [Create](../postgresql#8-success)

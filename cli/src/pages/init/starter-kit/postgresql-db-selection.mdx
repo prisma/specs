@@ -1,0 +1,345 @@
+---
+navGroup: init
+navOrder: 5
+navLabel: pg-db-selection
+---
+
+import Terminal from '../../../components/Terminal/Terminal'
+import {
+  multiSelectItemComponent,
+  multiSelectIndicatorComponent,
+  multiSelectCheckboxComponent,
+  selectInputItemComponent,
+  selectInputIndicatorComponent,
+  Divider,
+} from '../../../components/inkHelpers'
+import MultiSelect from 'ink-multi-select'
+import SelectInput from 'ink-select-input'
+import TextInput from 'ink-text-input'
+import ProgressBar from 'ink-progress-bar'
+import { Box, Text, Color } from 'ink'
+import figures from 'figures'
+import chalk from 'chalk'
+import BorderBox from '../../../components/Terminal/BorderBox'
+
+---
+
+![](https://figma-image-proxy.prisma.now.sh/?id=1066:657&file=cRvu7bwRRC0zleOvtlTgmkOu)
+
+> **Note**: `rctdb` means "Rights to create database"
+
+---
+
+# PostgreSQL - DB selection
+
+### (2) Select existing database or create a new one
+
+- Optional DB **not** provided
+- Rights to create new DB
+
+<Terminal>
+  <Color green>
+    <Color bgKeyword="green" white>
+      <Text bold> SUCCESS </Text>
+    </Color>{' '}
+    Connected to PostgreSQL database server as <Text bold>admin</Text>
+  </Color>
+  <Box flexDirection="column" marginLeft={2} marginTop={1} marginBottom={1}>
+    <Text bold>Create a new PostgreSQL database or use an existing one</Text>
+    <Color dim>A PostgreSQL database server can host multiple databases</Color>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={`${chalk.bold('Database options')}`}
+    marginBottom={1}
+  >
+    <Box width={100}>
+      <Color cyan>
+        <Box width={35}>
+          <Text bold>{figures.pointer} Create new PostgreSQL database</Text>
+        </Box>
+        <Color dim>Start from scratch</Color>
+      </Color>
+      <Box flexGrow={1} />
+    </Box>
+    <Box width={100}>
+      <Color>
+        <Box width={35}>
+          <Color gray> </Color>
+          <Text>Use existing PostgreSQL database</Text>
+        </Box>
+        <Color dim>Found 5 databases</Color>
+      </Color>
+      <Box flexGrow={1} />
+    </Box>
+  </BorderBox>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Database credentials)</Color>
+  </Box>
+</Terminal>
+
+- [Create new PostgreSQL database](#4-set-database-name)
+- [Use existing PostgreSQL database](#3-select-a-database)
+
+### (2.1) Select existing database or create a new one with provided name
+
+- Optional DB provided: `hello-world`
+- Database `hello-world` doesn't exist
+- Rights to create new DB
+
+<Terminal>
+  <Color green>
+    <Color bgKeyword="green" white>
+      <Text bold> SUCCESS </Text>
+    </Color>{' '}
+    Connected to PostgreSQL database server as <Text bold>admin</Text>
+  </Color>
+  <Box flexDirection="column" marginLeft={2} marginTop={1} marginBottom={1}>
+    <Text bold>
+      A database named <Text bold>`hello-world`</Text> doesn't exist on this
+      PostgreSQL server.
+    </Text>
+    <Text bold>
+      Create PostgreSQL database `hello-world` or select an existing one.
+    </Text>
+    <Color dim>
+      The PostgreSQL database will be created by user: <Text bold>admin</Text>
+    </Color>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={`${chalk.bold('Database options')}`}
+    marginBottom={1}
+  >
+    <Box width={100}>
+      <Color cyan>
+        <Box width={35}>
+          <Text bold>
+            {figures.pointer} Create PostgreSQL database `hello-world`
+          </Text>
+        </Box>
+      </Color>
+      <Box flexGrow={1} />
+    </Box>
+    <Box width={100}>
+      <Color>
+        <Box width={35}>
+          <Color gray> </Color>
+          <Text>Select an existing PostgreSQL database</Text>
+        </Box>
+      </Color>
+      <Box flexGrow={1} />
+    </Box>
+  </BorderBox>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Database credentials)</Color>
+  </Box>
+</Terminal>
+
+- Create database `hello-world`
+  - [Rights to create new schema](../postgresql-schema-selection#52-select-public-or-create-new-schema)
+  - [**No** rights to create new schema](../postgresql#8-success)
+- [Select an existing database](#3-select-a-database)
+
+### (3) Select a database
+
+- Got here from 2.X
+
+<Terminal>
+  <Box flexDirection="column" marginLeft={2} marginBottom={1}>
+    <Text bold>Select a PostgreSQL database</Text>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={`${chalk.bold('PostgreSQL databases')}`}
+    marginBottom={1}
+  >
+    <Box width={100}>
+      <Color cyan>
+        {figures.pointer} <Text bold>somedb</Text>
+      </Color>
+      <Box flexGrow={1} />
+    </Box>
+    <Box width={100}>
+      <Box width={20} marginLeft={2}>
+        <Text>default$default</Text>
+      </Box>
+      <Color dim>Contains 4 schemas</Color>
+      <Box flexGrow={1} />
+    </Box>
+    <Box width={100}>
+      <Box width={20} marginLeft={2}>
+        <Text>staging</Text>
+      </Box>
+      <Color dim>Contains 7 schemas</Color>
+      <Box flexGrow={1} />
+    </Box>
+  </BorderBox>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Database options)</Color>
+  </Box>
+</Terminal>
+
+- Empty DB (only `public` schema exists)
+  - [Rights to create new schema](../postgresql-schema-selection#52-select-public-or-create-new-schema)
+  - [**No** rights to create new schema](../postgresql#8-success)
+- Non-empty DB
+  - [Rights to create new schema](../postgresql-schema-selection#53-select-public-or-create-new-schema)
+  - [**No** rights to create new schema](../postgresql-schema-selection#61-select-a-schema)
+
+### (3.1) Select a database
+
+- Optional DB provided: `hello-world`
+- Database `hello-world` doesn't exist
+- **No** rights to create new DB
+
+<Terminal>
+  <Color green>
+    <Color bgKeyword="green" white>
+      <Text bold> SUCCESS </Text>
+    </Color>{' '}
+    Connected to PostgreSQL database server as <Text bold>admin</Text>
+  </Color>
+  <Box flexDirection="column" marginLeft={2} marginBottom={1} marginTop={1}>
+    <Text bold>
+      The database `hello-world` doesn't exist on this PostgreSQL server.
+    </Text>
+    <Text bold>You can select an existing PostgreSQL database instead.</Text>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={`${chalk.bold('PostgreSQL databases')}`}
+    marginBottom={1}
+  >
+    <Box width={100}>
+      <Color cyan>
+        {figures.pointer} <Text bold>somedb</Text>
+      </Color>
+      <Box flexGrow={1} />
+    </Box>
+    <Box width={100}>
+      <Box width={20} marginLeft={2}>
+        <Text>default$default</Text>
+      </Box>
+      <Color dim>Contains 4 schemas</Color>
+      <Box flexGrow={1} />
+    </Box>
+    <Box width={100}>
+      <Box width={20} marginLeft={2}>
+        <Text>staging</Text>
+      </Box>
+      <Color dim>Contains 7 schemas</Color>
+      <Box flexGrow={1} />
+    </Box>
+  </BorderBox>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Database credentials)</Color>
+  </Box>
+</Terminal>
+
+- Empty DB (only `public` schema exists)
+  - [Rights to create new schema](../postgresql-schema-selection#52-select-public-or-create-new-schema)
+  - [**No** rights to create new schema](../postgresql#8-success)
+- Non-empty DB
+  - [Rights to create new schema](../postgresql-schema-selection#53-select-public-or-create-new-schema)
+  - [**No** rights to create new schema](../postgresql-schema-selection#61-select-a-schema)
+
+### (3.2) Select a database
+
+- Optional DB **not** provided
+- **No** rights to create new DB
+
+<Terminal>
+  <Color green>
+    <Color bgKeyword="green" white>
+      <Text bold> SUCCESS </Text>
+    </Color>{' '}
+    Connected to PostgreSQL database server as <Text bold>admin</Text>
+  </Color>
+  <Box flexDirection="column" marginLeft={2} marginBottom={1} marginTop={1}>
+    <Text bold>Select an existing PostgreSQL database.</Text>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={`${chalk.bold('PostgreSQL databases')}`}
+    marginBottom={1}
+  >
+    <Box width={100}>
+      <Color cyan>
+        {figures.pointer} <Text bold>somedb</Text>
+      </Color>
+      <Box flexGrow={1} />
+    </Box>
+    <Box width={100}>
+      <Box width={20} marginLeft={2}>
+        <Text>default$default</Text>
+      </Box>
+      <Color dim>Contains 4 schemas</Color>
+      <Box flexGrow={1} />
+    </Box>
+    <Box width={100}>
+      <Box width={20} marginLeft={2}>
+        <Text>staging</Text>
+      </Box>
+      <Color dim>Contains 7 schemas</Color>
+      <Box flexGrow={1} />
+    </Box>
+  </BorderBox>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Database credentials)</Color>
+  </Box>
+</Terminal>
+
+- Empty DB (only `public` schema exists)
+  - [Rights to create new schema](../postgresql-schema-selection#52-select-public-or-create-new-schema)
+  - [**No** rights to create new schema](../postgresql#8-success)
+- Non-empty DB
+  - [Rights to create new schema](../postgresql-schema-selection#53-select-public-or-create-new-schema)
+  - [**No** rights to create new schema](../postgresql-schema-selection#61-select-a-schema)
+
+### (4) Set database name
+
+<Terminal>
+  <Box marginLeft={2} flexDirection="column" marginBottom={1}>
+    <Text bold>Enter name for the new database</Text>
+    <Color dim>
+      The database will be created by user: <Text bold>admin</Text>
+    </Color>
+  </Box>
+  <BorderBox
+    flexDirection="column"
+    title={`${chalk.bold('PostgreSQL database name')}`}
+    marginBottom={1}
+  >
+    <Box width={100}>
+      <Color cyan>
+        <Text bold>{figures.pointer} Name:</Text>
+        <Color dim> my_db</Color>
+      </Color>
+      <Box flexGrow={1} />
+    </Box>
+  </BorderBox>
+  <Box>
+    <Color gray>{figures.pointer} </Color>
+    <Text bold>Create</Text>
+  </Box>
+  <Box>
+    <Color gray>❮ </Color>
+    <Text bold>Back</Text>
+    <Color dim> (Database options)</Color>
+  </Box>
+</Terminal>
+
+- Create
+  - [Rights to create new schema](../postgresql-schema-selection#52-select-public-or-create-new-schema)
+  - [**No** rights to create new schema](../postgresql#8-success)

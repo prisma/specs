@@ -1,0 +1,152 @@
+---
+navGroup: init
+navOrder: 7
+navLabel: introspection-results
+---
+
+# Introspection results
+
+When a user gets started with Prisma in a **brownfield** project, they let Prisma introspect their database to generate the initial Prisma data model definition.
+
+If they have chosen to use Photon, we want to provide them with an initial, lightweight setup so that they can already start exploring the Photon API without any additional overhead.
+
+## Examples
+
+For greenfield projects, we offer a selection of [_starter kits_](https://github.com/prisma/prisma-examples/tree/prisma2) to the user that they can select during `prisma2 init`. For brownfield projects, we eventually want to get to a similar level of sophistication and e.g. offer a to auto-generate a GraphQL server that's based on the existing database schema of the user.
+
+Here's a list of (auto-generated) examples we want to eventually provide for brownfield projects:
+
+- [Script](#script)
+- [GraphQL API](#graphql-api)
+- [REST API](#rest-api)
+
+For now, we're starting with a simple script that demonstrates some Photon API calls against the existing database.
+
+### Script
+
+#### JavaScript
+
+Use similar setup as in greenfield `script` example:
+
+- `package.json`
+- `package-lock.json`
+
+#### TypeScript
+
+Use similar setup as in greenfield `script` example:
+
+- `package.json`
+- `package-lock.json`
+- `tsconfig.json`
+
+#### Heuristic for model selection
+
+The `src/index.{js,ts}` should contain a Node/TypeScript script with some sample API calls. Since the data model is generated during the introspection, this script needs to be auto-generated. Here's a template for what it should look like:
+
+```js
+/**
+ * 
+ * This code was auto-generated based on the introspection result.
+ * Consider it a playground to explore the Photon API.
+ * Feel free to change it as much as you like or delete it altogether.
+ *
+ * The model `X` was randomly selected to demonstrate some API calls.
+ *
+ * Tip: Use the auto-completion of your editor to explore available API operations.
+ * 
+ */
+
+const Photon = require('@generated/photon')
+const photon = new Photon()
+
+async function main() {
+  // Tip: Explore some arguments to `findMany` 
+  const allXs = await photon.xs.findMany()
+  console.log(`Retrieved all published xs: `, allXs)
+
+  // Comment out the lines below to create a new x
+  // ATTENTION: This code creates a new record in your database
+  // const newX = await photon.xs.create({
+  //   data: {
+  //     // all required values with random dummy data
+  //   },
+  // })
+  // console.log(`Created a new x: `, newX)
+}
+
+main()
+  .catch(e => console.error(e))
+  .finally(async () => {
+    await photon.disconnect()
+  })
+```
+
+Note that `X` is a placeholder for any model from the data model that was generated via introspection. To ensure a great user experience, here's a heuristic how to select an appropriate model:
+
+1. Prefer models without required relations. If there are only models with required relations, omit the `create` statement.
+1. If any of the following models is present, use it (the order of the list determines the prefernce, i.e. `User` is preferred over `Player`, `Player` over `Customer`, ...): `User`, `Player`, `Customer`, `Product`, `Order`, `Article`, `Post`, `Message`
+1. If none of the above models is present in the data model, select a model according to the following heuristic:
+    1. The model name should not end on an `s`
+    1. The model name should be in between 4 and 8 characters (if such a model doesn't exist, try 9, then 10, then 11, ...)
+    1. The model should have between 2 and 6 _required_ fields (if such a model doesn't exist, try 7, then 8, then 9, ...)
+
+As an example, consider that there was the following `User` model generated via introspection:
+
+```prisma
+model User {
+  id         String @id
+  name       String
+  email      String
+  isAdmin    Boolean @default(false)
+  birthdate  DateTime?
+}
+```
+
+This is the script to be generated:
+
+```js
+/**
+ * 
+ * This code was auto-generated based on the introspection result.
+ * Consider it a playground to explore the Photon API.
+ * Feel free to change it as much as you like or delete it altogether.
+ *
+ * The model `User` was randomly selected to demonstrate some API calls.
+ * 
+ * Tip: Use the auto-completion of your editor to explore available API operations.
+ * 
+ */
+
+const Photon = require('@generated/photon')
+const photon = new Photon()
+
+async function main() {
+  // Tip: Explore some arguments to `findMany` 
+  const allUsers = await photon.users.findMany()
+  console.log(`Retrieved all published users: `, allUsers)
+
+  // Comment out the lines below to create a new user
+  // ATTENTION: This code creates a new record in your database
+  // const newUser = await photon.users.create({
+  //   data: {
+  //     name: "Z9rlkGhTS9",
+  //     email: "kvZyPH5zFv"
+  //   },
+  // })
+  // console.log(`Created a new x: `, newX)
+}
+
+main()
+  .catch(e => console.error(e))
+  .finally(async () => {
+    await photon.disconnect()
+  })
+```
+
+### GraphQL API
+
+Coming soon.
+
+### REST API
+
+Coming soon.
