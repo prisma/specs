@@ -5,6 +5,9 @@
 - State: 
   - Spec: In Progress 🚧
   - Implementation: Unknown ❔
+  
+TODO
+
 ---
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
@@ -21,6 +24,13 @@
 For greenfield projects, we offer a selection of starter kits to the user that they can select during prisma2 init. For brownfield projects, we eventually want to get to a similar level of sophistication and e.g. offer a to auto-generate a GraphQL server that's based on the existing database schema of the user.
 
 The introspection allows an user to examine an existing database and generate a Prisma schema for it. The database could have been created by Prisma or with other tools / manually. The goal is to have all the information included in the db-schema available in the Prisma schema. If this works perfectly it should be possible to create an equivalent database schema from the Prisma schema. 
+
+## Functionality
+
+- Introspect database from database connection
+- Introspect database from database dump (`.sql` file) TODO Really?
+- Make manual decisions on non obvious representations in schema TODO Really?
+- Goal: Database -> Introspection -> create database from schema (migration via lift?) => identical to where we started
 
 ## Implementation
 
