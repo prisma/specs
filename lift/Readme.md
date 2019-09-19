@@ -1,16 +1,10 @@
-🚨 **NOTE: This spec is outdated**
+# Lift
 
-- Start Date: 2019-03-22
-- RFC PR: (leave this empty)
-- Prisma Issue: (leave this empty)
-
-# Summary
-
-In order to make Prismas existing migration system more powerful, we introduce a migration folder which includes datamodel snapshots per migration.
+Lift is Prisma's declarative migration system. Rather than scripting your migrations by hand, Lift allows you to describe how you want the structure of your
+data to look and Lift will take care of generating the necessary steps to get you there.
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
 
 - [Basic example](#basic-example)
 - [Motivation](#motivation)
@@ -48,6 +42,48 @@ In order to make Prismas existing migration system more powerful, we introduce a
 - [Unresolved questions](#unresolved-questions)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+# A Brief History
+
+Migration systems are used to safely evolve your application over time. Migration systems often have a folder structure that looks like this:
+
+```
+migrations/
+├── 001_setup.down.sql
+├── 001_setup.up.sql
+├── 002_convo.down.sql
+├── 002_convo.up.sql
+├── 003_tempo.down.sql
+├── 003_tempo.up.sql
+├── 004_eventids.down.sql
+├── 004_eventids.up.sql
+├── 005_update_pricing.down.sql
+├── 005_update_pricing.up.sql
+```
+
+The numbers determine the order the migrations should be performed in. We first run `001`, then `002`, etc. The `up` and `down` determine the direction we're
+migrating. If we're migrating up, we'll run the `up` scripts, if we're migrating down, we'll run the `down` scripts.
+
+Traditionally, you write migrations by hand to migrate your database.
+
+```sql
+ALTER TYPE report_status RENAME TO report_status_old;
+CREATE TYPE report_status AS ENUM('ASKED','SKIP','COMPLETE','PENDING');
+ALTER TABLE reports ALTER COLUMN "status" DROP DEFAULT;
+ALTER TABLE reports ALTER COLUMN "status" TYPE report_status USING "status"::text::report_status;
+ALTER TABLE reports ALTER COLUMN "status" SET DEFAULT 'ASKED';
+DROP TYPE report_status_old;
+```
+
+This is error-prone and stressful, especially when you're operating on your production data.
+
+# A Quick Example
+
+Lift works differently. While we still have a `migrations/` folder, migrations are generated for you.
+
+```
+
+```
 
 # Basic example
 
@@ -335,14 +371,14 @@ If you want all existing nodes to have a specific precalculated value, you could
 ```ts
 #!/usr/bin/env ts-node
 
-import client from "@prisma/client/201912121314";
+import client from '@prisma/client/201912121314'
 
 async function main() {
   for await (const user of client.users()) {
     await client.updateUser({
       ...user,
-      fullName: `${user.firstName} ${user.lastName}`
-    });
+      fullName: `${user.firstName} ${user.lastName}`,
+    })
   }
 }
 ```
