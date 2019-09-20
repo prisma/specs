@@ -2,9 +2,13 @@
 
 - Owner: @janpio
 - Stakeholders: @schickling @sorenbs
-- Spec State: Outdated 🚨
+- State: 
+  - Spec: Outdated 🚨
+  - Implementation: Fully implemented ✅
 
 We use GitHub Milestones to plan our releases. We use the following process to collect, nominate and commit issues to these milestones, then implement and release it, and reflect on the milestone afterwards:
+
+---
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->

@@ -1,7 +1,14 @@
 # Lift
 
-Lift is Prisma's declarative migration system. Rather than scripting your migrations by hand, Lift allows you to describe how you want the structure of your
+- Owner: @schickling
+- Stakeholders: @matthewmueller @timsuchanek @mavilein
+- State: 
+  - Spec: Outdated 🚨
+  - Implementation: Unknown ❔
+
+Lift is Prisma's declarative migration system. Rather than scripting your migrations by hand, Lift allows you to describe how you want the structure of your 
 data to look and Lift will take care of generating the necessary steps to get you there.
+---
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
