@@ -1,12 +1,14 @@
-- Start Date: 2019-07-10
-- RFC PR: (leave this empty)
-- Prisma Issue: (leave this empty)
-
----
-
 # Errors
 
-In this document we make the distinction between [Unknown Errors](#unknown-errors) and [Known Errors](#known-errors).
+- Owner: @divyenduz
+- Stakeholders: @mavilein @timsuchanek @nikolasburk
+- State: 
+  - Spec: In Progress 🚧
+  - Implementation: Future 👽
+
+Definition of errors in Prisma Framework. (In this document we make the distinction between [Unknown Errors](#unknown-errors) and [Known Errors](#known-errors).)
+
+---
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -62,7 +64,7 @@ In this document we make the distinction between [Unknown Errors](#unknown-error
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Unknown Errors
+## Unknown Errors
 
 As Prisma 2 is still early, we're not yet aware of all error cases that can occur. This section explains what should happen when Prisma encounters an _unknown_ error.
 
@@ -77,7 +79,7 @@ When an unknown error occurs, **our primary goal** is to get the user to report 
 Error messages should include clear guidelines of where to report the issue and what information to include. The following sections provide the templates for
 these error message per tool.
 
-## Unknown Error Template
+### Unknown Error Template
 
 Additionally to showing the the error message directly to the user by printing it to the console, we also want to provide rich error reports that users can use
 to report the issue. These error reports are stored as markdown files on the file system. Therefore, each tool has two templates:
@@ -87,11 +89,11 @@ to report the issue. These error reports are stored as markdown files on the fil
 
 The error report generally is more exhaustive than the logging output (e.g. it also contains the Prisma schema which would be overkill if printed to the terminal as well). It is also written in Markdown enabling the user to copy and paste the report as a GitHub issue directly.
 
-### Prisma 2 CLI
+#### Prisma 2 CLI
 
 <Details><Summary>Logging output</Summary>
 
-#### Non-lift commands
+##### Non-lift commands
 
 ```
 Oops, an unexpected error occured! Find more info in the error report:
@@ -105,7 +107,7 @@ Copy the error report and paste it as a GitHub issue here:
 Thanks for helping us making Prisma 2 more stable! 🙏
 ```
 
-#### Lift commands
+##### Lift commands
 
 ```
 Oops, an unexpected error occured! Find more info in the error reports:
@@ -125,7 +127,7 @@ Thanks for helping us making Prisma 2 more stable! 🙏
 
 <Details><Summary>Error report</Summary>
 
-#### Non-lift commands
+##### Non-lift commands
 
 File name: `prisma-error-TIMESTAMP.md` where `TIMESTAMP` is a placeholder for the current timestamp.
 
@@ -155,7 +157,7 @@ ${schema.prisma}
 
 > **Note**: The connection strings for the data sources in the Prisma schema file must be obscured!
 
-#### Lift commands
+##### Lift commands
 
 File name: `prisma-error-TIMESTAMP.zip` where `TIMESTAMP` is a placeholder for the current timestamp.
 
@@ -194,7 +196,7 @@ ${schema.prisma}
 
 </Details>
 
-### Prisma Studio
+#### Prisma Studio
 
 <Details><Summary>Logging output</Summary>
 
@@ -250,7 +252,7 @@ ${schema.prisma}
 
 </Details>
 
-### Photon JS
+#### Photon JS
 
 <Details><Summary>Logging output</Summary>
 
@@ -313,12 +315,12 @@ ${index.d.ts}
 
 </Details>
 
-# Known Errors
+## Known Errors
 
 Whenever we show an error, we should always show a path forward towards resolution. If we don't know the path forward, we should atleast link to a place to get
 help.
 
-## Known Error Template
+### Known Error Template
 
 The format of our error should be the following:
 
@@ -345,7 +347,7 @@ Stack Trace:
 ConnectorError(QueryError(Error { kind: FromSql, cause: Some(WrongType(Type(Timestamptz))) }\ \ stack backtrace:\ 0: failure::backtrace::internal::InternalBacktrace::new::h84e0252f893b7b0e (0x55a8a0489290)\ 1: failure::backtrace::Backtrace::new::h381a1eb507d04e2c (0x55a8a0489440)\ 2: <sql_connector::error::SqlError as core::convert::From<tokio_postgres::error::Error>>::from::h34ff4340a0dd5b3f (0x55a89febbc67)\ 3: sql_connector::database::postgresql::<impl sql_connector::row::ToSqlRow for tokio_postgres::row::Row>::to_sql_row::convert::h178249b965d8493a (0x55a89fe2686b)\ 4: sql_connector::database::postgresql::<impl sql_connector::row::ToSqlRow for tokio_postgres::row::Row>::to_sql_row::h3875436f09b0556f (0x55a89fe368ff)\ 5: sql_connector::database::postgresql::<impl sql_connector::transactional::Transaction for postgres::transaction::Transaction>::filter::h498f6550aa3967b1 (0x55a89fe9156a)\ 6: <sql_connector::database::postgresql::PostgreSql as sql_connector::transactional::Transactional>::with_transaction::hd5f1950fe91ab7e3 (0x55a89fbe22a8)\ 7: sql_connector::transactional::database_reader::<impl connector::database_reader::DatabaseReader for sql_connector::database::SqlDatabase<T>>::get_related_records::h291c7a1f45dc7434
 ```
 
-### `error_code`
+#### `error_code`
 
 **required**
 
@@ -366,14 +368,14 @@ A unique error across all the products. Error codes will have a 2 or 3-letter pr
 The error codes will also have a 3-digit number identifying the unique error, starting at 001. As we discover or add more errors, we'll increment this number
 (e.g. 002, 003, ...)
 
-### `error_category`
+#### `error_category`
 
 **required**
 
 Is it a connection error? Is it a configuration error? These errors will come from the codebase and will give the error a name. This will help the user identify
 what type of error occurred.
 
-#### Different Layers
+##### Different Layers
 
 Errors can bubble up from different layers. Depending on the engineering effort, a breadcrumb of errors would be very helpful. Otherwise the original "deepest"
 error in the stack is the most helpful and should be bubbled up unwraped.
@@ -389,7 +391,7 @@ error in the stack is the most helpful and should be bubbled up unwraped.
 
 - e.g. `Photon Error < Connector Error < SQL Connector Error`
 
-### `how_to_proceed`
+#### `how_to_proceed`
 
 **required**
 
@@ -403,7 +405,7 @@ We will try to be as helpful as we can here:
 - **encouraged** If we have documentation for this error, provide a URL to that documentation
   - e.g. "You can find `ConnectionError` documentation here: https://prisma.io/docs/xxx"
 
-### `best_guess`
+#### `best_guess`
 
 **encouraged**
 
@@ -414,28 +416,28 @@ It should be a question and never be condescending.
 - **DO:** "Is Postgres running?"
 - **DONT:** "Your Postgres probably isn't runninng"
 
-### `stack_trace`
+#### `stack_trace`
 
 The stack trace is the raw error from either Typescript or Rust.
 
 Ideally we can clean it up a bit with [clean-stack](https://github.com/sindresorhus/clean-stack) on the Javascript-side. In Rust, we should research or create a
 stack trace formatter.
 
-#### Credential Masking
+##### Credential Masking
 
 We may see credentials in the stack trace. It's very important that we hide this information. Sensitive information should be hidden with astericks `********`.
 
-## List of Known Errors
+### List of Known Errors
 
 This is a list of currently known errors. We'll update this list as more error conditions are required
 
-### Photon JS / Photon Go
+#### Photon JS / Photon Go
 
-#### Generation: Datamodel Syntax or Semantic Error
+##### Generation: Datamodel Syntax or Semantic Error
 
 Occurs when our schema has a syntax error.
 
-#### Runtime: Binary built for the wrong platform
+##### Runtime: Binary built for the wrong platform
 
 This isn't an exhaustive list, but should give you a good idea of what kind of errors you'll encounter if you pass in the wrong binaries
 
@@ -447,20 +449,20 @@ This isn't an exhaustive list, but should give you a good idea of what kind of e
 | linux-glibc-libssl1.0.2 | cannot execute binary file: Exec format error | error while loading shared libraries: libssl.so.10: cannot open shared object file: No such file or directory |
 |       linux-musl        | cannot execute binary file: Exec format error | error while loading shared libraries: libssl.so.10: cannot open shared object file: No such file or directory |
 
-#### Runtime: Permissions
+##### Runtime: Permissions
 
 If the binary isn't an executable (`chmod +x`), then we'll run into `./darwin: Permission denied`. Photon checks for this so it shouldn't really happen.
 
-#### Runtime: Connection failed
+##### Runtime: Connection failed
 
 This shouldn't really happen now without an error from the query engine, but when we start needing to make network requests, we'll need to account for
 connection errors.
 
-### Query Engine
+#### Query Engine
 
 Query engine errors will need to be handled by Photon.
 
-#### `UniqueConstraintViolation: Unique constraint failed: ${field_name}`
+##### `UniqueConstraintViolation: Unique constraint failed: ${field_name}`
 
 Occurs when SQL returns a unique constraint violation.
 
@@ -474,7 +476,7 @@ rusqlite::Error::SqliteFailure(
 )
 ```
 
-#### `NullConstraintViolation: Null constraint failed: ${field_name}`
+##### `NullConstraintViolation: Null constraint failed: ${field_name}`
 
 Occurs when SQL returns a null constraint violation.
 
@@ -488,7 +490,7 @@ rusqlite::Error::SqliteFailure(
 )
 ```
 
-#### `RecordDoesNotExist: Record does not exist`
+##### `RecordDoesNotExist: Record does not exist`
 
 Occurs when a query doesn't return any rows.
 
@@ -498,7 +500,7 @@ rusqlite::Error::QueryReturnedNoRows => SqlError::RecordDoesNotExist,
 
 **TODO** I think we should probably rename back to `QueryReturnedNoRows`. `RecordDoesNotExist` implies a single result not existing.
 
-#### `ColumnDoesNotExist: Column does not exist`
+##### `ColumnDoesNotExist: Column does not exist`
 
 This can occur if we try pulling a result value from SQL that we didn't request. I don't think this one will happen much (famous last words). It seems like it's
 usually a for loop mistake.
@@ -507,7 +509,7 @@ usually a for loop mistake.
 SqlError::ColumnDoesNotExist => ConnectorError::ColumnDoesNotExist,
 ```
 
-#### `ConnectionError: Error creating a database connection`
+##### `ConnectionError: Error creating a database connection`
 
 This error happens when we're unable to connect to the database.
 
@@ -532,7 +534,7 @@ impl From<native_tls::Error> for SqlError {
 }
 ```
 
-#### `QueryError: Error querying the database`
+##### `QueryError: Error querying the database`
 
 Generic query error. This is the fallback if we can't determine what kind of query error was returned.
 
@@ -540,7 +542,7 @@ Generic query error. This is the fallback if we can't determine what kind of que
 e => SqlError::QueryError(e.into()),
 ```
 
-#### `InvalidConnectionArguments: The provided arguments are not supported.`
+##### `InvalidConnectionArguments: The provided arguments are not supported.`
 
 This can occur when we pass an argument into the connection string that is either invalid or we don't yet support.
 
@@ -551,7 +553,7 @@ This can occur when we pass an argument into the connection string that is eithe
 }
 ```
 
-#### `ColumnReadFailure: The column value was different from the model`
+##### `ColumnReadFailure: The column value was different from the model`
 
 Serialization has failed.
 
@@ -577,7 +579,7 @@ impl From<FromUtf8Error> for SqlError {
 }
 ```
 
-#### `FieldCannotBeNull: Field cannot be null: ${field}`
+##### `FieldCannotBeNull: Field cannot be null: ${field}`
 
 Prisma-level null check constraint. This will have some overlap with `NullConstraintViolation`, which comes from the database
 
@@ -589,7 +591,7 @@ if field.is_required && value.is_null() {
 }
 ```
 
-#### `DomainError`
+##### `DomainError`
 
 **TODO** When does this occur?
 
@@ -602,7 +604,7 @@ if field.is_required && value.is_null() {
 - Domain::ConversionFailure
 - Domain::ModelForRelationNotFound
 
-#### `RecordNotFoundForWhere: Record not found`
+##### `RecordNotFoundForWhere: Record not found`
 
 Prisma-level null check constraint. This will have some overlap with `RecordDoesNotExist`, which comes from the database.
 
@@ -614,7 +616,7 @@ RootWriteQuery::UpsertRecord(ref ups) => match conn.find_id(&ups.where_) {
 },
 ```
 
-#### `RelationViolation: Violating a relation ${relation_name} between ${model_a_name} and ${model_b_name}`
+##### `RelationViolation: Violating a relation ${relation_name} between ${model_a_name} and ${model_b_name}`
 
 Prisma-level violation when a write violates a relationship in the schema.
 
@@ -626,7 +628,7 @@ if self.top_is_create {
 }
 ```
 
-#### `RecordsNotConnected: The relation ${} has no record for the model {} connected to a record for the model {} on your write path.`
+##### `RecordsNotConnected: The relation ${} has no record for the model {} connected to a record for the model {} on your write path.`
 
 Prisma-level error when you try connecting to a record that doesn't exist
 
@@ -644,7 +646,7 @@ let child_id = conn
     }
 ```
 
-#### `ConversionError: Conversion error`
+##### `ConversionError: Conversion error`
 
 This error can occur while constructing a Prisma 2 Schema
 
@@ -664,7 +666,7 @@ load_v2_dml_string().inner_map(|dml_string| match datamodel::parse(&dml_string) 
 })
 ```
 
-#### `DatabaseCreationError: Database creation error: ${error}`
+##### `DatabaseCreationError: Database creation error: ${error}`
 
 Occurs when you pass in an invalid connection string
 
@@ -678,9 +680,9 @@ if file_path.exists() && !file_path.is_dir() {
 }
 ```
 
-### Migration Engine
+#### Migration Engine
 
-#### `DataModelErrors`
+##### `DataModelErrors`
 
 This error occurs when there is no datasource in the schema.
 
@@ -691,11 +693,11 @@ let source = config.datasources.first().ok_or(CommandError::DataModelErrors {
 })?;
 ```
 
-#### `InitializationError`
+##### `InitializationError`
 
 **TODO** This doesn't seem to be in use.
 
-#### `Generic`
+##### `Generic`
 
 Generic error that can occur in a couple different ways:
 
@@ -710,7 +712,7 @@ pub fn parse_datamodel(datamodel: &str) -> CommandResult<Datamodel> {
 
 **TODO** Make this more specific. It seems like all the submodule-specific errors end up getting wrapped into this generic error.
 
-#### `ConnectorError`
+##### `ConnectorError`
 
 Connection errors can occur whenever you connect to the database. In the migration engine, this can happen when you initialize the connection or reset the
 database.
@@ -721,7 +723,7 @@ fn reset(&self) -> ConnectorResult<()>;
 pub type ConnectorResult<T> = Result<T, ConnectorError>;
 ```
 
-#### `MigrationError`
+##### `MigrationError`
 
 Migration errors occur when we detect a destructive change
 
@@ -736,7 +738,7 @@ impl DestructiveChangesChecker<SqlMigration> for SqlDestructiveChangesChecker {
 }
 ```
 
-#### `RollbackFailure`
+##### `RollbackFailure`
 
 Rollback errors occur when we try to unapply a migration but fail.
 

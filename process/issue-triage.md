@@ -2,8 +2,13 @@
 
 - Owner: @janpio
 - Stakeholders: @pantharshit00 @divyenduz 
+- State: 
+  - Spec: Stable ✅
+  - Implementation: Fully implemented ✅
 
 We use an _Issue Triage process_ to handle our GitHub issues for Prisma Framework. This spec defines that process.
+
+---
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->

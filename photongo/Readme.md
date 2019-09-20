@@ -1,10 +1,14 @@
-- Start Date: 5/31/2019
-- RFC PR: (leave this empty)
-- Prisma Issue: (leave this empty)
+# Photon.go
 
-# Summary
+- Owner: @matthewmueller
+- Stakeholders: -
+- State: 
+  - Spec: Outdated 🚨
+  - Implementation: Future 👽
 
 This spec describes the Photon Go API
+
+---
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->

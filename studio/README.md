@@ -1,5 +1,14 @@
-# Summary
+# Studio
+
+- Owner: @schickling
+- Stakeholders: @madebysid @kuldar 
+- State: 
+  - Spec: In Progress 🚧
+  - Implementation: In Progress 🚧
+
 Specs for Studio design and features
+
+---
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -37,23 +46,23 @@ Specs for Studio design and features
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Overview
+## Overview
 
-## Sections of Studio
+### Sections of Studio
 ![Sections](https://i.imgur.com/XNZG1Sk.png)
 
 - [Tabbar](#tabbar)
 - [Tools sidebar](#tools-sidebar)
 - [Page](#page)
 
-# Tabbar
+## Tabbar
 ![Tabbar](https://i.imgur.com/I3NlV9s.png)
 
 Tabs are one of the main workflow organization tools in Studio. They should feel lightweight to open, rearrange, switch between and close, all while having confidence that no data or state is accidentally dropped or removed.
 
 A tab can contain a variety of content, from databrowser tables to dashboards and settings views.
 
-## Opening a new tab
+### Opening a new tab
 ![Quick open modal](https://i.imgur.com/vefE25X.png)
 
 Since tabs can represent a variety of views it makes it difficult to have a standard "empty state".
@@ -62,7 +71,7 @@ So instead of a blank tab, when a user clicks the "plus" icon (or hits `⌘ + T`
 
 When a "non-dirty" version of selected link is already open in an existing tab, user will be redirected into that one instead of opening a new one.
 
-## Tab states
+### Tab states
 There are two potential UX problems with tabs:
 - accidentally closing tabs that contain unsaved queries, filters or other changes
 - having a new tab open on each link click, potentially overflowing the tabbar with unused tabs
@@ -71,7 +80,7 @@ In order to alleviate those problems, we need track (and indicate) tab state and
 
 Tab can have three states: [preview](#preview-tab), [sticky](#sticky-tab) and [dirty](#dirty-tab).
 
-### Preview tab
+#### Preview tab
 ![Preview tab](https://i.imgur.com/PEySXvc.png)
 
 Any newly opened tab is in a _preview_ state. This is indicated by italic name in the tab.
@@ -82,7 +91,7 @@ When focusing into another tab, the _preview_ tab stays in the tabbar. When a us
 
 No confirmation asked when closing the _preview_ tab.
 
-### Sticky tab
+#### Sticky tab
 ![Sticky tab](https://i.imgur.com/QNJ1T07.png)
 
 User can open a sidebar link as an _sticky_ tab instead of _preview_ by double-clicking on the link. User can also double-click on the tab itself to turn it from _preview_ to _sticky_.
@@ -91,7 +100,7 @@ While in an _sticky_ tab and clicking on a sidebar link, the click target should
 
 No confirmation asked when closing the _sticky_ tab.
 
-### Dirty tab
+#### Dirty tab
 ![Dirty tab](https://i.imgur.com/wCDSXcz.png)
 
 A tab turns "dirty" as soon as there is some potential state or data that could be lost when closing the tab.
@@ -110,26 +119,26 @@ While in an _dirty_ tab and clicking on a sidebar link, the click target should 
 
 When closing the tab, user will be asked either to discard or save the changes.
 
-# Tools sidebar
+## Tools sidebar
 - [Databrowser](#databrowser)
 - [(Development) Dashboard](#dashboard)
 
-# Page
+## Page
 Where the main content of the tab is rendered
 
-# Databrowser
+## Databrowser
 
-## Query
+### Query
 - Query mode toggle
 
-## Photon query
+### Photon query
 ![Filters query](https://i.imgur.com/1AAJO3K.png)
 
 - Autocompletion
 - Syntax errors
 - Generated Photon client docs
 
-## Filters query
+### Filters query
 ![Filters query](https://i.imgur.com/dR9iO6f.png)
 
 - Model selection
@@ -138,20 +147,20 @@ Where the main content of the tab is rendered
 - Sorting
 - Pagination
 
-## Result
+### Result
 - Result mode toggle
 
-## Table result
+### Table result
 ![Table result](https://i.imgur.com/DG5OU06.png)
 
-## Tree result
+### Tree result
 ![Tree result](https://i.imgur.com/Fw463Na.png)
 
-# Unsaved data changes
+## Unsaved data changes
 
-# Dashboard
+## Dashboard
 
-# Keyboard navigation
+## Keyboard navigation
 ![Keyboard nav](https://i.imgur.com/6Q6N47A.png)
 
 The goal is to support as extensive usage of Studio through keyboard as possible. The keyboard navigation and shortcuts should feel natural to use and adjust themselves depending on the scope in focus.
@@ -166,7 +175,7 @@ The goal is to support as extensive usage of Studio through keyboard as possible
 
 - Entering a scope happens with `enter` and exiting with `shift + enter` or `esc` key.
 
-## Global scopes
+### Global scopes
 | General | |
 |-|-|
 | Show help panel with shortcuts | `⌘ + ?` |
@@ -181,14 +190,14 @@ The goal is to support as extensive usage of Studio through keyboard as possible
 | Close an open tab | `⌘ + W` |
 | Force close an open tab | `⌘ + shift + W` |
 
-## Tabbar scope
+### Tabbar scope
 | Navigation | |
 |-|-|
 | Move focus to next tab | `tab` or  right arrow |
 | Move focus to previous tab | `shift + tab` or left arrow |
 | Open focused tab | `enter` |
 
-## Page scope
+### Page scope
 | Navigation | |
 |-|-|
 | Move focus to next databrowser | `tab` or down arrow |
@@ -196,7 +205,7 @@ The goal is to support as extensive usage of Studio through keyboard as possible
 | Enter focused databrowser scope | `enter` |
 | Move back into tabs scope | `shift + enter` or `esc` |
 
-## Databrowser scope
+### Databrowser scope
 The focusable elements in databrowser scope are:
 
 - Query mode toggle
@@ -224,26 +233,26 @@ The focusable elements in databrowser scope are:
 | Enter focused photon query scope | `enter` |
 | Move back into page scope | `shift + enter` or `esc` |
 
-## Photon query scope
+### Photon query scope
 | Editor | |
 |-|-|
 | Open autocomplete dropdown | `ctrl + space` |
 | Autocomplete a word | `tab` |
 
-## Filters query scope
+### Filters query scope
 | Navigation | |
 |-|-|
 | | |
 
-## Table result scope
+### Table result scope
 | Navigation | |
 |-|-|
 | | |
 
-## Tree result scope
+### Tree result scope
 | Navigation | |
 |-|-|
 | | |
 
-# Theming
+## Theming
 - Dark mode

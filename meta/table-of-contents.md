@@ -2,9 +2,14 @@
 
 - Owner: @janpio
 - Stakeholders: @schickling, @divyenduz, @matthewmueller
+- State: 
+  - Spec: Stable ✅
+  - Implementation: Fully implemented ✅
 
 This meta spec describes how Table of Contents work in the `specs` repository.  
 It is aimed at people writing or editing specs.
+
+---
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->

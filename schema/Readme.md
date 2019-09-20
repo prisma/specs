@@ -1,5 +1,15 @@
 # Prisma Schema Language (PSL)
 
+- Owner: @matthewmueller
+- Stakeholders: @schickling @mavilein
+- State: 
+  - Spec: Outdated 🚨
+  - Implementation: Unknown ❔
+
+The Prisma Schema declaratively describes the structure of your data sources. We use the Prisma Schema to generate Photon libraries for data access, migrate your datasources with Lift and administer your data using Studio.```
+
+---
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
