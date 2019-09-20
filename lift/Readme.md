@@ -6,6 +6,44 @@ data to look and Lift will take care of generating the necessary steps to get yo
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
+
+  - [A Brief History](#a-brief-history)
+  - [The Lift Approach](#the-lift-approach)
+  - [Concepts](#concepts)
+    - [Step](#step)
+    - [Migration](#migration)
+    - [Hook](#hook)
+  - [Architecture](#architecture)
+    - [Lift Client](#lift-client)
+      - [Save](#save)
+      - [Up](#up)
+      - [Down](#down)
+    - [Lift Server](#lift-server)
+      - [inferMigrationSteps](#infermigrationsteps)
+      - [applyMigration](#applymigration)
+      - [unapplyMigration](#unapplymigration)
+      - [calculateDatamodel](#calculatedatamodel)
+      - [calculateDatabaseSteps](#calculatedatabasesteps)
+      - [listMigrations](#listmigrations)
+      - [migrationProgress](#migrationprogress)
+  - [Open Questions](#open-questions)
+    - [How can you rename a model in Lift?](#how-can-you-rename-a-model-in-lift)
+    - [Will we generate high-level language clients for the hooks?](#will-we-generate-high-level-language-clients-for-the-hooks)
+      - [Up & Down in migration scripts](#up--down-in-migration-scripts)
+      - [Transactional/rollback behavior of migration scripts](#transactionalrollback-behavior-of-migration-scripts)
+    - [Support migration squashing?](#support-migration-squashing)
+    - [Locking the database during migration to prevent data corruption?](#locking-the-database-during-migration-to-prevent-data-corruption)
+    - [How to solve Merge Conflicts?](#how-to-solve-merge-conflicts)
+    - [Supporting the draft mode?](#supporting-the-draft-mode)
+  - [Prior Migration Systems](#prior-migration-systems)
+    - [Go](#go)
+    - [Python](#python)
+    - [PHP](#php)
+    - [Java](#java)
+    - [Node.js](#nodejs)
+    - [Ruby](#ruby)
+- [Unresolved questions](#unresolved-questions)
+
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## A Brief History
