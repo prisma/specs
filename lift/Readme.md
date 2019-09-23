@@ -341,7 +341,7 @@ Used to render the resulting datamodel into the Readme of the migration folder
 
 Calculate the database steps when a certain migration has not been executed yet. It answers the question:
 
-- What would the dataabse steps be if the we assume that the migration steps have been applied already? This can happen when you have multiple unapplied
+- What would the database steps be if the we assume that the migration steps have been applied already? This can happen when you have multiple unapplied
   migrations after calling the Save method multiple times before calling Up.
 
 **TODO:** Double-check with Tim to see if this is still necessary. This may not be needed anymore as lots of assumed steps is also available in
