@@ -711,7 +711,9 @@ const m1 = photon.user.create({ firstName: 'Alice' })
 const m2 = photon.post.create({ title: 'Hello world' })
 const [u1, p1]: [boolean, boolean] = await photon.batch([m1, m2])
 
-// TODO: `if` API
+// TODO
+// - `if` API
+// - error handling: throw on first error or batch errors
 
 // Batching with transaction
 await photon.batch([m1, m2], { transaction: true })
