@@ -355,6 +355,35 @@ Lists the migrations we've currently applied to the datasources.
 
 Migrations can take a long time to complete. `migrationProgress` returns the progress of the currently running migration.
 
+## Prisma CLI, Lift subcommand
+
+Prisma users interact with Lift mostly thought Prisma CLI, where there is a collection of commands available beneath `prisma2 lift`:
+
+### `prisma2 lift save`
+
+Create a new Migration 
+
+- Optionally supply a `--name` to give the migration a name.
+
+### `prisma2 lift up`
+
+Migrate your database up
+
+Options:  
+- Use `-p`/`--preview` to preview the migration without migrating
+- Use `--auto-approve` to skip interactive approval before migrating
+
+Arguments:  
+- Append a number to go up by x migrations
+- Append a timestamp to go up by timestamp of the migration
+- Append a string to go up by name of the migration
+
+### `prisma2 lift down`
+
+Migrate your database down
+
+Same options and arguments as `prisma2 lift up`
+
 ## Open Questions
 
 Unimplemented sections from the previous spec that I think we'll want to revisit after some time away.
