@@ -1,7 +1,7 @@
 on: push
 name: TOC Generator
 jobs:
-  assignAuthor:
+  generateTOC:
     name: TOC Generator
     runs-on: ubuntu-latest
     steps:

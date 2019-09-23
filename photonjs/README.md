@@ -1,4 +1,14 @@
-# Detailed design
+# Photon.js
+
+- Owner: @schickling
+- Stakeholders: @timsuchanek
+- State: 
+  - Spec: Outdated 🚨
+  - Implementation: Unknown ❔
+
+This spec describes the Photon Javascript API
+
+---
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -167,6 +177,7 @@ const usersByProfile: User[] = await photon.user.findMany({
 })
 
 // Where / filtering
+await photon.user.findMany({ where: { email: 'alice@gmail.com' } })
 await photon.user.findMany({ where: { email: { contains: '@gmail.com' } } })
 await photon.user.findMany({
   where: { email: { containsInsensitive: '@gmail.com' } },
@@ -699,7 +710,9 @@ const m1 = photon.user.create({ firstName: 'Alice' })
 const m2 = photon.post.create({ title: 'Hello world' })
 const [u1, p1]: [boolean, boolean] = await photon.batch([m1, m2])
 
-// TODO: `if` API
+// TODO
+// - `if` API
+// - error handling: throw on first error or batch errors
 
 // Batching with transaction
 await photon.batch([m1, m2], { transaction: true })
@@ -749,6 +762,7 @@ const distinctCount: number = await photon.post
 - query engine binary
 - debug
 - modifiers
+- log colors https://github.com/prisma/specs/pull/151
 
 ## Connection management
 
@@ -1039,12 +1053,12 @@ photon.user.findMany({
 
 -->
 
-# Unresolved questions
+## Unresolved questions
 
 - distinct
   - select/include
 
-## Figured out but needs spec
+### Figured out but needs spec
 
 - [ ] Error handling
 - [ ] OCC (also for nested operations)
@@ -1056,7 +1070,7 @@ photon.user.findMany({
 - [ ] Type-mapping (default + custom)
 - [ ] Generated type-names for implemenation (what's exported vs internal)
 
-## Bigger todos
+### Bigger todos
 
 - [ ] Lazy fields (Related: https://github.com/prisma/nexus-prisma/issues/301)
 - [ ] Modifiers
@@ -1073,7 +1087,7 @@ photon.user.findMany({
 - [ ] Bulk API / Streaming (read / write)
   - [ ] Create many (https://github.com/prisma/prisma2/issues/284)
 
-## Small & self-contained
+### Small & self-contained
 
 - [ ] Decouple engine `connect` API from Photon instance (solves: https://github.com/prisma/photonjs/issues/153)
 - [x] Distinct
@@ -1088,17 +1102,17 @@ photon.user.findMany({
 - [ ] Connection handling
 - [ ] Composite models: field grouping for efficient look ups
 
-## Ugly parts
+### Ugly parts
 
 - [x] Select/Include API: Chainable `.select()` vs nested `{ select: { } }` API
 - [x] Upsert, findOrCreate, ...
 - [ ] Line between main arg vs options arg
 
-## Related
+### Related
 
 - [ ] OCC needs triggers
 
-## Future topics
+### Future topics
 
 - [ ] Non-CRUD API operations
 - [ ] Silent mutations [prisma/prisma#4075](https://github.com/prisma/prisma/issues/4075)

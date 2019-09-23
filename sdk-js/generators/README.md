@@ -1,16 +1,18 @@
-🚨 **NOTE: This spec is outdated**
+# Prisma Generators
 
-- Start Date: 2019-01-18
-- RFC PR:
-- Prisma Issue:
-
-# Summary
+- Owner: @matthewmueller
+- Stakeholders: @timsuchanek @Weakky 
+- State: 
+  - Spec: Outdated 🚨
+  - Implementation: Unknown ❔
 
 An important part of the Prisma developer experience is code generation. With code generation we're able to generate clients for different languages, that
 ensure typesafe access to the Prisma API.
 
 In this spec we propose how we can provide an easy to use generator API both for TypeScript and other languages to generate clients and how these generators can
 be plugged in into the Prisma workflow.
+
+---
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -38,7 +40,7 @@ be plugged in into the Prisma workflow.
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Motivation
+## Motivation
 
 Prisma provides a higher abstraction level to connect to databases. While the core part of Prisma is the query engine, which transforms GraphQL queries into
 database queries, the other big part is the Prisma Client, which sends queries to the query engine.
@@ -59,7 +61,7 @@ Go, that make code generation easier. In order to be able to leverage these tool
 We also discuss, where the generated files will end up. At the time of writing, we generate the client into a `generated` folder. However, this adds tremendous
 clutter in the users project. The goal is to move these files to the ecosystem specific library paths as `node_modules` for Node.js.
 
-# Detailed design
+## Detailed design
 
 While we both want to support TypeScript and other languages as generator implementations, it's clear that we can't provide the same convenience for other
 languages as for TypeScript. As our CLI is also implemented in TypeScript, we can e.g. directly pass in a `graphql-js` schema object to the specific generator.
@@ -73,7 +75,7 @@ Until now, generators have only been responsible for generating the code, but no
 writing to the filesystem on their own. The TypeScript-based generators however will just need to return a Map of file name and file content, which will be
 written to the file system.
 
-## Generator configuration from `prisma.yml`
+### Generator configuration from `prisma.yml`
 
 Generators are being configured by the property `generate` in the `prisma.yml`.
 
@@ -101,7 +103,7 @@ generate:
   output: ./src/generated/client
 ```
 
-## Generator resolution
+### Generator resolution
 
 When referring to `typescript-client` as in the above `prisma.yml` example, the Prisma CLI now needs to decide in runtime how to resolve the generator
 implementation. This is the proposed order of resolution:
@@ -121,7 +123,7 @@ generate:
     flavor: generics
 ```
 
-## Generator interface
+### Generator interface
 
 The following information should be communicated from the generator to the CLI:
 
@@ -137,7 +139,7 @@ When the generators then are called, this needs to be communicated from the CLI 
   type or not.
 - The **parameters** provided by in the `prisma.yml`
 
-### TypeScript
+#### TypeScript
 
 A generator, which is implemented in TypeScript, has to adhere to the following convention:
 
@@ -233,7 +235,7 @@ can convert a TypeScript type definition into a json schema.
 
 The reserved names for models can be expressed through the static property `reservedTypes` as an array.
 
-### Non-TypeScript
+#### Non-TypeScript
 
 In order to inject the JSON data for the generators, we propose to inject one line of JSON via stdin.
 
@@ -272,7 +274,7 @@ export interface GeneratorInput {
 }
 ```
 
-## Official Generators
+### Official Generators
 
 The official generators supported by Prisma and by default shipped with the Prisma CLI are:
 
@@ -280,7 +282,7 @@ The official generators supported by Prisma and by default shipped with the Pris
 - JavaScript
 - Go
 
-## Installing 3rd party generators
+### Installing 3rd party generators
 
 If you want to install a custom generator, which is not by default shipped by Prisma, you can just use the package manager of the given ecosystem like `npm` in
 Node.js. By pointing to the generator binary in the `prisma.yml`, you can include it into your project:
@@ -291,7 +293,7 @@ generate:
     flavor: generics
 ```
 
-## Inclusion in the Prisma SDK
+### Inclusion in the Prisma SDK
 
 A feature, that more and more users have requested, is the possibility to access the functionality exposed by the Prisma CLI from a programmatic API.
 
@@ -305,7 +307,7 @@ generator, it probably makes more sense to package SDK-related code in a separat
 SDK, one thing is clear, which is that we can package all generator related logic into one package, for example `prisma-generate`. This package still could be a
 dependency of the Prisma SDK and eventually re-exposed, if it makes sense.
 
-## Generating the client into `node_modules`
+### Generating the client into `node_modules`
 
 In the new [Migrations Spec](https://github.com/prisma/rfcs/blob/migrations2/text/0000-migrations.md) we propose the introduction of migrations, which are
 stored in migration folders. In each migration folder you may want to use a Prisma Client that is representing the datamodel of the specific migration. At time
@@ -331,7 +333,7 @@ every time an installation happened to regenerate the prisma client into that fo
 }
 ```
 
-### New Client generation output
+#### New Client generation output
 
 The folder content of both the TypeScript and the JavaScript client are identical:
 
@@ -353,12 +355,12 @@ The folder content of both the TypeScript and the JavaScript client are identica
 The `package.json` is useful to provide a separate `browser` and `node` build in the same manner as
 [cross fetch](https://github.com/lquixada/cross-fetch/blob/master/package.json).
 
-## How client generation hooks in to migrate
+### How client generation hooks in to migrate
 
 When [`prisma migrate`](https://github.com/prisma/rfcs/blob/migrations2/text/0000-migrations.md) is being called, it will call `prisma generate` once
 `prisma migrate` is done, in a similar fashion as the `post-deploy` hook triggered after `prisma deploy` is done with its business.
 
-### `prisma generate`
+#### `prisma generate`
 
 Until now `prisma generate` had a look in the `prisma.yml` and executed the generators defined there, which generate the output into their `output` directories.
 
@@ -417,28 +419,28 @@ The output in `node_modules/prisma-client` will look like this:
 └── package.json
 ```
 
-# Drawbacks
+## Drawbacks
 
 - There is an inconsistency between TypeScript and non-TypeScript generators in the spec, in that the TypeScript generators are able to communicate reserved
   words and typings for the arguments. Thus the TypeScript generators don't have the responsibility to check for the resulting error cases, while the
   non-TypeScript generators have to.
 
-# Alternatives
+## Alternatives
 
 - A declarative API always is more limited than an imperative one. We could for example provide a .js or .ts config file, in which users can create generator
   statements more dynamic. Right now there is no reason to do so, as the prisma.yml already allows injection of env vars, which gives some level of flexibility.
 
-# Adoption strategy
+## Adoption strategy
 
 The proposal itself is a non-breaking change for the core generators. While the internal implementation while change significantly, users will not see any
 difference.
 
-# How we teach this
+## How we teach this
 
 The usage of generators has already great resources. The part, that needs more attention is the new possibility for developers to create their on clients. This
 needs examples and tutorials both for TypeScript and non-TypeScript languages, which implement simplified versions of the current client API.
 
-# Unresolved questions
+## Unresolved questions
 
 - [x] Official generators (see [PR comment](https://github.com/prisma/rfcs/pull/4#issuecomment-462790202))
 - [x] Output location for generated files should be in `node_modules` (`$GOPATH` or similar) by default

@@ -1,19 +1,32 @@
-# CLI spec
+# CLI
+
+- Owner: @schickling
+- Stakeholders: @nikolasburk @timsuchanek
+- State: 
+  - Spec: Incomplete 💔
+  - Implementation: Unknown ❔
+
+Prisma CLI is the central touch point for users with Prisma Framework.
+
+---
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [View Online](#view-online)
-- [Usage](#usage)
+- [Design Document](#design-document)
+  - [View Online](#view-online)
+  - [Usage](#usage)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## View Online
+## Design Document
+
+### View Online
 
 https://prisma-specs.netlify.com/cli/
 
-## Usage
+### Usage
 
 Edit [`src/pages/index.mdx`](src/pages/index.mdx) and run
 
