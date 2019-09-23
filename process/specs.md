@@ -16,7 +16,8 @@ This is a stub of a specification for "Specs". It contains a minimal definition 
 
 - [Minimal Format](#minimal-format)
   - [Example](#example)
-- [Future 👽](#future-)
+- [Implemented vs. Not Implemented](#implemented-vs-not-implemented)
+- [Future](#future)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -68,6 +69,20 @@ Description
 Here be dragons
 ```
 
-## Future 👽
+## Implemented vs. Not Implemented
+
+There are two extremes of the implementation status of a spec: `Future 👽` and `Fully implemented ✅`. In between lives `In Progress 🚧` which is used whenever a spec is in implementation but not all parts of the spec already are implemented in the product.
+
+Additionally to the overall state, we also want to be able to know **which** _specific_ features are not implemented yet when reading through a spec:
+
+> ⚠ This is not implemented yet.
+
+To be created by this Markdown:
+
+`> ⚠ This is not implemented yet.`
+
+The text is variable and can include a link to a tracking issue or other commentary.
+
+## Future
 
 In the near future this specification will be much more elaborate and also define "spec", what we want to have in there and so on.
