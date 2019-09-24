@@ -367,88 +367,15 @@ Lists the migrations we've currently applied to the datasources.
 
 Migrations can take a long time to complete. `migrationProgress` returns the progress of the currently running migration.
 
-## Open Questions
-
-Unimplemented sections from the previous spec that I think we'll want to revisit after some time away.
+## FAQ
 
 ### How can you rename a model in Lift?
 
-The very nature of the declarative datamodel introduces ambiguities for transitions between two datamodels. One of these ambiguities is renaming a field.
+To rename a field, you'll add an `UpdateModel` step in your **steps.json** file directly.
 
-If we have the following datamodel:
+## Open Questions
 
-```graphql
-model User {
-  id: ID @id
-  name: String
-  address: String
-}
-```
-
-And want to rename the `name` field, it's not clear if it should be renamed based on the `address` field or the `name` field:
-
-```graphql
-model User {
-  id: ID @id
-  name2: String
-  address2: String
-}
-```
-
-For the reader it's very clear what should happen, whereas it's not trivial to detect this programmatically as we can't rely on the order of fields in the
-datamodel. The migration engine doesn't know, if it should rename `name` to `name2` or `name` to `address2` and vise versa. Maybe we even want to delete the
-`name` field with all its data and create a new field called `name2`? Information for this transition between datamodels is needed.
-
-One way to solve this is using the `@db` directive:
-
-```graphql
-model User {
-  id: ID @id
-  name: String @db(name: "name2")
-  address: String @db(name: "address2")
-}
-```
-
-This however may not be the desired outcome, because the underlying column still has the same name. The solution for this is, that the user manually edits the
-`datamodel.prisma` file in the migration folder like this:
-
-```graphql
-model User {
-  id: ID @id
-  name: String @rename(oldName: "name2")
-  address: String @rename(oldName: "address2")
-}
-```
-
-There is another information, which the user may want to attach to a specific migration, which is the migration value. When already having 100 nodes in the
-database and introducing a new field, you may want to define a value, which all of these nodes will have as a default, that is different from the default for
-all new nodes that will be created. In order to address that, you can do the following change in the `datamodel.prisma` file in the migration folder.
-
-```graphql
-model User {
-  id: ID @id
-  firstName: String!
-  lastName: String!
-  fullName: String! @migrationValue(value: "Name unavailable")
-}
-```
-
-If you want all existing nodes to have a specific precalculated value, you could now define a `post.ts` script like this:
-
-```ts
-#!/usr/bin/env ts-node
-
-import client from '@prisma/client/201912121314'
-
-async function main() {
-  for await (const user of client.users()) {
-    await client.updateUser({
-      ...user,
-      fullName: `${user.firstName} ${user.lastName}`,
-    })
-  }
-}
-```
+Unimplemented sections from the previous spec that I think we'll want to revisit after some time away.
 
 ### Will we generate high-level language clients for the hooks?
 
