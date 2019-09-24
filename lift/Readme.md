@@ -2,11 +2,12 @@
 
 - Owner: @schickling
 - Stakeholders: @matthewmueller @timsuchanek @mavilein
-- State: 
+- State:
   - Spec: Outdated 🚨
   - Implementation: Unknown ❔
 
-Lift is Prisma's declarative migration system. Rather than scripting your migrations by hand, Lift allows you to describe how you want the structure of your data to look and Lift will take care of generating the necessary steps to get you there.
+Lift is Prisma's declarative migration system. Rather than scripting your migrations by hand, Lift allows you to describe how you want the structure of your
+data to look after the migration and Lift will take care of generating the necessary steps to get you there.
 
 ---
 
@@ -17,8 +18,9 @@ Lift is Prisma's declarative migration system. Rather than scripting your migrat
   - [A Brief History](#a-brief-history)
   - [The Lift Approach](#the-lift-approach)
   - [Concepts](#concepts)
-    - [Step](#step)
+    - [Project](#project)
     - [Migration](#migration)
+    - [Step](#step)
     - [Hook](#hook)
   - [Architecture](#architecture)
     - [Lift Client](#lift-client)
@@ -59,7 +61,9 @@ Lift is Prisma's declarative migration system. Rather than scripting your migrat
 
 ## A Brief History
 
-Migration systems are used to safely evolve your application over time. Migration systems often have a folder structure that looks like this:
+Migration systems are used to safely evolve your application's data model over time.
+
+They often use a folder structure that looks like this:
 
 ```
 migrations/
@@ -93,7 +97,10 @@ This is error-prone and stressful, especially when you're operating on your prod
 
 ## The Lift Approach
 
-Lift works differently. While Lift still has a `migrations/` folder, the migrations are generated for you.
+Prisma's Lift works differently. While Lift still has a `migrations/` folder, the migrations are generated for you. With Lift, you just need to change your
+`schema.prisma` file and run `lift save`. This will generate the necessary steps to transition your schema from A to B.
+
+A result might look like this:
 
 ```diff
 model Blog {
@@ -121,15 +128,21 @@ model Post {
 +}
 ```
 
-With Lift, you just need to change your `schema.prisma` file and run `lift save`. This will generate the necessary steps to transition your schema from A to B.
-
 ## Concepts
 
 Lift has the following concepts: projects, migrations, steps, and hooks.
 
-- A project has many migrations
-- A migration has many steps
-- A migration has many hooks
+- A _project_ has many _migrations_
+- A _migration_ has many _steps_
+- A _migration_ has many _hooks_
+
+### Project
+
+Your application project contains a `migrations/` that has many migrations.
+
+### Migration
+
+A Migration is a grouping of one or more Steps. Each migration lives in it's own folder. Migrations run in a transaction if the datasource allows it.
 
 ### Step
 
@@ -191,13 +204,12 @@ datasource-specific migration commands.
 
 </details>
 
-### Migration
-
-A Migration is a grouping of one or more Steps. Migrations run in a transaction if the datasource allows it.
-
 ### Hook
 
-A hook is a custom shell script that runs either before or after the migration. Hooks give you full control over your migrations. You can write hooks to:
+> ⚠ This is not implemented yet.
+
+A hook is a custom shell script that runs either before or after the migration. They are defined by `before.sh` and `after.sh`. Hooks give you full control over
+your migrations. You can write hooks to:
 
 - Ensure the data follows new constraints like `unique` or `non null`.
 - Add specific database primitives like functions in Postgres, which are not yet supported by Prisma.
@@ -205,14 +217,14 @@ A hook is a custom shell script that runs either before or after the migration. 
 
 ## Architecture
 
-Lift has 2 parts: a **Lift Client** and a **Lift Server**. By default, the Lift Server runs locally as a sidecar process. This makes it easy to get started. As
-your team's data requirements become more complex, you may prefer to handle your migrations on a remote machine where you have fine-grained access control over
-migrations.
+Lift has 2 parts: a **Lift Client** and a **Lift Engine**. By default, the Lift Engine runs locally as a
+[sidecar process](https://blog.davemdavis.net/2018/03/13/the-sidecar-pattern/). This makes it easy to get started. As your team's data requirements become more
+complex, you may prefer to handle your migrations on a remote machine where you have fine-grained access control over migrations.
 
 ```
 ┌──────────────────┐       ┌──────────────────┐      ┌──────────────┐
 │                  │       │                  │      │   Postgres   │
-│   Lift Client    │       │   Lift Server    │     ┌┴────────────┬─┘
+│   Lift Client    │       │   Lift Engine    │     ┌┴────────────┬─┘
 │                  │       │                  │     │    MySQL    │
 └──────────────────┘       └──────────────────┘     └────────┬────┘
           │          save            │                     │ │
@@ -245,13 +257,15 @@ migrations/
     └─ README.md
 ```
 
-A migration contains 3 files:
+A migration folder contains 3 files:
 
-- **steps.json:** contains a JSON list of steps to run against the database
-- **schema.prisma:** contains a snapshot of your `schema.prisma` file at a specific point in time.
+- **steps.json:** contains a JSON list of steps to run against the database. Steps contains only the up steps, the down steps are calculated on the fly.
+- **schema.prisma:** contains a snapshot of your `schema.prisma` file at a specific point in time after the migration has occurred.
 - **README.md:** contains information about the migration. Includes the underlying raw commands (e.g. SQL) that run against the datasource.
+- **before.sh:** optional hook you can run before migrating your schema.
+- **after.sh:** optional hook you can run after migrating your schema.
 
-**Note:** `migrate save` doesn't run migrations, it simply creates them.
+**Note:** `migrate save` does not run migrations, it simply creates them.
 
 #### Up
 
@@ -316,32 +330,32 @@ The order of execution is the following:
 5. `20190920142118-initial/steps.json`
 6. `20190920142118-initial/before.sh`
 
-### Lift Server
+### Lift Engine
 
-The Lift server is a low-level interface that the Lift Client communicates with. Currently the client communicates to the migration server in the JSONRPC format
+The Lift Engine is a low-level interface that the Lift Client communicates with. Currently the client communicates to the migration engine in the JSONRPC format
 over stdio. In the future, we'll migrate this to REST or JSONRPC over HTTP.
 
-**Note** This API is subject to change
+> ⚠ **Note** This API is subject to change
 
-#### inferMigrationSteps
+#### `inferMigrationSteps`
 
 Calculates the Steps needed to transition the datasources from the current state to the next state. This is called by the Save method in the Lift Client.
 
-#### applyMigration
+#### `applyMigration`
 
 Applies the Steps we inferred. This is called by the Up method in the Lift Client.
 
-#### unapplyMigration
+#### `unapplyMigration`
 
-Unapplies the Steps in the migrations folder. This is called by the Down method in the Lift Client.
+Unapplies the previous Step in the migrations folder. This is called by the Down method in the Lift Client.
 
-#### calculateDatamodel
+#### `calculateDatamodel`
 
 Used to render the resulting datamodel into the Readme of the migration folder
 
 **TODO:** Double-check with Tim to see if this is still necessary
 
-#### calculateDatabaseSteps
+#### `calculateDatabaseSteps`
 
 Calculate the database steps when a certain migration has not been executed yet. It answers the question:
 
@@ -351,11 +365,11 @@ Calculate the database steps when a certain migration has not been executed yet.
 **TODO:** Double-check with Tim to see if this is still necessary. This may not be needed anymore as lots of assumed steps is also available in
 `inferMigrationSteps` now.
 
-#### listMigrations
+#### `listMigrations`
 
 Lists the migrations we've currently applied to the datasources.
 
-#### migrationProgress
+#### `migrationProgress`
 
 Migrations can take a long time to complete. `migrationProgress` returns the progress of the currently running migration.
 
@@ -653,6 +667,7 @@ empties the draft and puts all accumulated changes into one new migration.
 - [CakePHP - Phinx](https://github.com/cakephp/phinx) Belongs to CakePHP
 - [Doctrine](https://www.doctrine-project.org/projects/doctrine-migrations/en/2.0/reference/managing-migrations.html#managing-migrations) Mix between PHP and
   SQL
+- [Laravel Database: Migrations](https://laravel.com/docs/5.8/migrations)
 
 ### Java
 
