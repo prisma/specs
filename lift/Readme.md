@@ -2,53 +2,53 @@
 
 - Owner: @schickling
 - Stakeholders: @matthewmueller @timsuchanek @mavilein
-- State: 
+- State:
   - Spec: Outdated 🚨
   - Implementation: Unknown ❔
 
-Lift is Prisma's declarative migration system. Rather than scripting your migrations by hand, Lift allows you to describe how you want the structure of your data to look after the migration and Lift will take care of generating the necessary steps to get you there.
+Lift is Prisma's declarative migration system. Rather than scripting your migrations by hand, Lift allows you to describe how you want the structure of your
+data to look after the migration and Lift will take care of generating the necessary steps to get you there.
 
 ---
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-
-  - [A Brief History](#a-brief-history)
-  - [The Lift Approach](#the-lift-approach)
-  - [Concepts](#concepts)
-    - [Step](#step)
-    - [Migration](#migration)
-    - [Hook](#hook)
-  - [Architecture](#architecture)
-    - [Lift Client](#lift-client)
-      - [Save](#save)
-      - [Up](#up)
-      - [Down](#down)
-    - [Lift Server](#lift-server)
-      - [`inferMigrationSteps`](#infermigrationsteps)
-      - [`applyMigration`](#applymigration)
-      - [`unapplyMigration`](#unapplymigration)
-      - [`calculateDatamodel`](#calculatedatamodel)
-      - [`calculateDatabaseSteps`](#calculatedatabasesteps)
-      - [`listMigrations`](#listmigrations)
-      - [`migrationProgress`](#migrationprogress)
-  - [Open Questions](#open-questions)
-    - [How can you rename a model in Lift?](#how-can-you-rename-a-model-in-lift)
-    - [Will we generate high-level language clients for the hooks?](#will-we-generate-high-level-language-clients-for-the-hooks)
-      - [Up & Down in migration scripts](#up--down-in-migration-scripts)
-      - [Transactional/rollback behavior of migration scripts](#transactionalrollback-behavior-of-migration-scripts)
-    - [Support migration squashing?](#support-migration-squashing)
-    - [Locking the database during migration to prevent data corruption?](#locking-the-database-during-migration-to-prevent-data-corruption)
-    - [How to solve Merge Conflicts?](#how-to-solve-merge-conflicts)
-    - [Supporting the draft mode?](#supporting-the-draft-mode)
-  - [Prior Migration Systems](#prior-migration-systems)
-    - [Go](#go)
-    - [Python](#python)
-    - [PHP](#php)
-    - [Java](#java)
-    - [Node.js](#nodejs)
-    - [Ruby](#ruby)
+- [A Brief History](#a-brief-history)
+- [The Lift Approach](#the-lift-approach)
+- [Concepts](#concepts)
+  - [Step](#step)
+  - [Migration](#migration)
+  - [Hook](#hook)
+- [Architecture](#architecture)
+  - [Lift Client](#lift-client)
+    - [Save](#save)
+    - [Up](#up)
+    - [Down](#down)
+  - [Lift Engine](#lift-engine)
+    - [`inferMigrationSteps`](#infermigrationsteps)
+    - [`applyMigration`](#applymigration)
+    - [`unapplyMigration`](#unapplymigration)
+    - [`calculateDatamodel`](#calculatedatamodel)
+    - [`calculateDatabaseSteps`](#calculatedatabasesteps)
+    - [`listMigrations`](#listmigrations)
+    - [`migrationProgress`](#migrationprogress)
+- [Open Questions](#open-questions)
+  - [How can you rename a model in Lift?](#how-can-you-rename-a-model-in-lift)
+  - [Will we generate high-level language clients for the hooks?](#will-we-generate-high-level-language-clients-for-the-hooks)
+    - [Up & Down in migration scripts](#up--down-in-migration-scripts)
+    - [Transactional/rollback behavior of migration scripts](#transactionalrollback-behavior-of-migration-scripts)
+  - [Support migration squashing?](#support-migration-squashing)
+  - [Locking the database during migration to prevent data corruption?](#locking-the-database-during-migration-to-prevent-data-corruption)
+  - [How to solve Merge Conflicts?](#how-to-solve-merge-conflicts)
+  - [Supporting the draft mode?](#supporting-the-draft-mode)
+- [Prior Migration Systems](#prior-migration-systems)
+  - [Go](#go)
+  - [Python](#python)
+  - [PHP](#php)
+  - [Java](#java)
+  - [Node.js](#nodejs)
+  - [Ruby](#ruby)
 - [Unresolved questions](#unresolved-questions)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -91,7 +91,8 @@ This is error-prone and stressful, especially when you're operating on your prod
 
 ## The Lift Approach
 
-Prisma's Lift works differently. While Lift still has a `migrations/` folder, the migrations are generated for you. With Lift, you just need to change your `schema.prisma` file and run `lift save`. This will generate the necessary steps to transition your schema from A to B.
+Prisma's Lift works differently. While Lift still has a `migrations/` folder, the migrations are generated for you. With Lift, you just need to change your
+`schema.prisma` file and run `lift save`. This will generate the necessary steps to transition your schema from A to B.
 
 A result might look like this:
 
@@ -128,6 +129,14 @@ Lift has the following concepts: projects, migrations, steps, and hooks.
 - A _project_ has many _migrations_
 - A _migration_ has many _steps_
 - A _migration_ has many _hooks_
+
+### Project
+
+Your application project contains a `migrations/` that has many migrations.
+
+### Migration
+
+A Migration is a grouping of one or more Steps. Each migration lives in it's own folder. Migrations run in a transaction if the datasource allows it.
 
 ### Step
 
@@ -189,13 +198,12 @@ datasource-specific migration commands.
 
 </details>
 
-### Migration
-
-A Migration is a grouping of one or more Steps. Migrations run in a transaction if the datasource allows it.
-
 ### Hook
 
-A hook is a custom shell script that runs either before or after the migration. Hooks give you full control over your migrations. You can write hooks to:
+> ⚠ This is not implemented yet.
+
+A hook is a custom shell script that runs either before or after the migration. They are defined by `before.sh` and `after.sh`. Hooks give you full control over
+your migrations. You can write hooks to:
 
 - Ensure the data follows new constraints like `unique` or `non null`.
 - Add specific database primitives like functions in Postgres, which are not yet supported by Prisma.
@@ -203,14 +211,14 @@ A hook is a custom shell script that runs either before or after the migration. 
 
 ## Architecture
 
-Lift has 2 parts: a **Lift Client** and a **Lift Server**. By default, the Lift Server runs locally as a sidecar process. This makes it easy to get started. As
-your team's data requirements become more complex, you may prefer to handle your migrations on a remote machine where you have fine-grained access control over
-migrations.
+Lift has 2 parts: a **Lift Client** and a **Lift Engine**. By default, the Lift Engine runs locally as a
+[sidecar process](https://blog.davemdavis.net/2018/03/13/the-sidecar-pattern/). This makes it easy to get started. As your team's data requirements become more
+complex, you may prefer to handle your migrations on a remote machine where you have fine-grained access control over migrations.
 
 ```
 ┌──────────────────┐       ┌──────────────────┐      ┌──────────────┐
 │                  │       │                  │      │   Postgres   │
-│   Lift Client    │       │   Lift Server    │     ┌┴────────────┬─┘
+│   Lift Client    │       │   Lift Engine    │     ┌┴────────────┬─┘
 │                  │       │                  │     │    MySQL    │
 └──────────────────┘       └──────────────────┘     └────────┬────┘
           │          save            │                     │ │
@@ -245,9 +253,11 @@ migrations/
 
 A migration folder contains 3 files:
 
-- **steps.json:** contains a JSON list of steps to run against the database
-- **schema.prisma:** contains a snapshot of your `schema.prisma` file at a specific point in time.
+- **steps.json:** contains a JSON list of steps to run against the database. Steps contains only the up steps, the down steps are calculated on the fly.
+- **schema.prisma:** contains a snapshot of your `schema.prisma` file at a specific point in time after the migration has occurred.
 - **README.md:** contains information about the migration. Includes the underlying raw commands (e.g. SQL) that run against the datasource.
+- **before.sh:** optional hook you can run before migrating your schema.
+- **after.sh:** optional hook you can run after migrating your schema.
 
 **Note:** `migrate save` does not run migrations, it simply creates them.
 
@@ -314,9 +324,9 @@ The order of execution is the following:
 5. `20190920142118-initial/steps.json`
 6. `20190920142118-initial/before.sh`
 
-### Lift Server
+### Lift Engine
 
-The Lift Server is a low-level interface that the Lift Client communicates with. Currently the client communicates to the migration server in the JSONRPC format
+The Lift Engine is a low-level interface that the Lift Client communicates with. Currently the client communicates to the migration engine in the JSONRPC format
 over stdio. In the future, we'll migrate this to REST or JSONRPC over HTTP.
 
 > ⚠ **Note** This API is subject to change
@@ -331,7 +341,7 @@ Applies the Steps we inferred. This is called by the Up method in the Lift Clien
 
 #### `unapplyMigration`
 
-Unapplies the Steps in the migrations folder. This is called by the Down method in the Lift Client.
+Unapplies the previous Step in the migrations folder. This is called by the Down method in the Lift Client.
 
 #### `calculateDatamodel`
 
