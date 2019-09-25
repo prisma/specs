@@ -47,12 +47,12 @@ This spec describes the Photon Javascript API
 - [Error Handling](#error-handling)
   - [Error Character Encoding](#error-character-encoding)
 - [Unresolved questions](#unresolved-questions)
-  - [Figured out but needs spec](#figured-out-but-needs-spec)
-  - [Bigger todos](#bigger-todos)
-  - [Small & self-contained](#small--self-contained)
-  - [Ugly parts](#ugly-parts)
-  - [Related](#related)
-  - [Future topics](#future-topics)
+    - [Figured out but needs spec](#figured-out-but-needs-spec)
+    - [Bigger todos](#bigger-todos)
+    - [Small & self-contained](#small--self-contained)
+    - [Ugly parts](#ugly-parts)
+    - [Related](#related)
+    - [Future topics](#future-topics)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
