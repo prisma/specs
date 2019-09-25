@@ -82,7 +82,7 @@ That intermediate data-structure should probably be the same used by the introsp
 
 > ⚠️ **This might be out of date with the Prisma Schema Language. We'll sync it as we evolve the PSL.**
 
-Below examples tries to represent the following Prisma Schema
+Below examples tries to represent the following Prisma Schema (except the advanced use cases)
 
 ```groovy
 model User {
