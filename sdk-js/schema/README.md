@@ -29,6 +29,7 @@ This is an alternative to the Prisma Schema Language (PSL).
   - [2.2 Fluent style (function name as type + attribute as object)](#22-fluent-style-function-name-as-type--attribute-as-object)
   - [2.3 Fluent style (function name as type + attributes as functions)](#23-fluent-style-function-name-as-type--attributes-as-functions)
   - [2.4 Advanced use-cases](#24-advanced-use-cases)
+- [Class + decorator style](#class--decorator-style)
 - [Type-safety](#type-safety)
 - [Notes](#notes)
 
