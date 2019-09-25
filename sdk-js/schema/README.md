@@ -543,6 +543,10 @@ const Customer = schema
   .field('location', { type: PostgresTypes.Point, y: 5, x: 6 })
 ```
 
+## Class + decorator style
+
+We've explored that area in the past and came to the conclusion that it's not a great fit in JS/TS. [See that issue for more info](https://github.com/prisma/prisma2/issues/604)
+
 ## Type-safety
 
 **Type generation at runtime**
