@@ -51,6 +51,7 @@ That intermediate data-structure should probably be the same used by the introsp
 - Better expressiveness (JS/TS as source of expression)
 - Domain constraints can shared between data layer and app layer
 - Type-safety
+- Better env var support for configuration
 
 ## Cons
 
