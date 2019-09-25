@@ -1,3 +1,5 @@
+# Prisma Schema SDK
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
@@ -20,8 +22,6 @@
   - [Notes](#notes)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Prisma Schema SDK
 
 The Prisma Schema SDK is a library meant to programatically construct a Prisma Schema.
 
