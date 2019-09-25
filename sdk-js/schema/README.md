@@ -3,7 +3,6 @@
 
 
 - [Prisma Schema SDK](#prisma-schema-sdk)
-  - [Table of content](#table-of-content)
   - [Motivation](#motivation)
   - [Schema rendering](#schema-rendering)
   - [Use cases](#use-cases)
