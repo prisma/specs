@@ -1,9 +1,14 @@
 # GitHub Labels
 
 - Owner: @janpio
-- Stakeholders: @pantharshit00 @divyenduz 
+- Stakeholders: @pantharshit00 @divyenduz
+- State: 
+  - Spec: Stable ✅
+  - Implementation: Fully implemented ✅
 
 Our [Prisma Framework repositories](repositories.md) use several labels in the [Issue Triage](issue-triage.md) process.
+
+---
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->

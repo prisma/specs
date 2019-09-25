@@ -1,12 +1,25 @@
 # Datasource URLs
 
+- Owner: @mavilein
+- Stakeholders: @matthewmueller
+- State: 
+  - Spec: Unknown ❔
+  - Implementation: Unknown ❔
+
+Datasource URLs are a friendly, shareable format for describing how to connect to a datasource.
+
+---
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
+- [Basics](#basics)
 - [URLs for SQL Databases](#urls-for-sql-databases)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## Basics
 
 The connection information for a datasource is provided through a URL. The specification for the URL is based on either of two approaches:
 
