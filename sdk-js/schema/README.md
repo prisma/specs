@@ -4,22 +4,21 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Prisma Schema SDK](#prisma-schema-sdk)
-  - [Motivation](#motivation)
-  - [Schema rendering](#schema-rendering)
-  - [Use cases](#use-cases)
-  - [Benefits](#benefits)
-  - [Cons](#cons)
-  - [API Proposals](#api-proposals)
-    - [1. Nexus-style (attributes as objects)](#1-nexus-style-attributes-as-objects)
-    - [1.1 Nexus style (attributes as functions)](#11-nexus-style-attributes-as-functions)
-    - [1.2 Advances use-cases](#12-advances-use-cases)
-    - [2.1 Fluent style (.field function + attribute as objects)](#21-fluent-style-field-function--attribute-as-objects)
-    - [2.2 Fluent style (function name as type + attribute as object)](#22-fluent-style-function-name-as-type--attribute-as-object)
-    - [2.3 Fluent style (function name as type + attributes as functions)](#23-fluent-style-function-name-as-type--attributes-as-functions)
-    - [2.4 Advanced use-cases](#24-advanced-use-cases)
-  - [Type-safety](#type-safety)
-  - [Notes](#notes)
+- [Motivation](#motivation)
+- [Schema rendering](#schema-rendering)
+- [Use cases](#use-cases)
+- [Benefits](#benefits)
+- [Cons](#cons)
+- [API Proposals](#api-proposals)
+  - [1. Nexus-style (attributes as objects)](#1-nexus-style-attributes-as-objects)
+  - [1.1 Nexus style (attributes as functions)](#11-nexus-style-attributes-as-functions)
+  - [1.2 Advances use-cases](#12-advances-use-cases)
+  - [2.1 Fluent style (.field function + attribute as objects)](#21-fluent-style-field-function--attribute-as-objects)
+  - [2.2 Fluent style (function name as type + attribute as object)](#22-fluent-style-function-name-as-type--attribute-as-object)
+  - [2.3 Fluent style (function name as type + attributes as functions)](#23-fluent-style-function-name-as-type--attributes-as-functions)
+  - [2.4 Advanced use-cases](#24-advanced-use-cases)
+- [Type-safety](#type-safety)
+- [Notes](#notes)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
