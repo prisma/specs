@@ -1,3 +1,8 @@
+- Owner: @weakky
+- Stakeholders: @schickling
+- State: 
+  - Implementation: Future 👽
+
 # Prisma Schema SDK
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
