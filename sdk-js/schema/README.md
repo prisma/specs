@@ -2,7 +2,8 @@
 
 - Owner: @weakky
 - Stakeholders: @schickling
-- State: 
+- State:
+  - Spec: In-Progress 🚧
   - Implementation: Future 👽
 
 The Prisma Schema SDK is a library meant to programatically construct a Prisma Schema.
