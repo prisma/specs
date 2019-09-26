@@ -1111,6 +1111,7 @@ To solve these two use case, Photon can do the following:
 
 - [ ] Lazy fields (Related: https://github.com/prisma/nexus-prisma/issues/301)
 - [ ] Modifiers
+- [ ] Find one by non-unique fields
 - [ ] transactions by default (e.g. high throughput operations)
 - [ ] Expressions API/DSL
 - [ ] Binary copying
