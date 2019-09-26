@@ -24,11 +24,12 @@ Our [Prisma Framework repositories](repositories.md) use several labels in the [
 
 To categorize incoming issues:
 
-- `kind/bug`: A reported bug
-- `kind/regression`: A reported bug in functionality that used to work before
-- `kind/feature`: A new request or an improvement to existing code. Code will need to be added or removed
+- `kind/bug`: A reported bug.
+- `kind/regression`: A reported bug in functionality that used to work before.
+- `kind/feature`: A request for a new feature.
+- `kind/improvement`: An improvement to existing feature and code.
 - `kind/docs`: A documentation change is required.
-- `kind/discussion`: Discussion is required on the suggested code change. 
+- `kind/discussion`: Discussion is required. 
 - `kind/question`: Developer asked a question. No code changes required.
 
 ## Qualification
