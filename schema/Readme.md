@@ -1096,6 +1096,8 @@ The data types that these functions return will be defined by the connectors. Fo
 
 ## Importing schemas
 
+> ⚠ This is not implemented yet.
+
 A team may have a lot of configuration or many different models. They may also have many environments they need to deploy to. We support an `import <string>`
 function that will concatenate schemas together and join their contents.
 
