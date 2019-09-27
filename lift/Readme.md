@@ -35,6 +35,13 @@ data to look after the migration and Lift will take care of generating the neces
       - [`calculateDatabaseSteps`](#calculatedatabasesteps)
       - [`listMigrations`](#listmigrations)
       - [`migrationProgress`](#migrationprogress)
+  - [Prisma CLI](#prisma-cli)
+    - [Lift subcommands](#lift-subcommands)
+      - [`prisma2 lift save`](#prisma2-lift-save)
+      - [`prisma2 lift up`](#prisma2-lift-up)
+      - [`prisma2 lift down`](#prisma2-lift-down)
+    - [Other Commands](#other-commands)
+      - [`prisma2 dev`](#prisma2-dev)
   - [Open Questions](#open-questions)
     - [How can you rename a model in Lift?](#how-can-you-rename-a-model-in-lift)
     - [Will we generate high-level language clients for the hooks?](#will-we-generate-high-level-language-clients-for-the-hooks)
@@ -368,6 +375,45 @@ Lists the migrations we've currently applied to the datasources.
 #### `migrationProgress`
 
 Migrations can take a long time to complete. `migrationProgress` returns the progress of the currently running migration.
+
+## Prisma CLI
+
+### Lift subcommands
+
+Prisma users interact with Lift mostly thought Prisma CLI, where there is a collection of commands available beneath `prisma2 lift`:
+
+#### `prisma2 lift save`
+
+Create a new Migration 
+
+- Optionally supply a `--name` to give the migration a name.
+
+#### `prisma2 lift up`
+
+Migrate your database up
+
+Options:  
+- Use `-p`/`--preview` to preview the migration without migrating
+- Use `--auto-approve` to skip interactive approval before migrating
+
+Arguments:  
+- Append a number to go up by x migrations
+- Append a timestamp to go up by timestamp of the migration
+- Append a string to go up by name of the migration
+
+#### `prisma2 lift down`
+
+Migrate your database down
+
+Same options and arguments as `prisma2 lift up`
+
+### Other Commands
+
+Lift functionality is also part of other commands:
+
+#### `prisma2 dev`
+
+TODO
 
 ## Open Questions
 
