@@ -19,7 +19,6 @@ This allows use-cases like:
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-
 - [Basic example](#basic-example)
 - [Motivation](#motivation)
 - [Detailed design](#detailed-design)
@@ -48,12 +47,12 @@ const nestedResult1 = await prisma.users({
     posts: {
       select: {
         // Extra aggregate field of type T where Lambda type returns Expression<T>
-        likeCount: (post: PostExpression) => post.comments.likes.sum()
-      }
+        likeCount: (post: PostExpression) => post.comments.likes.sum(),
+      },
     },
-    friends: true
-  }
-});
+    friends: true,
+  },
+})
 ```
 
 Alternatives would be other builder patterns, like a util object, or a string containing the expressions.
