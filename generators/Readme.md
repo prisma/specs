@@ -65,7 +65,7 @@ A generator gets passed in a JSON blob including the following information:
    - Models
 
    - Enums
-- Datasources
+   - Datasources
 - Generators, including the configuration this generator points to
 
 2. The available Query Schema of the Query Engine
