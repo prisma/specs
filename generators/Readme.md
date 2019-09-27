@@ -53,7 +53,8 @@ The generator is responsible for saving that code to the filesystem.
 
 ## Terminology
 
-- The `Generator SDK` is part of the `Prisma SDK`, which is being implemented by Prisma.
+- The `Generator SDK` is part of the `Prisma SDK`, which is being implemented by Prisma. It is responsible for calling a generator and gives generator authors a library called `@prisma/generator-helper` to ease the generator development in TypeScript/JavaScript.
+  Other languages will follow.
 - A `Generator` is created by a developer using Prisma.
 
 ## Information passed into a generator
@@ -302,6 +303,8 @@ Over the `Stdin` of the spawned child process, the following json is being passe
 ```ts
 {"jsonrpc": "2.0", "result": { error: "Could not find directory" }, "id": 1}
 ```
+
+In order to debug / log, the generator can use Stdout. Everything logged via Stderr, which is not a JSON adhering to the JSON RPC standard, will just be dropped.
 
 These are the available RPCs:
 
