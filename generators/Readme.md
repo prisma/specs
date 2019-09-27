@@ -56,7 +56,7 @@ A generator gets passed in a JSON blob including the following information:
 
 1. Everything which is declared in the `schema.prisma` file:
 
-- Models
+   - Models
 - Enums
 - Datasources
 - Generators, including the configuration this generator points to
