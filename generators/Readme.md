@@ -14,7 +14,6 @@ This spec describes how the interface for such code generation in the individual
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-
 - [Generator architecture](#generator-architecture)
 - [Information passed into a generator](#information-passed-into-a-generator)
 - [Interface for a generator](#interface-for-a-generator)
@@ -32,7 +31,7 @@ The generator is responsible for saving that code to the filesystem.
 
 ```bash
 ┌────────────────┐
-│ Generation SDK │
+│ Generator SDK  │
 └─┬──────────────┘
   │
   │ passes schema meta data
@@ -50,6 +49,11 @@ The generator is responsible for saving that code to the filesystem.
 └─────────────────┘
 ```
 
+## Terminology
+
+- The `Generator SDK` is part of the `Prisma SDK`, which is being implemented by Prisma.
+- A `Generator` is created by a developer using Prisma.
+
 ## Information passed into a generator
 
 A generator gets passed in a JSON blob including the following information:
@@ -57,6 +61,7 @@ A generator gets passed in a JSON blob including the following information:
 1. Everything which is declared in the `schema.prisma` file:
 
    - Models
+
 - Enums
 - Datasources
 - Generators, including the configuration this generator points to
