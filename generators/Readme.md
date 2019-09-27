@@ -298,5 +298,5 @@ Over the `Stdin` of the spawned child process, the following json is being passe
 
 These are the available RPCs:
 
-1. `generate` With the input `GeneratorOptions`. If the generator process crashes or returns an object containing an `error` property, the generator SDK can handle that error and show it to the user.
+1. `generate` with the input `GeneratorOptions`. If the generator process crashes or returns an object containing an `error` property, the generator SDK can handle that error and show it to the user.
    If it simply returns an empty object `{}` for the result, it was a successful generation.
