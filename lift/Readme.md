@@ -142,6 +142,11 @@ Lift has the following concepts: projects, migrations, steps, and hooks.
 
 Your application project contains a `migrations/` that has many migrations.
 
+### Schema
+
+Every Project contains a Schema. This schema describes the structure of your datasource. Often you will find the project's Schema in the `schema.prisma` file,
+but the Schema may be named differently or spread over many files.
+
 ### Migration
 
 A Migration is a grouping of one or more Steps. Each migration lives in it's own folder. Migrations run in a transaction if the datasource allows it.
@@ -312,6 +317,9 @@ The order of execution is the following:
 5. `20190920142120-add-user/steps.json`
 6. `20190920142120-add-user/after.sh`
 
+If the project schema and the remote database are in sync, then we will inform the reader that no changes need to be made. If there are changes that need to be
+made, we'll provide a visual diff of the changes to the user and ask for confirmation before proceeding.
+
 #### Down
 
 Down rolls back the migrations you've applied against your datasources.
@@ -342,6 +350,9 @@ The order of execution is the following:
 4. `20190920142118-initial/after.sh`
 5. `20190920142118-initial/steps.json`
 6. `20190920142118-initial/before.sh`
+
+If the project schema and the remote database are in sync, then we will inform the reader that no changes need to be made. If there are changes that need to be
+made, we'll provide a visual diff of the changes to the user and ask for confirmation before proceeding.
 
 ### Lift Engine
 
@@ -394,30 +405,140 @@ Prisma users interact with Lift mostly thought Prisma CLI, where there is a coll
 
 #### `prisma2 lift save`
 
-Create a new Migration
+```
+Save a migration
 
-- Optionally supply a `--name` to give the migration a name.
+Usage
+
+  prisma migrate save [options]
+
+Options
+
+  -h, --help       Displays this help message
+  -n, --name       Name the migration
+  -c, --create-db  Create the database in case it doesn't exist
+
+Examples
+
+  Create a new migration
+  $ prisma migrate save
+
+  Create a new migration by name
+  $ prisma migrate save --name "add unique to email"
+```
 
 #### `prisma2 lift up`
 
-Migrate your database up
+```
+Migrate your database up to a specific state.
 
-Options:
+Usage
 
-- Use `-p`/`--preview` to preview the migration without migrating
-- Use `--auto-approve` to skip interactive approval before migrating
+  prisma migrate up [<inc|name|timestamp>]
 
-Arguments:
+Arguments
 
-- Append a number to go up by x migrations
-- Append a timestamp to go up by timestamp of the migration
-- Append a string to go up by name of the migration
+  [<inc>]   go up by an increment [default: latest]
+
+Options
+
+  --auto-approve    Skip interactive approval before migrating
+  -h, --help        Displays this help message
+  -p, --preview     Preview the migration changes
+  -c, --create-db   Create the database in case it doesn't exist
+
+Examples
+
+  Create a new migration, then migrate up
+  $ prisma migrate create --name "add unique to email"
+  $ prisma migrate up
+
+  Preview a migration without migrating
+  $ prisma migrate up --preview
+
+  Go up by one migration
+  $ prisma migrate up 1
+
+  Go up by to a migration by timestamp
+  $ prisma migrate up 20190605204907
+
+  Go up by to a migration by name
+  $ prisma migrate up "add first_name field"
+```
+
+When running `lift up` and we need to make a change to the database, we'll display an visual diff.
+
+Here are some examples:
+
+**Rename a field**
+
+```diff
+model User {
+   id Int @id
+-  firstName String
++  givenName String
+   lastName String
+~  @unique([givenName, lastName], name: "fullName")
+}
+```
+
+**Add a Model**
+
+```diff
++ model User {
++  id Int @id
++  firstName String
++  lastName String
++  @unique([firstName, lastName], name: "fullName")
++ }
+```
+
+**Delete a Model**
+
+```diff
+- model User {
+-  id Int @id
+-  firstName String
+-  lastName String
+-  @unique([firstName, lastName], name: "fullName")
+- }
+```
+
+TODO: show confirmation flow
 
 #### `prisma2 lift down`
 
-Migrate your database down
+```
+Migrate your database down to a specific state.
 
-Same options and arguments as `prisma2 lift up`
+Usage
+
+  prisma lift down [<dec|name|timestamp>]
+
+Arguments
+
+  [<dec>]   go down by an amount [default: 1]
+
+Options
+
+  --auto-approve   Skip interactive approval before migrating
+  -h, --help       Displays this help message
+  -p, --preview    Preview the migration changes
+
+Examples
+
+  Preview a migration without migrating
+  $ prisma migrate down --preview
+
+  Rollback a migration
+  $ prisma migrate down 1
+
+  Go down to a migration by timestamp
+  $ prisma migrate down 20190605204907
+
+  Go down to a migration by name
+  $ prisma migrate down "add first_name field"
+```
 
 ### Other Commands
 
