@@ -281,7 +281,7 @@ As soon, as `prisma2 generate` is being executed, the provided generator file wi
 
 ## Interface between Generator SDK and each language helper
 
-A generator is being spawned as a subprocess. The `GeneratorOptions` JSON is being passed in over the following JSON-RPC protocol:
+A generator is being spawned as a subprocess. The `GeneratorOptions` JSON is being passed in over the following [JSON-RPC 2.0](https://www.jsonrpc.org/specification) protocol:
 
 Over the `Stdin` of the spawned child process, the following json is being passed in:
 
