@@ -14,6 +14,7 @@ The Prisma Schema declaratively describes the structure of your data sources. We
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
+  - [Overview](#overview)
   - [Datasource Block](#datasource-block)
     - [Supported fields](#supported-fields)
   - [Generator Block](#generator-block)
