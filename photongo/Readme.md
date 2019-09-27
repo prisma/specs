@@ -66,17 +66,29 @@ This spec describes the Photon Go API
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Connecting to Prisma Engine
+## General Usage
+
+### Prepare photon
+
+#### Connecting to Prisma Engine
 
 The Prisma constructor is used to create new instances of the Prisma client.
 
 ```go
-client, err := prisma.Connect()
+client, err := photon.NewClient()
+// wait until prisma engine is connected, otherwise it's lazy loaded
+client.Connect()
 ```
 
 This will launch the Prisma Engine process and connect to it.
 
-### Disconnecting from the Prisma Engine
+You can also start a mock client for testing and debugging without a database setup.
+
+```go
+client, err := photon.NewMockClient()
+```
+
+#### Disconnecting from the Prisma Engine
 
 After connecting, you can disconnect with the following
 
@@ -84,36 +96,45 @@ After connecting, you can disconnect with the following
 err := client.Disconnect()
 ```
 
-## Example Model
+## Query API
+
+This section describes how the most important part of Photon Go, the query API, works.
+
+### Example Model
 
 The API below uses examples based on this data model:
 
-```groovy
-type Post {
-  id: ID! @id
-  createdAt: DateTime! @createdAt
-  updatedAt: DateTime! @updatedAt
-  title: String!
-  published: Boolean! @default(value: false)
-  author: User
-  comments: [Comment!]!
+```
+model Post {
+  id         ID        @id
+  createdAt  DateTime  @createdAt
+  updatedAt  DateTime  @updatedAt
+  title      String
+  desc       String?
+  published  Boolean   @default(value: false)
+  author     User
+  comments   Comment[]
 }
 
-type User {
-  id: ID! @id
-  name: String
-  email: String! @unique
-  role: Role! @default(value: USER)
-  posts: [Post!]!
-  comments: [Comment!]!
+model User {
+  id         ID        @id
+  createdAt  DateTime  @createdAt
+  updatedAt  DateTime  @updatedAt
+  name       String?
+  email      String    @unique
+  role       Role      @default(value: USER)
+  posts      Post[]
+  comments   Comment[]
+  friends    User[]
 }
 
-type Comment {
-  id: ID! @id
-  createdAt: DateTime! @createdAt
-  text: String!
-  post: Post!
-  writtenBy: User!
+model Comment {
+  id         ID        @id
+  createdAt  DateTime  @createdAt
+  updatedAt  DateTime  @updatedAt
+  text       String
+  post       Post
+  writtenBy  User
 }
 
 enum Role {
@@ -122,356 +143,403 @@ enum Role {
 }
 ```
 
-## Reading Data
+### Reading Data
 
-The read examples follow along closely with the documentation here: https://www.prisma.io/docs/prisma-client/basic-data-access/reading-data-GO-go05/
+#### FindOne
 
-### Find
+FindOne returns the first item which matches a given query.
 
-For example, the following query returns all scalar fields of a single User
+##### Returns all scalar fields of a single User
 
 ```go
-usr, err := client.User.Find(user.Where().Email("ada@prisma.io"))
+user, err := client.User.FindOne.Where(
+  photon.User.Email.Equals("ada@prisma.io"),
+).Exec(ctx)
 ```
 
-Fetch a single post by its id:
+##### Fetch a single post by its id:
 
 ```go
-usr, err := client.User.Find(user.Where().ID(10))
+user, err := client.User.FindOne.Where(
+  photon.User.ID.Equals("ada@prisma.io"),
+).Exec(ctx)
 ```
 
-Fetch a single user by their email:
+##### Fetch a single user by their email:
 
 ```go
-usr, err := client.User.Find(user.Where().Email("ada@prisma.io"))
+user, err := client.User.FindOne.Where(
+  photon.User.Email.Equals("ada@prisma.io"),
+).Exec(ctx)
 ```
 
-### FindMany
+#### FindMany
 
-#### Find all users
+##### Find all users
 
 ```go
-users, err := client.User.FindMany()
+users, err := client.User.FindMany.Exec(ctx)
 ```
 
-#### Find all comments
+##### Find all comments
 
 ```go
-comments, err := client.Comment.FindMany()
+comments, err := client.Comment.FindMany.Exec(ctx)
 ```
 
-#### Find users that have an A in their names
+##### Find users that have an A in their names
 
 ```go
-users, err := client.User.FindMany(user.Where().NameContains("A"))
+users, err := client.User.FindMany.Where(photon.User.Name.Contains("A")).Exec(ctx)
 ```
 
-#### Find users named Ada or Grace
+##### Find users named Ada or Grace
 
 ```go
-usrs, err := client.User.FindMany(user.Where().NameIn("Ada", "Grace"))
+users, err := client.User.FindMany.Where(
+  photon.User.Name.In([]string{"Ada", "Grace"}),
+).Exec(ctx)
 ```
 
-#### Fetch comments created before December 24, 2019
+##### Fetch comments created before 2019
 
 ```go
-christmas := time.Date(2019, time.December, 24, 10, 0, 0, 0, time.UTC)
-comments, err := client.Comment.FindMany(comment.Where().CreatedAtLt(christmas))
+comments, err := client.Comment.FindMany.Where(post.Comment.CreatedAt.Lt(christmas)).Exec(ctx)
 ```
 
-#### Fetch posts that have prisma or graphql in their title and were created in 2019
+##### Fetch posts that have prisma or graphql in their title
 
 ```go
-posts, err := client.Post.FindMany(post.Where().Or(
-  post.Where().TitleContains("prisma"),
-  post.Where().TitleContains("graphql"),
-))
+posts, err := client.Post.FindMany.Where(photon.Post.Or(
+  photon.Post.Title.Contains("prisma"),
+  photon.Post.Title.Contains("graphql"),
+)).Exec(ctx)
 ```
 
-#### Sort comments by their creation date (ascending)
+##### Sort comments by their creation date (ascending)
 
 ```go
-comments, err := client.Comment.FindMany(comment.Order().CreatedAt(prisma.ASC))
+comments, err := client.Comment.FindMany.OrderBy(photon.Comment.CreatedAt.ASC).Exec(ctx)
 ```
 
-#### Sort users alphabetically by their names (descending)
+##### Sort users alphabetically by their names (descending)
 
 ```go
-usrs, err := client.User.FindMany(user.Order().Name(prisma.DESC))
+users, err := client.User.FindMany.OrderBy(photon.Comment.Name.DESC).Exec(ctx)
 ```
 
-#### Find the first 3 posts (seeking forward)
+##### Find the first 3 posts (seeking forward)
 
 ```go
-posts, err := client.Post.FindMany(post.First(3))
+posts, err := client.Post.FindMany.First(3).Exec(ctx)
 ```
 
-#### Find the posts from position 6 to position 10 (seeking forward)
+##### Find the posts from position 6 to position 10 (seeking forward)
 
 ```go
-posts, err := client.Post.FindMany(post.Skip(6), post.First(4))
+posts, err := client.Post.FindMany.Skip(6).First(4).Exec(ctx)
 ```
 
-#### Find the last 3 posts (seeking backward)
+##### Find the last 3 posts (seeking backward)
 
 ```go
-posts, err := client.Post.FindMany(post.Last(3))
+posts, err := client.Post.FindMany.Last(3).Exec(ctx)
 ```
 
-#### Fetch the posts from position 21 to position 27 (seeking backward)
+##### Fetch the posts (of 30) from position 21 to position 27 (seeking backward)
 
 ```go
-posts, err := client.Post.FindMany(post.Skip(3), post.Last(7))
+posts, err := client.Post.FindMany.Skip(3).Last(7).Exec(ctx)
 ```
 
-#### Fetch the first 3 posts after the posts with 3 as it's id
+##### Fetch the first 3 posts after the posts with 3 as it's id
 
 ```go
-posts, err := client.Post.FindMany(
+posts, err := client.Post.FindMany.Where(
   post.First(3),
   post.After("cjsyqxwqo000j0982da8cvw7o"),
 )
 ```
 
-#### Fetch the first 5 posts after the post with 10 as id and skipping 3 posts:
+##### Fetch the first 5 posts after the post with 10 as id and skipping 3 posts:
 
 ```go
-posts, err := client.Post.FindMany(
-  post.After(10),
-  post.Skip(3),
-  post.First(5),
-)
+posts, err := client.Post.FindMany.After("abc").Skip(3).First(5).Exec(ctx)
 ```
 
-#### Fetch the last 5 posts before the post with 10 as id
+##### Fetch the last 5 posts before the post with 10 as id
 
 ```go
-posts, err := client.Post.FindMany(
-  post.Last(5),
-  post.Before(10),
-)
+posts, err := client.Post.FindMany.Last(5).Before(10).Exec(ctx)
 ```
 
-#### Fetch the last 3 posts before the record with 10 as id and skipping 5 posts
+##### Fetch the last 3 posts before the record with 10 as id and skipping 5 posts
 
 ```go
-posts, err := client.Post.FindMany(
-  post.Last(3),
-  post.Before(10),
-  post.Skip(5),
-)
+posts, err := client.Post.FindMany.Last(3).Before(10).Skip(5).Exec(ctx)
 ```
 
-### FindAs
+#### Fetch by related things
 
-#### Fetch all the posts of a single user
+##### Fetch posts by a certain user that were created after christmas
 
 ```go
-user := client.User.As(user.Where().Email("alice@prisma.io"))
-posts, err := user.Post.FindMany()
+posts, err := user.Post.FindMany.Where(
+  photon.Post.CreatedAt.Gt(christmas),
+  photon.Post.User.Email.Equals(email),
+).Exec(ctx)
 ```
 
-#### Fetch posts by a certain user that were created after christmas
+##### Find all comments belonging to a post of a user
 
 ```go
-user := client.User.As(user.Where().Email(email))
-posts, err := user.Post.FindMany(post.Where().CreatedAtGt(christmas))
+comments, err := user.Comment.FindMany.Where(
+  photon.Comment.Title.Contains("my title"),
+  photon.Post.User.Email.Equals(email),
+).Exec(ctx)
 ```
 
-#### Find all comments belonging to a post of a user
+### Writing Data
+
+The following methods describe how to write data in the database. These are all mutations on
+a Prisma level. You can create, update and delete data, which maps to insert, update, and
+delete SQL operations respectively.
+
+You can optionally connect other nodes or even create new related nodes.
+
+#### Create
+
+You can create objects which maps to SQL inserts.
+
+##### Create a User
 
 ```go
-user := client.User.As(user.Where().Email("alice@prisma.io"))
-post := user.Post.As(post.Where().TitleContains("my title"))
-comments, err := post.Comments.FindMany()
+// User.Create has fixed and required arguments for required fields
+user, err := client.User.Create(
+  photon.User.ID.Set("abc43"),
+  photon.User.Email.Set("alice@prisma.io"),
+  photon.User.Age.Set(37),
+).Exec(ctx)
 ```
 
-## Writing Data
-
-The write examples follow closely with the demo here: https://www.prisma.io/docs/prisma-client/basic-data-access/writing-data-GO-go08/
-
-### Create
-
-#### Create a User
+##### Create a new post and set alice@prisma.io as the author
 
 ```go
-usr, err := client.User.Create(
-  user.New().Email("alice@prisma.io").Name("Alice"),
-)
+post, err := client.Post.Create(
+  photon.User.ID.Set("abc43"),
+  photon.User.Title.Set("Prisma"),
+).ConnectAuthor(
+  photon.User.Email.Equals("alice@prisma.io"),
+).Exec(ctx)
 ```
 
-#### Create a new post and set alice@prisma.io as the author
+##### Create a new user with two new posts
 
 ```go
-pst, err := client.Post.Create(
-  post.New().Title("Join us for GraphQL").ConnectAuthor(
-    user.Connect().Email("alice@prisma.io")
+user, err := client.User.Create(
+  photon.User.Id.Set("abc345"),
+  photon.User.Name.Set("John"),
+  photon.User.Email.Set("john@example.com"),
+  photon.User.Age.Set(50),
+).CreatePost(
+  photon.Post.ID.Set("a"),
+  photon.Post.Title.Set("Follow @prisma on Twitter"),
+).CreatePost(
+  photon.Post.ID.Set("b"),
+  photon.Post.Title.Set("Join us for GraphQL"),
+).Exec(ctx)
+```
+
+##### Create 1 user, a post and connect an existing post
+
+```go
+user, err := client.User.Create(
+  photon.User.ID.Set("7d42"),
+  photon.User.Email.Set("bob@prisma.io"),
+  photon.User.Name.Set("Bob"),
+).CreatePost(
+  photon.Post.ID.Set("a"),
+  photon.Post.Title.Set("Follow @prisma on Twitter"),
+).ConnectPost(
+  photon.Post.ID.Equals("abc"),
+).Exec(ctx)
+
+// an alternative to this syntax could be this
+
+user, err := client.User.Create(
+  photon.User.ID.Set("7d42"),
+  photon.User.Email.Set("bob@prisma.io"),
+  photon.User.Name.Set("Bob"),
+  photon.User.Post.Create(
+    photon.Post.ID.Set("1b32f")
+    photon.Post.Title.Set("New blog post")
   ),
-)
-```
-
-#### Create a new user with two new posts
-
-```go
-usr, err := client.User.Create(
-  user.New().Email("bob@prisma.io").Name("Bob").CreatePosts(
-    post.New().Title("Follow @prisma on Twitter"),
-    post.New().Title("Join us for GraphQL"),
+  photon.User.Post.Connect(
+    photon.Post.Email.Equals("1b32f")
   ),
-)
+).Exec(ctx)
 ```
 
-#### Create 1 user, 2 posts and connect an existing post
+#### Update
+
+You can update records by querying for specific documents and setting specific fields.
+
+##### Update the role of an existing user
 
 ```go
-usr, err := client.User.Create(
-  user.New().Email("bob@prisma.io").Name("Bob").
-    CreatePosts(
-      post.New().Title("Follow @prisma on Twitter"),
-      post.New().Title("Join us for GraphQL"),
-    ).
-    ConnectPosts(
-      post.Connect().ID(10),
-    ),
-)
+user, err := client.User.Update.Where(
+  photon.User.ID.Equals("cjsyytzn0004d0982gbyeqep7"),
+).Data(
+  photon.user.Role.Set(photon.User.Role.ADMIN),
+).Exec(ctx)
 ```
 
-### Update
-
-#### Update the role of an existing user
+##### Update the author of a post
 
 ```go
-usr, err := client.User.Update(
-  user.New().Role(user.Role.ADMIN),
-  user.Where().ID("cjsyytzn0004d0982gbyeqep7"),
-)
-```
-
-#### Update the author of a post
-
-```go
-pst, err := client.Post.Update(
-  post.New().ConnectAuthor(
-    user.Connect().Email("bob@prisma.io"),
+post, err := client.Post.Update.Where(
+  photon.Post.ID.Equals("cjsx2j8bw02920b25rl806l07"),
+).Data(
+  photon.Post.Author.Connect.Where(
+    photon.User.Email.Equals("bob@prisma.io"),
   ),
-  post.Where().ID("cjsx2j8bw02920b25rl806l07"),
-)
+).Exec(ctx)
 ```
 
-### UpdateMany
+#### UpdateMany
 
-#### Update three posts by their IDs
+##### Update three posts by their IDs
 
 ```go
-updated, err := client.Post.UpdateMany(
-  post.New().Published(true),
-  post.Where().IDIn(
+updated, err := client.Post.UpdateMany.Where(
+  photon.Post.ID.In([]string{
     "cjsyqxwqv000l0982p5qdq34p",
     "cjsyqxwqo000j0982da8cvw7o",
     "cjsyqxwr0000n0982cke8i5sc",
-  ),
-)
+  }),
+).Data(
+  photon.Post.Published.Set(true),
+).Exec(ctx)
 ```
 
-#### Update all posts where the title contains the given string
+##### Update all posts where the title contains the given string
 
 ```go
-updated, err = client.Post.UpdateMany(
-  post.New().Published(true),
-  post.Where().TitleContains("prisma"),
-)
+updated, err = client.Post.UpdateMany.Where(
+  photon.Post.Title.Contains("prisma"),
+).Data(
+  photon.Post.Published.Set(true),
+).Exec(ctx)
 ```
 
-### Delete
+#### Delete
 
-#### Delete a post by its ID
+##### Delete a post by its ID
 
 ```go
-pst, err := client.Post.Delete(post.Where().ID(10))
+post, err := client.Post.Delete.Where(
+  photon.Post.ID.Equals(10),
+).Exec(ctx)
 ```
 
-#### Delete a user by their email
+##### Delete a user by their email
 
 ```go
-usr, err := client.User.Delete(user.Where().Email("alice@prisma.io"))
+user, err := client.User.Delete.Where(
+  photon.User.Email.Equals("alice@prisma.io"),
+).Exec(ctx)
 ```
 
-### DeleteMany
+#### DeleteMany
 
-#### Delete all posts that were created before 2018:
+##### Delete all posts that were created before 2018:
 
 ```go
-deleted, err := client.Post.DeleteMany(
-  post.Where().CreatedAtGt(christmas),
-)
+deleted, err := client.Post.DeleteMany.Where(
+  photon.Post.CreatedAt.Gt(christmas),
+).Exec(ctx)
 ```
 
-### Upsert
+#### Upsert
 
-#### Create a user or update their role
+##### Create a user or update their role
 
 ```go
-usr, err := client.User.Upsert(
-  user.New().Email("alice@prisma.io"),
-  user.New().Role(user.Role.ADMIN),
-  user.Where().Email("alice@prisma.io"),
-)
+user, err := client.User.Upsert.Where(
+  photon.User.Email.Equals("alice@prisma.io"),
+).Data(
+  photon.User.Email.Set("alice@prisma.io"),
+  photon.User.Role.Set(user.Role.ADMIN),
+).Exec(ctx)
 ```
 
-### Select
+#### Select multiple things
 
-#### Select a user, their posts and their comments
-
-We're using generated fields here to maintain type-safety
+##### Select a user with 10 of their posts
 
 ```go
-var u struct {
-  user.ID
-  user.Email
-  Posts []struct {
-    post.Title
-    post.CreatedAt
-    Comments []struct {
-      comment.Comment
-      comment.Text
+posts, err := client.User.FindOne.Where(
+  photon.User.Where.ID.Equals("bobs-id"),
+).With(
+  photon.User.Posts.
+    Where(
+      photon.Post.Title.Contains("some title")
+    ).
+    Limit(10),
+).Exec(ctx)
+```
+
+##### Advanced selection of various nested relations
+
+This will fetch users
+
+Note: This uses an additional relation "friends" which is not 
+
+```go
+posts, err := client.User.FindOne.Where(
+  photon.User.Where.ID.Equals("bobs-id"),
+).With(
+  photon.User.Posts.
+    Where(
+      photon.Post.Title.Contains("some title")
+    ).
+    Limit(10),
+).Exec(ctx)
+```
+
+#### Raw PQL Query
+
+You can use the PQL function to query the Prisma server directly.
+
+```go
+var u photon.User
+err := client.User.PQL(
+  &u,
+  `
+    query {
+      findOnePost(where: {
+        id: "123"
+      }) {
+        id
+        title
+        content
+      }
     }
-  }
-}
-
-err := client.User.Select(&u,
-  user.Where().ID("bobs-id"),
-  user.WithPosts(
-    post.Where().TitleContains("my title"),
-  ),
+  `,
+  map[string]interface{}{
+    "id": "alice@prisma.io",
+  },
 )
 ```
 
-### Raw
+#### Raw database query
 
-You can use the raw fields in a model as an escape hatch to write custom complex queries.
+You can use the raw function as an escape hatch to write custom complex queries which are
+sent directly to the underlying database.
 
 ```go
-var u user.User
-err := client.User.Raw(&u, `select %s, %s from users`,
-  user.ID(10),
-  user.Email("alice@prisma.io")),
+var u photon.User
+err := client.User.Raw(&u, `SELECT * FROM users WHERE email = ?`,
+  "alice@prisma.io",
 )
-```
-
-## Adding Context
-
-Context can be added to a client with the following:
-
-```go
-ctx := context.Background()
-client = client.WithContext(ctx)
-```
-
-Normally you'd add this line at the beginning of your request handlers:
-
-```go
-func (u *User) Create(w http.ResponseWriter, r *http.Request) {
-  client = client.WithContext(r.Context())
-  usr, err := client.User.Find(user.Where().ID(10))
-}
 ```
