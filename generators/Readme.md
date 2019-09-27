@@ -226,7 +226,7 @@ export namespace DMMF {
 To add a generator to a Prisma project and run it, the following steps are needed:
 
 1. Create an executable file, which handles the generation
-2. Point to that file in the `schema.prisma`
+2. Point to that file in your `schema.prisma`
 3. Run `prisma2 generate`
 
 ### 1. Create an executable file
