@@ -14,7 +14,9 @@ This spec describes how the interface for such code generation in the individual
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
+
 - [Generator architecture](#generator-architecture)
+- [Terminology](#terminology)
 - [Information passed into a generator](#information-passed-into-a-generator)
 - [Interface for a generator](#interface-for-a-generator)
   - [1. Create an executable file](#1-create-an-executable-file)
