@@ -258,7 +258,7 @@ A migration folder contains 3 files:
 - **steps.json:** contains a JSON list of steps to run against the database. Steps contains only the up steps, the down steps are calculated on the fly.
 - **schema.prisma:** contains a snapshot of your `schema.prisma` file at a specific point in time after the migration has occurred.
 - **README.md:** contains information about the migration. Includes the underlying raw commands (e.g. SQL) that run against the datasource.
-- **before.sh:** optional hook you can run before migrating your schema.
+- **before.sh:** optional [hook](#hook) you can run before migrating your schema.
 - **after.sh:** optional hook you can run after migrating your schema.
 
 **Note:** `migrate save` does not run migrations, it simply creates them.
