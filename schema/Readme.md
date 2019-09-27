@@ -75,6 +75,17 @@ The Prisma Schema declaratively describes the structure of your data sources. We
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+## Overview
+
+TODO Motivation
+TODO Introduction
+TODO Building Blocks with links to following sections
+	- Datasource
+	- Generator
+	- Model
+
+TODO maybe put all the blocks under a "Reference" headline?
+
 ## Datasource Block
 
 Datasource blocks tell the schema where the models are backed. You can have multiple datasources with different connectors.
