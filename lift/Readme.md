@@ -6,10 +6,8 @@
   - Spec: Outdated 🚨
   - Implementation: Unknown ❔
 
-Lift is Prisma's declarative migration system. Rather than scripting your
-migrations by hand, Lift allows you to describe how you want the structure of
-your data to look after the migration and Lift will take care of generating the
-necessary steps to get you there.
+Lift is Prisma's declarative migration system. Rather than scripting your migrations by hand, Lift allows you to describe how you want the structure of your
+data to look after the migration and Lift will take care of generating the necessary steps to get you there.
 
 ---
 
@@ -19,8 +17,9 @@ necessary steps to get you there.
 - [A Brief History](#a-brief-history)
 - [The Lift Approach](#the-lift-approach)
 - [Concepts](#concepts)
-  - [Step](#step)
+  - [Project](#project)
   - [Migration](#migration)
+  - [Step](#step)
   - [Hook](#hook)
 - [Architecture](#architecture)
   - [Lift Client](#lift-client)
@@ -35,6 +34,13 @@ necessary steps to get you there.
     - [`calculateDatabaseSteps`](#calculatedatabasesteps)
     - [`listMigrations`](#listmigrations)
     - [`migrationProgress`](#migrationprogress)
+- [Prisma CLI](#prisma-cli)
+  - [Lift subcommands](#lift-subcommands)
+    - [`prisma2 lift save`](#prisma2-lift-save)
+    - [`prisma2 lift up`](#prisma2-lift-up)
+    - [`prisma2 lift down`](#prisma2-lift-down)
+  - [Other Commands](#other-commands)
+    - [`prisma2 dev`](#prisma2-dev)
 - [Open Questions](#open-questions)
   - [How can you rename a model in Lift?](#how-can-you-rename-a-model-in-lift)
   - [Will we generate high-level language clients for the hooks?](#will-we-generate-high-level-language-clients-for-the-hooks)
@@ -57,8 +63,7 @@ necessary steps to get you there.
 
 ## A Brief History
 
-Migration systems are used to safely evolve your application's data model over
-time.
+Migration systems are used to safely evolve your application's data model over time.
 
 They often use a folder structure that looks like this:
 
@@ -76,10 +81,8 @@ migrations/
 ├── 005_update_pricing.up.sql
 ```
 
-The numbers determine the order the migrations should be performed in. We first
-run `001`, then `002`, etc. The `up` and `down` determine the direction we're
-migrating. If we're migrating up, we'll run the `up` scripts, if we're migrating
-down, we'll run the `down` scripts.
+The numbers determine the order the migrations should be performed in. We first run `001`, then `002`, etc. The `up` and `down` determine the direction we're
+migrating. If we're migrating up, we'll run the `up` scripts, if we're migrating down, we'll run the `down` scripts.
 
 Traditionally, you write migrations by hand to migrate your database.
 
@@ -92,15 +95,12 @@ alter table reports alter column "status" set default 'ASKED';
 drop type report_status_old;
 ```
 
-This is error-prone and stressful, especially when you're operating on your
-production data.
+This is error-prone and stressful, especially when you're operating on your production data.
 
 ## The Lift Approach
 
-Prisma's Lift works differently. While Lift still has a `migrations/` folder,
-the migrations are generated for you. With Lift, you just need to change your
-`schema.prisma` file and run `lift save`. This will generate the necessary steps
-to transition your schema from A to B.
+Prisma's Lift works differently. While Lift still has a `migrations/` folder, the migrations are generated for you. With Lift, you just need to change your
+`schema.prisma` file and run `lift save`. This will generate the necessary steps to transition your schema from A to B.
 
 A result might look like this:
 
@@ -144,13 +144,11 @@ Your application project contains a `migrations/` that has many migrations.
 
 ### Migration
 
-A Migration is a grouping of one or more Steps. Each migration lives in it's own
-folder. Migrations run in a transaction if the datasource allows it.
+A Migration is a grouping of one or more Steps. Each migration lives in it's own folder. Migrations run in a transaction if the datasource allows it.
 
 ### Step
 
-Steps are actions that resolves into zero or more database commands. Steps
-generically describe models, fields and relationships, so they can be easily
+Steps are actions that resolves into zero or more database commands. Steps generically describe models, fields and relationships, so they can be easily
 translated to datasource-specific migration commands.
 
 <details>
@@ -212,38 +210,29 @@ translated to datasource-specific migration commands.
 
 > ⚠ This is not implemented yet.
 
-A hook is a custom shell script that runs either before or after the migration.
-They are defined by `before.sh` and `after.sh`. Hooks give you more control over
+A hook is a custom shell script that runs either before or after the migration. They are defined by `before.sh` and `after.sh`. Hooks give you more control over
 your migrations. You can write hooks to:
 
 - Ensure the data follows new constraints like `unique` or `non null`.
-- Add specific database primitives like functions in Postgres, which are not yet
-  supported by Prisma.
+- Add specific database primitives like functions in Postgres, which are not yet supported by Prisma.
 - Seed the database with data after a migration has been executed.
 
 ## Migration History
 
-When a migration is running or has been executed successfully, Prisma writes
-this information into a table or collection in the database. This table is known
-as the **Migration History**. It includes all successful and failed migrations
-of the specific Prisma Project. We store the migration history so that Prisma
-can:
+When a migration is running or has been executed successfully, Prisma writes this information into a table or collection in the database. This table is known as
+the **Migration History**. It includes all successful and failed migrations of the specific Prisma Project. We store the migration history so that Prisma can:
 
 - Make sure that the local migrations are in sync with the databases migrations
 - Ensure that migrations don't get run twice
-- Give an overview in a GUI interface about the currently running migration and
-  migrations that already have been running
+- Give an overview in a GUI interface about the currently running migration and migrations that already have been running
 - Rollback migrations when there has been an error
 
 ## Architecture
 
-Lift has 2 parts: a **Lift Client** and a **Lift Engine**. By default, the Lift
-Engine runs locally as a
-[sidecar process](https://blog.davemdavis.net/2018/03/13/the-sidecar-pattern/).
-This makes it easy to get started. As your team's data requirements become more
-complex, you may prefer to handle your migrations on a remote host where you
-have fine-grained access control over migrations. We will make this possible in
-the future.
+Lift has 2 parts: a **Lift Client** and a **Lift Engine**. By default, the Lift Engine runs locally as a
+[sidecar process](https://blog.davemdavis.net/2018/03/13/the-sidecar-pattern/). This makes it easy to get started. As your team's data requirements become more
+complex, you may prefer to handle your migrations on a remote host where you have fine-grained access control over migrations. We will make this possible in the
+future.
 
 ```
 ┌──────────────────┐       ┌──────────────────┐      ┌──────────────┐
@@ -266,15 +255,12 @@ the future.
 
 ### Lift Client
 
-The Lift Client is built into the Prisma 2 CLI but is also accessible
-programmatically in the Prisma SDK. The Lift Client has 3 methods:
+The Lift Client is built into the Prisma 2 CLI but is also accessible programmatically in the Prisma SDK. The Lift Client has 3 methods:
 
 #### Save
 
-Save method takes the difference of your schema file with the current state of
-your datasources and creates a migration folder. This migration folder contains
-the steps to sync your datasources with your schema file. The template of the
-migration folder is `${current_timestamp}-${migration-name}/`
+Save method takes the difference of your schema file with the current state of your datasources and creates a migration folder. This migration folder contains
+the steps to sync your datasources with your schema file. The template of the migration folder is `${current_timestamp}-${migration-name}/`
 
 ```
 migrations/
@@ -286,25 +272,20 @@ migrations/
 
 A migration folder contains 3 files:
 
-- **steps.json:** contains a JSON list of steps to run against the database.
-  Steps contains only the up steps, the down steps are calculated on the fly.
-- **schema.prisma:** contains a snapshot of your `schema.prisma` file at a
-  specific point in time after the migration has occurred.
-- **README.md:** contains information about the migration. Includes the
-  underlying raw commands (e.g. SQL) that run against the datasource.
-- **before.sh:** optional hook you can run before migrating your schema.
-- **after.sh:** optional hook you can run after migrating your schema.
+- **steps.json:** contains a JSON list of steps to run against the database. Steps contains only the up steps, the down steps are calculated on the fly.
+- **schema.prisma:** contains a snapshot of your `schema.prisma` file at a specific point in time after the migration has occurred.
+- **README.md:** contains information about the migration. Includes the underlying raw commands (e.g. SQL) that run against the datasource.
+- **before.sh:** optional [hook](#hook) you can run before migrating your schema.
+- **after.sh:** optional [hook](#hook) you can run after migrating your schema.
 
 **Note:** Save does not run migrations, it simply creates them.
 
 #### Up
 
-Up runs your outstanding migrations against the datasources, synchronizing the
-datasources with your schema file. Up depends on the migrations generated by the
+Up runs your outstanding migrations against the datasources, synchronizing the datasources with your schema file. Up depends on the migrations generated by the
 Save method.
 
-Up runs the unapplied `up` scripts in ascending order by the migration's
-timestamp. For example, if we have the following migrations directory:
+Up runs the unapplied `up` scripts in ascending order by the migration's timestamp. For example, if we have the following migrations directory:
 
 ```
 migrations/
@@ -335,8 +316,7 @@ The order of execution is the following:
 
 Down rolls back the migrations you've applied against your datasources.
 
-Down runs the `down` scripts in descending order by the migration's timestamp.
-For example, if we have the following migrations directory:
+Down runs the `down` scripts in descending order by the migration's timestamp. For example, if we have the following migrations directory:
 
 ```
 migrations/
@@ -365,26 +345,22 @@ The order of execution is the following:
 
 ### Lift Engine
 
-The Lift Engine is a low-level interface that the Lift Client communicates with.
-Currently the client communicates to the migration engine in the JSONRPC format
+The Lift Engine is a low-level interface that the Lift Client communicates with. Currently the client communicates to the migration engine in the JSONRPC format
 over stdio. In the future, we'll migrate this to REST or JSONRPC over HTTP.
 
 > ⚠ **Note** This API is subject to change
 
 #### `inferMigrationSteps`
 
-Calculates the Steps needed to transition the datasources from the current state
-to the next state. This is called by the Save method in the Lift Client.
+Calculates the Steps needed to transition the datasources from the current state to the next state. This is called by the Save method in the Lift Client.
 
 #### `applyMigration`
 
-Applies the Steps we inferred. This is called by the Up method in the Lift
-Client.
+Applies the Steps we inferred. This is called by the Up method in the Lift Client.
 
 #### `unapplyMigration`
 
-Unapplies the previous Step in the migrations folder. This is called by the Down
-method in the Lift Client.
+Unapplies the previous Step in the migrations folder. This is called by the Down method in the Lift Client.
 
 #### `calculateDatamodel`
 
@@ -394,15 +370,12 @@ Used to render the resulting datamodel into the Readme of the migration folder
 
 #### `calculateDatabaseSteps`
 
-Calculate the database steps when a certain migration has not been executed yet.
-It answers the question:
+Calculate the database steps when a certain migration has not been executed yet. It answers the question:
 
-- What would the database steps be if the we assume that the migration steps
-  have been applied already? This can happen when you have multiple unapplied
+- What would the database steps be if the we assume that the migration steps have been applied already? This can happen when you have multiple unapplied
   migrations after calling the Save method multiple times before calling Up.
 
-**TODO:** Double-check with Tim to see if this is still necessary. This may not
-be needed anymore as lots of assumed steps is also available in
+**TODO:** Double-check with Tim to see if this is still necessary. This may not be needed anymore as lots of assumed steps is also available in
 `inferMigrationSteps` now.
 
 #### `listMigrations`
@@ -411,37 +384,69 @@ Lists the migrations we've currently applied to the datasources.
 
 #### `migrationProgress`
 
-Migrations can take a long time to complete. `migrationProgress` returns the
-progress of the currently running migration.
+Migrations can take a long time to complete. `migrationProgress` returns the progress of the currently running migration.
+
+## Prisma CLI
+
+### Lift subcommands
+
+Prisma users interact with Lift mostly thought Prisma CLI, where there is a collection of commands available beneath `prisma2 lift`:
+
+#### `prisma2 lift save`
+
+Create a new Migration
+
+- Optionally supply a `--name` to give the migration a name.
+
+#### `prisma2 lift up`
+
+Migrate your database up
+
+Options:
+
+- Use `-p`/`--preview` to preview the migration without migrating
+- Use `--auto-approve` to skip interactive approval before migrating
+
+Arguments:
+
+- Append a number to go up by x migrations
+- Append a timestamp to go up by timestamp of the migration
+- Append a string to go up by name of the migration
+
+#### `prisma2 lift down`
+
+Migrate your database down
+
+Same options and arguments as `prisma2 lift up`
+
+### Other Commands
+
+Lift functionality is also part of other commands:
+
+#### `prisma2 dev`
+
+TODO
 
 ## FAQ
 
 ### How can you rename a model in Lift?
 
-To rename a field, you'll add an `UpdateModel` step in your **steps.json** file
-directly.
+To rename a field, you'll add an `UpdateModel` step in your **steps.json** file directly.
 
 ## Open Questions
 
-Unimplemented sections from the previous spec that I think we'll want to revisit
-after some time away.
+Unimplemented sections from the previous spec that I think we'll want to revisit after some time away.
 
 ### Will we generate high-level language clients for the hooks?
 
-Let's say that after Prisma has migrated the database to the datamodel defined
-in `migrate/20190322092247-my-initial-migration/`, you want to insert some seed
-data. The way you can do this, is by either defining a shell script or an
-executable, either called `before.EXT`, while EXT is your favorite file
-extension as `.sh` or `.js` or `after.EXT`. A file just called `before` or
-`after` is also valid.
+Let's say that after Prisma has migrated the database to the datamodel defined in `migrate/20190322092247-my-initial-migration/`, you want to insert some seed
+data. The way you can do this, is by either defining a shell script or an executable, either called `before.EXT`, while EXT is your favorite file extension as
+`.sh` or `.js` or `after.EXT`. A file just called `before` or `after` is also valid.
 
-Which file will be executed when is decided by a convention. When the Prisma CLI
-opens a migration folder, it will perform the following actions:
+Which file will be executed when is decided by a convention. When the Prisma CLI opens a migration folder, it will perform the following actions:
 
-1. Check if there is only maximum one file with the `after` prefix and only
-   maximum one file with the `before` prefix.
-2. Check for the existence of a before file and try to execute it. The following
-   filenames are valid:
+1. Check if there is only maximum one file with the `after` prefix and only maximum one file with the `before` prefix.
+2. Check for the existence of a before file and try to execute it. The following filenames are valid:
 
 | Filename    | Action         |
 | ----------- | -------------- |
@@ -452,8 +457,7 @@ opens a migration folder, it will perform the following actions:
 | before.ts   | ./before.ts    |
 
 3. Migrate the datamodel
-4. Check for the existence of an after file and try to execute it. The following
-   filenames are valid:
+4. Check for the existence of an after file and try to execute it. The following filenames are valid:
 
 | Filename   | Action        |
 | ---------- | ------------- |
@@ -465,45 +469,33 @@ opens a migration folder, it will perform the following actions:
 
 #### Up & Down in migration scripts
 
-In order to revert a migration in the case of a rollback, we need to distinguish
-between `up` (applying the migration) and `down` (reverting the migration). We
-call this the **Migration Direction**. The direction of a migration is being
-passed in to a migration script using the env var `DIRECTION`. This can then
-e.g. be accessed from a bash script with `echo $DIRECTION`.
+In order to revert a migration in the case of a rollback, we need to distinguish between `up` (applying the migration) and `down` (reverting the migration). We
+call this the **Migration Direction**. The direction of a migration is being passed in to a migration script using the env var `DIRECTION`. This can then e.g.
+be accessed from a bash script with `echo $DIRECTION`.
 
 #### Transactional/rollback behavior of migration scripts
 
-The main question is this: If a migration script fails (exists with a non-zero
-exit code) after the datamodel has been migrated, should the datamodel be rolled
-back to the state before? The answer is yes. If you don't want the datamodel
-migration to be rolled back, make sure, that your migration script will not
-return a non-zero exit code, by e.g. using `try` `catch` in Node.js or adding an
-`|| echo ""` behind the potentially failing command.
+The main question is this: If a migration script fails (exists with a non-zero exit code) after the datamodel has been migrated, should the datamodel be rolled
+back to the state before? The answer is yes. If you don't want the datamodel migration to be rolled back, make sure, that your migration script will not return
+a non-zero exit code, by e.g. using `try` `catch` in Node.js or adding an `|| echo ""` behind the potentially failing command.
 
 ### Support migration squashing?
 
-Let's say you use the migrations system for a couple of years and you
-accumulated over 1000 migrations. All your Prisma instances already include
-these changes, so there is no point of storing migrations that are years old. If
-you decide that you don't need the first 500 migrations, you can simply delete
-these folders. Note that you can't delete folders in between migrations, it
-always has to happen right from the beginning.
+Let's say you use the migrations system for a couple of years and you accumulated over 1000 migrations. All your Prisma instances already include these changes,
+so there is no point of storing migrations that are years old. If you decide that you don't need the first 500 migrations, you can simply delete these folders.
+Note that you can't delete folders in between migrations, it always has to happen right from the beginning.
 
 ### Locking the database during migration to prevent data corruption?
 
 **TODO** Clarify the current state of this with Tim and Marcus
 
-While performing a migration like turning an optional relational into a required
-one, it may be beneficial to apply a lock on the database to prevent data
-corruption. We need to find out here if this should run on Prisma application
-level or in the individual database. It should be configurable to add this lock.
-Probably it's something Prisma will provide in the future with the Prisma server
-but not with the Prisma binary.
+While performing a migration like turning an optional relational into a required one, it may be beneficial to apply a lock on the database to prevent data
+corruption. We need to find out here if this should run on Prisma application level or in the individual database. It should be configurable to add this lock.
+Probably it's something Prisma will provide in the future with the Prisma server but not with the Prisma binary.
 
 ### How to solve Merge Conflicts?
 
-Let's say Alice and Bob start developing in their own branches based on the
-following datamodel:
+Let's say Alice and Bob start developing in their own branches based on the following datamodel:
 
 ```graphql
 model User {
@@ -524,8 +516,7 @@ And these migrations:
         └── datamodel.mdl
 ```
 
-`1` and `2` are just used for illustration, we're using timestamps in the real
-world.
+`1` and `2` are just used for illustration, we're using timestamps in the real world.
 
 Alice removes the `address` field and creates a new migration `4`.
 
@@ -547,8 +538,7 @@ model User {
         └── datamodel.mdl
 ```
 
-Her changes get deployed to production. Bob now pulls her changes and finds a
-merge conflict.
+Her changes get deployed to production. Bob now pulls her changes and finds a merge conflict.
 
 His `migrate` folder will look like this:
 
@@ -581,8 +571,7 @@ model Post {
 }
 ```
 
-He now can clearly see, that in the `master` branch the field `posts` has been
-removed. Git is pointing him here to the merge conflict. Another important
+He now can clearly see, that in the `master` branch the field `posts` has been removed. Git is pointing him here to the merge conflict. Another important
 conflict, where Git doesn't help us are the migration folders `3` and `4`.
 
 The right way to solve this conflict is the following:
@@ -591,35 +580,24 @@ The right way to solve this conflict is the following:
 $ prisma migrate rollback # rollbacks 3
 ```
 
-Now he renames `3` to `5`, so that his changes comes after `4`. He can confirm
-locally with a `prisma migrate` to his local machine that the change works and
-push to production. The production system will now pick up the new `5` migration
-and apply it.
+Now he renames `3` to `5`, so that his changes comes after `4`. He can confirm locally with a `prisma migrate` to his local machine that the change works and
+push to production. The production system will now pick up the new `5` migration and apply it.
 
-There is an infinite amount of conflict scenarios, so we're stopping here and
-won't go deeper into them. What matters is this: Prisma will be able to help
-developers solving migration conflicts based on the _local migration history_
-and the _remote migration history_.
+There is an infinite amount of conflict scenarios, so we're stopping here and won't go deeper into them. What matters is this: Prisma will be able to help
+developers solving migration conflicts based on the _local migration history_ and the _remote migration history_.
 
 ### Supporting the draft mode?
 
-In the previous scenario it was quite easy to reason about the conflict
-resolution, as we just had to look into one migration from Alice and one from
-Bob. Let's say that Alice had pushed 10 new migrations and the same for Bob, he
-also performed 10 migrations. This would be a very complicated situation to
-reason about. In order to circumvent this issue, we strongly advice users to do
-two things:
+In the previous scenario it was quite easy to reason about the conflict resolution, as we just had to look into one migration from Alice and one from Bob. Let's
+say that Alice had pushed 10 new migrations and the same for Bob, he also performed 10 migrations. This would be a very complicated situation to reason about.
+In order to circumvent this issue, we strongly advice users to do two things:
 
-1. Name your migrations. This will help your team to understand what happened in
-   there
-2. Group all your changes into as few migrations as possible. This way conflict
-   resolution is way easier.
+1. Name your migrations. This will help your team to understand what happened in there
+2. Group all your changes into as few migrations as possible. This way conflict resolution is way easier.
 
-In order to make "grouping" or accumulating multiple schema changes into one
-migration, we introduce the `prisma migrate draft` command. With this command,
-changes will be applied to the database without creating a new migration. As
-soon as you're happy with all the changes, you can execute `prisma migrate`,
-which empties the draft and puts all accumulated changes into one new migration.
+In order to make "grouping" or accumulating multiple schema changes into one migration, we introduce the `prisma migrate draft` command. With this command,
+changes will be applied to the database without creating a new migration. As soon as you're happy with all the changes, you can execute `prisma migrate`, which
+empties the draft and puts all accumulated changes into one new migration.
 
 ## Prior Migration Systems
 
@@ -627,29 +605,25 @@ which empties the draft and puts all accumulated changes into one new migration.
 
 - [Go Migrate](https://github.com/golang-migrate/migrate) Up & Down migrations
 - [Goose](https://github.com/pressly/goose) Up & Down migrations
-- [Go PG Migrations](https://github.com/robinjoseph08/go-pg-migrations) Mix
-  between [go-pg/migrations](https://github.com/go-pg/migrations) and
+- [Go PG Migrations](https://github.com/robinjoseph08/go-pg-migrations) Mix between [go-pg/migrations](https://github.com/go-pg/migrations) and
   [Knex](https://knexjs.org/)
-- [Gormigrate](https://github.com/go-gormigrate/gormigrate) Programmatic API
-  with structs
+- [Gormigrate](https://github.com/go-gormigrate/gormigrate) Programmatic API with structs
 
 ### Python
 
-- [Django](https://docs.djangoproject.com/en/2.1/topics/migrations/) Django
-  style fixtures
+- [Django](https://docs.djangoproject.com/en/2.1/topics/migrations/) Django style fixtures
 - [Alembic](https://pypi.org/project/alembic/) Belongs to SQLAlchemy
 
 ### PHP
 
 - [CakePHP - Phinx](https://github.com/cakephp/phinx) Belongs to CakePHP
-- [Doctrine](https://www.doctrine-project.org/projects/doctrine-migrations/en/2.0/reference/managing-migrations.html#managing-migrations)
-  Mix between PHP and SQL
+- [Doctrine](https://www.doctrine-project.org/projects/doctrine-migrations/en/2.0/reference/managing-migrations.html#managing-migrations) Mix between PHP and
+  SQL
 - [Laravel Database: Migrations](https://laravel.com/docs/5.8/migrations)
 
 ### Java
 
-- [Flyway](https://flywaydb.org/) Standalone migration tool, enterprise-grade.
-  Up & Down.
+- [Flyway](https://flywaydb.org/) Standalone migration tool, enterprise-grade. Up & Down.
 
 ### Node.js
 
@@ -663,14 +637,11 @@ which empties the draft and puts all accumulated changes into one new migration.
 # Unresolved questions
 
 - [ ] Transaction behavior (also when running scripts)
-- [ ] Spec out how migration "hooks" are working (e.g. `before.up.sql`) as it's
-      depending on individual connectors
+- [ ] Spec out how migration "hooks" are working (e.g. `before.up.sql`) as it's depending on individual connectors
 - [ ] Spec out CLI output of each migration related command
-- [ ] 3 migration modes (1. delete all data, 2. keep data + downtime, 3. keep
-      data + zero downtime)
+- [ ] 3 migration modes (1. delete all data, 2. keep data + downtime, 3. keep data + zero downtime)
   - [ ] How to simplify renames for local development. Ideas:
     - `prisma dev`: interactive double list select?
     - Prisma Admin feature
 - [ ] How do migrations work from a SDK perspective
-  - [ ] Is there a programmatic abstraction that works without files? (Might be
-        needed for TypeGraphQL)
+  - [ ] Is there a programmatic abstraction that works without files? (Might be needed for TypeGraphQL)
