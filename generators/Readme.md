@@ -14,7 +14,6 @@ This spec describes, how the interface for such code generation in the individua
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-
 - [Generator architecture](#generator-architecture)
 - [Information passed into a generator](#information-passed-into-a-generator)
 - [Interface for a generator](#interface-for-a-generator)
@@ -280,7 +279,7 @@ generator myGenerator {
 
 As soon, as `prisma2 generate` is being executed, the provided generator file will executed by the `prisma2` CLI.
 
-## Interface between Generator SDK and each language
+## Interface between Generator SDK and each language helper
 
 A generator is being spawned as a subprocess. The `GeneratorOptions` JSON is being passed in over the following JSON-RPC protocol:
 
