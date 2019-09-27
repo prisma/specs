@@ -7,7 +7,7 @@
   - Implementation: In Progress 🚧
 
 An important mechanism in Prisma 2 is the generation of code based on the Prisma schema.  
-This spec describes, how the interface for such code generation in the individual languages like JavaScript and TypeScript looks like, and which protocol is used under the hood to achieve that interface.
+This spec describes how the interface for such code generation in the individual languages like JavaScript and TypeScript looks like, and which protocol is used under the hood to achieve that interface.
 
 ---
 
