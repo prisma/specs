@@ -14,13 +14,14 @@ This spec describes, how the interface for such code generation in the individua
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
+
 - [Generator architecture](#generator-architecture)
 - [Information passed into a generator](#information-passed-into-a-generator)
 - [Interface for a generator](#interface-for-a-generator)
   - [1. Create an executable file](#1-create-an-executable-file)
   - [2. Point to the generator file in the `schema.prisma`](#2-point-to-the-generator-file-in-the-schemaprisma)
   - [3. Run `prisma2 generate`](#3-run-prisma2-generate)
-- [Interface between Generator SDK and each language](#interface-between-generator-sdk-and-each-language)
+- [Interface between Generator SDK and each language helper](#interface-between-generator-sdk-and-each-language-helper)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
