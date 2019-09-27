@@ -234,7 +234,7 @@ To add a generator to a Prisma project and run it, the following steps are neede
 In the following we describe how this can be done in JavaScript or TypeScript.
 In section [Interface between Generator SDK and each language](#interface-between-generator-sdk-and-each-language) you can read more about other languages.
 
-To create a generator in TypeScript, create a new package, which needs two files: A executable generator file, e.g. `generator.ts` and a generator manifest, called `generator-manifest.json`.
+To create a generator in TypeScript, create a new package, which needs two files: A executable generator file, e.g. `generator.ts` and optionally a generator manifest, called `generator-manifest.json`.
 
 A `generator.ts` file can use a helper function from the `@prisma/generator-helper` npm package to get a callback for when a generation is being requested:
 
