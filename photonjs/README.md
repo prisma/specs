@@ -1113,6 +1113,7 @@ To solve these two use case, Photon can do the following:
 - [ ] transactions by default (e.g. high throughput operations)
 - [ ] Expressions API/DSL
 - [ ] Binary copying
+- [ ] Type mapping (e.g. `DateTime` in Prisma schema to `Date` in JS) and how to overwrite default type-mapping behavior (e.g. using Moment.js)
 - [ ] Raw API fallbacks
 - [ ] Default selection set: Include ids of to-one relations (https://github.com/prisma/photonjs/issues/188)
 - [ ] Jump to definition
