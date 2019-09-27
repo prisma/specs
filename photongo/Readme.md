@@ -143,6 +143,81 @@ enum Role {
 }
 ```
 
+### Basic information
+
+This spec assumes the following decisions:
+
+- Fluent API (vs. structs API)
+- Null-structs for nullability (vs. using pointers) [photon-go#1](https://github.com/prisma/photongo/issues/1)
+- Require passing a context explicitly [photon-go#6](https://github.com/prisma/photongo/issues/6)
+- Generate code into a single file [photon-go#3](https://github.com/prisma/photongo/issues/3)
+
+### Generated models
+
+The above data model will generate the following Go models.
+
+```go
+type Post struct {
+  Id        string     `json:"id"`
+  CreatedAt time.Time  `json:"createdAt"`
+  UpdatedAt time.Time  `json:"updatedAt"`
+  Title     string     `json:"title"`
+  Desc      NullString `json:"desc"`
+  Published bool       `json:"published"`
+  Author    User       `json:"author"`
+  Comments  []Comment  `json:"comments"`
+}
+
+type User struct {
+  Id        string     `json:"id"`
+  CreatedAt time.Time  `json:"createdAt"`
+  UpdatedAt time.Time  `json:"updatedAt"`
+  Name      NullString `json:"name"`
+  Email     string     `json:"email"`
+  Role      Role       `json:"role"`
+  Posts     []Post     `json:"posts"`
+  Comments  []Comment  `json:"comments"`
+  Friends   []User     `json:"friends"`
+}
+
+type Comment struct {
+  Id        string    `json:"id"`
+  CreatedAt time.Time `json:"createdAt"`
+  UpdatedAt time.Time `json:"updatedAt"`
+  Text      string    `json:"text"`
+  Post      NullPost  `json:"post"`
+  WrittenBy NullUser  `json:"writtenBy"`
+}
+
+type Role string
+
+const (
+  RoleUser  Role = "USER"
+  RoleAdmin Role = "ADMIN"
+)
+```
+
+### Basic usage
+
+#### Basic example
+
+This is an example how you can fetch a node and access its properties.
+
+Related fields, i.e. fields referencing structs, are nil per default if you don't fetch them explicitly.
+
+```go
+user, err := client.User.FindOne.Exec(ctx)
+
+log.Printf("name: %s", user.Email)
+
+// Name is an optional field (NullString), which is why we should check if it's valid (i.e. not null)
+if user.Name.Valid {
+  log.Printf("user has a name: %s", user.Name.Value)
+}
+
+// user.Posts == nil because we didn't fetch for a user's posts explicitly
+```
+
 ### Reading Data
 
 #### FindOne
