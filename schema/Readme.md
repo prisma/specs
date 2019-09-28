@@ -312,7 +312,7 @@ The default value for a required list is an empty list.
 #### Optional Types
 
 Most field types also support optional fields. By default, fields are required, but if you want to make them optional, you add a `?` at the end. Currently, the
-only field type that is not nullable is the [List Type](#list-types.
+only field type that is not nullable is the [List Type](#list-types).
 
 ```groovy
 model User {
