@@ -48,6 +48,8 @@ We use [GitHub Labels](labels.md) to classify our issues. Each label represents 
 2. Different kinds of issues then have a follow up process to _qualify_ its content and actionability: 
    - `kind/bug` and `kind/regressions` issues can get `bug/0-needs-info` and a comment asking for the missing information, `bug/1-repro-available` if the information required to reproduce a bug is available, or `bug/2-confirmed` if that available reproduction information could actually be used to reproduce and confirm the issue.
 
+Note: Triaging must be done by attempting a reproduction even if the issue is originally raised by a team member. They should be treated as normal users as far as triaging process is concerned. 
+
 ### Assigning
 
 - Issues that should be acted on fairly quickly can be assigned to the person that will "drive" them during the triage, otherwise assignment happens during the planning phase.
