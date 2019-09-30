@@ -71,6 +71,7 @@ This spec describes the Photon Go API
     - [Select multiple things](#select-multiple-things)
       - [Select a user with 10 of their posts](#select-a-user-with-10-of-their-posts)
       - [Advanced selection of various nested relations](#advanced-selection-of-various-nested-relations)
+  - [Raw usage](#raw-usage)
     - [Raw PQL Query](#raw-pql-query)
     - [Raw database query](#raw-database-query)
 
