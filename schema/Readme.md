@@ -431,6 +431,8 @@ of the model it is pointing to. If you omitted `Writer.blogs`, Prisma would add 
 
 You may also map to composite primary keys:
 
+> ⚠ This is not implemented yet.
+
 ```groovy
 model Writer {
   first_name  String  @id
@@ -499,6 +501,8 @@ For implicit many-to-many relations, you **must** include both `Blog.authors` an
 ##### Explicit Many-to-Many (M:N) Relationships
 
 Many-to-many relationships are simply 2 one-to-many relationships.
+
+> ⚠ This is not implemented yet.
 
 ```groovy
 model Blog {
@@ -572,6 +576,8 @@ model Question {
 
 You can also have relationships to composite primary keys
 
+> ⚠ This is not implemented yet.
+
 ```groovy
 model Document {
   @@id([ projectID, revision ])
@@ -588,6 +594,8 @@ model Block {
 ```
 
 ##### Referencing fields that are not @id
+
+> ⚠ This is not implemented yet.
 
 The `@id` attribute marks the primary identifyer of a model. If a model does not have a primary identifier or you want to reference another field, you can
 specify the field using the `@relation` attribute
@@ -738,6 +746,8 @@ embed \_ { @@attribute0
 
 #### Core Block Attributes
 
+> ⚠ This is not implemented yet.
+
 Prisma supports the following core block attributes. Block attributes may be used in `model` and `embed` blocks. These attributes **must** be implemented by
 every connector with a **best-effort implementation**:
 
@@ -746,6 +756,8 @@ every connector with a **best-effort implementation**:
 - `@@unique(_ fields: Identifier[], name: String?)`: Defines a composite unique constraint across fields
 
 #### Type Specifications
+
+> ⚠ This is not implemented yet.
 
 In order to live up to our promise of not tailoring Prisma to the lowest-common database feature-set, connectors may bring their own attributes to the schema.
 
@@ -841,6 +853,8 @@ model Customer {}
 
 ## Type Definition
 
+> ⚠ This is not implemented yet.
+
 Type definitions can be used to consolidate various type specifications into one type.
 
 ```groovy
@@ -858,6 +872,8 @@ model User {
 You can attach any field attribute to a type definition.
 
 ### Type Definitions provided by Connectors
+
+> ⚠ This is not implemented yet.
 
 Connectors can bring their own type definitions allowing you to use these types in your own schemas.
 
@@ -913,6 +929,8 @@ enum Color {
 
 Enums can include their corresponding value to determine what is stored by the datasource:
 
+> ⚠ This is not implemented yet.
+
 ```groovy
 enum Color {
   Red  = "RED"
@@ -923,6 +941,8 @@ enum Color {
 For now, we'll only support `String` enum value types.
 
 ## Embed Block
+
+> ⚠ This is not implemented yet.
 
 Embeds are supported natively by Prisma. There are 2 types of embeds: named embeds (just called embeds) and inline embeds.
 
@@ -951,6 +971,8 @@ embed Sources {
 ```
 
 ### Inline Embeds
+
+> ⚠ This is not implemented yet.
 
 There's another way to use embeds.
 
@@ -990,6 +1012,8 @@ datasource pg {
 
 You can also provide a default if the environment variable is not specified:
 
+> ⚠ This is not implemented yet.
+
 ```groovy
   provider = "sqlite"
   url      = env("SQLITE_PATH", default: "file.db")
@@ -999,6 +1023,8 @@ The `provider` must be static and cannot be an environment variable. Our general
 possible**. The sections below describe this behavior.
 
 ### Introspect Behavior
+
+> ⚠ This is not implemented yet.
 
 Introspection time will require the environment variable to be present:
 
@@ -1011,6 +1037,8 @@ $ prisma introspect
 ```
 
 ### Migrate Behavior
+
+> ⚠ This is not implemented yet.
 
 Migration time will require the environment variable to be present:
 
@@ -1039,6 +1067,8 @@ const photon = new Photon()
 ```
 
 ### Switching Datasources based on Environments
+
+> ⚠ This is not implemented yet.
 
 Sometimes it's nice to get started with an SQLite database and migrate to Postgres or MySQL for production. We support this workflow:
 
@@ -1076,7 +1106,7 @@ and block attributes that accept them.
 
 - `uuid()` - generates a fresh UUID
 - `cuid()` - generates a fresh cuid
-- `between(min, max)` - generates a random int in the specified range
+- `between(min, max)` - generates a random int in the specified range > ⚠ This is not implemented yet.
 - `now()` - current date and time
 
 Default values using a dynamic generator can be specified as follows:
