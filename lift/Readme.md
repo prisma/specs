@@ -357,55 +357,57 @@ made, we'll provide a visual diff of the changes to the user and ask for confirm
 ### Lift Engine
 
 The Lift Engine is a low-level interface that the Lift Client communicates with. Currently the client communicates to the migration engine in the JSONRPC format
-over stdio. In the future, we'll migrate this to REST or JSONRPC over HTTP.
+over stdio. In the future, we'll provide an HTTP API to communicate with the Lift Engine.
 
-> ⚠ **Note** This API is subject to change
+## Lift CLI
 
-#### `inferMigrationSteps`
+The Lift CLI is a subcommand of the `prisma2` CLI.
 
-Calculates the Steps needed to transition the datasources from the current state to the next state. This is called by the Save method in the Lift Client.
+### `prisma2 lift --help`
 
-#### `applyMigration`
+Shows the help menu for `lift`
 
-Applies the Steps we inferred. This is called by the Up method in the Lift Client.
+```sh
+Migrate your database with confidence
 
-#### `unapplyMigration`
+Usage
 
-Unapplies the previous Step in the migrations folder. This is called by the Down method in the Lift Client.
+  prisma2 lift [command] [options]
 
-#### `calculateDatamodel`
+Options
 
-Used to render the resulting datamodel into the Readme of the migration folder
+  -h, --help   Display this help message
 
-**TODO:** Double-check with Tim to see if this is still necessary
+Commands
 
-#### `calculateDatabaseSteps`
+    save   Create a new migration
+    docs   Open documentation in the browser
+    down   Migrate your database down
+      up   Migrate your database up
 
-Calculate the database steps when a certain migration has not been executed yet. It answers the question:
+Examples
 
-- What would the database steps be if the we assume that the migration steps have been applied already? This can happen when you have multiple unapplied
-  migrations after calling the Save method multiple times before calling Up.
+  Create new migration
+  $ prisma2 lift save
 
-**TODO:** Double-check with Tim to see if this is still necessary. This may not be needed anymore as lots of assumed steps is also available in
-`inferMigrationSteps` now.
+  Migrate up to the latest datamodel
+  $ prisma2 lift
 
-#### `listMigrations`
+  Preview the next migration without migrating
+  $ prisma2 lift up --preview
 
-Lists the migrations we've currently applied to the datasources.
+  Rollback a migration
+  $ prisma2 lift down 1
 
-#### `migrationProgress`
-
-Migrations can take a long time to complete. `migrationProgress` returns the progress of the currently running migration.
-
-## Prisma CLI
-
-### Lift subcommands
-
-Prisma users interact with Lift mostly thought Prisma CLI, where there is a collection of commands available beneath `prisma2 lift`:
-
-#### `prisma2 lift save`
-
+  Get more help on a lift up
+  $ prisma2 lift up -h
 ```
+
+#### `lift save --help`
+
+Shows the help menu for `lift save`
+
+```sh
 Save a migration
 
 Usage
@@ -421,20 +423,55 @@ Options
 Examples
 
   Create a new migration
-  $ prisma migrate save
+  $ prisma2 lift save
 
   Create a new migration by name
-  $ prisma migrate save --name "add unique to email"
+  $ prisma2 lift save --name "add unique to email"
 ```
 
-#### `prisma2 lift up`
+#### `lift save`
+
+Saves a snapshot of the schema as a migration
+
+```sh
+? Name of migration › <readline>
+
+Local schema Changes:
+
+  model User {
+    id Int @id
+    createdAt DateTime @map("created_at")
+    email String @unique
+  - firstName String @map("first_name")
+  + givenName String @map("given_name")
+    lastName String @map("last_name")
+    location String
+    posts Post[]
+
+    @@map("users")
+  }
+
+Lift just created your migration:
+
+  migrations/
+    └─ 20190930142541-init/
+      └─ steps.json
+      └─ schema.prisma
+      └─ README.md
+
+Run `prisma2 lift up` to apply the migration
+```
+
+#### `prisma2 lift up --help`
+
+Shows the help message for `lift up`
 
 ```
 Migrate your database up to a specific state.
 
 Usage
 
-  prisma migrate up [<inc|name|timestamp>]
+  prisma2 lift up [<inc|name|timestamp>]
 
 Arguments
 
@@ -442,43 +479,74 @@ Arguments
 
 Options
 
-  --auto-approve    Skip interactive approval before migrating
-  -h, --help        Displays this help message
-  -p, --preview     Preview the migration changes
-  -c, --create-db   Create the database in case it doesn't exist
+  --auto-approve   Skip interactive approval before migrating
+  -h, --help       Displays this help message
+  -p, --preview    Preview the migration changes
 
 Examples
 
-  Create a new migration, then migrate up
-  $ prisma migrate create --name "add unique to email"
-  $ prisma migrate up
+  Save a new migration, then migrate up
+  $ prisma2 lift save --name "add unique to email"
+  $ prisma2 lift up
 
   Preview a migration without migrating
-  $ prisma migrate up --preview
+  $ prisma2 lift up --preview
 
   Go up by one migration
-  $ prisma migrate up 1
+  $ prisma2 lift up 1
 
   Go up by to a migration by timestamp
-  $ prisma migrate up 20190605204907
+  $ prisma2 lift up 20190605204907
 
   Go up by to a migration by name
-  $ prisma migrate up "add first_name field"
+  $ prisma2 lift up "add first_name field"
 ```
 
-When running `lift up` and we need to make a change to the database, we'll display an visual diff.
+#### `prisma2 lift up`
 
-Here are some examples:
+Applies the migrations against the datasources
+
+```
+Applying your changes:
+
+  model User {
+    id Int @id
+    createdAt DateTime @map("created_at")
+    email String @unique
+  - firstName String @map("first_name")
+  + givenName String @map("given_name")
+    lastName String @map("last_name")
+    location String
+    posts Post[]
+    @@map("users")
+  }
+
+Database Changes:
+
+|----------|---------------------|--------------------------|
+| Status   | Migration           | Raw Commands             |
+|----------|---------------------|--------------------------|
+| Complete | 20190930142541-init | ALTER TABLE users    ... |
+|          |                     | ALTER TABLE comments ... |
+|----------|---------------------|--------------------------|
+
+You can get more information about the migrations with
+`prisma2 lift up --verbose` or read about them in
+`migrations/20190930142541-init/README.md`.
+
+Done with 1 migration in 250ms.
+```
 
 **Rename a field**
 
 ```diff
 model User {
-   id Int @id
--  firstName String
-+  givenName String
-   lastName String
-~  @unique([givenName, lastName], name: "fullName")
+  id Int @id
+- firstName String
++ givenName String
+  lastName String
+- @unique([firstName, lastName], name: "fullName")
++ @unique([givenName, lastName], name: "fullName")
 }
 ```
 
@@ -504,9 +572,9 @@ model User {
 - }
 ```
 
-TODO: show confirmation flow
+#### `prisma2 lift down --help`
 
-#### `prisma2 lift down`
+Display a help message for lift down.
 
 ```
 Migrate your database down to a specific state.
@@ -540,13 +608,47 @@ Examples
   $ prisma migrate down "add first_name field"
 ```
 
-### Other Commands
+#### `prisma2 lift down`
 
-Lift functionality is also part of other commands:
+Rollback the previous migration
+
+```
+Rolling back `20190930142541-init`
+
+  model User {
+    id Int @id
+    createdAt DateTime @map("created_at")
+    email String @unique
+  - givenName String @map("given_name")
+  + firstName String @map("first_name")
+    lastName String @map("last_name")
+    location String
+    posts Post[]
+    @@map("users")
+  }
+
+Database Changes:
+
+|----------|---------------------|--------------------------|
+| Status   | Migration           | Raw Commands             |
+|----------|---------------------|--------------------------|
+| Complete | 20190930142541-init | ALTER TABLE users    ... |
+|          |                     | ALTER TABLE comments ... |
+|----------|---------------------|--------------------------|
+
+You can get more information about the migrations with
+`prisma2 lift down --verbose` or read about them in
+`migrations/20190930142541-init/README.md`.
+
+Rolled back with 1 migration in 88ms.
+```
 
 #### `prisma2 dev`
 
-TODO
+Prisma also ships with a development command that makes migrations and code generation during development much easier. We'll go into further detail about this
+command in a Prisma CLI spec.
+
+**TODO** Link to top-level Prisma CLI spec.
 
 ## FAQ
 
