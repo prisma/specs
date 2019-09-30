@@ -343,7 +343,7 @@ posts, err := client.Post.FindMany.Skip(3).Last(7).Exec(ctx)
 posts, err := client.Post.FindMany.Where(
   post.First(3),
   post.After("cjsyqxwqo000j0982da8cvw7o"),
-)
+).Exec(ctx)
 ```
 
 ##### Fetch the first 5 posts after the post with 10 as id and skipping 3 posts:
@@ -592,13 +592,16 @@ posts, err := client.User.FindOne.Where(
 ).Exec(ctx)
 ```
 
+### Raw usage
+
 #### Raw PQL Query
 
-You can use the PQL function to query the Prisma server directly.
+The PQL function can be used as an escape hatch to query the Prisma server directly.
 
 ```go
 var u photon.User
 err := client.User.PQL(
+  ctx,
   &u,
   `
     query {
@@ -619,12 +622,15 @@ err := client.User.PQL(
 
 #### Raw database query
 
-You can use the raw function as an escape hatch to write custom complex queries which are
+The raw function can be used as an escape hatch to write custom complex queries which are
 sent directly to the underlying database.
 
 ```go
 var u photon.User
-err := client.User.Raw(&u, `SELECT * FROM users WHERE email = ?`,
+err := client.User.Raw(
+  ctx,
+  &u,
+  `SELECT * FROM users WHERE email = ?`,
   "alice@prisma.io",
 )
 ```
