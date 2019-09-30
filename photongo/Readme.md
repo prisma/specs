@@ -564,12 +564,12 @@ user, err := client.User.Upsert.Where(
 ##### Select a user with 10 of their posts
 
 ```go
-posts, err := client.User.FindOne.Where(
-  photon.User.Where.ID.Equals("bobs-id"),
+post, err := client.User.FindOne.Where(
+  photon.User.ID.Equals("bobs-id"),
 ).With(
   photon.User.Posts.
     Where(
-      photon.Post.Title.Contains("some title")
+      photon.Post.Title.Contains("some title"),
     ).
     Limit(10),
 ).Exec(ctx)
@@ -582,12 +582,12 @@ This will fetch users
 Note: This uses an additional relation "friends" which is not 
 
 ```go
-posts, err := client.User.FindOne.Where(
-  photon.User.Where.ID.Equals("bobs-id"),
+post, err := client.User.FindOne.Where(
+  photon.User.ID.Equals("bobs-id"),
 ).With(
   photon.User.Posts.
     Where(
-      photon.Post.Title.Contains("some title")
+      photon.Post.Title.Contains("some title"),
     ).
     Limit(10),
 ).Exec(ctx)
