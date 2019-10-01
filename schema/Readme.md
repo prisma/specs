@@ -500,9 +500,9 @@ For implicit many-to-many relations, you **must** include both `Blog.authors` an
 
 ##### Explicit Many-to-Many (M:N) Relationships
 
-Many-to-many relationships are simply 2 one-to-many relationships.
-
 > ⚠ This is not implemented yet.
+
+Many-to-many relationships are simply 2 one-to-many relationships.
 
 ```groovy
 model Blog {
@@ -574,9 +574,9 @@ model Question {
 
 ##### Referencing Primary Composite Keys
 
-You can also have relationships to composite primary keys
-
 > ⚠ This is not implemented yet.
+
+You can also have relationships to composite primary keys
 
 ```groovy
 model Document {
@@ -1106,7 +1106,7 @@ and block attributes that accept them.
 
 - `uuid()` - generates a fresh UUID
 - `cuid()` - generates a fresh cuid
-- `between(min, max)` - generates a random int in the specified range > ⚠ This is not implemented yet.
+- `between(min, max)` - generates a random int in the specified range (⚠ This is not implemented yet)
 - `now()` - current date and time
 
 Default values using a dynamic generator can be specified as follows:
