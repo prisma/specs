@@ -313,7 +313,7 @@ Note: pinned binary in this section refers to binary specified via `PRISMA_QUERY
 
 ### Runtime
 
-In the scenario where platforms field is defined but no pinnedPlatform field is defined, we resolve the binary at runtime by detecting the platform. This can be achieved by generating code similar to this pseudo-code in Photon.
+In the scenario where platforms field is defined but no pinned platform field is defined, we resolve the binary at runtime by detecting the platform. This can be achieved by generating code similar to this pseudo-code in Photon.
 
 ```ts
 function detectPlatform(): string { ... }
