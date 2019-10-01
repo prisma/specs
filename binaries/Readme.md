@@ -2,7 +2,7 @@
 
 - Owner: @divyenduz
 - Stakeholders: @mavilein @timsuchanek
-- State: 
+- State:
   - Spec: In Progress 🚧
   - Implementation: Unknown ❔
 
@@ -211,9 +211,9 @@ Since overriding CLI binary is an environment variable and these providers might
 
 Fields on the `generator` block to configure the availability of binaries for generators (like Photon, nexus, etc):
 
-| Field           | Description                                                                                                                                                                                                 |
-| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `binaryTargets` | _(optional)_ An array of binaries that are required by the application, string for [known binary](#pre-built-binary-targets) targets and path for custom binaries. These are downloaded at generation time. |
+| Field           | Description                                                                                                                                                                                                                                                 |
+| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `binaryTargets` | _(optional)_ An array of binaries that are required by the application, string for [known binary](#pre-built-binary-targets) targets. These are downloaded at generation time. Note that custom binary paths should not be provided in the `binaryTargets`. |
 
 Environment variable to configure a specific binary for the generated code's runtime:
 
@@ -308,6 +308,8 @@ Note: pinned binary in this section refers to binary specified via `PRISMA_QUERY
 - If the pinned binary is not found during the generated code's runtime, it should throw.
 
 - If the pinned binary is a known binary but does not work for the current platform, try other known binaries from `binaryTargets`. This would make the use cases work where build machine is different from deploy machine, like in the case of zeit's now.
+
+- If the pinned binary is a known binary but not listed in the `binaryTargets`, throw because these binaries won't be downloaded.
 
 - If the pinned binary is a custom binary but does not work for the current platform, generated code's runtime should throw.
 
