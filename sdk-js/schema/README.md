@@ -17,10 +17,11 @@ This is an alternative to the Prisma Schema Language (PSL).
 
 
 - [Motivation](#motivation)
-- [Schema rendering](#schema-rendering)
 - [Use cases](#use-cases)
 - [Benefits](#benefits)
 - [Cons](#cons)
+- [Architecture](#architecture)
+- [AST](#ast)
 - [API Proposals](#api-proposals)
   - [1. Nexus-style (attributes as objects)](#1-nexus-style-attributes-as-objects)
   - [1.1 Nexus style (attributes as functions)](#11-nexus-style-attributes-as-functions)
