@@ -46,6 +46,8 @@ The Prisma Schema declaratively describes the structure of your data sources. We
         - [@map(\_ name: String)](#map%5C_-name-string)
         - [@default(\_ expr: Expr)](#default%5C_-expr-expr)
         - [@relation(\_ name?: String, references?: Identifier[], onDelete?: CascadeEnum)](#relation%5C_-name-string-references-identifier-ondelete-cascadeenum)
+          - [Arguments](#arguments)
+          - [Validation](#validation)
         - [@updatedAt](#updatedat)
       - [Block Attributes](#block-attributes)
       - [Core Block Attributes](#core-block-attributes)
