@@ -688,11 +688,21 @@ Specifies a default value if null is provided
 
 Disambiguates relationships when needed
 
-- name: _(optional)_ defines the name of the relationship
+###### Arguments
+
+- name: _(optional, except when required for disambiguation)_ defines the name of the relationship. The name needs to be disambiguated in the following cases:
+  - There is more than one relation between two types.
+  - The relation is a self-relation with two fields.
 - references: _(optional)_ list of field names to reference
 - onDelete: _(optional)_ defines what we do when the referenced relation is deleted
   - **CASCADE**: also delete this entry
   - **SET_NULL**: set the field to null. This is the default
+
+###### Validation
+
+- Ambiguous relations: when one model contains two fields with an `@relation` directive pointing to another model, and both fields have the same relation name, or no relation name, the relation cannot be resolved and a validation error is emitted.
+- Ambiguous self relations: when one model contains two fields referencing the model itself without relation name to disambiguate that they should be seen as the same relation, they are considered ambiguous.
+- Named self relations with more than two fields are rejected, because there is no way to interpret them that makes sense.
 
 ##### @updatedAt
 
