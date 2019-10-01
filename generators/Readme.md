@@ -276,8 +276,8 @@ Optionally, in the same folder as the `generator.ts`, there can be a `generator-
 - `prettyName` (optional): The "pretty name" of the generator, e.g. "My beautiful Generator"
 - `defaultOutput` (optional): The default output path of the generator, e.g. `node_modules/@generated/generator`
 - `denylist` (optional): A list of models or enums which are not allowed to be used in the schema.
-- `requiresGenerators`: `["photonjs"]`
-- `requiresEngines`: `["query-engine", "migration-engine", "introspection-engine"]`
+- `requiresGenerators`: A list of other generators this generator depends on. E.g. `["photonjs"]`
+- `requiresEngines`: A list of binaries this generator depends on. E.g. `["query-engine", "migration-engine", "introspection-engine"]`
 
 Example:
 
