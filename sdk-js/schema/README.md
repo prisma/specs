@@ -41,12 +41,6 @@ This is an alternative to the Prisma Schema Language (PSL).
 
 Prisma has managed to gather a community because of its simplicity and care for DX. While we believe the PSL is better for readability & simplicity, we also see benefits for programmatically defining a Prisma Schema.
 
-## Schema rendering
-
-The Prisma Schema SDK should generate an intermediate data-structure, which should then be used to render a Prisma Schema.
-
-That intermediate data-structure should probably be the same used by the introspection component.
-
 ## Use cases
 
 - Dev who wants to programatically defined their Prisma Schema
@@ -68,7 +62,23 @@ That intermediate data-structure should probably be the same used by the introsp
 - More verbose
 - TS definitions would have to be generated at runtime to provide type-safety
 
+## Architecture
+
+![](https://i.imgur.com/X4yzw9R.png)
+
+👆 In the diagram above, the Prisma Schema SDK is represented as the `AST Builder`.
+
+The Prisma Schema SDK should produce an AST similar to the one produced by the introspection component of Prisma.
+
+This AST is then passed to the core renderer, which take care of rendering that AST as Prisma Schema Language string.
+
+## AST
+
+You can find [an early AST proposal here](https://github.com/prisma/specs/issues/199)
+
 ## API Proposals
+
+> ⚠️ **The proposals below are one AST builder that Prisma could build for the community. If the proposal we end up choosing doesn't fit some of your needs (eg: a class-based Prisma Schema SDK), one can build its own by following the AST spec given above**
 
 > ⚠️ **This might be out of date with the Prisma Schema Language. We'll sync it as we evolve the PSL.**
 
@@ -568,4 +578,4 @@ It doesn't seem possible to come even close to the level of type-safety we can a
 
 - Questionable naming:
   - `mapsTo`
-  - `t.composite
+  - `t.composite`
