@@ -688,13 +688,13 @@ Specifies a default value if null is provided
 
 ##### @relation(\_ name?: String, references?: Identifier[], onDelete?: CascadeEnum)
 
-Disambiguates relationships when needed
+Disambiguates relationships when needed.
+
+There can be multiple distinct relationships between two models, or between a model and itself ("self relation"). When this is the case, the relationships must be named, so they can be distinguished. Relation fields that do not clearly belong to a specific relationship constitute an *ambiguous relation*.
 
 ###### Arguments
 
-- name: _(optional, except when required for disambiguation)_ defines the name of the relationship. The name needs to be disambiguated in the following cases:
-  - There is more than one relation between two types.
-  - The relation is a self-relation with two fields.
+- name: _(optional, except when required for disambiguation)_ defines the name of the relationship. The name of the relation needs to be explicitly given to resolve amibiguities when the model contains two or more fields that refer to the same model (another model or itself).
 - references: _(optional)_ list of field names to reference
 - onDelete: _(optional)_ defines what we do when the referenced relation is deleted
   - **CASCADE**: also delete this entry
@@ -704,7 +704,7 @@ Disambiguates relationships when needed
 
 - Ambiguous relations: when one model contains two fields with an `@relation` directive pointing to another model, and both fields have the same relation name, or no relation name, the relation cannot be resolved and a validation error is emitted.
 - Ambiguous self relations: when one model contains two fields referencing the model itself without relation name to disambiguate that they should be seen as the same relation, they are considered ambiguous.
-- Named self relations with more than two fields are rejected, because there is no way to interpret them that makes sense.
+- Named relations with more than two fields are rejected, because there is no way to interpret them that makes sense.
 
 ##### @updatedAt
 
