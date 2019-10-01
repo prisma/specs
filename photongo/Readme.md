@@ -123,6 +123,7 @@ model Post {
   title      String
   desc       String?
   published  Boolean   @default(value: false)
+  views      Int
   author     User
   comments   Comment[]
 }
@@ -175,6 +176,7 @@ type Post struct {
   Title     string     `json:"title"`
   Desc      NullString `json:"desc"`
   Published bool       `json:"published"`
+  Views     int        `json:"likes"`
   Author    User       `json:"author"`
   Comments  []Comment  `json:"comments"`
 }
@@ -591,6 +593,53 @@ post, err := client.User.FindOne.Where(
     ).
     Limit(10),
 ).Exec(ctx)
+```
+
+### Aggregations
+
+#### Query for aggregated values
+
+##### Find all users which has more than 10 posts
+
+```go
+posts, err := client.User.FindMany.Where(
+  photon.User.ID.Equals("bobs-id"),
+  photon.User.Posts.Count().Lt(10),
+).Exec(ctx)
+```
+
+##### Find a user with their most popular posts
+
+```go
+posts, err := client.User.FindMany.Where(
+  photon.User.ID.Equals("bobs-id"),
+).With(
+  photon.User.Posts.
+    Where(
+      photon.Post.Views.Sum().Lt(10),
+    ).
+    Limit(10),
+).Exec(ctx)
+```
+
+#### Perform basic aggregations on fields
+
+##### Get the total count of posts
+
+```go
+postCount, err := client.Post.Aggregate.Count().Exec(ctx)
+```
+
+##### Get the total sum of all post likes
+
+```go
+totalPostLikes, err := client.Post.Aggregate.Sum(photon.Post.Likes).Exec(ctx)
+```
+
+##### Get the average likes per post
+
+```go
+averagePostLikes, err := client.Post.Aggregate.Average(photon.Post.Likes).Exec(ctx)
 ```
 
 ### Raw usage
