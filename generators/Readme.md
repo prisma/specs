@@ -6,14 +6,13 @@
   - Spec: In Progress 🚧
   - Implementation: In Progress 🚧
 
-An important mechanism in Prisma 2 is the generation of code based on the Prisma schema.  
-This spec describes how the interface for such code generation in the individual languages like JavaScript and TypeScript looks like, and which protocol is used under the hood to achieve that interface.
+An important mechanism in Prisma 2 is the generation of artifacts like based on the Prisma schema.  
+This spec describes how the interface for generation in the individual languages like JavaScript and TypeScript looks like, and which protocol is used under the hood to achieve that interface.
 
 ---
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
 
 - [Generator architecture](#generator-architecture)
 - [Terminology](#terminology)
@@ -28,7 +27,7 @@ This spec describes how the interface for such code generation in the individual
 
 ## Generator architecture
 
-A generator is a piece of software, which gets metadata of the Prisma Schema like the models passed in by the Generator SDK and generates code based on it.
+A generator is an executable, which gets metadata of the Prisma Schema like the models passed in by the Generator SDK and generates code based on it.
 The generator is responsible for saving that code to the filesystem.
 
 ```bash
@@ -43,7 +42,7 @@ The generator is responsible for saving that code to the filesystem.
 │    Generator    │
 └─┬───────────────┘
   │
-  │ generates code
+  │ generates artifacts
   │
   ▼
 ┌─────────────────┐
@@ -55,7 +54,8 @@ The generator is responsible for saving that code to the filesystem.
 
 - The `Generator SDK` is part of the `Prisma SDK`, which is being implemented by Prisma. It is responsible for calling a generator and gives generator authors a library called `@prisma/generator-helper` to ease the generator development in TypeScript/JavaScript.
   Other languages will follow.
-- A `Generator` is created by a developer using Prisma.
+- A `Generator` is an executable, which hooks in to the Generator SDK. It gets meta data about the schema as the input and can have arbitrary generation artifacts as outputs. There are both built-in Prisma generators like Photon, which are maintained by Prisma and also custom user created generators, which anyone can create.
+- `Generated artifact`: The output of a generator. This can for example be generated code. It could also be an UML diagram showing the schema.
 
 ## Information passed into a generator
 
@@ -64,14 +64,13 @@ A generator gets passed in a JSON blob including the following information:
 1. Everything which is declared in the `schema.prisma` file:
 
    - Models
-
    - Enums
    - Datasources
    - Generators, including the configuration this generator points to
 
 2. The available Query Schema of the Query Engine
 
-The following TypeScript type definition `GeneratorOptions` describes the content of the JSON blob:
+The following TypeScript type definition `GeneratorOptions` describes the content of that JSON blob:
 
 ```ts
 type GeneratorConfig = {
@@ -79,8 +78,8 @@ type GeneratorConfig = {
   name: string
   provider: string
   config: Dictionary<string>
-  platforms: string[]
-  pinnedPlatform?: string | null
+  binaryTargets: string[]
+  pinnedBinaryTarget?: string | null
 }
 
 type ConnectorType = 'mysql' | 'mongo' | 'sqlite' | 'postgresql'
@@ -99,11 +98,20 @@ type GeneratorOptions = {
   dmmf: DMMF.Document
   datasources: Datasource[]
   datamodel: string
+  binaryPaths?: BinaryPaths
+}
+
+type BinaryPaths = {
+  migrationEngine?: { [binaryTarget: string]: string } // key: target, value: path
+  queryEngine?: { [binaryTarget: string]: string }
+  introspectionEngine?: { [binaryTarget: string]: string }
 }
 ```
 
 <details>
   <summary>`DMMF` Types</summary>
+
+This is just here for completeness and will move into a separate document.
 
 ```ts
 export namespace DMMF {
@@ -246,7 +254,7 @@ To create a generator in TypeScript, create a new package, which needs two files
 
 A `generator.ts` file can use a helper function from the `@prisma/generator-helper` npm package to get a callback for when a generation is being requested:
 
-`generator.ts`
+### `generator.ts`
 
 ```ts
 #!/usr/bin/env ts-node
@@ -258,11 +266,27 @@ onGenerate((options: GeneratorOptions) => {
 })
 ```
 
+### `generator-manifest.json`
+
 Optionally, in the same folder as the `generator.ts`, there can be a `generator-manifest.json`, which includes the following information:
 
 - `prettyName` (optional): The "pretty name" of the generator, e.g. "My beautiful Generator"
 - `defaultOutput` (optional): The default output path of the generator, e.g. `node_modules/@generated/generator`
 - `denylist` (optional): A list of models or enums which are not allowed to be used in the schema.
+- `requiresGenerators`: `["photonjs"]`
+- `requiresEngines`: `["query-engine", "migration-engine", "introspection-engine"]`
+
+Example:
+
+```json
+{
+  "prettyName": "Prisma Test Utils",
+  "defaultOutput": "node_modules/@generated/prisma-test-utils",
+  "denylist": ["TestUtilsGlobalType"],
+  "requiresGenerators": ["photonjs"],
+  "requiresEngines": ["query-engine", "migration-engine"]
+}
+```
 
 ### 2. Point to the generator file in the `schema.prisma`
 
