@@ -692,6 +692,38 @@ Disambiguates relationships when needed.
 
 There can be multiple distinct relationships between two models, or between a model and itself ("self relation"). When this is the case, the relationships must be named, so they can be distinguished. Relation fields that do not clearly belong to a specific relationship constitute an *ambiguous relation*.
 
+This is an example ambiguous relation on the schema of an imaginary simplified blogging platform:
+
+```groovy
+model Blog {
+    id          Int @id
+    authors     User[]
+    subscribers User[]
+}
+
+model User  {
+    id           Int @id
+    authorOf     Blog[]
+    subscribedTo Blog[]
+}
+```
+
+There are two relationships between `Blog` and `User`, so we need to name them to tell them apart. A valid version of this schema could look like this:
+
+```groovy
+model Blog {
+    id          Int @id
+    authors     User[] @relation("Authorship")
+    subscribers User[] @relation("Subscription")
+}
+
+model User  {
+    id           Int @id
+    authorOf     Blog[] @relation("Authorship")
+    subscribedTo Blog[] @relation("Subscription")
+}
+```
+
 ###### Arguments
 
 - name: _(optional, except when required for disambiguation)_ defines the name of the relationship. The name of the relation needs to be explicitly given to resolve amibiguities when the model contains two or more fields that refer to the same model (another model or itself).
