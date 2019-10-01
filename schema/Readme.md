@@ -429,40 +429,6 @@ Connectors for relational databases will implement this as two tables with a for
 You **may** omit `Blog.author` and the relationship will remain intact. If one side of the relation is missing, Prisma implies the field name based on the name
 of the model it is pointing to. If you omitted `Writer.blogs`, Prisma would add an implicit `Writer.blog` field, making the relation `1-1` instead of `1-m`
 
-You may also map to composite primary keys:
-
-> ⚠ This is not implemented yet.
-
-```groovy
-model Writer {
-  first_name  String  @id
-  last_name   String
-  blogs       Blog[]
-
-  @@id([ first_name, last_name ])
-}
-
-model Blog {
-  id         Int @id
-  title      String
-  author     Writer
-}
-```
-
-Underneath:
-
-| **writers** |      |
-| ----------- | ---- |
-| first_name  | text |
-| last_name   | text |
-
-| **blogs**         |      |
-| ----------------- | ---- |
-| id                | Int  |
-| title             | text |
-| author_first_name | text |
-| author_last_name  | text |
-
 ##### Implicit Many-to-Many (M:N) Relationships
 
 Blogs can have multiple writers and a writer can write many blogs. Prisma supports implicit join tables as a low-syntax way to get started.
@@ -592,6 +558,19 @@ model Block {
   document  Document
 }
 ```
+
+Underneath:
+
+| **documents** |      |
+| ------------- | ---- |
+| project_id    | text |
+| revision      | int  |
+
+| **blocks**          |      |
+| ------------------- | ---- |
+| id                  | Int  |
+| document_project_id | text |
+| document_revision   | int  |
 
 ##### Referencing fields that are not @id
 
