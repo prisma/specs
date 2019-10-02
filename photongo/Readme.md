@@ -300,7 +300,7 @@ users, err := client.User.FindMany.Where(
 ##### Fetch comments created before 2019
 
 ```go
-comments, err := client.Comment.FindMany.Where(post.Comment.CreatedAt.Lt(christmas)).Exec(ctx)
+comments, err := client.Comment.FindMany.Where(photon.Comment.CreatedAt.Lt(christmas)).Exec(ctx)
 ```
 
 ##### Fetch posts that have prisma or graphql in their title
@@ -351,10 +351,7 @@ posts, err := client.Post.FindMany.Skip(3).Last(7).Exec(ctx)
 ##### Fetch the first 3 posts after the posts with 3 as it's id
 
 ```go
-posts, err := client.Post.FindMany.Where(
-  post.First(3),
-  post.After("cjsyqxwqo000j0982da8cvw7o"),
-).Exec(ctx)
+posts, err := client.Post.FindMany.After("cjsyqxwqo000j0982da8cvw7o").Exec(ctx)
 ```
 
 ##### Fetch the first 5 posts after the post with 10 as id and skipping 3 posts:
@@ -380,7 +377,7 @@ posts, err := client.Post.FindMany.Last(3).Before(10).Skip(5).Exec(ctx)
 ##### Fetch posts by a certain user that were created after christmas
 
 ```go
-posts, err := user.Post.FindMany.Where(
+posts, err := client.Post.FindMany.Where(
   photon.Post.CreatedAt.Gt(christmas),
   photon.Post.User.Email.Equals(email),
 ).Exec(ctx)
@@ -389,7 +386,7 @@ posts, err := user.Post.FindMany.Where(
 ##### Find all comments belonging to a post of a user
 
 ```go
-comments, err := user.Comment.FindMany.Where(
+comments, err := client.Comment.FindMany.Where(
   photon.Comment.Title.Contains("my title"),
   photon.Post.User.Email.Equals(email),
 ).Exec(ctx)
@@ -415,6 +412,13 @@ user, err := client.User.Create(
   photon.User.ID.Set("abc43"),
   photon.User.Email.Set("alice@prisma.io"),
   photon.User.Age.Set(37),
+  photon.User.Username.Set("alice"),
+  photon.User.FirstName.Set("Alice"),
+  photon.User.LastName.Set("West"),
+  photon.User.AvatarURL.Set("img-cdn.com/123"),
+  photon.User.Timezone.Set("Europe/Berlin"),
+  photon.User.IsTeamOwner.Set(true),
+  photon.User.TeamID.Set("123"),
 ).Exec(ctx)
 ```
 
@@ -446,7 +450,7 @@ user, err := client.User.Create(
 ).Exec(ctx)
 ```
 
-##### Create 1 user, a post and connect an existing post
+##### Create 1 user, 2 posts and connect an existing post
 
 ```go
 user, err := client.User.Create(
@@ -456,8 +460,11 @@ user, err := client.User.Create(
 ).CreatePost(
   photon.Post.ID.Set("a"),
   photon.Post.Title.Set("Follow @prisma on Twitter"),
+).CreatePost(
+  photon.Post.ID.Set("b"),
+  photon.Post.Title.Set("GraphQL is cool"),
 ).ConnectPost(
-  photon.Post.ID.Equals("abc"),
+  photon.Post.ID.Equals("c"),
 ).Exec(ctx)
 
 // an alternative to this syntax could be this
@@ -486,7 +493,7 @@ You can update records by querying for specific documents and setting specific f
 user, err := client.User.Update.Where(
   photon.User.ID.Equals("cjsyytzn0004d0982gbyeqep7"),
 ).Data(
-  photon.user.Role.Set(photon.User.Role.ADMIN),
+  photon.User.Role.Set(photon.User.Role.ADMIN),
 ).Exec(ctx)
 ```
 
@@ -565,7 +572,7 @@ user, err := client.User.Upsert.Where(
   photon.User.Email.Equals("alice@prisma.io"),
 ).Data(
   photon.User.Email.Set("alice@prisma.io"),
-  photon.User.Role.Set(user.Role.ADMIN),
+  photon.User.Role.Set(photon.User.Role.ADMIN),
 ).Exec(ctx)
 ```
 
