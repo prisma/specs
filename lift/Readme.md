@@ -220,6 +220,13 @@ your migrations. You can write hooks to:
 - Add specific database primitives like functions in Postgres, which are not yet supported by Prisma.
 - Seed the database with data after a migration has been executed.
 
+### Destructive Changes
+
+Destructive changes occur when a migration **will** cause data loss. We will warn you first about destructive changes. This can happen when you:
+
+- remove a table that contains data
+- remove a field that contains data
+
 ## Migration History
 
 When a migration is running or has been executed successfully, Prisma writes this information into a table or collection in the database. This table is known as
@@ -502,7 +509,7 @@ Examples
 
 ### `prisma2 lift up`
 
-Applies the migrations against the datasources
+Applies the migrations against the datasources. The following example shows how renaming a field, adding a model and removing a model would look:
 
 ```
 Applying your changes:
@@ -511,21 +518,33 @@ Applying your changes:
     id Int @id
     createdAt DateTime @map("created_at")
     email String @unique
-  - firstName String @map("first_name")
-  + givenName String @map("given_name")
+-   firstName String @map("first_name")
+    givenName String @map("given_name")
     lastName String @map("last_name")
     location String
     posts Post[]
     @@map("users")
   }
 
++ model Post {
++   id Int @id
++   author User
++   title String
++  }
+
+- model Commment {
+-  id Int @id
+-  comment Text
+- }
+
 Database Changes:
 
 |----------|---------------------|--------------------------|
 | Status   | Migration           | Raw Commands             |
 |----------|---------------------|--------------------------|
-| Complete | 20190930142541-init | ALTER TABLE users    ... |
-|          |                     | ALTER TABLE comments ... |
+| Complete | 20190930142541-init | ALTER TABLE User     ... |
+|          |                     | CREATE TABLE Post    ... |
+|          |                     | DROP TABLE Comment   ... |
 |----------|---------------------|--------------------------|
 
 You can get more information about the migrations with
@@ -535,40 +554,7 @@ You can get more information about the migrations with
 Done with 1 migration in 250ms.
 ```
 
-**Rename a field**
-
-```diff
-model User {
-  id Int @id
-- firstName String
-+ givenName String
-  lastName String
-- @unique([firstName, lastName], name: "fullName")
-+ @unique([givenName, lastName], name: "fullName")
-}
-```
-
-**Add a Model**
-
-```diff
-+ model User {
-+  id Int @id
-+  firstName String
-+  lastName String
-+  @unique([firstName, lastName], name: "fullName")
-+ }
-```
-
-**Delete a Model**
-
-```diff
-- model User {
--  id Int @id
--  firstName String
--  lastName String
--  @unique([firstName, lastName], name: "fullName")
-- }
-```
+If there are Destructive Changes, you will be asked to confirm the migration
 
 ### `prisma2 lift down --help`
 
