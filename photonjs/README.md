@@ -1130,7 +1130,7 @@ To solve these two use case, Photon can do the following:
 - [x] Distinct
 - [ ] Tracing
 - [ ] `find` vs `findUnique` vs `get` ...
-- [ ] Terminology: link vs connect (https://github.com/prisma/photonjs/issues/227)
+- [ ] Terminology: link vs connect (https://github.com/prisma/photonjs/issues/227 and https://github.com/prisma/specs/issues/140#issuecomment-530821669)
 - [ ] Cascading deletes
 - [ ] Force indexes
 - [ ] `Photon` constructor API
