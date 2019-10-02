@@ -54,7 +54,7 @@ This spec describes the Photon Go API
       - [Create a User](#create-a-user)
       - [Create a new post and set alice@prisma.io as the author](#create-a-new-post-and-set-aliceprismaio-as-the-author)
       - [Create a new user with two new posts](#create-a-new-user-with-two-new-posts)
-      - [Create 1 user, a post and connect an existing post](#create-1-user-a-post-and-connect-an-existing-post)
+      - [Create 1 user, 2 posts and connect an existing post](#create-1-user-2-posts-and-connect-an-existing-post)
     - [Update](#update)
       - [Update the role of an existing user](#update-the-role-of-an-existing-user)
       - [Update the author of a post](#update-the-author-of-a-post)
