@@ -16,7 +16,10 @@ Our [Prisma Framework repositories](repositories.md) use several labels in the [
 
 - [Categorization](#categorization)
 - [Qualification](#qualification)
-- [Special case: `prisma/specs`](#special-case-prismaspecs)
+- [Special cases](#special-cases)
+  - [`prisma/specs`](#prismaspecs)
+  - [`prisma/studio`](#prismastudio)
+- [Tooling](#tooling)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
