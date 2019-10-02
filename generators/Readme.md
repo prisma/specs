@@ -14,6 +14,7 @@ Description of how the interface for generation in the individual languages like
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
+- [Context](#context)
 - [Generator architecture](#generator-architecture)
 - [Terminology](#terminology)
 - [Information passed into a generator](#information-passed-into-a-generator)
