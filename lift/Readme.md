@@ -23,6 +23,7 @@ data to look after the migration and Lift will take care of generating the neces
     - [Migration](#migration)
     - [Step](#step)
     - [Hook](#hook)
+    - [Destructive Changes](#destructive-changes)
   - [Migration History](#migration-history)
   - [Architecture](#architecture)
     - [Lift Client](#lift-client)
