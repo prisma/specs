@@ -6,8 +6,7 @@
   - Spec: In Progress 🚧
   - Implementation: In Progress 🚧
 
-An important mechanism in Prisma 2 is the generation of artifacts like based on the Prisma schema.  
-This spec describes how the interface for generation in the individual languages like JavaScript and TypeScript looks like, and which protocol is used under the hood to achieve that interface.
+Description of how the interface for generation in the individual languages like JavaScript and TypeScript looks like, and which protocol is used under the hood to achieve that interface.
 
 ---
 
@@ -27,6 +26,10 @@ This spec describes how the interface for generation in the individual languages
 - [Interface between Generator SDK and each language helper](#interface-between-generator-sdk-and-each-language-helper)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## Context
+
+An important mechanism in Prisma 2 is the generation of artifacts based on the Prisma schema. Prisma Framework itself for example includes the built-in generator Photon, which is used to generate a Photon.js client that can be used to access data via Prisma in applications in Javascript/Typescript apps. This pattern of generating artifacts based on the schema can also be used by generators created by the community.
 
 ## Generator architecture
 
