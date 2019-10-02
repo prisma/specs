@@ -40,6 +40,16 @@ To further qualify `kind/bug` issues:
 - `bug/1-repro-available`: A reproduction exists and needs to be confirmed. 
 - `bug/2-confirmed`: We have confirmed that this is a bug.
 
-## Special case: `prisma/specs`
+## Special cases
 
-The `specs` repository has a different set of labels. It is currently still to much in a state of flux to be properly documented.
+### `prisma/specs`
+
+The `specs` repository has a different set of labels. As this is currently still changing often, it doesn't make too much sense to document here.
+
+### `prisma/studio`
+
+The `studio` repository has an additional set of labels. As this is currently still changing often, it doesn't make too much sense to document here.
+
+## Tooling
+
+We use an Open Source tool called `label-sync` in our [`prisma-label-sync` repository](https://github.com/prisma/prisma-label-sync) to define these labels via code and apply the configuration to the GitHub repositories.
