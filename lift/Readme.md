@@ -401,7 +401,7 @@ Examples
   $ prisma2 lift up -h
 ```
 
-#### `lift save --help`
+### `lift save --help`
 
 Shows the help menu for `lift save`
 
@@ -427,7 +427,7 @@ Examples
   $ prisma2 lift save --name "add unique to email"
 ```
 
-#### `lift save`
+### `lift save`
 
 Saves a snapshot of the schema as a migration
 
@@ -460,7 +460,7 @@ Lift just created your migration:
 Run `prisma2 lift up` to apply the migration
 ```
 
-#### `prisma2 lift up --help`
+### `prisma2 lift up --help`
 
 Shows the help message for `lift up`
 
@@ -500,7 +500,7 @@ Examples
   $ prisma2 lift up "add first_name field"
 ```
 
-#### `prisma2 lift up`
+### `prisma2 lift up`
 
 Applies the migrations against the datasources
 
@@ -570,7 +570,7 @@ model User {
 - }
 ```
 
-#### `prisma2 lift down --help`
+### `prisma2 lift down --help`
 
 Display a help message for lift down.
 
@@ -606,7 +606,7 @@ Examples
   $ prisma migrate down "add first_name field"
 ```
 
-#### `prisma2 lift down`
+### `prisma2 lift down`
 
 Rollback the previous migration
 
@@ -641,7 +641,7 @@ You can get more information about the migrations with
 Rolled back with 1 migration in 88ms.
 ```
 
-#### `prisma2 dev`
+### `prisma2 dev`
 
 Prisma also ships with a development command that makes migrations and code generation during development much easier. We'll go into further detail about this
 command in a Prisma CLI spec.
