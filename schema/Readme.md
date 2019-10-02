@@ -46,6 +46,8 @@ The Prisma Schema declaratively describes the structure of your data sources. We
         - [@map(\_ name: String)](#map%5C_-name-string)
         - [@default(\_ expr: Expr)](#default%5C_-expr-expr)
         - [@relation(\_ name?: String, references?: Identifier[], onDelete?: CascadeEnum)](#relation%5C_-name-string-references-identifier-ondelete-cascadeenum)
+          - [Arguments](#arguments)
+          - [Validation](#validation)
         - [@updatedAt](#updatedat)
       - [Block Attributes](#block-attributes)
       - [Core Block Attributes](#core-block-attributes)
@@ -686,13 +688,55 @@ Specifies a default value if null is provided
 
 ##### @relation(\_ name?: String, references?: Identifier[], onDelete?: CascadeEnum)
 
-Disambiguates relationships when needed
+Disambiguates relationships when needed.
 
-- name: _(optional)_ defines the name of the relationship
+There can be multiple distinct relationships between two models, or between a model and itself ("self relation"). When this is the case, the relationships must be named, so they can be distinguished. Relation fields that do not clearly belong to a specific relationship constitute an *ambiguous relation*.
+
+This is an example ambiguous relation on the schema of an imaginary simplified blogging platform:
+
+```groovy
+model Blog {
+    id          Int @id
+    authors     User[]
+    subscribers User[]
+}
+
+model User  {
+    id           Int @id
+    authorOf     Blog[]
+    subscribedTo Blog[]
+}
+```
+
+There are two relationships between `Blog` and `User`, so we need to name them to tell them apart. A valid version of this schema could look like this:
+
+```groovy
+model Blog {
+    id          Int @id
+    authors     User[] @relation("Authorship")
+    subscribers User[] @relation("Subscription")
+}
+
+model User  {
+    id           Int @id
+    authorOf     Blog[] @relation("Authorship")
+    subscribedTo Blog[] @relation("Subscription")
+}
+```
+
+###### Arguments
+
+- name: _(optional, except when required for disambiguation)_ defines the name of the relationship. The name of the relation needs to be explicitly given to resolve amibiguities when the model contains two or more fields that refer to the same model (another model or itself).
 - references: _(optional)_ list of field names to reference
 - onDelete: _(optional)_ defines what we do when the referenced relation is deleted
   - **CASCADE**: also delete this entry
   - **SET_NULL**: set the field to null. This is the default
+
+###### Validation
+
+- Ambiguous relations: when one model contains two fields with an `@relation` directive pointing to another model, and both fields have the same relation name, or no relation name, the relation cannot be resolved and a validation error is emitted.
+- Ambiguous self relations: when one model contains two fields referencing the model itself without relation name to disambiguate that they should be seen as the same relation, they are considered ambiguous.
+- Named relations with more than two fields are rejected, because there is no way to interpret them that makes sense.
 
 ##### @updatedAt
 
