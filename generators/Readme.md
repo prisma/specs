@@ -6,7 +6,7 @@
   - Spec: In Progress 🚧
   - Implementation: In Progress 🚧
 
-An important mechanism in Prisma 2 is the generation of artifacts like based on the Prisma schema.  
+An important mechanism in Prisma 2 is the generation of artifacts based on the Prisma schema.  
 This spec describes how the interface for generation in the individual languages like JavaScript and TypeScript looks like, and which protocol is used under the hood to achieve that interface.
 
 ---
