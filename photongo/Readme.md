@@ -130,6 +130,7 @@ model Post {
   updatedAt  DateTime  @updatedAt
   title      String
   desc       String?
+  category   String?
   published  Boolean   @default(value: false)
   views      Int
   author     User
@@ -183,6 +184,7 @@ type Post struct {
   UpdatedAt time.Time  `json:"updatedAt"`
   Title     string     `json:"title"`
   Desc      NullString `json:"desc"`
+  Category  NullString `json:"category"`
   Published bool       `json:"published"`
   Views     int        `json:"likes"`
   Author    User       `json:"author"`
@@ -655,6 +657,49 @@ totalPostLikes, err := client.Post.Aggregate.Sum(photon.Post.Likes).Exec(ctx)
 
 ```go
 averagePostLikes, err := client.Post.Aggregate.Average(photon.Post.Likes).Exec(ctx)
+```
+
+### Advanced aggregations
+
+Aggregations can vary heavily on specific queries, which is why it's nearly impossible to generate types.
+The user can query for complex aggregations by specifying the return value themselves, while they can use the
+type-safe query parameters.
+
+#### Examples
+
+##### Fetch users which have filled out their name and their total post likes
+
+```go
+var result []struct{
+  User  `json:"user"`
+  Likes `json:"likes"`
+}
+
+err := client.User.Aggregate.Where(
+  photon.User.Name.Filled(),
+).Select(
+  photon.User.Name.Select().As("user"), // user field "user" instead of "name"
+  photon.User.Post.Likes.Sum(),
+).Into(&result).Exec(ctx)
+```
+
+##### Order by category and user and count 
+
+```go
+var result []struct{
+  Category     `json:"category"`
+  UserName     `json:"name"`
+  LikeCount    `json:"likeCount"`
+  AvgPostLikes `json:"avgPostLikes"`
+}
+
+err := client.User.Aggregate.GroupBy(
+  photon.User.Post.Category.Group(),
+  photon.User.Name.Group(),
+).Select(
+  photon.User.Post.Count(),
+  photon.User.Post.Likes.Sum(),
+).Into(&result).Exec(ctx)
 ```
 
 ### Raw usage
