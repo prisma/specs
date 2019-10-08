@@ -197,15 +197,11 @@ await photon.user.findMany({
 })
 
 // Get first of many
-const user: User | null = await photon.user
-  .findMany({ where: { lastName: 'Doe' } })
-  .first()
+const user: User | null = await photon.user.findMany({ where: { lastName: 'Doe' } }).first()
 
 // Exists
 const userFound: boolean = await photon.user.find('bobs-id').exists()
-const foundAtLeastOneUser: boolean = await photon.user
-  .findMany({ email: { containsInsensitive: '@gmail.com' } })
-  .exists()
+const foundAtLeastOneUser: boolean = await photon.user.findMany({ email: { containsInsensitive: '@gmail.com' } }).exists()
 
 // Simple aggregation short
 // TODO more examples
@@ -216,17 +212,18 @@ const deletedCount: number = await photon.user.delete().count()
 
 Different unique constraints will change Photon's `where` blocks:
 
-````groovy
+```groovy
 model User {
     id String @id
     firstName String
     lastName String
     email String
 }
+```
 
 ```ts
 photon.user.find({ id: 10 })
-````
+```
 
 ### Field-level unique constraint
 
@@ -426,13 +423,9 @@ const result: undefined = await photon.user.find('bobs-id').delete()
 ### Many operations
 
 ```ts
-await photon.user
-  .findMany({ where: { email: { endsWith: '@gmail.com' } } })
-  .update({ lastName: 'Doe' })
+await photon.user.findMany({ where: { email: { endsWith: '@gmail.com' } } }).update({ lastName: 'Doe' })
 
-await photon.user
-  .findMany({ where: { email: { endsWith: '@gmail.com' } } })
-  .delete()
+await photon.user.findMany({ where: { email: { endsWith: '@gmail.com' } } }).delete()
 ```
 
 ### Nested writes
@@ -511,18 +504,14 @@ type DynamicResult1 = {
   friends: User[]
 }[]
 
-const userWithPostsAndFriends: DynamicResult1 = await photon.user
-  .find('bobs-id')
-  .load({ select: { posts: { select: { comments: true } }, friends: true } })
+const userWithPostsAndFriends: DynamicResult1 = await photon.user.find('bobs-id').load({ select: { posts: { select: { comments: true } }, friends: true } })
 
 type DynamicResult2 = (User & {
   posts: (Post & { comments: Comment[] })[]
   friends: User[]
 })[]
 
-const userWithPostsAndFriends: DynamicResult2 = await photon.user
-  .find('bobs-id')
-  .load({ include: { posts: { include: { comments: true } }, friends: true } })
+const userWithPostsAndFriends: DynamicResult2 = await photon.user.find('bobs-id').load({ include: { posts: { include: { comments: true } }, friends: true } })
 ```
 
 ### Default selection set
@@ -659,9 +648,7 @@ await photon.user.findMany({ orderBy: u => u.profile.imageSize.asc() })
 Set:
 
 ```ts
-await photon.users
-  .findMany()
-  .update({ email: u => u.email.set('bob@gmail.com') })
+await photon.users.findMany().update({ email: u => u.email.set('bob@gmail.com') })
 ```
 
 Type specific:
@@ -803,9 +790,7 @@ const [bobsPosts, meta]: [Post[], Meta] = await photon.user
 - `delete`
 
 ```ts
-await photon.user
-  .find('alice-id')
-  .update({ firstName: 'Alice' }, { if: { version: 12 } })
+await photon.user.find('alice-id').update({ firstName: 'Alice' }, { if: { version: 12 } })
 
 await photon.user
   .find('alice-id')
@@ -859,9 +844,7 @@ const values: string[] = await photon.post
   .title()
 
 type SubSet = { published: boolean; title: string }
-const values: SubSet[] = await photon.post
-  .findMany()
-  .distinct({ published: true, title: true })
+const values: SubSet[] = await photon.post.findMany().distinct({ published: true, title: true })
 
 const distinctCount: number = await photon.post
   .findMany()
