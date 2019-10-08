@@ -290,7 +290,7 @@ model User {
     firstName String
     lastName String
     email String @unique
-    @@unique([ firstName, lastName ], name: "fullName")
+    @@unique([ firstName, lastName ], alias: "fullName")
 }
 ```
 
