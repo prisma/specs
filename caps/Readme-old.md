@@ -4,7 +4,6 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [The Prisma Binary](#the-prisma-binary)
 - [Prisma Binary CLI](#prisma-binary-cli)
 - [Capability Map (for Schema Validation)](#capability-map-for-schema-validation)
 - [Schema Validation](#schema-validation)
