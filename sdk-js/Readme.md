@@ -4,7 +4,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Prisma SDK](#prisma-sdk)
+- [Overview](#overview)
   - [Diagram](#diagram)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
