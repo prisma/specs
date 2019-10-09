@@ -1,3 +1,5 @@
+# Capabilities
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
@@ -22,30 +24,6 @@
   - [Unanswered Questions](#unanswered-questions)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Capabilities
-
-<!-- toc -->
-
-- [Query Capabilities](#query-capabilities)
-  - [Inputables](#inputables)
-  - [Filterables](#filterables)
-  - [Outputables](#outputables)
-  - [Query Capability AST](#query-capability-ast)
-    - [Generating Photon clients](#generating-photon-clients)
-    - [Validating Queries](#validating-queries)
-  - [Spreadsheet Frontend](#spreadsheet-frontend)
-- [Schema Capabilities](#schema-capabilities)
-  - [Schema Capability AST](#schema-capability-ast)
-    - [Validating the user's Prisma Schema](#validating-the-users-prisma-schema)
-      - [Prisma Language Server](#prisma-language-server)
-      - [Migration Engine](#migration-engine)
-  - [Spreadsheet Frontend](#spreadsheet-frontend-1)
-- [Terminology](#terminology)
-- [Additional Resources](#additional-resources)
-- [Unanswered Questions](#unanswered-questions)
-
-<!-- tocstop -->
 
 We want to be able to take full advantage of the query and schema capabilities of each provided data source. To do this we'll build a static map of a data
 source's capabilities.
