@@ -46,6 +46,8 @@ The Prisma Schema declaratively describes the structure of your data sources. We
         - [@map(\_ name: String)](#map%5C_-name-string)
         - [@default(\_ expr: Expr)](#default%5C_-expr-expr)
         - [@relation(\_ name?: String, references?: Identifier[], onDelete?: CascadeEnum)](#relation%5C_-name-string-references-identifier-ondelete-cascadeenum)
+          - [Named relations](#named-relations)
+          - [Ambiguous relations](#ambiguous-relations)
           - [Arguments](#arguments)
           - [Validation](#validation)
         - [@updatedAt](#updatedat)
@@ -690,7 +692,15 @@ Specifies a default value if null is provided
 
 Disambiguates relationships when needed.
 
-There can be multiple distinct relationships between two models, or between a model and itself ("self relation"). When this is the case, the relationships must be named, so they can be distinguished. Relation fields that do not clearly belong to a specific relationship constitute an *ambiguous relation*.
+###### Named relations
+
+When a model contains a single relation to another model or itself, giving a name to the relation is optional and the `@relation` directive can be completely omitted.
+
+There can be multiple distinct relationships between two models, or between a model and itself ("self relation"). When this is the case, the relationships must be named, so they can be distinguished. 
+
+###### Ambiguous relations
+
+Relation fields that do not clearly belong to a specific relationship constitute an *ambiguous relation*.
 
 This is an example ambiguous relation on the schema of an imaginary simplified blogging platform:
 
