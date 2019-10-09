@@ -12,3 +12,7 @@ Prisma SDK is a mental model (vs. a real artifact) that represents a group of fu
 
 - [Prisma Engine Runtime](./engine-runtime/README.md)
 - [Prisma Generators](./generators/README.md)
+
+## Diagram
+
+![](https://i.ibb.co/CbjZrk7/sdk-diagram.png)
