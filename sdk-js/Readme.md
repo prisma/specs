@@ -2,14 +2,13 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Introduction](#introduction)
+- [Prisma SDK](#prisma-sdk)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Introduction
+# Prisma SDK
 
-This is a group of spec work that we collectively call Prisma SDK.
+Prisma SDK is a mental model (vs. a real artifact) that represents a group of functionality that sits in between other components of Prisma Framework.
 
-[Engine Runtime](./engine-runtime/README.md)
-
-[Generators](./generators/README.md)
+- [Prisma Engine Runtime](./engine-runtime/README.md)
+- [Prisma Generators](./generators/README.md)
