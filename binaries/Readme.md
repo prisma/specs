@@ -1,3 +1,40 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Binaries](#binaries)
+- [Motivation](#motivation)
+- [Requirements](#requirements)
+- [API Additions](#api-additions)
+- [Basic Example](#basic-example)
+- [Scenarios](#scenarios)
+    - [1. Development machine is Mac but the deployment platform is AWS lambda.](#1-development-machine-is-mac-but-the-deployment-platform-is-aws-lambda)
+    - [2. Deterministically choose the binary based a runtime environment variable](#2-deterministically-choose-the-binary-based-a-runtime-environment-variable)
+    - [3. Development machine is Mac but we need a custom binary in production](#3-development-machine-is-mac-but-we-need-a-custom-binary-in-production)
+- [Configuration](#configuration)
+    - [1. Both `platforms` and `pinnedPlatform` are not provided.](#1-both-platforms-and-pinnedplatform-are-not-provided)
+    - [2. Field `platforms` provided with multiple values and `pinnedPlatform` is not provided.](#2-field-platforms-provided-with-multiple-values-and-pinnedplatform-is-not-provided)
+    - [3. Field `platforms` provided with multiple values and `pinnedPlatform` is also provided.](#3-field-platforms-provided-with-multiple-values-and-pinnedplatform-is-also-provided)
+- [Runtime binary resolution](#runtime-binary-resolution)
+- [Table of Binaries](#table-of-binaries)
+  - [URL Scheme](#url-scheme)
+  - [Common Cloud Platforms](#common-cloud-platforms)
+    - [Tier 1](#tier-1)
+    - [Tier 2](#tier-2)
+- [Binary Process Management](#binary-process-management)
+  - [Connect](#connect)
+      - [Find Free Port](#find-free-port)
+      - [Binary Spawn](#binary-spawn)
+      - [Waiting for the Binary to be Ready](#waiting-for-the-binary-to-be-ready)
+      - [Error Handling](#error-handling)
+  - [Photon in FaaS environment (Like AWS Lambda)](#photon-in-faas-environment-like-aws-lambda)
+  - [Disconnect](#disconnect)
+- [Drawbacks](#drawbacks)
+- [How we teach this](#how-we-teach-this)
+- [Unresolved questions](#unresolved-questions)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Binaries
 
 <!-- toc -->
