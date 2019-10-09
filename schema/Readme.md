@@ -1,8 +1,19 @@
+# Prisma Schema Language (PSL)
+
+- Owner: @matthewmueller
+- Stakeholders: @schickling @mavilein
+- State: 
+  - Spec: Outdated 🚨
+  - Implementation: Unknown ❔
+
+The Prisma Schema declaratively describes the structure of your data sources. We use the Prisma Schema to generate Photon libraries for data access, migrate your datasources with Lift and administer your data using Studio.```
+
+---
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Prisma Schema Language (PSL)](#prisma-schema-language-psl)
   - [Datasource Block](#datasource-block)
     - [Supported fields](#supported-fields)
   - [Generator Block](#generator-block)
@@ -35,6 +46,10 @@
         - [@map(\_ name: String)](#map%5C_-name-string)
         - [@default(\_ expr: Expr)](#default%5C_-expr-expr)
         - [@relation(\_ name?: String, references?: Identifier[], onDelete?: CascadeEnum)](#relation%5C_-name-string-references-identifier-ondelete-cascadeenum)
+          - [Named relations](#named-relations)
+          - [Ambiguous relations](#ambiguous-relations)
+          - [Arguments](#arguments)
+          - [Validation](#validation)
         - [@updatedAt](#updatedat)
       - [Block Attributes](#block-attributes)
       - [Core Block Attributes](#core-block-attributes)
@@ -42,6 +57,7 @@
     - [Why do we enforce the Core Prisma Primitive Type, even when there is a type specification?](#why-do-we-enforce-the-core-prisma-primitive-type-even-when-there-is-a-type-specification)
   - [Comments](#comments)
   - [Type Definition](#type-definition)
+    - [Type Definitions provided by Connectors](#type-definitions-provided-by-connectors)
   - [Enum Block](#enum-block)
   - [Embed Block](#embed-block)
     - [Inline Embeds](#inline-embeds)
@@ -53,7 +69,7 @@
   - [Function](#function)
   - [Importing schemas](#importing-schemas)
     - [Importing from other endpoints](#importing-from-other-endpoints)
-    - [Conflict Resolution](#conflict-resolution)
+    - [Merging Models](#merging-models)
   - [Auto Formatting](#auto-formatting)
     - [Formatting Rules](#formatting-rules)
       - [Configuration blocks are align by their `=` sign.](#configuration-blocks-are-align-by-their--sign)
@@ -62,70 +78,6 @@
   - [Why not support @id for multiple blocks?](#why-not-support-id-for-multiple-blocks)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Prisma Schema Language (PSL)
-
-<!-- toc -->
-
-  * [Datasource Block](#datasource-block)
-    + [Supported fields](#supported-fields)
-  * [Generator Block](#generator-block)
-    + [Supported fields](#supported-fields-1)
-    + [Binary Configuration](#binary-configuration)
-  * [Model Block](#model-block)
-    + [Field Names](#field-names)
-    + [Data Types](#data-types)
-      - [Core Data Type to Connector](#core-data-type-to-connector)
-      - [Core Data Type to Generator](#core-data-type-to-generator)
-      - [List Types](#list-types)
-      - [Optional Types](#optional-types)
-      - [Relations](#relations)
-        * [One-to-One (1:1) Relationships](#one-to-one-11-relationships)
-        * [One-to-Many (1:N) Relationships](#one-to-many-1n-relationships)
-        * [Implicit Many-to-Many (M:N) Relationships](#implicit-many-to-many-mn-relationships)
-        * [Explicit Many-to-Many (M:N) Relationships](#explicit-many-to-many-mn-relationships)
-        * [Self-Referential Relationships](#self-referential-relationships)
-        * [Multiple-Reference Relationships](#multiple-reference-relationships)
-        * [Referencing Primary Composite Keys](#referencing-primary-composite-keys)
-        * [Referencing fields that are not @id](#referencing-fields-that-are-not-id)
-    + [Attributes](#attributes)
-      - [Case 1. No arguments](#case-1-no-arguments)
-      - [Case 2. One positional argument](#case-2-one-positional-argument)
-      - [Case 3. Many named arguments](#case-3-many-named-arguments)
-      - [Field Attributes](#field-attributes)
-      - [Core Field Attributes](#core-field-attributes)
-        * [@id](#id)
-        * [@unique](#unique)
-        * [@map(\_ name: String)](#map_-name-string)
-        * [@default(\_ expr: Expr)](#default_-expr-expr)
-        * [@relation(\_ name?: String, references?: Identifier[], onDelete?: CascadeEnum)](#relation_-name-string-references-identifier-ondelete-cascadeenum)
-        * [@updatedAt](#updatedat)
-      - [Block Attributes](#block-attributes)
-      - [Core Block Attributes](#core-block-attributes)
-      - [Type Specifications](#type-specifications)
-    + [Why do we enforce the Core Prisma Primitive Type, even when there is a type specification?](#why-do-we-enforce-the-core-prisma-primitive-type-even-when-there-is-a-type-specification)
-  * [Comments](#comments)
-  * [Type Definition](#type-definition)
-  * [Enum Block](#enum-block)
-  * [Embed Block](#embed-block)
-    + [Inline Embeds](#inline-embeds)
-  * [Env Function](#env-function)
-    + [Introspect Behavior](#introspect-behavior)
-    + [Migrate Behavior](#migrate-behavior)
-    + [Generate Behavior](#generate-behavior)
-    + [Switching Datasources based on Environments](#switching-datasources-based-on-environments)
-  * [Function](#function)
-  * [Importing schemas](#importing-schemas)
-    + [Importing from other endpoints](#importing-from-other-endpoints)
-    + [Conflict Resolution](#conflict-resolution)
-  * [Auto Formatting](#auto-formatting)
-    + [Formatting Rules](#formatting-rules)
-      - [Configuration blocks are align by their `=` sign.](#configuration-blocks-are-align-by-their--sign)
-      - [Field definitions are aligned into columns separated by 2 or more spaces.](#field-definitions-are-aligned-into-columns-separated-by-2-or-more-spaces)
-- [FAQ](#faq)
-  * [Why not support @id for multiple blocks?](#why-not-support-id-for-multiple-blocks)
-
-<!-- tocstop -->
 
 ## Datasource Block
 
@@ -155,6 +107,7 @@ datasource mgo2 {
   - `postgresql`
   - `mongodb`
   - `mysql`
+  - `sqlite`
 - `url` Connection url including auth info. Each datasource provider documents the url syntax. most providers use the syntax provided by the database
 - `enabled` Use environment variables to enable/disable a datasource
 
@@ -303,7 +256,7 @@ Field names are:
 
 ### Data Types
 
-Prisma has a couple core primitive types. How these core types are defined may vary across connectors. Every connector **must** implement these core types. It's
+Prisma has several core primitive types. How these core types are defined may vary across connectors. Every connector **must** implement these core types. It's
 part of the connectors interface to Prisma. If a connector doesn't have a core type, it should provide a **best-effort implementation**.
 
 | Type     | Description           |
@@ -363,7 +316,7 @@ The default value for a required list is an empty list.
 #### Optional Types
 
 Most field types also support optional fields. By default, fields are required, but if you want to make them optional, you add a `?` at the end. Currently, the
-only field type that is not nullable is the [List Type](#list-types.
+only field type that is not nullable is the [List Type](#list-types).
 
 ```groovy
 model User {
@@ -480,38 +433,6 @@ Connectors for relational databases will implement this as two tables with a for
 You **may** omit `Blog.author` and the relationship will remain intact. If one side of the relation is missing, Prisma implies the field name based on the name
 of the model it is pointing to. If you omitted `Writer.blogs`, Prisma would add an implicit `Writer.blog` field, making the relation `1-1` instead of `1-m`
 
-You may also map to composite primary keys:
-
-```groovy
-model Writer {
-  first_name  String  @id
-  last_name   String
-  blogs       Blog[]
-
-  @@id([ first_name, last_name ])
-}
-
-model Blog {
-  id         Int @id
-  title      String
-  author     Writer
-}
-```
-
-Underneath:
-
-| **writers** |      |
-| ----------- | ---- |
-| first_name  | text |
-| last_name   | text |
-
-| **blogs**         |      |
-| ----------------- | ---- |
-| id                | Int  |
-| title             | text |
-| author_first_name | text |
-| author_last_name  | text |
-
 ##### Implicit Many-to-Many (M:N) Relationships
 
 Blogs can have multiple writers and a writer can write many blogs. Prisma supports implicit join tables as a low-syntax way to get started.
@@ -548,6 +469,8 @@ For implicit many-to-many relations, you **must** include both `Blog.authors` an
 **One-to-Many (1:N)** relationship.
 
 ##### Explicit Many-to-Many (M:N) Relationships
+
+> ⚠ This is not implemented yet.
 
 Many-to-many relationships are simply 2 one-to-many relationships.
 
@@ -608,18 +531,20 @@ Models may have multiple references to the same model. To prevent ambiguities, w
 ```groovy
 model User {
   id        Int         @id
-  asked     Question[]  @relation("asker")
-  answered  Question[]  @relation("answerer")
+  asked     Question[]  @relation("Question_User_Asked")
+  answered  Question[]  @relation("Question_User_Answerered")
 }
 
 model Question {
   id        Int   @id
-  asker     User  @relation("asker")
-  answerer  User  @relation("answerer")
+  asker     User  @relation("Question_User_Asked")
+  answerer  User  @relation("Question_User_Answerered")
 }
 ```
 
 ##### Referencing Primary Composite Keys
+
+> ⚠ This is not implemented yet.
 
 You can also have relationships to composite primary keys
 
@@ -638,7 +563,22 @@ model Block {
 }
 ```
 
+Underneath:
+
+| **documents** |      |
+| ------------- | ---- |
+| project_id    | text |
+| revision      | int  |
+
+| **blocks**          |      |
+| ------------------- | ---- |
+| id                  | Int  |
+| document_project_id | text |
+| document_revision   | int  |
+
 ##### Referencing fields that are not @id
+
+> ⚠ This is not implemented yet.
 
 The `@id` attribute marks the primary identifyer of a model. If a model does not have a primary identifier or you want to reference another field, you can
 specify the field using the `@relation` attribute
@@ -750,13 +690,63 @@ Specifies a default value if null is provided
 
 ##### @relation(\_ name?: String, references?: Identifier[], onDelete?: CascadeEnum)
 
-Disambiguates relationships when needed
+Disambiguates relationships when needed.
 
-- name: _(optional)_ defines the name of the relationship
+###### Named relations
+
+When a model contains a single relation to another model or itself, giving a name to the relation is optional and the `@relation` directive can be completely omitted.
+
+There can be multiple distinct relationships between two models, or between a model and itself ("self relation"). When this is the case, the relationships must be named, so they can be distinguished. 
+
+###### Ambiguous relations
+
+Relation fields that do not clearly belong to a specific relationship constitute an *ambiguous relation*.
+
+This is an example ambiguous relation on the schema of an imaginary simplified blogging platform:
+
+```groovy
+model Blog {
+    id          Int @id
+    authors     User[]
+    subscribers User[]
+}
+
+model User  {
+    id           Int @id
+    authorOf     Blog[]
+    subscribedTo Blog[]
+}
+```
+
+There are two relationships between `Blog` and `User`, so we need to name them to tell them apart. A valid version of this schema could look like this:
+
+```groovy
+model Blog {
+    id          Int @id
+    authors     User[] @relation("Authorship")
+    subscribers User[] @relation("Subscription")
+}
+
+model User  {
+    id           Int @id
+    authorOf     Blog[] @relation("Authorship")
+    subscribedTo Blog[] @relation("Subscription")
+}
+```
+
+###### Arguments
+
+- name: _(optional, except when required for disambiguation)_ defines the name of the relationship. The name of the relation needs to be explicitly given to resolve amibiguities when the model contains two or more fields that refer to the same model (another model or itself).
 - references: _(optional)_ list of field names to reference
 - onDelete: _(optional)_ defines what we do when the referenced relation is deleted
   - **CASCADE**: also delete this entry
   - **SET_NULL**: set the field to null. This is the default
+
+###### Validation
+
+- Ambiguous relations: when one model contains two fields with an `@relation` directive pointing to another model, and both fields have the same relation name, or no relation name, the relation cannot be resolved and a validation error is emitted.
+- Ambiguous self relations: when one model contains two fields referencing the model itself without relation name to disambiguate that they should be seen as the same relation, they are considered ambiguous.
+- Named relations with more than two fields are rejected, because there is no way to interpret them that makes sense.
 
 ##### @updatedAt
 
@@ -789,6 +779,8 @@ embed \_ { @@attribute0
 
 #### Core Block Attributes
 
+> ⚠ This is not implemented yet.
+
 Prisma supports the following core block attributes. Block attributes may be used in `model` and `embed` blocks. These attributes **must** be implemented by
 every connector with a **best-effort implementation**:
 
@@ -797,6 +789,8 @@ every connector with a **best-effort implementation**:
 - `@@unique(_ fields: Identifier[], name: String?)`: Defines a composite unique constraint across fields
 
 #### Type Specifications
+
+> ⚠ This is not implemented yet.
 
 In order to live up to our promise of not tailoring Prisma to the lowest-common database feature-set, connectors may bring their own attributes to the schema.
 
@@ -846,7 +840,7 @@ For example, a ts generator might choose to interpret the type of the `name` fie
 
 ```groovy
 model User {
-	name  String  @pg.varchar(8)
+	name  pg.Varchar(n: 8)
 }
 ```
 
@@ -892,19 +886,70 @@ model Customer {}
 
 ## Type Definition
 
+> ⚠ This is not implemented yet.
+
 Type definitions can be used to consolidate various type specifications into one type.
 
 ```groovy
-type Numeric Float @pg.numeric(precision: 5, scale: 2)
-                   @ms.decimal(precision: 5, scale: 2)
+type Numeric {
+  precision Int @bound(gte: 1, lte: 131072)
+  scale Int @bound(gte: 0, lte: 16383)
+}
 
 model User {
   id       Int      @id
-  weight   Numeric
+  weight   Numeric(precision: 5, scale: 20)
 }
 ```
 
 You can attach any field attribute to a type definition.
+
+### Type Definitions provided by Connectors
+
+> ⚠ This is not implemented yet.
+
+Connectors can bring their own type definitions allowing you to use these types in your own schemas.
+
+**postgres.prisma (generated by the connector)**
+
+```groovy
+type SmallInt Int @raw("smallint") @bound(gte: -32768, lte: 32767)
+type BigInt Int @raw("bigint") @bound(gte: -9223372036854775808, lte: 9223372036854775807)
+type Money Float @raw("money") @bound(gte: -92233720368547758.08, lte: 92233720368547758.07)
+
+type Numeric {
+  @@raw("numeric(precision, scale)")
+  precision Int @bound(gte: 1, lte: 131072)
+  scale Int @bound(gte: 0, lte: 16383)
+}
+
+type Point {
+  @@raw("point(x, y)")
+  x Float @bound(gte: -3.4E38, lte: 3.4E38)
+  y Float @bound(gte: -3.4E38, lte: 3.4E38)
+}
+
+type Varchar {
+  @@raw("varchar(n)")
+  n Int @bound(gte: 1, lte: 1000000000)
+}
+```
+
+**schema.prisma**
+
+```groovy
+datasource pg {
+  provider = "postgres"
+  url = "postgres://localhost:5432/db"
+}
+
+model Customer {
+  age      pg.SmallInt
+  amount   pg.Money
+  name     pg.Varchar(n: 10)
+  location pg.Point(y: 5, x: 6)
+}
+```
 
 ## Enum Block
 
@@ -917,6 +962,8 @@ enum Color {
 
 Enums can include their corresponding value to determine what is stored by the datasource:
 
+> ⚠ This is not implemented yet.
+
 ```groovy
 enum Color {
   Red  = "RED"
@@ -927,6 +974,8 @@ enum Color {
 For now, we'll only support `String` enum value types.
 
 ## Embed Block
+
+> ⚠ This is not implemented yet.
 
 Embeds are supported natively by Prisma. There are 2 types of embeds: named embeds (just called embeds) and inline embeds.
 
@@ -955,6 +1004,8 @@ embed Sources {
 ```
 
 ### Inline Embeds
+
+> ⚠ This is not implemented yet.
 
 There's another way to use embeds.
 
@@ -992,10 +1043,21 @@ datasource pg {
 }
 ```
 
-In this case `env` represents the outside environment. The `provider` must be static and cannot be an environment variable. Our general philosophy is that you
-want to generate environment variables **as late as possible**. The sections below describe this behavior.
+You can also provide a default if the environment variable is not specified:
+
+> ⚠ This is not implemented yet.
+
+```groovy
+  provider = "sqlite"
+  url      = env("SQLITE_PATH", default: "file.db")
+```
+
+The `provider` must be static and cannot be an environment variable. Our general philosophy is that you want to generate environment variables **as late as
+possible**. The sections below describe this behavior.
 
 ### Introspect Behavior
+
+> ⚠ This is not implemented yet.
 
 Introspection time will require the environment variable to be present:
 
@@ -1008,6 +1070,8 @@ $ prisma introspect
 ```
 
 ### Migrate Behavior
+
+> ⚠ This is not implemented yet.
 
 Migration time will require the environment variable to be present:
 
@@ -1036,6 +1100,8 @@ const photon = new Photon()
 ```
 
 ### Switching Datasources based on Environments
+
+> ⚠ This is not implemented yet.
 
 Sometimes it's nice to get started with an SQLite database and migrate to Postgres or MySQL for production. We support this workflow:
 
@@ -1073,7 +1139,7 @@ and block attributes that accept them.
 
 - `uuid()` - generates a fresh UUID
 - `cuid()` - generates a fresh cuid
-- `between(min, max)` - generates a random int in the specified range
+- `between(min, max)` - generates a random int in the specified range (⚠ This is not implemented yet)
 - `now()` - current date and time
 
 Default values using a dynamic generator can be specified as follows:
@@ -1093,6 +1159,8 @@ The data types that these functions return will be defined by the connectors. Fo
 
 ## Importing schemas
 
+> ⚠ This is not implemented yet.
+
 A team may have a lot of configuration or many different models. They may also have many environments they need to deploy to. We support an `import <string>`
 function that will concatenate schemas together and join their contents.
 
@@ -1110,7 +1178,7 @@ model User {
 
 ```groovy
 model Post {
-	title String @pg.varchar(42)
+	title pg.Varchar(n: 42)
 	body  String
 }
 ```
@@ -1119,7 +1187,7 @@ Resolves to:
 
 ```groovy
 model Post {
-	title String @pg.varchar(42)
+	title pg.Varchar(n: 42)
 	body  String
 }
 
@@ -1141,7 +1209,10 @@ import "github://prisma/project/post.schema"
 import "npm://prisma/app/comments.schema"
 ```
 
-### Conflict Resolution
+### Merging Models
+
+This is based on our [Research into Cue](https://github.com/prisma/specs/blob/cue/cue/Readme.md#application-2-safe-merging-of-models-with-the-same-name). We
+want to safely merge models in a clear way.
 
 Often times you'll import a schema that has conflicting models. In this case we take the union of all fields and attributes:
 
@@ -1150,7 +1221,7 @@ Often times you'll import a schema that has conflicting models. In this case we 
 ```groovy
 model Post {
   id    Int    @id
-	title String @pg.varchar(42)
+	title pg.Varchar(n: 42)
 	body  String
   @@unique([id,title])
 }
@@ -1179,14 +1250,16 @@ model User {
 
 model Post {
   id    Int    @id
-	title String @pg.varchar(42)
+	title pg.Varchar(n: 42)
 	body  String
   @@unique([id,title])
 }
 ```
 
-- **Open Question:** What happens if the field types differ?
-- **Open Question:** Do we want to take the union? Is there some other approach that's more clear?
+Since our [type definitions are provided by connectors](#type-definitions-provided-by-connectors) we can use a constraint system to safely merge two datatypes
+and take the intersection of those two types.
+
+**Open Question:** How will this work for non data-type related attributes like `@unique`?
 
 ## Auto Formatting
 
