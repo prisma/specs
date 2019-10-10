@@ -35,12 +35,12 @@ const nestedResult1 = await prisma.users({
   select: {
     posts: {
       select: {
-        likeCount: (post: PostExpression) => post.comments.likes.sum()
-      }
+        likeCount: (post: PostExpression) => post.comments.likes.sum(),
+      },
     },
-    friends: true
-  }
-});
+    friends: true,
+  },
+})
 ```
 
 This example shows how an aggregation over an integer value from a child node can be accomplished.

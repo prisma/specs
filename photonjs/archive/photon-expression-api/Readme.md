@@ -48,12 +48,12 @@ const nestedResult1 = await prisma.users({
     posts: {
       select: {
         // Extra aggregate field of type T where Lambda type returns Expression<T>
-        likeCount: (post: PostExpression) => post.comments.likes.sum()
-      }
+        likeCount: (post: PostExpression) => post.comments.likes.sum(),
+      },
     },
-    friends: true
-  }
-});
+    friends: true,
+  },
+})
 ```
 
 Alternatives would be other builder patterns, like a util object, or a string containing the expressions.

@@ -64,14 +64,14 @@ const raw = {
       email: '"public"."users"."email"',
       firstName: '"public"."users"."first_name"',
       toString() {
-        return '"public"."users"';
-      }
+        return '"public"."users"'
+      },
     },
     toString() {
-      return '"public"';
-    }
-  }
-};
+      return '"public"'
+    },
+  },
+}
 ```
 
 We'll also generate a raw API. This will be dependent on both the data source and the language we're generating for. You'll see a couple examples below of
@@ -80,8 +80,8 @@ different flavours.
 For JS, the API will look like this:
 
 ```js
-const photon = new Photon();
-console.log(`select ${raw.pg.user.firstName} from ${raw.pg.user}`);
+const photon = new Photon()
+console.log(`select ${raw.pg.user.firstName} from ${raw.pg.user}`)
 ```
 
 Resolving to:
@@ -182,10 +182,19 @@ LIMIT 0,
 ## Photon JS
 
 ```js
-import { raw } from "@generated/photon";
+import { raw } from '@generated/photon'
 const {
-  pg: { community_profile, community_image, community_message, community_gift_user, community_gifts, auth_user, community_visit, auth_user_role }
-} = raw;
+  pg: {
+    community_profile,
+    community_image,
+    community_message,
+    community_gift_user,
+    community_gifts,
+    auth_user,
+    community_visit,
+    auth_user_role,
+  },
+} = raw
 
 photon.raw(`
 SELECT *
@@ -263,7 +272,7 @@ FROM
    LEFT JOIN ${auth_user_role} aur ON ${auth_user_role.auth_user_id} = ${community_visit.visiter}) AS ch GROUP  BY ${community_visit.visiter}, message_id, ${community_visit.visit}
 ORDER BY ts DESC
 LIMIT 0, 20
-`);
+`)
 ```
 
 ## Photon Go
@@ -468,28 +477,45 @@ db.user.aggregate([
 We can rewrite for Photon JS as:
 
 ```js
-import { raw } from "@generated/photon";
+import { raw } from '@generated/photon'
 const {
-  mgo: { user }
-} = raw;
+  mgo: { user },
+} = raw
 
 await photon.raw([
-  { $match: { $or: [{ [user.class]: "a" }, { $and: [{ [user.class]: "b" }, { [user.hrs]: { $exists: 1 } }] }] } },
+  {
+    $match: {
+      $or: [
+        { [user.class]: 'a' },
+        { $and: [{ [user.class]: 'b' }, { [user.hrs]: { $exists: 1 } }] },
+      ],
+    },
+  },
   {
     $project: {
-      [user.rate + "Multiply"]: { $multiply: ["$" + user.rate, "$" + user.hrs, 52] },
+      [user.rate + 'Multiply']: {
+        $multiply: ['$' + user.rate, '$' + user.hrs, 52],
+      },
       [user.rate]: 1,
       [user.class]: 1,
-      [user.hrs]: 1
-    }
+      [user.hrs]: 1,
+    },
   },
   {
     $match: {
-      $or: [{ $and: [{ [user.class]: "a" }, { [user.rate]: { $gt: 20000 } }] }, { $and: [{ [user.class]: "b" }, { [user.rate + "Multiply"]: { $gt: 20000 } }] }]
-    }
+      $or: [
+        { $and: [{ [user.class]: 'a' }, { [user.rate]: { $gt: 20000 } }] },
+        {
+          $and: [
+            { [user.class]: 'b' },
+            { [user.rate + 'Multiply']: { $gt: 20000 } },
+          ],
+        },
+      ],
+    },
   },
-  { $project: { [user.class]: 1, [user.rate]: 1, [user.hrs]: 1 } }
-]);
+  { $project: { [user.class]: 1, [user.rate]: 1, [user.hrs]: 1 } },
+])
 ```
 
 ## Photon Go
