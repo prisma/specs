@@ -180,6 +180,11 @@ const firstDoe: User | null = await photon.user
   .findMany({ where: { lastName: 'Doe' } })
   .first()
 
+// Alternative
+const firstDoe: User | null = await photon.user.findFirst({
+  where: { lastName: 'Doe' },
+})
+
 // Ordering
 const usersByEmail: User[] = await photon.user.findMany({
   orderBy: { email: 'ASC' },
