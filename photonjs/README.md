@@ -13,50 +13,49 @@ This spec describes the Photon Javascript API
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-
-  - [Prisma Schema](#prisma-schema)
-  - [Types](#types)
-  - [Basic Queries](#basic-queries)
-  - [Field-level Primary Key constraint](#field-level-primary-key-constraint)
-    - [Field-level unique constraint](#field-level-unique-constraint)
-    - [Model-level composite constraint (unnamed)](#model-level-composite-constraint-unnamed)
-    - [Naming the composite constraint](#naming-the-composite-constraint)
-  - [Writing Data](#writing-data)
-    - [Write operations](#write-operations)
-      - [Nested Write API](#nested-write-api)
-      - [Fluent Write API](#fluent-write-api)
-    - [Many operations](#many-operations)
-    - [Nested writes](#nested-writes)
-  - [Load: Select / Include API](#load-select--include-api)
-    - [Default selection set](#default-selection-set)
-  - [Fluent API](#fluent-api)
-    - [Null narrowing](#null-narrowing)
-    - [Expressing the same query using fluent API syntax and nested writes](#expressing-the-same-query-using-fluent-api-syntax-and-nested-writes)
-  - [Mental model: Graph traversal](#mental-model-graph-traversal)
-  - [Expressions](#expressions)
-    - [Criteria Filters](#criteria-filters)
-    - [Order By](#order-by)
-    - [Write Operations (Update/Atomic)](#write-operations-updateatomic)
-    - [Aggregations](#aggregations)
-    - [Group by](#group-by)
-  - [Meta response](#meta-response)
-  - [Optimistic Concurrency Control / Optimistic Offline Lock](#optimistic-concurrency-control--optimistic-offline-lock)
-    - [Supported operations](#supported-operations)
-  - [Batching](#batching)
-  - [Distinct](#distinct)
-  - [Criteria API](#criteria-api)
-  - [Design decisions](#design-decisions)
-  - [Constructor](#constructor)
-  - [Connection management](#connection-management)
+- [Prisma Schema](#prisma-schema)
+- [Types](#types)
+- [Basic Queries](#basic-queries)
+- [Field-level Primary Key constraint](#field-level-primary-key-constraint)
+  - [Field-level unique constraint](#field-level-unique-constraint)
+  - [Model-level composite constraint (unnamed)](#model-level-composite-constraint-unnamed)
+  - [Naming the composite constraint](#naming-the-composite-constraint)
+- [Writing Data](#writing-data)
+  - [Write operations](#write-operations)
+    - [Nested Write API](#nested-write-api)
+    - [Fluent Write API](#fluent-write-api)
+  - [Many operations](#many-operations)
+  - [Nested writes](#nested-writes)
+- [Load: Select / Include API](#load-select--include-api)
+  - [Default selection set](#default-selection-set)
+- [Fluent API](#fluent-api)
+  - [Null narrowing](#null-narrowing)
+  - [Expressing the same query using fluent API syntax and nested writes](#expressing-the-same-query-using-fluent-api-syntax-and-nested-writes)
+- [Mental model: Graph traversal](#mental-model-graph-traversal)
+- [Expressions](#expressions)
+  - [Criteria Filters](#criteria-filters)
+  - [Order By](#order-by)
+  - [Write Operations (Update/Atomic)](#write-operations-updateatomic)
+  - [Aggregations](#aggregations)
+  - [Group by](#group-by)
+- [Meta response](#meta-response)
+- [Optimistic Concurrency Control / Optimistic Offline Lock](#optimistic-concurrency-control--optimistic-offline-lock)
+  - [Supported operations](#supported-operations)
+- [Batching](#batching)
+- [Distinct](#distinct)
+- [Criteria API](#criteria-api)
+- [Design decisions](#design-decisions)
+- [Constructor](#constructor)
+- [Connection management](#connection-management)
 - [Error Handling](#error-handling)
   - [Error Character Encoding](#error-character-encoding)
 - [Unresolved questions](#unresolved-questions)
-    - [Figured out but needs spec](#figured-out-but-needs-spec)
-    - [Bigger todos](#bigger-todos)
-    - [Small & self-contained](#small--self-contained)
-    - [Ugly parts](#ugly-parts)
-    - [Related](#related)
-    - [Future topics](#future-topics)
+  - [Figured out but needs spec](#figured-out-but-needs-spec)
+  - [Bigger todos](#bigger-todos)
+  - [Small & self-contained](#small--self-contained)
+  - [Ugly parts](#ugly-parts)
+  - [Related](#related)
+  - [Future topics](#future-topics)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -172,12 +171,14 @@ const bob: User | null = await photon.user.find({
   bestFriend: { email: 'alice@prisma.io' },
 })
 
-// Find by (non-)unique field and return first found record
-const firstDoe: User | null = await photon.user.findFirst({ lastName: 'Doe' })
-
 // Get many nodes
 const allUsers: User[] = await photon.user.findMany()
 const first100Users: User[] = await photon.user.findMany({ first: 100 })
+
+// Find by (non-)unique field and return first found record
+const firstDoe: User | null = await photon.user
+  .findMany({ where: { lastName: 'Doe' } })
+  .first()
 
 // Ordering
 const usersByEmail: User[] = await photon.user.findMany({
@@ -198,11 +199,15 @@ await photon.user.findMany({
 })
 
 // Get first of many
-const user: User | null = await photon.user.findMany({ where: { lastName: 'Doe' } }).first()
+const user: User | null = await photon.user
+  .findMany({ where: { lastName: 'Doe' } })
+  .first()
 
 // Exists
 const userFound: boolean = await photon.user.find('bobs-id').exists()
-const foundAtLeastOneUser: boolean = await photon.user.findMany({ email: { containsInsensitive: '@gmail.com' } }).exists()
+const foundAtLeastOneUser: boolean = await photon.user
+  .findMany({ email: { containsInsensitive: '@gmail.com' } })
+  .exists()
 
 // Simple aggregation short
 // TODO more examples
@@ -424,9 +429,13 @@ const result: undefined = await photon.user.find('bobs-id').delete()
 ### Many operations
 
 ```ts
-await photon.user.findMany({ where: { email: { endsWith: '@gmail.com' } } }).update({ lastName: 'Doe' })
+await photon.user
+  .findMany({ where: { email: { endsWith: '@gmail.com' } } })
+  .update({ lastName: 'Doe' })
 
-await photon.user.findMany({ where: { email: { endsWith: '@gmail.com' } } }).delete()
+await photon.user
+  .findMany({ where: { email: { endsWith: '@gmail.com' } } })
+  .delete()
 ```
 
 ### Nested writes
@@ -505,14 +514,18 @@ type DynamicResult1 = {
   friends: User[]
 }[]
 
-const userWithPostsAndFriends: DynamicResult1 = await photon.user.find('bobs-id').load({ select: { posts: { select: { comments: true } }, friends: true } })
+const userWithPostsAndFriends: DynamicResult1 = await photon.user
+  .find('bobs-id')
+  .load({ select: { posts: { select: { comments: true } }, friends: true } })
 
 type DynamicResult2 = (User & {
   posts: (Post & { comments: Comment[] })[]
   friends: User[]
 })[]
 
-const userWithPostsAndFriends: DynamicResult2 = await photon.user.find('bobs-id').load({ include: { posts: { include: { comments: true } }, friends: true } })
+const userWithPostsAndFriends: DynamicResult2 = await photon.user
+  .find('bobs-id')
+  .load({ include: { posts: { include: { comments: true } }, friends: true } })
 ```
 
 ### Default selection set
@@ -649,7 +662,9 @@ await photon.user.findMany({ orderBy: u => u.profile.imageSize.asc() })
 Set:
 
 ```ts
-await photon.users.findMany().update({ email: u => u.email.set('bob@gmail.com') })
+await photon.users
+  .findMany()
+  .update({ email: u => u.email.set('bob@gmail.com') })
 ```
 
 Type specific:
@@ -791,7 +806,9 @@ const [bobsPosts, meta]: [Post[], Meta] = await photon.user
 - `delete`
 
 ```ts
-await photon.user.find('alice-id').update({ firstName: 'Alice' }, { if: { version: 12 } })
+await photon.user
+  .find('alice-id')
+  .update({ firstName: 'Alice' }, { if: { version: 12 } })
 
 await photon.user
   .find('alice-id')
@@ -845,7 +862,9 @@ const values: string[] = await photon.post
   .title()
 
 type SubSet = { published: boolean; title: string }
-const values: SubSet[] = await photon.post.findMany().distinct({ published: true, title: true })
+const values: SubSet[] = await photon.post
+  .findMany()
+  .distinct({ published: true, title: true })
 
 const distinctCount: number = await photon.post
   .findMany()
