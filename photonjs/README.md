@@ -203,11 +203,6 @@ await photon.user.findMany({
   where: { email: { containsInsensitive: '@gmail.com' } },
 })
 
-// Get first of many
-const user: User | null = await photon.user
-  .findMany({ where: { lastName: 'Doe' } })
-  .first()
-
 // Exists
 const userFound: boolean = await photon.user.find('bobs-id').exists()
 const foundAtLeastOneUser: boolean = await photon.user
