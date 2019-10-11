@@ -469,6 +469,15 @@ Lift just created your migration:
 Run `prisma2 lift up` to apply the migration
 ```
 
+You may lose data if you delete a model or delete a field. Sometimes this is an accident. In these cases, we will try to warn the user about data loss.
+
+⚠️ You are about to drop the table User, which is not empty (11 rows).
+
+To get this row count (e.g. "11 rows"), we need to query the data. On large databases, this can be slow. To handle this, we set a timeout. If the timeout
+expires before we get the row count back, we cancel the query and warn with:
+
+⚠️ You are about to drop the table User which will lead to data loss.
+
 ### `prisma2 lift up --help`
 
 Shows the help message for `lift up`
@@ -514,8 +523,6 @@ Examples
 Applies the migrations against the datasources. The following example shows how renaming a field, adding a model and removing a model would look:
 
 ```
-Applying your changes:
-
   model User {
     id Int @id
     createdAt DateTime @map("created_at")
@@ -534,12 +541,18 @@ Applying your changes:
 +   title String
 +  }
 
-- model Commment {
+- model Comment {
 -  id Int @id
 -  comment Text
 - }
 
-Database Changes:
+Checking the datasource for potential data loss...
+
+⚠️ You are about to drop the Comment table, which is not empty (11 rows).
+
+Are you sure you want to apply this change? [y/N]: y
+
+Applying your changes...
 
 |----------|---------------------|--------------------------|
 | Status   | Migration           | Raw Commands             |
@@ -556,7 +569,7 @@ You can get more information about the migrations with
 Done with 1 migration in 250ms.
 ```
 
-If there are Destructive Changes, you will be asked to confirm the migration
+Up will always ask you to confirm a migration. You can use `lift up --auto-approve` to accept the changes non-interactively.
 
 ### `prisma2 lift down --help`
 
@@ -631,10 +644,47 @@ Rolled back with 1 migration in 88ms.
 
 ### `prisma2 dev`
 
-Prisma also ships with a development command that makes migrations and code generation during development much easier. We'll go into further detail about this
-command in a Prisma CLI spec.
+Prisma also ships with a development command that makes developing an application with Prisma easier.
 
-**TODO** Link to top-level Prisma CLI spec.
+`prisma2 dev` is responsible for schema watching, auto-migrating and photon code generation. In this section we'll just cover migrations.
+
+Migrating your data during development is cumbersome and breaks your flow. To make this workflow more convenience, migrations during development are
+automatically saved under the `./migrations/dev/` subfolder:
+
+```
+migrations/
+├── 20190930142202-init
+│   ├── README.md
+│   ├── schema.prisma
+│   └── steps.json
+├── 20190930142232-add-more
+│   ├── README.md
+│   ├── schema.prisma
+│   └── steps.json
+├── 20190930142257-rename
+│   ├── README.md
+│   ├── schema.prisma
+│   └── steps.json
+├── 20190930142541-init
+│   ├── README.md
+│   ├── schema.prisma
+│   └── steps.json
+├── dev
+│   ├── watch-20191010154550
+│   │   ├── README.md
+│   │   ├── schema.prisma
+│   │   └── steps.json
+│   └── watch-20191010154559
+│       ├── README.md
+│       ├── schema.prisma
+│       └── steps.json
+└── lift.lock
+```
+
+In addition to saving the migration steps, migrations during development are applied automatically with `lift up --auto-approve`. Data loss may occur during
+this step, but during development it is not a big problem.
+
+Next, when you run `lift save`, it will collapse the `./migrations/dev/watch-*` migrations into 1 migration and remove the `dev` folder.
 
 ## FAQ
 
