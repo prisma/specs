@@ -414,7 +414,7 @@ You can create objects which maps to SQL inserts.
 
 ```go
 // User.Create has fixed and required arguments for required fields
-user, err := client.User.Create(
+user, err := client.User.CreateOne(
   photon.User.ID.Set("abc43"),
   photon.User.Email.Set("alice@prisma.io"),
   photon.User.Age.Set(37),
@@ -442,7 +442,7 @@ post, err := client.Post.Create(
 ##### Create a new user with two new posts
 
 ```go
-user, err := client.User.Create(
+user, err := client.User.CreateOne(
   photon.User.Id.Set("abc345"),
   photon.User.Name.Set("John"),
   photon.User.Email.Set("john@example.com"),
@@ -459,7 +459,7 @@ user, err := client.User.Create(
 ##### Create 1 user, 2 posts and connect an existing post
 
 ```go
-user, err := client.User.Create(
+user, err := client.User.CreateOne(
   photon.User.ID.Set("7d42"),
   photon.User.Email.Set("bob@prisma.io"),
   photon.User.Name.Set("Bob"),
@@ -475,7 +475,7 @@ user, err := client.User.Create(
 
 // an alternative to this syntax could be this
 
-user, err := client.User.Create(
+user, err := client.User.CreateOne(
   photon.User.ID.Set("7d42"),
   photon.User.Email.Set("bob@prisma.io"),
   photon.User.Name.Set("Bob"),
@@ -496,7 +496,7 @@ You can update records by querying for specific documents and setting specific f
 ##### Update the role of an existing user
 
 ```go
-user, err := client.User.Update.Where(
+user, err := client.User.UpdateOne.Where(
   photon.User.ID.Equals("cjsyytzn0004d0982gbyeqep7"),
 ).Data(
   photon.User.Role.Set(photon.User.Role.ADMIN),
@@ -506,7 +506,7 @@ user, err := client.User.Update.Where(
 ##### Update the author of a post
 
 ```go
-post, err := client.Post.Update.Where(
+post, err := client.Post.UpdateOne.Where(
   photon.Post.ID.Equals("cjsx2j8bw02920b25rl806l07"),
 ).Data(
   photon.Post.Author.Connect.Where(
@@ -520,7 +520,7 @@ post, err := client.Post.Update.Where(
 ##### Update three posts by their IDs
 
 ```go
-updated, err := client.Post.UpdateMany.Where(
+affectedRows, err := client.Post.UpdateMany.Where(
   photon.Post.ID.In([]string{
     "cjsyqxwqv000l0982p5qdq34p",
     "cjsyqxwqo000j0982da8cvw7o",
@@ -534,7 +534,7 @@ updated, err := client.Post.UpdateMany.Where(
 ##### Update all posts where the title contains the given string
 
 ```go
-updated, err = client.Post.UpdateMany.Where(
+affectedRows, err = client.Post.UpdateMany.Where(
   photon.Post.Title.Contains("prisma"),
 ).Data(
   photon.Post.Published.Set(true),
@@ -546,7 +546,7 @@ updated, err = client.Post.UpdateMany.Where(
 ##### Delete a post by its ID
 
 ```go
-post, err := client.Post.Delete.Where(
+post, err := client.Post.DeleteOne.Where(
   photon.Post.ID.Equals(10),
 ).Exec(ctx)
 ```
@@ -554,7 +554,7 @@ post, err := client.Post.Delete.Where(
 ##### Delete a user by their email
 
 ```go
-user, err := client.User.Delete.Where(
+user, err := client.User.DeleteOne.Where(
   photon.User.Email.Equals("alice@prisma.io"),
 ).Exec(ctx)
 ```
@@ -564,7 +564,7 @@ user, err := client.User.Delete.Where(
 ##### Delete all posts that were created before 2018:
 
 ```go
-deleted, err := client.Post.DeleteMany.Where(
+affectedRows, err := client.Post.DeleteMany.Where(
   photon.Post.CreatedAt.Gt(christmas),
 ).Exec(ctx)
 ```
@@ -574,7 +574,7 @@ deleted, err := client.Post.DeleteMany.Where(
 ##### Create a user or update their role
 
 ```go
-user, err := client.User.Upsert.Where(
+user, err := client.User.UpsertOne.Where(
   photon.User.Email.Equals("alice@prisma.io"),
 ).Data(
   photon.User.Email.Set("alice@prisma.io"),
