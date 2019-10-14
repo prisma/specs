@@ -173,9 +173,10 @@ enum Role {
 This spec assumes the following decisions:
 
 - Fluent API (vs. structs API)
-- Null-structs for nullability (vs. using pointers) [photon-go#1](https://github.com/prisma/photongo/issues/1)
+- Methods for nullability (vs. using pointers or null-structs) [photon-go#1](https://github.com/prisma/photongo/issues/1)
 - Require passing a context explicitly [photon-go#6](https://github.com/prisma/photongo/issues/6)
 - Generate code into a single file [photon-go#3](https://github.com/prisma/photongo/issues/3)
+- Code generation for advanced queries [photon-go#9](https://github.com/prisma/photongo/issues/9)
 
 ### Generated models
 
@@ -187,25 +188,27 @@ type Post struct {
   CreatedAt time.Time  `json:"createdAt"`
   UpdatedAt time.Time  `json:"updatedAt"`
   Title     string     `json:"title"`
-  Desc      NullString `json:"desc"`
-  Category  NullString `json:"category"`
   Published bool       `json:"published"`
   Views     int        `json:"likes"`
   Author    User       `json:"author"`
   Comments  []Comment  `json:"comments"`
 }
 
+func (Post) Desc() (string, bool) { /* implementation hidden */ }
+func (Post) Category() (string, bool) { /* implementation hidden */ }
+
 type User struct {
   Id        string     `json:"id"`
   CreatedAt time.Time  `json:"createdAt"`
   UpdatedAt time.Time  `json:"updatedAt"`
-  Name      NullString `json:"name"`
   Email     string     `json:"email"`
   Role      Role       `json:"role"`
   Posts     []Post     `json:"posts"`
   Comments  []Comment  `json:"comments"`
   Friends   []User     `json:"friends"`
 }
+
+func (User) Name() (string, bool) { /* implementation hidden */ }
 
 type Comment struct {
   Id        string    `json:"id"`
@@ -237,12 +240,11 @@ user, err := client.User.FindOne.Exec(ctx)
 
 log.Printf("name: %s", user.Email)
 
-// Name is an optional field (NullString), which is why we should check if it's valid (i.e. not null)
-if user.Name.Valid {
-  log.Printf("user has a name: %s", user.Name.Value)
+// Name is an optional field, which is why it is exposed as a method with a multi value context
+// this also enforces the user to check for the null value or explicitly ignore it
+if name, ok := user.Name(); ok {
+  log.Printf("user has a name: %s", name)
 }
-
-// user.Posts == nil because we didn't fetch for a user's posts explicitly
 ```
 
 ### Reading Data
