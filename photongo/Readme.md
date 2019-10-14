@@ -191,7 +191,6 @@ type Post struct {
   Published bool       `json:"published"`
   Views     int        `json:"likes"`
   Author    User       `json:"author"`
-  Comments  []Comment  `json:"comments"`
 }
 
 func (Post) Desc() (string, bool) { /* implementation hidden */ }
@@ -203,9 +202,6 @@ type User struct {
   UpdatedAt time.Time  `json:"updatedAt"`
   Email     string     `json:"email"`
   Role      Role       `json:"role"`
-  Posts     []Post     `json:"posts"`
-  Comments  []Comment  `json:"comments"`
-  Friends   []User     `json:"friends"`
 }
 
 func (User) Name() (string, bool) { /* implementation hidden */ }
@@ -215,8 +211,6 @@ type Comment struct {
   CreatedAt time.Time `json:"createdAt"`
   UpdatedAt time.Time `json:"updatedAt"`
   Text      string    `json:"text"`
-  Post      NullPost  `json:"post"`
-  WrittenBy NullUser  `json:"writtenBy"`
 }
 
 type Role string
@@ -584,39 +578,6 @@ user, err := client.User.UpsertOne(
 ).Exec(ctx)
 ```
 
-#### Select multiple things
-
-##### Select a user with 10 of their posts
-
-```go
-post, err := client.User.FindOne(
-  photon.User.ID.Equals("bobs-id"),
-).With(
-  photon.User.Posts.
-    Where(
-      photon.Post.Title.Contains("some title"),
-    ).
-    Limit(10),
-).Exec(ctx)
-```
-
-##### Advanced selection of various nested relations
-
-This will fetch users
-
-Note: This uses an additional relation "friends" which is not 
-
-```go
-post, err := client.User.FindOne(
-  photon.User.ID.Equals("bobs-id"),
-).With(
-  photon.User.Posts.
-    Where(
-      photon.Post.Title.Contains("some title"),
-    ).
-    Limit(10),
-).Exec(ctx)
-```
 
 ### Aggregations
 
@@ -628,20 +589,6 @@ post, err := client.User.FindOne(
 posts, err := client.User.FindMany(
   photon.User.ID.Equals("bobs-id"),
   photon.User.Posts.Count().Lt(10),
-).Exec(ctx)
-```
-
-##### Find a user with their most popular posts
-
-```go
-posts, err := client.User.FindMany(
-  photon.User.ID.Equals("bobs-id"),
-).With(
-  photon.User.Posts.
-    Where(
-      photon.Post.Views.Sum().Lt(10),
-    ).
-    Limit(10),
 ).Exec(ctx)
 ```
 
@@ -665,18 +612,108 @@ totalPostLikes, err := client.Post.Aggregate.Sum(photon.Post.Likes).Exec(ctx)
 averagePostLikes, err := client.Post.Aggregate.Average(photon.Post.Likes).Exec(ctx)
 ```
 
-### Advanced aggregations
+### Advanced queries
 
-Aggregations can vary heavily on specific queries, which is why it's nearly impossible to generate types.
+Advanced queries can involve fetching relations, specific fields only, aggregations and order bys.
 The user can query for complex aggregations by specifying the return value themselves, while they can use the
-type-safe query parameters.
+type-safe query parameters. We also may include tools to generate the result structs automatically for the user.
 
-#### Examples
+#### Defining the struct by yourself
+
+Your first option is to query for something and define the struct by yourself. This is very simple, but also 
+error-prone because you have to keep it in sync with your query. Also, it's hard to verify if the user
+mapped the fields correctly, and we want to avoid checking on runtime.
+
+Example:
+
+```go
+var result []struct {
+  Name  string `json:"name"`
+  Likes int    `json:"likes"`
+}
+
+err := client.User.Select(
+  User.Name.Contains("John"),
+).Fields(
+  photon.User.Name.Select(),
+  photon.User.Post.Likes.Sum(),
+).Into(&result).Exec(ctx)
+```
+
+#### Generated code
+
+A much better option is to just generate the struct types for the user, although it comes with some caveats.
+For more information, see https://github.com/prisma/photongo/issues/9.
+
+#### Notes
+
+In the following examples, we use explicit struct types for readability. However, you should generate
+the structs in a real application.
+
+#### Relations
+
+##### Fetch a specific user and 10 of their posts
+
+You don't have to explicitly join. When you use `.With()` to query for a relation, Photon Go automatically
+fetches the related fields, without explicitly querying for it (e.g. `WHERE id = ?`).
+
+```go
+var user struct {
+  // embedded User
+  User  `json:"user"`
+  // posts relation
+  Posts []struct {
+    // embedded post field
+    Post `json:"post"`
+  } `json:"posts"`
+}
+user, err := client.User.FindOne(
+  photon.User.ID.Equals("bobs-id"),
+).With(
+  photon.User.Posts.
+    Where(
+      photon.Post.Title.Contains("some title"),
+    ).
+    Limit(10),
+).Into(&user).Exec(ctx)
+```
+
+##### Find the most popular users with their most popular posts and the post's comments
+
+Queries can as deeply nested as wanted. The integrated dataloader will make sure as few underlying
+SQL queries as possible are generated.
+
+```go
+var users []struct {
+  // embedded User
+  User  `json:"user"`
+  // posts relation
+  Posts []struct {
+    // embedded post field
+    Post `json:"post"`
+    Comments []struct {
+      // embedded comment field
+      Comment `json:"comment"`
+    } `json:"posts"`
+  } `json:"posts"`
+}
+err := client.User.FindMany(
+  photon.Post.Views.Sum().Lt(10),
+).With(
+  photon.User.Posts.
+    Limit(10).
+    With(
+      photon.Post.Comments.Limit(10),
+    ),
+).Into(&users).Exec(ctx)
+```
+
+#### Aggregations
 
 ##### Fetch users which have filled out their name and their total post likes
 
 ```go
-var result []struct{
+var result []struct {
   User  `json:"user"`
   Likes `json:"likes"`
 }
@@ -692,7 +729,7 @@ err := client.User.Aggregate(
 ##### Order by category and user and count 
 
 ```go
-var result []struct{
+var result []struct {
   Category     `json:"category"`
   UserName     `json:"name"`
   LikeCount    `json:"likeCount"`
