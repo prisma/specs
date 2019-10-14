@@ -2,78 +2,78 @@
 
 - Owner: @matthewmueller
 - Stakeholders: @schickling @mavilein
-- State: 
+- State:
   - Spec: Outdated 🚨
   - Implementation: Unknown ❔
 
-The Prisma Schema declaratively describes the structure of your data sources. We use the Prisma Schema to generate Photon libraries for data access, migrate your datasources with Lift and administer your data using Studio.```
+The Prisma Schema declaratively describes the structure of your data sources. We use the Prisma Schema to generate Photon libraries for data access, migrate
+your datasources with Lift and administer your data using Studio.
 
 ---
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-
-  - [Datasource Block](#datasource-block)
-    - [Supported fields](#supported-fields)
-  - [Generator Block](#generator-block)
-    - [Supported fields](#supported-fields-1)
-    - [Binary Configuration](#binary-configuration)
-  - [Model Block](#model-block)
-    - [Field Names](#field-names)
-    - [Data Types](#data-types)
-      - [Core Data Type to Connector](#core-data-type-to-connector)
-      - [Core Data Type to Generator](#core-data-type-to-generator)
-      - [List Types](#list-types)
-      - [Optional Types](#optional-types)
-      - [Relations](#relations)
-        - [One-to-One (1:1) Relationships](#one-to-one-11-relationships)
-        - [One-to-Many (1:N) Relationships](#one-to-many-1n-relationships)
-        - [Implicit Many-to-Many (M:N) Relationships](#implicit-many-to-many-mn-relationships)
-        - [Explicit Many-to-Many (M:N) Relationships](#explicit-many-to-many-mn-relationships)
-        - [Self-Referential Relationships](#self-referential-relationships)
-        - [Multiple-Reference Relationships](#multiple-reference-relationships)
-        - [Referencing Primary Composite Keys](#referencing-primary-composite-keys)
-        - [Referencing fields that are not @id](#referencing-fields-that-are-not-id)
-    - [Attributes](#attributes)
-      - [Case 1. No arguments](#case-1-no-arguments)
-      - [Case 2. One positional argument](#case-2-one-positional-argument)
-      - [Case 3. Many named arguments](#case-3-many-named-arguments)
-      - [Field Attributes](#field-attributes)
-      - [Core Field Attributes](#core-field-attributes)
-        - [@id](#id)
-        - [@unique](#unique)
-        - [@map(\_ name: String)](#map%5C_-name-string)
-        - [@default(\_ expr: Expr)](#default%5C_-expr-expr)
-        - [@relation(\_ name?: String, references?: Identifier[], onDelete?: CascadeEnum)](#relation%5C_-name-string-references-identifier-ondelete-cascadeenum)
-          - [Named relations](#named-relations)
-          - [Ambiguous relations](#ambiguous-relations)
-          - [Arguments](#arguments)
-          - [Validation](#validation)
-        - [@updatedAt](#updatedat)
-      - [Block Attributes](#block-attributes)
-      - [Core Block Attributes](#core-block-attributes)
-      - [Type Specifications](#type-specifications)
-    - [Why do we enforce the Core Prisma Primitive Type, even when there is a type specification?](#why-do-we-enforce-the-core-prisma-primitive-type-even-when-there-is-a-type-specification)
-  - [Comments](#comments)
-  - [Type Definition](#type-definition)
-    - [Type Definitions provided by Connectors](#type-definitions-provided-by-connectors)
-  - [Enum Block](#enum-block)
-  - [Embed Block](#embed-block)
-    - [Inline Embeds](#inline-embeds)
-  - [Env Function](#env-function)
-    - [Introspect Behavior](#introspect-behavior)
-    - [Migrate Behavior](#migrate-behavior)
-    - [Generate Behavior](#generate-behavior)
-    - [Switching Datasources based on Environments](#switching-datasources-based-on-environments)
-  - [Function](#function)
-  - [Importing schemas](#importing-schemas)
-    - [Importing from other endpoints](#importing-from-other-endpoints)
-    - [Merging Models](#merging-models)
-  - [Auto Formatting](#auto-formatting)
-    - [Formatting Rules](#formatting-rules)
-      - [Configuration blocks are align by their `=` sign.](#configuration-blocks-are-align-by-their--sign)
-      - [Field definitions are aligned into columns separated by 2 or more spaces.](#field-definitions-are-aligned-into-columns-separated-by-2-or-more-spaces)
+- [Datasource Block](#datasource-block)
+  - [Supported fields](#supported-fields)
+- [Generator Block](#generator-block)
+  - [Supported fields](#supported-fields-1)
+  - [Binary Configuration](#binary-configuration)
+- [Model Block](#model-block)
+  - [Field Names](#field-names)
+  - [Data Types](#data-types)
+    - [Core Data Type to Connector](#core-data-type-to-connector)
+    - [Core Data Type to Generator](#core-data-type-to-generator)
+    - [List Types](#list-types)
+    - [Optional Types](#optional-types)
+    - [Relations](#relations)
+      - [One-to-One (1:1) Relationships](#one-to-one-11-relationships)
+      - [One-to-Many (1:N) Relationships](#one-to-many-1n-relationships)
+      - [Implicit Many-to-Many (M:N) Relationships](#implicit-many-to-many-mn-relationships)
+      - [Explicit Many-to-Many (M:N) Relationships](#explicit-many-to-many-mn-relationships)
+      - [Self-Referential Relationships](#self-referential-relationships)
+      - [Multiple-Reference Relationships](#multiple-reference-relationships)
+      - [Referencing Primary Composite Keys](#referencing-primary-composite-keys)
+      - [Referencing fields that are not @id](#referencing-fields-that-are-not-id)
+  - [Attributes](#attributes)
+    - [Case 1. No arguments](#case-1-no-arguments)
+    - [Case 2. One positional argument](#case-2-one-positional-argument)
+    - [Case 3. Many named arguments](#case-3-many-named-arguments)
+    - [Field Attributes](#field-attributes)
+    - [Core Field Attributes](#core-field-attributes)
+      - [@id](#id)
+      - [@unique](#unique)
+      - [@map(\_ name: String)](#map%5C_-name-string)
+      - [@default(\_ expr: Expr)](#default%5C_-expr-expr)
+      - [@relation(\_ name?: String, references?: Identifier[], onDelete?: CascadeEnum)](#relation%5C_-name-string-references-identifier-ondelete-cascadeenum)
+        - [Named relations](#named-relations)
+        - [Ambiguous relations](#ambiguous-relations)
+        - [Arguments](#arguments)
+        - [Validation](#validation)
+      - [@updatedAt](#updatedat)
+    - [Block Attributes](#block-attributes)
+    - [Core Block Attributes](#core-block-attributes)
+    - [Type Specifications](#type-specifications)
+  - [Why do we enforce the Core Prisma Primitive Type, even when there is a type specification?](#why-do-we-enforce-the-core-prisma-primitive-type-even-when-there-is-a-type-specification)
+- [Comments](#comments)
+- [Type Definition](#type-definition)
+  - [Type Definitions provided by Connectors](#type-definitions-provided-by-connectors)
+- [Enum Block](#enum-block)
+- [Embed Block](#embed-block)
+  - [Inline Embeds](#inline-embeds)
+- [Env Function](#env-function)
+  - [Introspect Behavior](#introspect-behavior)
+  - [Migrate Behavior](#migrate-behavior)
+  - [Generate Behavior](#generate-behavior)
+  - [Switching Datasources based on Environments](#switching-datasources-based-on-environments)
+- [Function](#function)
+- [Importing schemas](#importing-schemas)
+  - [Importing from other endpoints](#importing-from-other-endpoints)
+  - [Merging Models](#merging-models)
+- [Auto Formatting](#auto-formatting)
+  - [Formatting Rules](#formatting-rules)
+    - [Configuration blocks are align by their `=` sign.](#configuration-blocks-are-align-by-their--sign)
+    - [Field definitions are aligned into columns separated by 2 or more spaces.](#field-definitions-are-aligned-into-columns-separated-by-2-or-more-spaces)
 - [FAQ](#faq)
   - [Why not support @id for multiple blocks?](#why-not-support-id-for-multiple-blocks)
 
@@ -694,13 +694,15 @@ Disambiguates relationships when needed.
 
 ###### Named relations
 
-When a model contains a single relation to another model or itself, giving a name to the relation is optional and the `@relation` directive can be completely omitted.
+When a model contains a single relation to another model or itself, giving a name to the relation is optional and the `@relation` directive can be completely
+omitted.
 
-There can be multiple distinct relationships between two models, or between a model and itself ("self relation"). When this is the case, the relationships must be named, so they can be distinguished. 
+There can be multiple distinct relationships between two models, or between a model and itself ("self relation"). When this is the case, the relationships must
+be named, so they can be distinguished.
 
 ###### Ambiguous relations
 
-Relation fields that do not clearly belong to a specific relationship constitute an *ambiguous relation*.
+Relation fields that do not clearly belong to a specific relationship constitute an _ambiguous relation_.
 
 This is an example ambiguous relation on the schema of an imaginary simplified blogging platform:
 
@@ -736,7 +738,8 @@ model User  {
 
 ###### Arguments
 
-- name: _(optional, except when required for disambiguation)_ defines the name of the relationship. The name of the relation needs to be explicitly given to resolve amibiguities when the model contains two or more fields that refer to the same model (another model or itself).
+- name: _(optional, except when required for disambiguation)_ defines the name of the relationship. The name of the relation needs to be explicitly given to
+  resolve amibiguities when the model contains two or more fields that refer to the same model (another model or itself).
 - references: _(optional)_ list of field names to reference
 - onDelete: _(optional)_ defines what we do when the referenced relation is deleted
   - **CASCADE**: also delete this entry
@@ -744,8 +747,10 @@ model User  {
 
 ###### Validation
 
-- Ambiguous relations: when one model contains two fields with an `@relation` directive pointing to another model, and both fields have the same relation name, or no relation name, the relation cannot be resolved and a validation error is emitted.
-- Ambiguous self relations: when one model contains two fields referencing the model itself without relation name to disambiguate that they should be seen as the same relation, they are considered ambiguous.
+- Ambiguous relations: when one model contains two fields with an `@relation` directive pointing to another model, and both fields have the same relation name,
+  or no relation name, the relation cannot be resolved and a validation error is emitted.
+- Ambiguous self relations: when one model contains two fields referencing the model itself without relation name to disambiguate that they should be seen as
+  the same relation, they are considered ambiguous.
 - Named relations with more than two fields are rejected, because there is no way to interpret them that makes sense.
 
 ##### @updatedAt
@@ -948,6 +953,21 @@ model Customer {
   amount   pg.Money
   name     pg.Varchar(n: 10)
   location pg.Point(y: 5, x: 6)
+}
+```
+
+## View Block
+
+> 🧪 Experimental
+
+Views are read-only tables. The query in `@@as(query)` is run every time the view is referenced in a query.
+
+```groovy
+view BrazilCustomers {
+  name  String
+  email String
+  count Int
+  @@as("select name, email, count(id) from customers where country = 'Brazil'")
 }
 ```
 
