@@ -254,7 +254,7 @@ FindOne returns the first item which matches a given query.
 ##### Returns all scalar fields of a single User
 
 ```go
-user, err := client.User.FindOne.Where(
+user, err := client.User.FindOne(
   photon.User.Email.Equals("ada@prisma.io"),
 ).Exec(ctx)
 ```
@@ -262,7 +262,7 @@ user, err := client.User.FindOne.Where(
 ##### Fetch a single post by its id:
 
 ```go
-user, err := client.User.FindOne.Where(
+user, err := client.User.FindOne(
   photon.User.ID.Equals("ada@prisma.io"),
 ).Exec(ctx)
 ```
@@ -270,7 +270,7 @@ user, err := client.User.FindOne.Where(
 ##### Fetch a single user by their email:
 
 ```go
-user, err := client.User.FindOne.Where(
+user, err := client.User.FindOne(
   photon.User.Email.Equals("ada@prisma.io"),
 ).Exec(ctx)
 ```
@@ -292,13 +292,13 @@ comments, err := client.Comment.FindMany.Exec(ctx)
 ##### Find users that have an A in their names
 
 ```go
-users, err := client.User.FindMany.Where(photon.User.Name.Contains("A")).Exec(ctx)
+users, err := client.User.FindMany(photon.User.Name.Contains("A")).Exec(ctx)
 ```
 
 ##### Find users named Ada or Grace
 
 ```go
-users, err := client.User.FindMany.Where(
+users, err := client.User.FindMany(
   photon.User.Name.In([]string{"Ada", "Grace"}),
 ).Exec(ctx)
 ```
@@ -306,13 +306,13 @@ users, err := client.User.FindMany.Where(
 ##### Fetch comments created before 2019
 
 ```go
-comments, err := client.Comment.FindMany.Where(photon.Comment.CreatedAt.Lt(christmas)).Exec(ctx)
+comments, err := client.Comment.FindMany(photon.Comment.CreatedAt.Lt(christmas)).Exec(ctx)
 ```
 
 ##### Fetch posts that have prisma or graphql in their title
 
 ```go
-posts, err := client.Post.FindMany.Where(photon.Post.Or(
+posts, err := client.Post.FindMany(photon.Post.Or(
   photon.Post.Title.Contains("prisma"),
   photon.Post.Title.Contains("graphql"),
 )).Exec(ctx)
@@ -383,7 +383,7 @@ posts, err := client.Post.FindMany.Last(3).Before(10).Skip(5).Exec(ctx)
 ##### Fetch posts by a certain user that were created after christmas
 
 ```go
-posts, err := client.Post.FindMany.Where(
+posts, err := client.Post.FindMany(
   photon.Post.CreatedAt.Gt(christmas),
   photon.Post.User.Email.Equals(email),
 ).Exec(ctx)
@@ -392,7 +392,7 @@ posts, err := client.Post.FindMany.Where(
 ##### Find all comments belonging to a post of a user
 
 ```go
-comments, err := client.Comment.FindMany.Where(
+comments, err := client.Comment.FindMany(
   photon.Comment.Title.Contains("my title"),
   photon.Post.User.Email.Equals(email),
 ).Exec(ctx)
@@ -496,7 +496,7 @@ You can update records by querying for specific documents and setting specific f
 ##### Update the role of an existing user
 
 ```go
-user, err := client.User.UpdateOne.Where(
+user, err := client.User.UpdateOne(
   photon.User.ID.Equals("cjsyytzn0004d0982gbyeqep7"),
 ).Data(
   photon.User.Role.Set(photon.User.Role.ADMIN),
@@ -506,10 +506,10 @@ user, err := client.User.UpdateOne.Where(
 ##### Update the author of a post
 
 ```go
-post, err := client.Post.UpdateOne.Where(
+post, err := client.Post.UpdateOne(
   photon.Post.ID.Equals("cjsx2j8bw02920b25rl806l07"),
 ).Data(
-  photon.Post.Author.Connect.Where(
+  photon.Post.Author.Connect(
     photon.User.Email.Equals("bob@prisma.io"),
   ),
 ).Exec(ctx)
@@ -520,7 +520,7 @@ post, err := client.Post.UpdateOne.Where(
 ##### Update three posts by their IDs
 
 ```go
-affectedRows, err := client.Post.UpdateMany.Where(
+affectedRows, err := client.Post.UpdateMany(
   photon.Post.ID.In([]string{
     "cjsyqxwqv000l0982p5qdq34p",
     "cjsyqxwqo000j0982da8cvw7o",
@@ -534,7 +534,7 @@ affectedRows, err := client.Post.UpdateMany.Where(
 ##### Update all posts where the title contains the given string
 
 ```go
-affectedRows, err = client.Post.UpdateMany.Where(
+affectedRows, err = client.Post.UpdateMany(
   photon.Post.Title.Contains("prisma"),
 ).Data(
   photon.Post.Published.Set(true),
@@ -546,7 +546,7 @@ affectedRows, err = client.Post.UpdateMany.Where(
 ##### Delete a post by its ID
 
 ```go
-post, err := client.Post.DeleteOne.Where(
+post, err := client.Post.DeleteOne(
   photon.Post.ID.Equals(10),
 ).Exec(ctx)
 ```
@@ -554,7 +554,7 @@ post, err := client.Post.DeleteOne.Where(
 ##### Delete a user by their email
 
 ```go
-user, err := client.User.DeleteOne.Where(
+user, err := client.User.DeleteOne(
   photon.User.Email.Equals("alice@prisma.io"),
 ).Exec(ctx)
 ```
@@ -564,7 +564,7 @@ user, err := client.User.DeleteOne.Where(
 ##### Delete all posts that were created before 2018:
 
 ```go
-affectedRows, err := client.Post.DeleteMany.Where(
+affectedRows, err := client.Post.DeleteMany(
   photon.Post.CreatedAt.Gt(christmas),
 ).Exec(ctx)
 ```
@@ -574,7 +574,7 @@ affectedRows, err := client.Post.DeleteMany.Where(
 ##### Create a user or update their role
 
 ```go
-user, err := client.User.UpsertOne.Where(
+user, err := client.User.UpsertOne(
   photon.User.Email.Equals("alice@prisma.io"),
 ).Data(
   photon.User.Email.Set("alice@prisma.io"),
@@ -587,7 +587,7 @@ user, err := client.User.UpsertOne.Where(
 ##### Select a user with 10 of their posts
 
 ```go
-post, err := client.User.FindOne.Where(
+post, err := client.User.FindOne(
   photon.User.ID.Equals("bobs-id"),
 ).With(
   photon.User.Posts.
@@ -605,7 +605,7 @@ This will fetch users
 Note: This uses an additional relation "friends" which is not 
 
 ```go
-post, err := client.User.FindOne.Where(
+post, err := client.User.FindOne(
   photon.User.ID.Equals("bobs-id"),
 ).With(
   photon.User.Posts.
@@ -623,7 +623,7 @@ post, err := client.User.FindOne.Where(
 ##### Find all users which has more than 10 posts
 
 ```go
-posts, err := client.User.FindMany.Where(
+posts, err := client.User.FindMany(
   photon.User.ID.Equals("bobs-id"),
   photon.User.Posts.Count().Lt(10),
 ).Exec(ctx)
@@ -632,7 +632,7 @@ posts, err := client.User.FindMany.Where(
 ##### Find a user with their most popular posts
 
 ```go
-posts, err := client.User.FindMany.Where(
+posts, err := client.User.FindMany(
   photon.User.ID.Equals("bobs-id"),
 ).With(
   photon.User.Posts.
@@ -679,7 +679,7 @@ var result []struct{
   Likes `json:"likes"`
 }
 
-err := client.User.Aggregate.Where(
+err := client.User.Aggregate(
   photon.User.Name.Filled(),
 ).Select(
   photon.User.Name.Select().As("user"), // user field "user" instead of "name"
