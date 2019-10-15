@@ -14,69 +14,68 @@ your datasources with Lift and administer your data using Studio.
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-
-  - [Datasource Block](#datasource-block)
-    - [Supported fields](#supported-fields)
-  - [Generator Block](#generator-block)
-    - [Supported fields](#supported-fields-1)
-    - [Binary Configuration](#binary-configuration)
-  - [Model Block](#model-block)
-    - [Field Names](#field-names)
-    - [Data Types](#data-types)
-      - [Core Data Type to Connector](#core-data-type-to-connector)
-      - [Core Data Type to Generator](#core-data-type-to-generator)
-      - [List Types](#list-types)
-      - [Optional Types](#optional-types)
-      - [Relations](#relations)
-        - [One-to-One (1:1) Relationships](#one-to-one-11-relationships)
-        - [One-to-Many (1:N) Relationships](#one-to-many-1n-relationships)
-        - [Implicit Many-to-Many (M:N) Relationships](#implicit-many-to-many-mn-relationships)
-        - [Explicit Many-to-Many (M:N) Relationships](#explicit-many-to-many-mn-relationships)
-        - [Self-Referential Relationships](#self-referential-relationships)
-        - [Multiple-Reference Relationships](#multiple-reference-relationships)
-        - [Referencing Primary Composite Keys](#referencing-primary-composite-keys)
-        - [Referencing fields that are not @id](#referencing-fields-that-are-not-id)
-    - [Attributes](#attributes)
-      - [Case 1. No arguments](#case-1-no-arguments)
-      - [Case 2. One positional argument](#case-2-one-positional-argument)
-      - [Case 3. Many named arguments](#case-3-many-named-arguments)
-      - [Field Attributes](#field-attributes)
-      - [Core Field Attributes](#core-field-attributes)
-        - [@id](#id)
-        - [@unique](#unique)
-        - [@map(\_ name: String)](#map%5C_-name-string)
-        - [@default(\_ expr: Expr)](#default%5C_-expr-expr)
-        - [@relation(\_ name?: String, references?: Identifier[], onDelete?: CascadeEnum)](#relation%5C_-name-string-references-identifier-ondelete-cascadeenum)
-          - [Named relations](#named-relations)
-          - [Ambiguous relations](#ambiguous-relations)
-          - [Arguments](#arguments)
-          - [Validation](#validation)
-        - [@updatedAt](#updatedat)
-      - [Block Attributes](#block-attributes)
-      - [Core Block Attributes](#core-block-attributes)
-      - [Type Specifications](#type-specifications)
-    - [Why do we enforce the Core Prisma Primitive Type, even when there is a type specification?](#why-do-we-enforce-the-core-prisma-primitive-type-even-when-there-is-a-type-specification)
-  - [Comments](#comments)
-  - [Type Definition](#type-definition)
-    - [Type Definitions provided by Connectors](#type-definitions-provided-by-connectors)
-  - [View Block](#view-block)
-    - [Materialized Views](#materialized-views)
-  - [Enum Block](#enum-block)
-  - [Embed Block](#embed-block)
-    - [Inline Embeds](#inline-embeds)
-  - [Env Function](#env-function)
-    - [Introspect Behavior](#introspect-behavior)
-    - [Migrate Behavior](#migrate-behavior)
-    - [Generate Behavior](#generate-behavior)
-    - [Switching Datasources based on Environments](#switching-datasources-based-on-environments)
-  - [Function](#function)
-  - [Importing schemas](#importing-schemas)
-    - [Importing from other endpoints](#importing-from-other-endpoints)
-    - [Merging Models](#merging-models)
-  - [Auto Formatting](#auto-formatting)
-    - [Formatting Rules](#formatting-rules)
-      - [Configuration blocks are align by their `=` sign.](#configuration-blocks-are-align-by-their--sign)
-      - [Field definitions are aligned into columns separated by 2 or more spaces.](#field-definitions-are-aligned-into-columns-separated-by-2-or-more-spaces)
+- [Datasource Block](#datasource-block)
+  - [Supported fields](#supported-fields)
+- [Generator Block](#generator-block)
+  - [Supported fields](#supported-fields-1)
+  - [Binary Configuration](#binary-configuration)
+- [Model Block](#model-block)
+  - [Field Names](#field-names)
+  - [Data Types](#data-types)
+    - [Core Data Type to Connector](#core-data-type-to-connector)
+    - [Core Data Type to Generator](#core-data-type-to-generator)
+    - [List Types](#list-types)
+    - [Optional Types](#optional-types)
+    - [Relations](#relations)
+      - [One-to-One (1:1) Relationships](#one-to-one-11-relationships)
+      - [One-to-Many (1:N) Relationships](#one-to-many-1n-relationships)
+      - [Implicit Many-to-Many (M:N) Relationships](#implicit-many-to-many-mn-relationships)
+      - [Explicit Many-to-Many (M:N) Relationships](#explicit-many-to-many-mn-relationships)
+      - [Self-Referential Relationships](#self-referential-relationships)
+      - [Multiple-Reference Relationships](#multiple-reference-relationships)
+      - [Referencing Primary Composite Keys](#referencing-primary-composite-keys)
+      - [Referencing fields that are not @id](#referencing-fields-that-are-not-id)
+  - [Attributes](#attributes)
+    - [Case 1. No arguments](#case-1-no-arguments)
+    - [Case 2. One positional argument](#case-2-one-positional-argument)
+    - [Case 3. Many named arguments](#case-3-many-named-arguments)
+    - [Field Attributes](#field-attributes)
+    - [Core Field Attributes](#core-field-attributes)
+      - [@id](#id)
+      - [@unique](#unique)
+      - [@map(\_ name: String)](#map%5C_-name-string)
+      - [@default(\_ expr: Expr)](#default%5C_-expr-expr)
+      - [@relation(\_ name?: String, references?: Identifier[], onDelete?: CascadeEnum)](#relation%5C_-name-string-references-identifier-ondelete-cascadeenum)
+        - [Named relations](#named-relations)
+        - [Ambiguous relations](#ambiguous-relations)
+        - [Arguments](#arguments)
+        - [Validation](#validation)
+      - [@updatedAt](#updatedat)
+    - [Block Attributes](#block-attributes)
+    - [Core Block Attributes](#core-block-attributes)
+    - [Type Specifications](#type-specifications)
+  - [Why do we enforce the Core Prisma Primitive Type, even when there is a type specification?](#why-do-we-enforce-the-core-prisma-primitive-type-even-when-there-is-a-type-specification)
+- [Comments](#comments)
+- [Type Definition](#type-definition)
+  - [Type Definitions provided by Connectors](#type-definitions-provided-by-connectors)
+- [View Block](#view-block)
+  - [Materialized Views](#materialized-views)
+- [Enum Block](#enum-block)
+- [Embed Block](#embed-block)
+  - [Inline Embeds](#inline-embeds)
+- [Env Function](#env-function)
+  - [Introspect Behavior](#introspect-behavior)
+  - [Migrate Behavior](#migrate-behavior)
+  - [Generate Behavior](#generate-behavior)
+  - [Switching Datasources based on Environments](#switching-datasources-based-on-environments)
+- [Function](#function)
+- [Importing schemas](#importing-schemas)
+  - [Importing from other endpoints](#importing-from-other-endpoints)
+  - [Merging Models](#merging-models)
+- [Auto Formatting](#auto-formatting)
+  - [Formatting Rules](#formatting-rules)
+    - [Configuration blocks are align by their `=` sign.](#configuration-blocks-are-align-by-their--sign)
+    - [Field definitions are aligned into columns separated by 2 or more spaces.](#field-definitions-are-aligned-into-columns-separated-by-2-or-more-spaces)
 - [FAQ](#faq)
   - [Why not support @id for multiple blocks?](#why-not-support-id-for-multiple-blocks)
 
@@ -1008,6 +1007,69 @@ Materialized views are similar to views, but they can be refreshed. We will expo
 ```ts
 await photon.brazilcustomers.refresh()
 ```
+
+## Procedure Signature
+
+> ⚠ This is not implemented yet.
+
+The Procedure signature is used to add a Stored Procedure to the database. A Stored Procedure is custom code that runs inside the database. Stored procedured
+are defined in the Prisma Schema and implemented in the `lift/procedures` folder.
+
+```groovy
+procedure BrazilCustomers(a Int, b Int)
+```
+
+This procedure's implementation would live in `lift/procedures/brazil_customers.sql`.
+
+> More Information on Stored Procedures: https://www.postgresql.org/docs/12/xproc.html
+
+### Photon
+
+Stored procedures are normally executed with the `CALL` command. In our example, `CALL brazil_customers(1, 2)`. We can expose this in Photon like this:
+
+```ts
+await photon.brazilcustomers(1, 2)
+```
+
+## Function Signature
+
+> ⚠ This is not implemented yet.
+
+The Function signature is used to add a Stored Function to the database. A Stored Function is custom code that runs inside the database. Stored functions are
+defined in the Prisma Schema and implemented in the `lift/functions` folder.
+
+```groovy
+function Extract(date DateTime, part String) Int
+```
+
+This functions's implementation would live in `lift/procedures/brazil_customers.sql`.
+
+> More Information on Stored Functions: https://www.postgresql.org/docs/12/xfunc.html
+
+### Functions vs. Procedures
+
+From the schema's perspective, functions and procedures seem really similar. There's a couple notable differences:
+
+- A procedure does not return a value
+- A function is invoked within an expression and returns a single value directly to the caller to be used in the expression.
+- You cannot invoke a function with a CALL statement, nor can you invoke a procedure in an expression.
+
+For us, this means that functions and procedures affect how the Photon API is generated.
+
+> More information: https://stackoverflow.com/questions/3744209/mysql-stored-procedure-vs-function-which-would-i-use-when
+
+### Photon
+
+Stored functions can be used in all the same places as fields:
+
+```ts
+await photon.users.create({
+  firstName: true,
+  dayJoined: photon.fns.extract(new Date(), 'day'),
+})
+```
+
+This `extract` function will get called at the database-level.
 
 ## Enum Block
 
