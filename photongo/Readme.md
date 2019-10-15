@@ -432,8 +432,9 @@ user, err := client.User.CreateOne(
 post, err := client.Post.Create(
   photon.Post.ID.Set("abc43"),
   photon.Post.Title.Set("Prisma"),
-).ConnectAuthor(
-  photon.Post.Email.Equals("alice@prisma.io"),
+  photon.Post.Author.Connect(
+    photon.Post.Email.Equals("alice@prisma.io"),
+  ),
 ).Exec(ctx)
 ```
 
@@ -445,34 +446,20 @@ user, err := client.User.CreateOne(
   photon.User.Name.Set("John"),
   photon.User.Email.Set("john@example.com"),
   photon.User.Age.Set(50),
-).CreatePost(
-  photon.Post.ID.Set("a"),
-  photon.Post.Title.Set("Follow @prisma on Twitter"),
-).CreatePost(
-  photon.Post.ID.Set("b"),
-  photon.Post.Title.Set("Join us for GraphQL"),
+  photon.User.Post.Create(
+    photon.Post.ID.Set("a"),
+    photon.Post.Title.Set("Follow @prisma on Twitter"),
+  ),
+  photon.User.Post.Create(
+    photon.Post.ID.Set("b"),
+    photon.Post.Title.Set("Join us for GraphQL"),
+  ),
 ).Exec(ctx)
 ```
 
 ##### Create 1 user, 2 posts and connect an existing post
 
 ```go
-user, err := client.User.CreateOne(
-  photon.User.ID.Set("7d42"),
-  photon.User.Email.Set("bob@prisma.io"),
-  photon.User.Name.Set("Bob"),
-).CreatePost(
-  photon.Post.ID.Set("a"),
-  photon.Post.Title.Set("Follow @prisma on Twitter"),
-).CreatePost(
-  photon.Post.ID.Set("b"),
-  photon.Post.Title.Set("GraphQL is cool"),
-).ConnectPost(
-  photon.Post.ID.Equals("c"),
-).Exec(ctx)
-
-// an alternative to this syntax could be this
-
 user, err := client.User.CreateOne(
   photon.User.ID.Set("7d42"),
   photon.User.Email.Set("bob@prisma.io"),
