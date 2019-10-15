@@ -21,15 +21,46 @@ Definition of errors in Prisma Framework. (In this document we make the distinct
   - [Known Errors Template](#known-errors-template)
   - [Prisma SDK](#prisma-sdk)
     - [Common](#common)
+      - [P1000: Incorrect database credentials](#p1000-incorrect-database-credentials)
+      - [P1001: Database not reachable](#p1001-database-not-reachable)
+      - [P1002: Database timeout](#p1002-database-timeout)
+      - [P1003: Database does not exist](#p1003-database-does-not-exist)
+      - [P1004: Incompatible binary](#p1004-incompatible-binary)
+      - [P1005: Unable to start the query engine](#p1005-unable-to-start-the-query-engine)
+      - [P1006: Binary not found](#p1006-binary-not-found)
+      - [P1007: Missing write access to download binary](#p1007-missing-write-access-to-download-binary)
+      - [P1008: Database operation timeout](#p1008-database-operation-timeout)
+      - [P1009: Database already exists](#p1009-database-already-exists)
+      - [P1010: Database access denied](#p1010-database-access-denied)
     - [Query Engine](#query-engine)
+      - [P2000: Input value too long](#p2000-input-value-too-long)
+      - [P2001: Record not found](#p2001-record-not-found)
+      - [P2002: Unique key violation](#p2002-unique-key-violation)
+      - [P2003: Foreign key violation](#p2003-foreign-key-violation)
+      - [P2004: Constraint violation](#p2004-constraint-violation)
+      - [P2005: Stored value is invalid](#p2005-stored-value-is-invalid)
+      - [P2006: `*`Type mismatch: invalid (ID/Date/Json/Enum)](#p2006-type-mismatch-invalid-iddatejsonenum)
+      - [P2007: `*`Type mismatch: invalid custom type](#p2007-type-mismatch-invalid-custom-type)
+      - [P2008: Query parsing failed](#p2008-query-parsing-failed)
+      - [P2009: Query validation failed](#p2009-query-validation-failed)
     - [Migration Engine](#migration-engine)
-    - [Schema Parser](#schema-parser)
+      - [P3000: Database creation failed](#p3000-database-creation-failed)
+      - [P3001: Destructive migration detected](#p3001-destructive-migration-detected)
+      - [P3002: Migration rollback](#p3002-migration-rollback)
     - [Introspection](#introspection)
-    - [Unclassified SDK errors](#unclassified-sdk-errors)
+      - [P4000: Introspection failed](#p4000-introspection-failed)
+    - [Schema Parser](#schema-parser)
+      - [P5000: Schema parsing failed](#p5000-schema-parsing-failed)
+      - [P5001: Schema relational ambiguity](#p5001-schema-relational-ambiguity)
+      - [P5002: Schema string input validation errors](#p5002-schema-string-input-validation-errors)
   - [Photon.js](#photonjs)
+      - [Photon runtime validation error](#photon-runtime-validation-error)
+      - [Query engine connection error](#query-engine-connection-error)
   - [Prisma Studio](#prisma-studio)
   - [Prisma CLI](#prisma-cli)
     - [Init](#init)
+      - [Directory already contains schema file](#directory-already-contains-schema-file)
+      - [Starter kit](#starter-kit)
     - [Generate](#generate)
     - [Dev](#dev)
     - [Lift](#lift)
@@ -42,13 +73,6 @@ Definition of errors in Prisma Framework. (In this document we make the distinct
     - [Studio](#studio)
     - [CLI](#cli)
 - [Error Log Masking](#error-log-masking)
-- [Appendix](#appendix)
-  - [Error Message Template Variables](#error-message-template-variables)
-  - [Meta Schema Index](#meta-schema-index)
-  - [Common Database Errors](#common-database-errors)
-    - [MySQL](#mysql)
-    - [PostgreSQL](#postgresql)
-    - [SQLite](#sqlite)
 - [Open Questions?](#open-questions)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -71,6 +95,8 @@ Broadly, the life-cycle of a request (Query request or CLI command) can be seen 
 | System that uses SDK | →   | Prisma SDK | →   | Binaries | →   | Data source |
 | -------------------- | --- | ---------- | --- | -------- | --- | ----------- |
 
+
+Note: This spec is primarily targeted at users who would build tools using the Prisma SDK. The spec also targets users of those tools.
 
 # Error Causes and Handling Strategies
 
@@ -125,14 +151,14 @@ In certain cases, like when a port collision, Prisma SDK can try to retry gracef
 
 Error codes make identification/classification of error easier. Moreover, we can have internal range for different system components
 
-| Tool (Binary)    | Range |
-| ---------------- | ----- |
-| Common           | 1000  |
-| Query Engine     | 2000  |
-| Migration Engine | 3000  |
-| Schema Parser    | 4000  |
-| Introspection    | 5000  |
-| Prisma Format    | 6000  |
+| Tool (Binary)        | Range | Description                                                                                                                                                                      |
+| -------------------- | ----- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Common               | 1000  | Common errors across all binaries. Common by itself is not a binary.                                                                                                             |
+| Query Engine         | 2000  | Query engine binary is responsible for getting data from data sources via connectors (This powers Photon). The errors in this range would usually be data constraint errors      |
+| Migration Engine     | 3000  | Migration engine binary is responsible for performing database migrations (This powers lift). The errors in this range would usually be schema migration/data destruction errors |
+| Introspection Engine | 4000  | Introspection engine binary is responsible for printing Prisma schema from an existing database. The errors in this range would usually be errors with schema inferring          |
+| Schema Parser        | 5000  | Schema parser is responsible for parsing the Prisma schema file. The errors in this range are usually syntactic or semantic errors.                                              |
+| Prisma Format        | 6000  | Prisma format powers the Prisma VSCode extension to pretty print the Prisma schema. The errors in this range are usually syntactic or semantic errors.                           |
 
 # Known Errors
 
@@ -165,79 +191,451 @@ SDK acts as the interface between the binaries and the tools. This section cover
 
 ### Common
 
-| Title                                   | Message                                                                                                                                                                                                                                                          | Code  | Meta Fields                                 |
-| --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----- | ------------------------------------------- |
-| Incorrect database credentials          | Authentication failed against database server at `${database_host}`, the provided database credentials for `${database_user}` are not valid. <br /> <br /> Please make sure to provide valid database credentials for the database server at `${database_host}`. | P1000 | database_host, database_user                |
-| Database not reachable                  | Can't reach database server at `${database_host}`:`${database_port}` <br /> <br /> Please make sure your database server is running at \${host:port}.                                                                                                            | P1001 | database_host, database_port                |
-| Database timeout                        | The database server at `${database_host}`:`${database_port}` was reached but timed out. <br /> <br /> Please try again. <br /> <br /> Please make sure your database server is running at \${host:port}.                                                         | P1002 | database_host, database_port                |
-| Database does not exist                 | Database `${database_name}` does not exist on the database server at `${database_host}`. <br /> <br />                                                                                                                                                           | P1003 | database_name, database_host                |
-| Incompatible binary                     | The downloaded/provided binary `${binary_path}` is not compiled for platform `${platform}`                                                                                                                                                                       | P1004 | binary_path, platform                       |
-| Unable to start the query engine        | Failed to spawn the binary `${binary_path}` process for platform `${platform}`                                                                                                                                                                                   | P1005 | binary_path, platform                       |
-| Binary not found                        | Photon binary for current platform `${platform}` could not be found. Make sure to adjust the generator configuration in the `schema.prisma` file. <br /> <br />`${generator_config}` <br /> <br />Please run `prisma2 generate` for your changes to take effect. | P1006 | platform, generator_config                  |
-| Missing write access to download binary | Please try installing Prisma 2 CLI again with the `--unsafe-perm` option. <br /> Example: `npm i -g --unsafe-perm prisma2`                                                                                                                                       | P1007 |                                             |
-| Database operation timeout              | Operations timed out after `${time}`                                                                                                                                                                                                                             | P1008 | time                                        |
-| Database already exists                 | Database `${database_name}` already exists on the database server at `${database_host}:${database_port}`                                                                                                                                                         | P1009 | database_name, database_host, database_port |
-| Database access denied                  | User `${database_user}` was denied access on the database `${database_name}`                                                                                                                                                                                     | P1010 | database_user, database_name                |
+#### P1000: Incorrect database credentials
 
-Note on P1003: Different consumers of the SDK might handle that differently. Lift save, for example, shows a interactive dialog for user to create it.
+- **Description**: Authentication failed against database server at `${database_host}`, the provided database credentials for `${database_user}` are not valid. <br /> <br /> Please make sure to provide valid database credentials for the database server at `${database_host}`.
+- **Meta schema**:
+
+  ```ts
+  type Meta = {
+    // Database host URI
+    database_host: string
+
+    // Database user name
+    database_user: string
+  }
+  ```
+
+- **Notes**: Might vary for different data source, For example, SQLite has no concept of user accounts, and instead relies on the file system for all database permissions. This makes enforcing storage quotas difficult and enforcing user permissions impossible.
+
+#### P1001: Database not reachable
+
+- **Description**: Can't reach database server at `${database_host}`:`${database_port}` <br /> <br /> Please make sure your database server is running at `${host}:${port}`.
+- **Meta schema**:
+
+  ```ts
+  type Meta = {
+    // Database host URI
+    database_host: string
+
+    // Database port
+    database_port: number
+  }
+  ```
+
+#### P1002: Database timeout
+
+- **Description**: The database server at `${database_host}`:`${database_port}` was reached but timed out. <br /> <br /> Please try again. <br /> <br /> Please make sure your database server is running at `${host}:${port}`.
+- **Meta schema**:
+
+  ```ts
+  type Meta = {
+    // Database host URI
+    database_host: string
+
+    // Database port
+    database_port: string
+  }
+  ```
+
+#### P1003: Database does not exist
+
+- **Description**: MySQL, Postgres: Database `${database_name}` does not exist on the database server at `${database_host}`. <br /> <br /> SQLite: Database `${database_file_name}` does not exist on the database server at `${database_file_path}`
+- **Meta schema**:
+
+  ```ts
+  type Meta = {
+    // Database name for all data sources that support a database name
+    // SQLite: File name of the database
+    database_name: string
+
+    // Postgres only: Database schema name
+    database_schema_name: string
+
+    // All data sources that have a database host URI
+    // SQLite: Path to the database file
+    database_host: string
+  }
+  ```
+
+- **Notes**: Different consumers of the SDK might handle that differently. Lift save, for example, shows a interactive dialog for user to create it.
+
+#### P1004: Incompatible binary
+
+- **Description**: The downloaded/provided binary `${binary_path}` is not compiled for platform `${platform}`
+- **Meta schema**:
+
+  ```ts
+  type Meta = {
+    // Fully resolved path of the binary file
+    binary_path: string
+
+    // Identifiers for the currently identified execution environment, e.g. `native`, `windows`, `darwin` etc
+    platform: string
+  }
+  ```
+
+#### P1005: Unable to start the query engine
+
+- **Description**: Failed to spawn the binary `${binary_path}` process for platform `${platform}`
+- **Meta schema**:
+
+  ```ts
+  type Meta = {
+    // Fully resolved path of the binary file
+    binary_path: string
+
+    // Identifiers for the currently identified execution environment, e.g. `native`, `windows`, `darwin` etc
+    platform: string
+  }
+  ```
+
+#### P1006: Binary not found
+
+- **Description**: Photon binary for current platform `${platform}` could not be found. Make sure to adjust the generator configuration in the `schema.prisma` file. <br /> <br />`${generator_config}` <br /> <br />Please run `prisma2 generate` for your changes to take effect.
+- **Meta schema**:
+
+  ```ts
+  type Meta = {
+    // Identifiers for the currently identified execution environment, e.g. `native`, `windows`, `darwin` etc
+    platform: string
+
+    // Details of how a generator can be added.
+    generator_config: string
+  }
+  ```
+
+- **Notes**: Tools (like Primsa CLI) consuming `generator_config` might color it using ANSI characters for better reading experience.
+
+#### P1007: Missing write access to download binary
+
+- **Description**: Please try installing Prisma 2 CLI again with the `--unsafe-perm` option. <br /> Example: `npm i -g --unsafe-perm prisma2`
+
+#### P1008: Database operation timeout
+
+- **Description**: Operations timed out after `${time}`
+- **Meta schema**:
+  ```ts
+  type Meta = {
+    // Operation time in s or ms (if <1000ms)
+    time: number
+  }
+  ```
+
+#### P1009: Database already exists
+
+- **Description**: Database `${database_name}` already exists on the database server at `${database_host}:${database_port}`
+- **Meta schema**:
+
+  ```ts
+  type Meta = {
+    // Database name, append `database_schema_name` when applicable
+    // `database_schema_name`: Database schema name (For Postgres for example)
+    database_name: string
+
+    // Database host URI
+    database_host: string
+
+    // Database port
+    database_port: number
+  }
+  ```
+
+#### P1010: Database access denied
+
+- **Description**: User `${database_user}` was denied access on the database `${database_name}`
+- **Meta schema**:
+
+  ```ts
+  type Meta = {
+    // Database user name
+    database_user: string
+
+    // Database name, append `database_schema_name` when applicable
+    // `database_schema_name`: Database schema name (For Postgres for example)
+    database_name: string
+  }
+  ```
 
 ### Query Engine
 
-| Title                                         | Message                                                                                                              | Code  | Meta Fields                               |
-| --------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | ----- | ----------------------------------------- |
-| Input value too long                          | The value `${value}` for the field `${field_name}` on the is too long for the field's type                           | P2000 | value, field_name                         |
-| Record not found                              | The record searched for in the where condition (`${model_name}.${argument_name} = ${argument_value}`) does not exist | P2001 | model_name, argument_name, argument_value |
-| Unique key violation                          | Unique constraint failed on the field: `${field_name}`                                                               | P2002 | field_name                                |
-| Foreign key violation                         | Foreign key constraint failed on the field: `${field_name}`                                                          | P2003 | field_name                                |
-| Constraint violation                          | A constraint failed on the database: `${database_error}`                                                             | P2004 | database_error                            |
-| Stored value is invalid                       | The value `${value}` stored in the database for the field `${field_name}` is invalid for the field's type            | P2005 | value, field_name                         |
-| `*`Type mismatch: invalid (ID/Date/Json/Enum) | The provided value `${field_value}` for (ID/Date/Json/Enum) field `${field_name}` is not valid                       | P2006 | field_value, field_name                   |
-| `*`Type mismatch: invalid custom type         | Data validation error `${database_error}`                                                                            | P2007 | database_error                            |
-| Query parsing failed                          | Failed to parse the query `${query_parsing_error}` at `${query_position}`                                            | P2008 | query_parsing_error, query_position       |
-| Query validation failed                       | Failed to validate the query `${query_validation_error}` at `${query_position}`                                      | P2009 | query_validation_error, query_position    |
-
-Note: Details of P2006 are not finalized. The current idea is that any variable coercion will happen in the query engine. Json might be recognized as a native Prisma scalar. This also brings up the question of shims. Clarity in those parts of the spec would help us answer this. The same questions apply to bring your own ID feature, will we recognize all known ID types (like uuid, cuid, MongoID) and validate them in any later before it hits the database?
-
-Note: Details of P2007 are not finalized. The current idea is that Photon, Query Engine will simply pass through the data and rely on database for data validation.
-
-Note: `P2008`, `2009` wouldn't come from Photon (if they do it is a bug in Photon) but they are useful for anyone writing a query builder on top of the query engine.
-
-Note: Features like raw execution do not exist now and the error does not talk about them. But re-throwing database error from the query engine is where it will be handled. We may error more cases for specific handling there.
-
 Note: Errors with `*` in the title represent multiple types and are less defined.
+
+#### P2000: Input value too long
+
+- **Description**: The value `${field_value}` for the field `${field_name}` on the is too long for the field's type
+- **Meta schema**:
+
+  ```ts
+  type Meta = {
+    // Concrete value provided for a field on a model in Prisma schema. Should be peeked/truncated if too long to display in the error message
+    field_value: string
+
+    // Field name from one model from Prisma schema
+    field_name: string
+  }
+  ```
+
+#### P2001: Record not found
+
+- **Description**: The record searched for in the where condition (`${model_name}.${argument_name} = ${argument_value}`) does not exist
+- **Meta schema**:
+
+  ```ts
+  type Meta = {
+    // Model name from Prisma schema
+    model_name: string
+
+    // Argument name from a supported query on a Prisma schema model
+    argument_name: string
+
+    // Concrete value provided for an argument on a query. Should be peeked/truncated if too long to display in the error message
+    argument_value: string
+  }
+  ```
+
+#### P2002: Unique key violation
+
+- **Description**: Unique constraint failed on the field: `${field_name}`
+- **Meta schema**:
+  ```ts
+  type Meta = {
+    // Field name from one model from Prisma schema
+    field_name: string
+  }
+  ```
+
+#### P2003: Foreign key violation
+
+- **Description**: Foreign key constraint failed on the field: `${field_name}`
+- **Meta schema**:
+  ```ts
+  type Meta = {
+    // Field name from one model from Prisma schema
+    field_name: string
+  }
+  ```
+
+#### P2004: Constraint violation
+
+- **Description**: A constraint failed on the database: `${database_error}`
+- **Meta schema**:
+  ```ts
+  type Meta = {
+    // Database error returned by the underlying data source
+    database_error: string
+  }
+  ```
+
+#### P2005: Stored value is invalid
+
+- **Description**: The value `${field_value}` stored in the database for the field `${field_name}` is invalid for the field's type
+- **Meta schema**:
+
+  ```ts
+  type Meta = {
+    // Concrete value provided for a field on a model in Prisma schema. Should be peeked/truncated if too long to display in the error message
+    field_value: string
+
+    // Field name from one model from Prisma schema
+    field_name: string
+  }
+  ```
+
+#### P2006: `*`Type mismatch: invalid (ID/Date/Json/Enum)
+
+- **Description**: The provided value `${field_value}` for `${model_name}` field `${field_name}` is not valid
+- **Meta schema**:
+
+  ```ts
+  type Meta = {
+    // Concrete value provided for a field on a model in Prisma schema. Should be peeked/truncated if too long to display in the error message
+    field_value: string
+
+    // Model name from Prisma schema
+    model_name: string
+
+    // Field name from one model from Prisma schema
+    field_name: string
+  }
+  ```
+
+- **Notes**: Details are not finalized. The current idea is that any variable coercion will happen in the query engine. Json might be recognized as a native Prisma scalar. This also brings up the question of shims. Clarity in those parts of the spec would help us answer this. The same questions apply to bring your own ID feature, will we recognize all known ID types (like uuid, cuid, MongoID) and validate them in any later before it hits the database?
+
+#### P2007: `*`Type mismatch: invalid custom type
+
+- **Description**: Data validation error `${database_error}`
+- **Meta schema**:
+  ```ts
+  type Meta = {
+    // Database error returned by the underlying data source
+    database_error: string
+  }
+  ```
+- **Notes**: Details are not finalized. The current idea is that Photon, Query Engine will simply pass through the data and rely on database for data validation.
+
+#### P2008: Query parsing failed
+
+- **Description**: Failed to parse the query `${query_parsing_error}` at `${query_position}`
+- **Meta schema**:
+
+  ```ts
+  type Meta = {
+    // Error(s) encountered when trying to parse a query in the query engine
+    query_parsing_error: string
+
+    // Location of the incorrect parsing, validation in a query. Represented by tuple or object with (line, character)
+    query_position: string
+  }
+  ```
+
+- **Notes**: This is unexpected from Photon (if they do it is a bug in Photon) but they are useful for anyone writing a query builder on top of the query engine.
+
+#### P2009: Query validation failed
+
+- **Description**: Failed to validate the query `${query_validation_error}` at `${query_position}`
+- **Meta schema**:
+
+  ```ts
+  type Meta = {
+    // Error(s) encountered when trying to validate a query in the query engine
+    query_validation_error: string
+
+    // Location of the incorrect parsing, validation in a query. Represented by tuple or object with (line, character)
+    query_position: string
+  }
+  ```
+
+- **Notes**: This is unexpected from Photon (if they do it is a bug in Photon) but they are useful for anyone writing a query builder on top of the query engine.
 
 ### Migration Engine
 
-| Title                          | Message                                                                                                       | Code  | Meta Fields                          |
-| ------------------------------ | ------------------------------------------------------------------------------------------------------------- | ----- | ------------------------------------ |
-| Database creation failed       | Failed to create database: `${database_error}`                                                                | P3000 | Database Error                       |
-| Destructive migration detected | Migration possible with destructive changes and possible data loss: `${migration_engine_destructive_details}` | P3001 | migration_engine_destructive_details |
-| Migration rollback             | The attempted migration was rolled back: `${database_error}`                                                  | P3002 | database_error                       |
+#### P3000: Database creation failed
 
-### Schema Parser
+- **Description**: Failed to create database: `${database_error}`
+- **Meta schema**:
+  ```ts
+  type Meta = {
+    // Database error returned by the underlying data source
+    database_error: string
+  }
+  ```
 
-| Title                                 | Message                                                                                                    | Code  | Meta Fields                               |
-| ------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ----- | ----------------------------------------- |
-| Schema parsing failed                 | Failed to parse schema file: `${schema_parsing_error}` at `${schema_position}`                             | P4000 | schema_parsing_error, schema_position     |
-| Schema relational ambiguity           | There is a relational ambiguity in the schema file between the models `${A}` and `${B}`.                   | P4001 | A, B                                      |
-| Schema string input validation errors | Database URL provided in the schema failed to parse: `${schema_sub_parsing_error}` at `${schema_position}` | P4002 | schema_sub_parsing_error, schema_position |
+#### P3001: Destructive migration detected
+
+- **Description**: Migration possible with destructive changes and possible data loss: `${migration_engine_destructive_details}`
+- **Meta schema**:
+  ```ts
+  type Meta = {
+    // Details of a destructive migration from the migration engine
+    migration_engine_destructive_details: string
+  }
+  ```
+
+#### P3002: Migration rollback
+
+- **Description**: The attempted migration was rolled back: `${database_error}`
+- **Meta schema**:
+  ```ts
+  type Meta = {
+    // Database error returned by the underlying data source
+    database_error: string
+  }
+  ```
 
 ### Introspection
 
-| Title                | Message                                                                            | Code  | Meta Fields         |
-| -------------------- | ---------------------------------------------------------------------------------- | ----- | ------------------- |
-| Introspection failed | Introspection operation failed to produce a schema file: `${introspection_error}`. | P5000 | introspection_error |
+#### P4000: Introspection failed
 
-### Unclassified SDK errors
+- **Description**: Introspection operation failed to produce a schema file: `${introspection_error}`.
+- **Meta schema**:
+  ```ts
+  type Meta = {
+    // Generic error received from the introspection engine. Indicator of why an introspection failed
+    introspection_error: string
+  }
+  ```
+
+### Schema Parser
+
+#### P5000: Schema parsing failed
+
+- **Description**: Failed to parse schema file: `${schema_parsing_error}` at `${schema_position}`
+- **Meta schema**:
+
+  ```ts
+  type Position = {
+    line: number
+    character: number
+  }
+
+  type Meta = {
+    // Error(s) encountered when trying to parse the schema in the schema parser
+    schema_parsing_error: string
+
+    // Location of the incorrect parsing, validation in the schema. Represented by tuple or object with (line, character)
+    schema_position: Position
+  }
+  ```
+
+#### P5001: Schema relational ambiguity
+
+- **Description**: There is a relational ambiguity in the schema file between the models `${A}` and `${B}`.
+- **Meta schema**:
+
+  ```ts
+  type Meta = {
+    // Concrete name of model from Prisma schema that has an ambiguity
+    A: string
+
+    // Concrete name of model from Prisma schema that has an ambiguity
+    B: string
+  }
+  ```
+
+#### P5002: Schema string input validation errors
+
+- **Description**: Database URL provided in the schema failed to parse: `${schema_sub_parsing_error}` at `${schema_position}`
+- **Meta schema**:
+
+  ```ts
+  type Position = {
+    line: number
+    character: number
+  }
+
+  type Meta = {
+    // Error(s) encountered when trying to parse a string input to the schema in the schema parser (Like database URL)
+    schema_sub_parsing_error: string
+
+    // Location of the incorrect parsing, validation in the schema. Represented by tuple or object with (line, character)
+    schema_position: Position
+  }
+  ```
 
 ## Photon.js
 
-| Title                           | Message                                                       |
-| ------------------------------- | ------------------------------------------------------------- |
-| Photon runtime validation error | Validation Error: `${photon_runtime_error}`                   |
-| Query engine connection error   | The query engine process died, please restart the application |
+#### Photon runtime validation error
 
-Photon relays the following errors from the SDK: `P1000`, `P1001` , `P1002`, `P1003`, `P1004`, `P1005`, `P1006`, `P2000`, `P2001` , `P2002`, `P2003`, `P2004`, `P2005`, `P2006`, `P2007`, `P2008`, `P2009`.
+- **Description**: Validation Error: `${photon_runtime_error}`
+- **Meta schema**:
+
+  ```ts
+  type Meta = {
+    // Photon runtime error describing a validation error like missing argument or incorrect data type.
+    photon_runtime_error: string
+  }
+  ```
+
+- **Notes**: Photon might use ANSI characters to color the response for a better reading experience. Disabling that feature is documented [here](https://github.com/prisma/specs/tree/master/photonjs#error-character-encoding).
+
+#### Query engine connection error
+
+- **Description**: The query engine process died, please restart the application
+
+---
+
+Additionally, Photon relays the following errors from the SDK: `P1000`, `P1001` , `P1002`, `P1003`, `P1004`, `P1005`, `P1006`, `P2000`, `P2001` , `P2002`, `P2003`, `P2004`, `P2005`, `P2006`, `P2007`, `P2008`, `P2009`.
 
 Note: For `P1006`, Photon provides additional information in case it detects that the binary is incorrectly pinned.
 
@@ -256,32 +654,49 @@ Note that Prisma CLI must exit with a non-zero exit code when it encounters an e
 
 ### Init
 
-| Title                                  | Message                                                  |
-| -------------------------------------- | -------------------------------------------------------- |
-| Directory already contains schema file | Directory `${folder_name}` is an existing Prisma project |
-| Starter kit                            | Directory `${folder_name}` is not empty                  |
+#### Directory already contains schema file
 
-Init command relays the following errors from the SDK: `P3000`, `P5000`
+- **Description**: Directory `${folder_name}` is an existing Prisma project
+- **Meta schema**:
+
+  ```ts
+  type Meta = {
+    // Folder name of current working directory (Equivalent of folder name from unix `pwd`)
+    folder_name: string
+  }
+  ```
+
+#### Starter kit
+
+- **Description**: Directory `${folder_name}` is not empty
+- **Meta schema**:
+
+  ```ts
+  type Meta = {
+    // Folder name of current working directory (Equivalent of folder name from unix `pwd`)
+    folder_name: string
+  }
+  ```
+
+Init command relays the following errors from the SDK: `P3000`, `P4000`
 
 More issues for init command failures are covered here: https://prisma-specs.netlify.com/cli/init/errors/
 
 ### Generate
 
-Generate command relays the following errors from the SDK: `P4000`, `P4001`, `P4002`
+Generate command relays the following errors from the SDK: `P5000`, `P5001`, `P5002`
 
 ### Dev
 
-Dev command relays the following errors from the SDK: `P1000`, `P1001` , `P1002`, `P1003`, `P1004`, `P1005`, `P1006`, `P3000`, `P3001`, `P4000`, `P4001`, `P4002`
+Dev command relays the following errors from the SDK: `P1000`, `P1001` , `P1002`, `P1003`, `P1004`, `P1005`, `P1006`, `P3000`, `P3001`, `P5000`, `P5001`, `P5002`
 
 ### Lift
 
-Lift commands relays the following errors from the SDK: `P1000`, `P1001` , `P1002`, `P1003`, `P1004`, `P1005`, `P1006`, `P3000`, `P3001`, `P4000`, `P4001`, `P4002`
-
-// TODO: Be more specific and mention different lift commands
+Lift commands relays the following errors from the SDK: `P1000`, `P1001` , `P1002`, `P1003`, `P1004`, `P1005`, `P1006`, `P3000`, `P3001`, `P5000`, `P5001`, `P5002`
 
 ### Introspect
 
-Introspect command relays the following errors from the SDK: `P1000`, `P1001` , `P1002`, `P1003`, `P1004`, `P1005`, `P1006`, `P5000`
+Introspect command relays the following errors from the SDK: `P1000`, `P1001` , `P1002`, `P1003`, `P1004`, `P1005`, `P1006`, `P4000`
 
 ## Programmatic access
 
@@ -474,70 +889,6 @@ Both logging output, error report might contain logs with sensitive information 
 The error report to be sent back automatically might also contain some proprietary information like the database schema via Prisma schema file.
 
 We must ask the user before collecting such information. This is covered in the [telemetry spec](https://prisma-specs.netlify.com/cli/telemetry/).
-
-# Appendix
-
-## Error Message Template Variables
-
-| Field                                  | Description                                                                                                                                         |
-| -------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `database_host`                        | Database host URI                                                                                                                                   |
-| `database_port`                        | Database port                                                                                                                                       |
-| `database_user`                        | Database user name                                                                                                                                  |
-| `database_name`                        | Database name, append `database_schema_name` when applicable                                                                                        |
-| `database_schema_name`                 | Database schema name (For Postgres for example)                                                                                                     |
-| `binary_path`                          | Fully resolved path of the binary file                                                                                                              |
-| `platform`                             | Identifiers for the currently identified execution environment, e.g. `native`, `windows`, `darwin` etc                                              |
-| `time`                                 | Operation time in s or ms (if <1000ms)                                                                                                              |
-| `model_name`                           | Model name from Prisma schema                                                                                                                       |
-| `field_name`                           | Field name from one model from Prisma schema                                                                                                        |
-| `field_value`                          | Concrete value provided for a field on a model in Prisma schema. Should be peeked/truncated if too long to display in the error message             |
-| `argument_name`                        | Argument name from a supported query on a Prisma schema model                                                                                       |
-| `argument_value`                       | Concrete value provided for an argument on a query. Should be peeked/truncated if too long to display in the error message                          |
-| `database_error`                       | Database error returned by the underlying data source                                                                                               |
-| `query_parsing_error`                  | Error(s) encountered when trying to parse a query in the query engine                                                                               |
-| `query_validation_error`               | Error(s) encountered when trying to validate a query in the query engine                                                                            |
-| `query_position`                       | Location of the incorrect parsing, validation in a query. Represented by tuple or object with (line, char)                                          |
-| `schema_parsing_error`                 | Error(s) encountered when trying to parse the schema in the schema parser                                                                           |
-| `schema_sub_parsing_error`             | Error(s) encountered when trying to parse a string input to the schema in the schema parser (Like database URL)                                     |
-| `schema_validation_error`              | Error(s) encountered when trying to validate the schema in the schema parser                                                                        |
-| `schema_position`                      | Location of the incorrect parsing, validation in the schema. Represented by tuple or object with (line, char)                                       |
-| `introspection_error`                  | Generic error received from the introspection engine. Indicator of why an introspection failed                                                      |
-| `migration_engine_destructive_details` | Details of a destructive migration from the migration engine                                                                                        |
-| `folder_name`                          | Folder name of current working directory (Equivalent of folder name from unix `pwd`)                                                                |
-| `photon_runtime_error`                 | Photon runtime error describing a validation error like missing argument or incorrect data type. May contain ANSI characters and query/schema diff. |
-| `generator_config`                     | Details of how a generator can be added. Can contain ANSI characters.                                                                               |
-
-## Meta Schema Index
-
-Same as the `Error Message Template Variables` table with the following exception:
-
-| Field                  | Description                                                                                                                                                      |
-| ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `photon_runtime_error` | Photon runtime error describing a validation error like missing argument or incorrect data type. May contain query/schema diff. ANSI characters must be stripped |
-| `generator_config`     | Details of how a generator can be added. ANSI characters must be stripped                                                                                        |
-
-## Common Database Errors
-
-### MySQL
-
-- https://www.fromdual.com/mysql-error-codes-and-messages
-- https://docs.oracle.com/cd/E19078-01/mysql/mysql-refman-5.0/error-handling.html
-- https://www.oreilly.com/library/view/mysql-reference-manual/0596002653/apas02.html
-- https://dev.mysql.com/doc/refman/5.5/en/server-error-reference.html
-
-### PostgreSQL
-
-- https://www.postgresql.org/docs/10/errcodes-appendix.html
-- https://www.postgresql.org/docs/8.1/errcodes-appendix.html
-- https://www.enterprisedb.com/docs/en/9.2/pg/errcodes-appendix.html
-
-### SQLite
-
-- https://www.sqlite.org/rescode.html
-- https://www.sqlite.org/c3ref/intro.html
-- https://www.sqlite.org/c3ref/c_abort.html
-- https://www.sqlite.org/c3ref/errcode.html
 
 # Open Questions?
 
