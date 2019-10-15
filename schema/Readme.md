@@ -959,18 +959,19 @@ model Customer {
 
 ## View Block
 
-> 🧪 Experimental
+> ⚠ This is not implemented yet.
 
-Views are read-only tables. The query in `@@as(query)` is run every time the view is referenced in a query.
+Views are read-only tables. Views are defined in the schema and implemented in the `lift/views` folder.
 
 ```groovy
 view BrazilCustomers {
   name  String
   email String
   count Int
-  @@as("select name, email, count(id) from customers where country = 'Brazil'")
 }
 ```
+
+This view's implementation would live in `lift/views/brazil_customers.sql`.
 
 ### Materialized Views
 
@@ -982,12 +983,29 @@ view BrazilCustomers {
   name  String
   email String
   count Int
-  @@as("select name, email, count(id) from customers where country = 'Brazil'")
   @@materialized
 }
 ```
 
-In photon, we'll want to add an API method to [refresh the materialized view](https://www.postgresql.org/docs/12/sql-refreshmaterializedview.html).
+This view's implementation would live in `lift/views/brazil_customers.sql`.
+
+### Photon
+
+Since the query has been pre-defined, we won't expose a where clause. A view is _readonly_ so we won't expose create, update, upsert, or delete:
+
+```ts
+await photon.brazilcustomers.find({
+  select: {
+    name: true,
+  },
+})
+```
+
+Materialized views are similar to views, but they can be refreshed. We will expose the following API method in Photon to refresh the materialized view
+
+```ts
+await photon.brazilcustomers.refresh()
+```
 
 ## Enum Block
 
