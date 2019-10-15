@@ -252,7 +252,7 @@ if name, ok := user.Name(); ok {
 
 FindOne returns the first item which matches a given query.
 
-##### Returns all scalar fields of a single User
+###### Returns all scalar fields of a single User
 
 ```go
 user, err := client.User.FindOne(
@@ -260,7 +260,7 @@ user, err := client.User.FindOne(
 ).Exec(ctx)
 ```
 
-##### Fetch a single post by its id:
+###### Fetch a single post by its id:
 
 ```go
 user, err := client.User.FindOne(
@@ -268,7 +268,7 @@ user, err := client.User.FindOne(
 ).Exec(ctx)
 ```
 
-##### Fetch a single user by their email:
+###### Fetch a single user by their email:
 
 ```go
 user, err := client.User.FindOne(
@@ -278,25 +278,25 @@ user, err := client.User.FindOne(
 
 #### FindMany
 
-##### Find all users
+###### Find all users
 
 ```go
 users, err := client.User.FindMany.Exec(ctx)
 ```
 
-##### Find all comments
+###### Find all comments
 
 ```go
 comments, err := client.Comment.FindMany.Exec(ctx)
 ```
 
-##### Find users that have an A in their names
+###### Find users that have an A in their names
 
 ```go
 users, err := client.User.FindMany(photon.User.Name.Contains("A")).Exec(ctx)
 ```
 
-##### Find users named Ada or Grace
+###### Find users named Ada or Grace
 
 ```go
 users, err := client.User.FindMany(
@@ -304,13 +304,13 @@ users, err := client.User.FindMany(
 ).Exec(ctx)
 ```
 
-##### Fetch comments created before 2019
+###### Fetch comments created before 2019
 
 ```go
 comments, err := client.Comment.FindMany(photon.Comment.CreatedAt.Lt(christmas)).Exec(ctx)
 ```
 
-##### Fetch posts that have prisma or graphql in their title
+###### Fetch posts that have prisma or graphql in their title
 
 ```go
 posts, err := client.Post.FindMany(photon.Post.Or(
@@ -319,61 +319,61 @@ posts, err := client.Post.FindMany(photon.Post.Or(
 )).Exec(ctx)
 ```
 
-##### Sort comments by their creation date (ascending)
+###### Sort comments by their creation date (ascending)
 
 ```go
 comments, err := client.Comment.FindMany.OrderBy(photon.Comment.CreatedAt.ASC).Exec(ctx)
 ```
 
-##### Sort users alphabetically by their names (descending)
+###### Sort users alphabetically by their names (descending)
 
 ```go
 users, err := client.User.FindMany.OrderBy(photon.Comment.Name.DESC).Exec(ctx)
 ```
 
-##### Find the first 3 posts (seeking forward)
+###### Find the first 3 posts (seeking forward)
 
 ```go
 posts, err := client.Post.FindMany.First(3).Exec(ctx)
 ```
 
-##### Find the posts from position 6 to position 10 (seeking forward)
+###### Find the posts from position 6 to position 10 (seeking forward)
 
 ```go
 posts, err := client.Post.FindMany.Skip(6).First(4).Exec(ctx)
 ```
 
-##### Find the last 3 posts (seeking backward)
+###### Find the last 3 posts (seeking backward)
 
 ```go
 posts, err := client.Post.FindMany.Last(3).Exec(ctx)
 ```
 
-##### Fetch the posts (of 30) from position 21 to position 27 (seeking backward)
+###### Fetch the posts (of 30) from position 21 to position 27 (seeking backward)
 
 ```go
 posts, err := client.Post.FindMany.Skip(3).Last(7).Exec(ctx)
 ```
 
-##### Fetch the first 3 posts after the posts with 3 as it's id
+###### Fetch the first 3 posts after the posts with 3 as it's id
 
 ```go
 posts, err := client.Post.FindMany.After("cjsyqxwqo000j0982da8cvw7o").Exec(ctx)
 ```
 
-##### Fetch the first 5 posts after the post with 10 as id and skipping 3 posts:
+###### Fetch the first 5 posts after the post with 10 as id and skipping 3 posts:
 
 ```go
 posts, err := client.Post.FindMany.After("abc").Skip(3).First(5).Exec(ctx)
 ```
 
-##### Fetch the last 5 posts before the post with 10 as id
+###### Fetch the last 5 posts before the post with 10 as id
 
 ```go
 posts, err := client.Post.FindMany.Last(5).Before(10).Exec(ctx)
 ```
 
-##### Fetch the last 3 posts before the record with 10 as id and skipping 5 posts
+###### Fetch the last 3 posts before the record with 10 as id and skipping 5 posts
 
 ```go
 posts, err := client.Post.FindMany.Last(3).Before(10).Skip(5).Exec(ctx)
@@ -381,7 +381,7 @@ posts, err := client.Post.FindMany.Last(3).Before(10).Skip(5).Exec(ctx)
 
 #### Fetch by related things
 
-##### Fetch posts by a certain user that were created after christmas
+###### Fetch posts by a certain user that were created after christmas
 
 ```go
 posts, err := client.Post.FindMany(
@@ -390,7 +390,7 @@ posts, err := client.Post.FindMany(
 ).Exec(ctx)
 ```
 
-##### Find all comments belonging to a post of a user
+###### Find all comments belonging to a post of a user
 
 ```go
 comments, err := client.Comment.FindMany(
@@ -411,7 +411,7 @@ You can optionally connect other nodes or even create new related nodes.
 
 You can create objects which maps to SQL inserts.
 
-##### Create a User
+###### Create a User
 
 ```go
 // User.Create has fixed and required arguments for required fields
@@ -429,7 +429,7 @@ user, err := client.User.CreateOne(
 ).Exec(ctx)
 ```
 
-##### Create a new post and set alice@prisma.io as the author
+###### Create a new post and set alice@prisma.io as the author
 
 ```go
 post, err := client.Post.Create(
@@ -441,7 +441,7 @@ post, err := client.Post.Create(
 ).Exec(ctx)
 ```
 
-##### Create a new user with two new posts
+###### Create a new user with two new posts
 
 ```go
 user, err := client.User.CreateOne(
@@ -460,7 +460,7 @@ user, err := client.User.CreateOne(
 ).Exec(ctx)
 ```
 
-##### Create 1 user, 2 posts and connect an existing post
+###### Create 1 user, 2 posts and connect an existing post
 
 ```go
 user, err := client.User.CreateOne(
@@ -481,7 +481,7 @@ user, err := client.User.CreateOne(
 
 You can update records by querying for specific documents and setting specific fields.
 
-##### Update the role of an existing user
+###### Update the role of an existing user
 
 ```go
 user, err := client.User.UpdateOne(
@@ -491,7 +491,7 @@ user, err := client.User.UpdateOne(
 ).Exec(ctx)
 ```
 
-##### Update the author of a post
+###### Update the author of a post
 
 ```go
 post, err := client.Post.UpdateOne(
@@ -505,7 +505,7 @@ post, err := client.Post.UpdateOne(
 
 #### Update operations
 
-##### Increment the views of a post
+###### Increment the views of a post
 
 ```go
 post, err := client.Post.UpdateOne(
@@ -515,7 +515,7 @@ post, err := client.Post.UpdateOne(
 ).Exec(ctx)
 ```
 
-##### Decrease the views of a post
+###### Decrease the views of a post
 
 ```go
 post, err := client.Post.UpdateOne(
@@ -527,7 +527,7 @@ post, err := client.Post.UpdateOne(
 
 #### UpdateMany
 
-##### Update three posts by their IDs
+###### Update three posts by their IDs
 
 ```go
 affectedRows, err := client.Post.UpdateMany(
@@ -541,7 +541,7 @@ affectedRows, err := client.Post.UpdateMany(
 ).Exec(ctx)
 ```
 
-##### Update all posts where the title contains the given string
+###### Update all posts where the title contains the given string
 
 ```go
 affectedRows, err = client.Post.UpdateMany(
@@ -553,7 +553,7 @@ affectedRows, err = client.Post.UpdateMany(
 
 #### Delete
 
-##### Delete a post by its ID
+###### Delete a post by its ID
 
 ```go
 post, err := client.Post.DeleteOne(
@@ -561,7 +561,7 @@ post, err := client.Post.DeleteOne(
 ).Exec(ctx)
 ```
 
-##### Delete a user by their email
+###### Delete a user by their email
 
 ```go
 user, err := client.User.DeleteOne(
@@ -571,7 +571,7 @@ user, err := client.User.DeleteOne(
 
 #### DeleteMany
 
-##### Delete all posts that were created before 2018:
+###### Delete all posts that were created before 2018:
 
 ```go
 affectedRows, err := client.Post.DeleteMany(
@@ -581,7 +581,7 @@ affectedRows, err := client.Post.DeleteMany(
 
 #### Upsert
 
-##### Create a user or update their role
+###### Create a user or update their role
 
 ```go
 user, err := client.User.UpsertOne(
@@ -597,7 +597,7 @@ user, err := client.User.UpsertOne(
 
 #### Query for aggregated values
 
-##### Find all users which has more than 10 posts
+###### Find all users which has more than 10 posts
 
 ```go
 posts, err := client.User.FindMany(
@@ -608,19 +608,19 @@ posts, err := client.User.FindMany(
 
 #### Perform basic aggregations on fields
 
-##### Get the total count of posts
+###### Get the total count of posts
 
 ```go
 postCount, err := client.Post.Aggregate.Count().Exec(ctx)
 ```
 
-##### Get the total sum of all post likes
+###### Get the total sum of all post likes
 
 ```go
 totalPostLikes, err := client.Post.Aggregate.Sum(photon.Post.Likes).Exec(ctx)
 ```
 
-##### Get the average likes per post
+###### Get the average likes per post
 
 ```go
 averagePostLikes, err := client.Post.Aggregate.Average(photon.Post.Likes).Exec(ctx)
@@ -666,7 +666,7 @@ the structs in a real application.
 
 #### Relations
 
-##### Fetch a specific user and 10 of their posts
+###### Fetch a specific user and 10 of their posts
 
 You don't have to explicitly join. When you use `.With()` to query for a relation, Photon Go automatically
 fetches the related fields, without explicitly querying for it (e.g. `WHERE id = ?`).
@@ -692,7 +692,7 @@ user, err := client.User.FindOne(
 ).Into(&user).Exec(ctx)
 ```
 
-##### Find the most popular users with their most popular posts and the post's comments
+###### Find the most popular users with their most popular posts and the post's comments
 
 Queries can as deeply nested as wanted. The integrated dataloader will make sure as few underlying
 SQL queries as possible are generated.
@@ -724,7 +724,7 @@ err := client.User.FindMany(
 
 #### Aggregations
 
-##### Fetch users which have filled out their name and their total post likes
+###### Fetch users which have filled out their name and their total post likes
 
 ```go
 var result []struct {
@@ -740,7 +740,7 @@ err := client.User.Aggregate(
 ).Into(&result).Exec(ctx)
 ```
 
-##### Order by category and user and count
+###### Order by category and user and count
 
 ```go
 var result []struct {
