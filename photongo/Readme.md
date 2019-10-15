@@ -235,6 +235,10 @@ This is an example how you can fetch a node and access its properties.
 Related fields, i.e. fields referencing structs, are nil per default if you don't fetch them explicitly.
 
 ```go
+// create a context
+ctx := context.Background()
+
+// access the "User" namespace, find one by using "FindOne", and execute the query with "Exec" and a context
 user, err := client.User.FindOne.Exec(ctx)
 
 log.Printf("name: %s", user.Email)
@@ -407,7 +411,22 @@ You can optionally connect other nodes or even create new related nodes.
 
 #### Create
 
-You can create objects which maps to SQL inserts.
+You can create objects which maps to SQL inserts. Create operations are special, because they enforce required fields and thus have a specific order of parameters. Optional parameters can be supplied in the remaining parameters, because they are defined as variadic. This also applies to nested creates.
+
+For example, a signature of a the function to create a user can look like something as follows.
+
+```go
+func (UserNamespace) CreateOne(
+  id UserIDSettable,
+  email UserEmailSettable,
+  age UserAgeSettable,
+  optionalFields ...UserOptionalFieldSettable,
+) {
+  // hidden implementation
+}
+```
+
+##### Examples
 
 ###### Create a User
 
@@ -424,6 +443,30 @@ user, err := client.User.CreateOne(
   photon.User.Timezone.Set("Europe/Berlin"),
   photon.User.IsTeamOwner.Set(true),
   photon.User.TeamID.Set("123"),
+).Exec(ctx)
+```
+
+###### Get a compile time error when forgetting to specify fields
+
+Since required fields map to required Go parameters, it's impossible to forget to specify fields. 
+
+```go
+// assuming user has required fields email and name
+// this does not compile as the user has not provided all arguments
+user, err := client.User.CreateOne(
+  photon.User.Email.Set("alice@prisma.io"),
+  // ERROR: insufficient arguments
+).Exec(ctx)
+```
+
+###### Get a compile time error when forgetting to specify fields
+
+```go
+// assuming user has required fields email and name
+// this does not compile as the user has not provided all arguments
+user, err := client.User.CreateOne(
+  photon.User.Email.Set("alice@prisma.io"),
+  // ERROR: insufficient arguments
 ).Exec(ctx)
 ```
 
@@ -448,6 +491,7 @@ user, err := client.User.CreateOne(
   photon.User.Email.Set("john@example.com"),
   photon.User.Age.Set(50),
   photon.User.Post.Create(
+    // Nested fields also have required parameters
     photon.Post.ID.Set("a"),
     photon.Post.Title.Set("Follow @prisma on Twitter"),
   ),
@@ -477,7 +521,9 @@ user, err := client.User.CreateOne(
 
 #### Update
 
-You can update records by querying for specific documents and setting specific fields.
+You can update records by querying for specific documents and setting specific fields. Unlike the create operation, all fields are optional, because often users want to update just one field.
+
+##### Examples
 
 ###### Update the role of an existing user
 
@@ -501,7 +547,18 @@ post, err := client.Post.UpdateOne(
 ).Exec(ctx)
 ```
 
-#### Update operations
+##### Update operations
+
+Update operations define methods which can mutate a specific field based on its current value in the database, like incrementing an integer field.
+
+Possible operations:
+
+- `Inc` Increment
+- `Dec` Decrement
+- `Mul` Multiply
+- `Div` Divide
+
+##### Examples
 
 ###### Increment the views of a post
 
