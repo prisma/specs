@@ -513,6 +513,28 @@ post, err := client.Post.UpdateOne(
 ).Exec(ctx)
 ```
 
+#### Update operations
+
+##### Increment the views of a post
+
+```go
+post, err := client.Post.UpdateOne(
+  photon.Post.ID.Equals("cjsx2j8bw02920b25rl806l07"),
+).Data(
+  photon.Post.Views.Inc(1),
+).Exec(ctx)
+```
+
+##### Decrease the views of a post
+
+```go
+post, err := client.Post.UpdateOne(
+  photon.Post.ID.Equals("cjsx2j8bw02920b25rl806l07"),
+).Data(
+  photon.Post.Views.Dec(1),
+).Exec(ctx)
+```
+
 #### UpdateMany
 
 ##### Update three posts by their IDs
@@ -728,7 +750,7 @@ err := client.User.Aggregate(
 ).Into(&result).Exec(ctx)
 ```
 
-##### Order by category and user and count 
+##### Order by category and user and count
 
 ```go
 var result []struct {
