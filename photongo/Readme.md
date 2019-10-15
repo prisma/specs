@@ -401,9 +401,7 @@ comments, err := client.Comment.FindMany(
 
 ### Writing Data
 
-The following methods describe how to write data in the database. These are all mutations on
-a Prisma level. You can create, update and delete data, which maps to insert, update, and
-delete SQL operations respectively.
+The following methods describe how to write data in the database. These are all mutations on a Prisma level. You can create, update and delete data, which maps to insert, update, and delete SQL operations respectively.
 
 You can optionally connect other nodes or even create new related nodes.
 
@@ -628,15 +626,11 @@ averagePostLikes, err := client.Post.Aggregate.Average(photon.Post.Likes).Exec(c
 
 ### Advanced queries
 
-Advanced queries can involve fetching relations, specific fields only, aggregations and order bys.
-The user can query for complex aggregations by specifying the return value themselves, while they can use the
-type-safe query parameters. We also may include tools to generate the result structs automatically for the user.
+Advanced queries can involve fetching relations, specific fields only, aggregations and order bys. The user can query for complex aggregations by specifying the return value themselves, while they can use the type-safe query parameters. We also may include tools to generate the result structs automatically for the user.
 
 #### Defining the struct by yourself
 
-Your first option is to query for something and define the struct by yourself. This is very simple, but also 
-error-prone because you have to keep it in sync with your query. Also, it's hard to verify if the user
-mapped the fields correctly, and we want to avoid checking on runtime.
+Your first option is to query for something and define the struct by yourself. This is very simple, but also  error-prone because you have to keep it in sync with your query. Also, it's hard to verify if the user mapped the fields correctly, and we want to avoid checking on runtime.
 
 Example:
 
@@ -656,20 +650,17 @@ err := client.User.Select(
 
 #### Generated code
 
-A much better option is to just generate the struct types for the user, although it comes with some caveats.
-For more information, see https://github.com/prisma/photongo/issues/9.
+A much better option is to just generate the struct types for the user, although it comes with some caveats. For more information, see https://github.com/prisma/photongo/issues/9.
 
 #### Notes
 
-In the following examples, we use explicit struct types for readability. However, you should generate
-the structs in a real application.
+In the following examples, we use explicit struct types for readability. However, you should generate the structs in a real application.
 
 #### Relations
 
 ###### Fetch a specific user and 10 of their posts
 
-You don't have to explicitly join. When you use `.With()` to query for a relation, Photon Go automatically
-fetches the related fields, without explicitly querying for it (e.g. `WHERE id = ?`).
+You don't have to explicitly join. When you use `.With()` to query for a relation, Photon Go automatically fetches the related fields, without explicitly querying for it (e.g. `WHERE id = ?`).
 
 ```go
 var user struct {
@@ -694,8 +685,7 @@ user, err := client.User.FindOne(
 
 ###### Find the most popular users with their most popular posts and the post's comments
 
-Queries can as deeply nested as wanted. The integrated dataloader will make sure as few underlying
-SQL queries as possible are generated.
+Queries can as deeply nested as wanted. The integrated dataloader will make sure as few underlying SQL queries as possible are generated.
 
 ```go
 var users []struct {
@@ -789,8 +779,7 @@ err := client.User.PQL(
 
 #### Raw database query
 
-The raw function can be used as an escape hatch to write custom complex queries which are
-sent directly to the underlying database.
+The raw function can be used as an escape hatch to write custom complex queries which are sent directly to the underlying database.
 
 ```go
 var u photon.User
