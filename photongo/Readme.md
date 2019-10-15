@@ -430,10 +430,10 @@ user, err := client.User.CreateOne(
 
 ```go
 post, err := client.Post.Create(
-  photon.User.ID.Set("abc43"),
-  photon.User.Title.Set("Prisma"),
+  photon.Post.ID.Set("abc43"),
+  photon.Post.Title.Set("Prisma"),
 ).ConnectAuthor(
-  photon.User.Email.Equals("alice@prisma.io"),
+  photon.Post.Email.Equals("alice@prisma.io"),
 ).Exec(ctx)
 ```
 
