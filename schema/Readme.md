@@ -60,6 +60,7 @@ your datasources with Lift and administer your data using Studio.
   - [Type Definitions provided by Connectors](#type-definitions-provided-by-connectors)
 - [View Block](#view-block)
   - [Materialized Views](#materialized-views)
+  - [Photon](#photon)
 - [Enum Block](#enum-block)
 - [Embed Block](#embed-block)
   - [Inline Embeds](#inline-embeds)
