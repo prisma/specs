@@ -1,9 +1,14 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
+
 - [Archived ideas](#archived-ideas)
   - [Alternative `.replace()` API](#alternative-replace-api)
   - [Write operations on relations via Fluent API](#write-operations-on-relations-via-fluent-api)
+  - [Alternatives to `.load()`](#alternatives-to-load)
+    - [Split up into `.select()` and `.include()`](#split-up-into-select-and-include)
+    - [Move selection set into 2nd parameter](#move-selection-set-into-2nd-parameter)
+    - [Expressions based API](#expressions-based-api)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
