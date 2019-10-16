@@ -13,52 +13,51 @@ This spec describes the Photon Javascript API
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-
-  - [Prisma Schema](#prisma-schema)
-  - [Types](#types)
-  - [Terminology](#terminology)
-  - [Basic Queries](#basic-queries)
-  - [Field-level Primary Key constraint](#field-level-primary-key-constraint)
-    - [Field-level unique constraint](#field-level-unique-constraint)
-    - [Model-level composite constraint (unnamed)](#model-level-composite-constraint-unnamed)
-    - [Naming the composite constraint](#naming-the-composite-constraint)
-  - [Writing Data](#writing-data)
-    - [Write operations](#write-operations)
-      - [Nested Write API](#nested-write-api)
-      - [Fluent Write API](#fluent-write-api)
-    - [Many operations](#many-operations)
-    - [Nested writes](#nested-writes)
-  - [Load: Select / Include API](#load-select--include-api)
-    - [Default selection set](#default-selection-set)
-  - [Advanced Fluent API](#advanced-fluent-api)
-    - [Null narrowing](#null-narrowing)
-    - [Expressing the same query using fluent API syntax and nested writes](#expressing-the-same-query-using-fluent-api-syntax-and-nested-writes)
-  - [Mental model: Graph traversal](#mental-model-graph-traversal)
-  - [Working with types](#working-with-types)
-  - [Expressions](#expressions)
-    - [Criteria Filters](#criteria-filters)
-    - [Order By](#order-by)
-    - [Write Operations (Update/Atomic)](#write-operations-updateatomic)
-    - [Aggregations](#aggregations)
-    - [Group by](#group-by)
-    - [Distinct](#distinct)
-  - [Experimental: Meta response](#experimental-meta-response)
-  - [Optimistic Concurrency Control / Optimistic Offline Lock](#optimistic-concurrency-control--optimistic-offline-lock)
-    - [Supported operations](#supported-operations)
-  - [Batching](#batching)
-  - [Criteria API](#criteria-api)
-  - [Design decisions](#design-decisions)
-  - [Constructor](#constructor)
-  - [Connection management](#connection-management)
+- [Prisma Schema](#prisma-schema)
+- [Types](#types)
+- [Terminology](#terminology)
+- [Basic Queries](#basic-queries)
+- [Field-level Primary Key constraint](#field-level-primary-key-constraint)
+  - [Field-level unique constraint](#field-level-unique-constraint)
+  - [Model-level composite constraint (unnamed)](#model-level-composite-constraint-unnamed)
+  - [Naming the composite constraint](#naming-the-composite-constraint)
+- [Writing Data](#writing-data)
+  - [Write operations](#write-operations)
+    - [Nested Write API](#nested-write-api)
+    - [Fluent Write API](#fluent-write-api)
+  - [Many operations](#many-operations)
+  - [Nested writes](#nested-writes)
+- [Load: Select / Include API](#load-select--include-api)
+  - [Default selection set](#default-selection-set)
+- [Advanced Fluent API](#advanced-fluent-api)
+  - [Null narrowing](#null-narrowing)
+  - [Expressing the same query using fluent API syntax and nested writes](#expressing-the-same-query-using-fluent-api-syntax-and-nested-writes)
+- [Mental model: Graph traversal](#mental-model-graph-traversal)
+- [Working with types](#working-with-types)
+- [Expressions](#expressions)
+  - [Criteria Filters](#criteria-filters)
+  - [Order By](#order-by)
+  - [Write Operations (Update/Atomic)](#write-operations-updateatomic)
+  - [Aggregations](#aggregations)
+  - [Group by](#group-by)
+  - [Distinct](#distinct)
+- [Experimental: Meta response](#experimental-meta-response)
+- [Optimistic Concurrency Control / Optimistic Offline Lock](#optimistic-concurrency-control--optimistic-offline-lock)
+  - [Supported operations](#supported-operations)
+- [Batching](#batching)
+- [Criteria API](#criteria-api)
+- [Design decisions](#design-decisions)
+- [Constructor](#constructor)
+- [Connection management](#connection-management)
 - [Error Handling](#error-handling)
   - [Error Character Encoding](#error-character-encoding)
 - [Unresolved questions](#unresolved-questions)
-    - [Figured out but needs spec](#figured-out-but-needs-spec)
-    - [Bigger todos](#bigger-todos)
-    - [Small & self-contained](#small--self-contained)
-    - [Ugly parts](#ugly-parts)
-    - [Related](#related)
-    - [Future topics](#future-topics)
+  - [Figured out but needs spec](#figured-out-but-needs-spec)
+  - [Bigger todos](#bigger-todos)
+  - [Small & self-contained](#small--self-contained)
+  - [Ugly parts](#ugly-parts)
+  - [Related](#related)
+  - [Future topics](#future-topics)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -491,6 +490,43 @@ await photon.user.find('bobs-id').update({
   },
 })
 
+//////////////
+
+await photon.user.create({
+  firstName: 'Alice',
+  lastName: 'Doe',
+  email: 'alice@prisma.io',
+  profile: { imageUrl: 'http://...', imageSize: 100 },
+  posts: p => p.connect('post-id'),
+})
+
+await photon.user.find('bobs-id').update({
+  posts: e => {
+    e.create({ title: 'New post', body: 'Hello world', published: true })
+    e.create([{ title: 'New post', body: 'Hello world', published: true }])
+    e.update({ title: 'New post', body: 'Hello world', published: true })
+    e.create({
+      title: 'New post',
+      body: 'Hello world',
+      published: true,
+      comments: c => c.create({ text: 'This is a comment' }),
+    })
+
+    e.operation(/* AST: */[
+      {
+        type: 'create',
+        data: {
+          title: 'New post',
+          body: 'Hello world',
+          published: true,
+          comments:
+        },
+      },
+    ])
+  },
+})
+
+//////////////
 ```
 
 ## Load: Select / Include API
