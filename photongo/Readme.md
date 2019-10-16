@@ -137,7 +137,7 @@ This section describes how the most important part of Photon Go, the query API, 
 
 The API below uses examples based on this data model:
 
-```
+```prisma
 model Post {
   id         ID        @id
   createdAt  DateTime  @createdAt
