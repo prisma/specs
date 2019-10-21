@@ -1314,7 +1314,7 @@ This strictness serves two benefits:
 
 ### Formatting Rules
 
-#### Configuration blocks are align by their `=` sign.
+#### Configuration blocks are aligned by their `=` sign.
 
 ```
 block _ {
