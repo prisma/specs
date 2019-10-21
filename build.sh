@@ -4,8 +4,8 @@ mkdir public
 
 # CLI
 cd cli
-npm install
-npm run build
+yarn install
+yarn run build
 cp -r public ../public/cli
 cd ..
 
