@@ -3,6 +3,19 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
+
+- [Filtering](#filtering)
+  - [By two different scalars](#by-two-different-scalars)
+    - [Expressions](#expressions)
+    - [Object-based baseline](#object-based-baseline)
+  - [By one scalar two times](#by-one-scalar-two-times)
+    - [Expressions](#expressions-1)
+    - [Object-based baseline](#object-based-baseline-1)
+  - [Relation](#relation)
+    - [Expressions](#expressions-2)
+    - [Object-based baseline](#object-based-baseline-2)
+- [Nested Mutations](#nested-mutations)
+
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Filtering
