@@ -75,7 +75,7 @@ your datasources with Lift and administer your data using Studio.```
     - [Merging Models](#merging-models)
   - [Auto Formatting](#auto-formatting)
     - [Formatting Rules](#formatting-rules)
-      - [Configuration blocks are align by their `=` sign.](#configuration-blocks-are-align-by-their--sign)
+      - [Configuration blocks are aligned by their `=` sign.](#configuration-blocks-are-aligned-by-their--sign)
       - [Field definitions are aligned into columns separated by 2 or more spaces.](#field-definitions-are-aligned-into-columns-separated-by-2-or-more-spaces)
 - [FAQ](#faq)
   - [Why not support @id for multiple blocks?](#why-not-support-id-for-multiple-blocks)
