@@ -213,7 +213,7 @@ translated to datasource-specific migration commands.
 
 ### Hook
 
-> ⚠ This is not implemented yet.
+> ⚠ This is not implemented yet. See [tracking issue](https://github.com/prisma/prisma2/issues/817)
 
 A hook is a custom shell script that runs either before or after the migration. They are defined by `before.sh` and `after.sh`. Hooks give you more control over
 your migrations. You can write hooks to:

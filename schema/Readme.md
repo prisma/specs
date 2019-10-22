@@ -504,7 +504,7 @@ For implicit many-to-many relations, you **must** include both `Blog.authors` an
 
 ##### Explicit Many-to-Many (M:N) Relationships
 
-> ⚠ This is not implemented yet.
+> ⚠ This is not implemented yet. See [tracking issue](https://github.com/prisma/prisma2/issues/816)
 
 Many-to-many relationships are simply 2 one-to-many relationships.
 
@@ -578,7 +578,7 @@ model Question {
 
 ##### Referencing Primary Composite Keys
 
-> ⚠ This is not implemented yet.
+> ⚠ This is not implemented yet. See [tracking issue](https://github.com/prisma/prisma2/issues/815)
 
 You can also have relationships to composite primary keys
 
@@ -612,9 +612,9 @@ Underneath:
 
 ##### Referencing fields that are not @id
 
-> ⚠ This is not implemented yet.
+> ⚠ This is not implemented yet. See [tracking issue](https://github.com/prisma/prisma2/issues/814)
 
-The `@id` attribute marks the primary identifyer of a model. If a model does not have a primary identifier or you want to reference another field, you can
+The `@id` attribute marks the primary identifier of a model. If a model does not have a primary identifier or you want to reference another field, you can
 specify the field using the `@relation` attribute
 
 ```groovy
@@ -818,18 +818,17 @@ embed \_ { @@attribute0
 
 #### Core Block Attributes
 
-> ⚠ This is not implemented yet.
-
-Prisma supports the following core block attributes. Block attributes may be used in `model` and `embed` blocks. These attributes **must** be implemented by
-every connector with a **best-effort implementation**:
+Prisma supports the following core block attributes. Block attributes may be used in `model` and `embed` blocks. These attributes **must** be implemented by every connector with a **best-effort implementation**:
 
 - `@@map(_ name: String)`: Define the name of the underlying table or collection name
 - `@@id(_ fields: Identifier[])`: Defines a composite primary key across fields
+  > ⚠ This is not implemented yet. (See [tracking issue](https://github.com/prisma/prisma-engine/issues/29))
 - `@@unique(_ fields: Identifier[], name: String?)`: Defines a composite unique constraint across fields
+  > ⚠ This is not implemented yet. (See [tracking issue](https://github.com/prisma/prisma-engine/issues/28))
 
 #### Type Specifications
 
-> ⚠ This is not implemented yet.
+> ⚠ This is not implemented yet. See [tracking issue](https://github.com/prisma/prisma2/issues/813)
 
 In order to live up to our promise of not tailoring Prisma to the lowest-common database feature-set, connectors may bring their own attributes to the schema.
 
@@ -925,7 +924,7 @@ model Customer {}
 
 ## Type Definition
 
-> ⚠ This is not implemented yet.
+> ⚠ This is not implemented yet. See [tracking issue](https://github.com/prisma/prisma2/issues/801)
 
 Type definitions can be used to consolidate various type specifications into one type.
 
@@ -945,7 +944,7 @@ You can attach any field attribute to a type definition.
 
 ### Type Definitions provided by Connectors
 
-> ⚠ This is not implemented yet.
+> ⚠ This is not implemented yet. See [tracking issue](https://github.com/prisma/prisma2/issues/802)
 
 Connectors can bring their own type definitions allowing you to use these types in your own schemas.
 
@@ -1001,7 +1000,7 @@ enum Color {
 
 Enums can include their corresponding value to determine what is stored by the datasource:
 
-> ⚠ This is not implemented yet.
+> ⚠ This is not implemented yet. See [tracking issue](https://github.com/prisma/prisma2/issues/273)
 
 ```groovy
 enum Color {
@@ -1014,7 +1013,7 @@ For now, we'll only support `String` enum value types.
 
 ## Embed Block
 
-> ⚠ This is not implemented yet.
+> ⚠ This is not implemented yet. See [tracking issue(https://github.com/prisma/lift/issues/43)
 
 Embeds are supported natively by Prisma. There are 2 types of embeds: named embeds (just called embeds) and inline embeds.
 
@@ -1044,7 +1043,7 @@ embed Sources {
 
 ### Inline Embeds
 
-> ⚠ This is not implemented yet.
+> ⚠ This is not implemented yet. See [tracking issue(https://github.com/prisma/lift/issues/43)
 
 There's another way to use embeds.
 
@@ -1084,7 +1083,7 @@ datasource pg {
 
 You can also provide a default if the environment variable is not specified:
 
-> ⚠ This is not implemented yet.
+> ⚠ This is not implemented yet. See [tracking issue](https://github.com/prisma/prisma2/issues/812)
 
 ```groovy
   provider = "sqlite"
@@ -1096,12 +1095,12 @@ possible**. The sections below describe this behavior.
 
 ### Introspect Behavior
 
-> ⚠ This is not implemented yet.
+> ⚠ This is not implemented yet. See [tracking issue](https://github.com/prisma/prisma2/issues/800)
 
 Introspection time will require the environment variable to be present:
 
 ```sh
-$ prisma instrospect
+$ prisma introspect
 ! required POSTGRES_URL variable not found
 
 $ export POSTGRES_URL="postgres://user:secret@rds.amazon.com:4321/db"
@@ -1110,7 +1109,7 @@ $ prisma introspect
 
 ### Migrate Behavior
 
-> ⚠ This is not implemented yet.
+> ⚠ This is not implemented yet. See [tracking issue](https://github.com/prisma/prisma2/issues/800)
 
 Migration time will require the environment variable to be present:
 
@@ -1140,7 +1139,7 @@ const photon = new Photon()
 
 ### Switching Datasources based on Environments
 
-> ⚠ This is not implemented yet.
+> ⚠ This is not implemented yet. See [tracking issue](https://github.com/prisma/photonjs/issues/184)
 
 Sometimes it's nice to get started with an SQLite database and migrate to Postgres or MySQL for production. We support this workflow:
 
@@ -1173,12 +1172,11 @@ If two datasources of the same name are enabled, we will throw a runtime-time er
 
 ## Function
 
-Prisma core provides a set of functions that **must** be implemented by every connector with a **best-effort implementation**. Functions only work inside field
-and block attributes that accept them.
+Prisma core provides a set of functions that **must** be implemented by every connector with a **best-effort implementation**. Functions only work inside field and block attributes that accept them.
 
 - `uuid()` - generates a fresh UUID
 - `cuid()` - generates a fresh cuid
-- `between(min, max)` - generates a random int in the specified range (⚠ This is not implemented yet)
+- `between(min, max)` - generates a random int in the specified range (⚠ This is not implemented yet. See [tracking issue](https://github.com/prisma/prisma2/issues/811))
 - `now()` - current date and time
 
 Default values using a dynamic generator can be specified as follows:
@@ -1198,7 +1196,7 @@ The data types that these functions return will be defined by the connectors. Fo
 
 ## Importing schemas
 
-> ⚠ This is not implemented yet.
+> ⚠ This is not implemented yet. See [tracking issue(https://github.com/prisma/prisma2/issues/92)
 
 A team may have a lot of configuration or many different models. They may also have many environments they need to deploy to. We support an `import <string>`
 function that will concatenate schemas together and join their contents.
