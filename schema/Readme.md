@@ -3,11 +3,10 @@
 - Owner: @matthewmueller
 - Stakeholders: @schickling @mavilein
 - State:
-  - Spec: Outdated 🚨
-  - Implementation: Unknown ❔
+  - Spec: In Progress 🚧
+  - Implementation: In Progress 🚧
 
-The Prisma Schema declaratively describes the structure of your data sources. We use the Prisma Schema to generate Photon libraries for data access, migrate
-your datasources with Lift and administer your data using Studio.```
+The Prisma Schema declaratively describes the structure of your data sources. We use the Prisma Schema to generate Photon libraries for data access, migrate your datasources with Lift and administer your data using Studio.
 
 ---
 
