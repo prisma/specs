@@ -895,19 +895,28 @@ This is especially important for connectors and generators implemented by the co
 
 There are 2 types of comments that are supported in the schema:
 
-1. `// comment`: This comment is for the reader's clarity and is not present in the AST.
-2. `/// comment`: These comments will show up in the AST, either as descriptions to AST nodes or as free-floating comments. Tools can then use these comments to
-   provide additional information to the user.
+### // comment
+
+This comment is for the reader's clarity and is not present in the AST.
+
+### /// comment
+
+> ⚠ This is not implemented yet.
+
+These comments will show up in the AST, either as descriptions to AST nodes or as free-floating comments. Tools can then use these comments to provide
+additional information to the user.
+
+### Example with Comments
 
 Here are some different examples:
 
 ```groovy
-/// This comment will get attached to the User node
+/// This comment will get attached to the User model
 model User {
-  /// This comment will get attached to the id node
+  /// This comment will get attached to the id field as a comment
   id      Int
   // This comment is just for you
-  weight  Float /// This comment gets attached to the weight node
+  weight  Float /// This comment gets attached to the weight field
 }
 
 // This comment is just for you. This comment will not
