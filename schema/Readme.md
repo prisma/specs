@@ -905,7 +905,7 @@ This comment is for the reader's clarity and is not present in the AST.
 > ⚠ This is not implemented yet.
 
 These comments as either field comments, model comments or as free-floating comments. Instrospection will pull comments on fields or models from the database.
-Lift will also update these comments in datasources that support this.
+Lift will also update these comments in datasources that support them.
 
 ### Example with Comments
 
