@@ -6,76 +6,76 @@
   - Spec: In Progress 🚧
   - Implementation: In Progress 🚧
 
-The Prisma Schema declaratively describes the structure of your data sources. We use the Prisma Schema to generate Photon libraries for data access, migrate your datasources with Lift and administer your data using Studio.
+The Prisma Schema declaratively describes the structure of your data sources. We use the Prisma Schema to generate Photon libraries for data access, migrate
+your datasources with Lift and administer your data using Studio.
 
 ---
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-
-  - [Datasource Block](#datasource-block)
-    - [Supported fields](#supported-fields)
-  - [Generator Block](#generator-block)
-    - [Supported fields](#supported-fields-1)
-    - [Binary Configuration](#binary-configuration)
-  - [Model Block](#model-block)
-    - [Field Names](#field-names)
-    - [Data Types](#data-types)
-      - [Core Data Type to Connector](#core-data-type-to-connector)
-      - [Core Data Type to Generator](#core-data-type-to-generator)
-      - [List Types](#list-types)
-      - [Optional Types](#optional-types)
-      - [Relations](#relations)
-        - [One-to-One (1:1) Relationships](#one-to-one-11-relationships)
-        - [One-to-Many (1:N) Relationships](#one-to-many-1n-relationships)
-          - [Implied Has-Many](#implied-has-many)
-          - [Implied Has-One](#implied-has-one)
-        - [Implicit Many-to-Many (M:N) Relationships](#implicit-many-to-many-mn-relationships)
-        - [Explicit Many-to-Many (M:N) Relationships](#explicit-many-to-many-mn-relationships)
-        - [Self-Referential Relationships](#self-referential-relationships)
-        - [Multiple-Reference Relationships](#multiple-reference-relationships)
-        - [Referencing Primary Composite Keys](#referencing-primary-composite-keys)
-        - [Referencing fields that are not @id](#referencing-fields-that-are-not-id)
-    - [Attributes](#attributes)
-      - [Case 1. No arguments](#case-1-no-arguments)
-      - [Case 2. One positional argument](#case-2-one-positional-argument)
-      - [Case 3. Many named arguments](#case-3-many-named-arguments)
-      - [Field Attributes](#field-attributes)
-      - [Core Field Attributes](#core-field-attributes)
-        - [@id](#id)
-        - [@unique](#unique)
-        - [@map(\_ name: String)](#map%5C_-name-string)
-        - [@default(\_ expr: Expr)](#default%5C_-expr-expr)
-        - [@relation(\_ name?: String, references?: Identifier[], onDelete?: CascadeEnum)](#relation%5C_-name-string-references-identifier-ondelete-cascadeenum)
-          - [Named relations](#named-relations)
-          - [Ambiguous relations](#ambiguous-relations)
-          - [Arguments](#arguments)
-          - [Validation](#validation)
-        - [@updatedAt](#updatedat)
-      - [Block Attributes](#block-attributes)
-      - [Core Block Attributes](#core-block-attributes)
-      - [Type Specifications](#type-specifications)
-    - [Why do we enforce the Core Prisma Primitive Type, even when there is a type specification?](#why-do-we-enforce-the-core-prisma-primitive-type-even-when-there-is-a-type-specification)
-  - [Comments](#comments)
-  - [Type Definition](#type-definition)
-    - [Type Definitions provided by Connectors](#type-definitions-provided-by-connectors)
-  - [Enum Block](#enum-block)
-  - [Embed Block](#embed-block)
-    - [Inline Embeds](#inline-embeds)
-  - [Env Function](#env-function)
-    - [Introspect Behavior](#introspect-behavior)
-    - [Migrate Behavior](#migrate-behavior)
-    - [Generate Behavior](#generate-behavior)
-    - [Switching Datasources based on Environments](#switching-datasources-based-on-environments)
-  - [Function](#function)
-  - [Importing schemas](#importing-schemas)
-    - [Importing from other endpoints](#importing-from-other-endpoints)
-    - [Merging Models](#merging-models)
-  - [Auto Formatting](#auto-formatting)
-    - [Formatting Rules](#formatting-rules)
-      - [Configuration blocks are aligned by their `=` sign.](#configuration-blocks-are-aligned-by-their--sign)
-      - [Field definitions are aligned into columns separated by 2 or more spaces.](#field-definitions-are-aligned-into-columns-separated-by-2-or-more-spaces)
+- [Datasource Block](#datasource-block)
+  - [Supported fields](#supported-fields)
+- [Generator Block](#generator-block)
+  - [Supported fields](#supported-fields-1)
+  - [Binary Configuration](#binary-configuration)
+- [Model Block](#model-block)
+  - [Field Names](#field-names)
+  - [Data Types](#data-types)
+    - [Core Data Type to Connector](#core-data-type-to-connector)
+    - [Core Data Type to Generator](#core-data-type-to-generator)
+    - [List Types](#list-types)
+    - [Optional Types](#optional-types)
+    - [Relations](#relations)
+      - [One-to-One (1:1) Relationships](#one-to-one-11-relationships)
+      - [One-to-Many (1:N) Relationships](#one-to-many-1n-relationships)
+        - [Implied Has-Many](#implied-has-many)
+        - [Implied Has-One](#implied-has-one)
+      - [Implicit Many-to-Many (M:N) Relationships](#implicit-many-to-many-mn-relationships)
+      - [Explicit Many-to-Many (M:N) Relationships](#explicit-many-to-many-mn-relationships)
+      - [Self-Referential Relationships](#self-referential-relationships)
+      - [Multiple-Reference Relationships](#multiple-reference-relationships)
+      - [Referencing Primary Composite Keys](#referencing-primary-composite-keys)
+      - [Referencing fields that are not @id](#referencing-fields-that-are-not-id)
+  - [Attributes](#attributes)
+    - [Case 1. No arguments](#case-1-no-arguments)
+    - [Case 2. One positional argument](#case-2-one-positional-argument)
+    - [Case 3. Many named arguments](#case-3-many-named-arguments)
+    - [Field Attributes](#field-attributes)
+    - [Core Field Attributes](#core-field-attributes)
+      - [@id](#id)
+      - [@unique](#unique)
+      - [@map(\_ name: String)](#map%5C_-name-string)
+      - [@default(\_ expr: Expr)](#default%5C_-expr-expr)
+      - [@relation(\_ name?: String, references?: Identifier[], onDelete?: CascadeEnum)](#relation%5C_-name-string-references-identifier-ondelete-cascadeenum)
+        - [Named relations](#named-relations)
+        - [Ambiguous relations](#ambiguous-relations)
+        - [Arguments](#arguments)
+        - [Validation](#validation)
+      - [@updatedAt](#updatedat)
+    - [Block Attributes](#block-attributes)
+    - [Core Block Attributes](#core-block-attributes)
+    - [Type Specifications](#type-specifications)
+  - [Why do we enforce the Core Prisma Primitive Type, even when there is a type specification?](#why-do-we-enforce-the-core-prisma-primitive-type-even-when-there-is-a-type-specification)
+- [Comments](#comments)
+- [Type Definition](#type-definition)
+  - [Type Definitions provided by Connectors](#type-definitions-provided-by-connectors)
+- [Enum Block](#enum-block)
+- [Embed Block](#embed-block)
+  - [Inline Embeds](#inline-embeds)
+- [Env Function](#env-function)
+  - [Introspect Behavior](#introspect-behavior)
+  - [Migrate Behavior](#migrate-behavior)
+  - [Generate Behavior](#generate-behavior)
+  - [Switching Datasources based on Environments](#switching-datasources-based-on-environments)
+- [Function](#function)
+- [Importing schemas](#importing-schemas)
+  - [Importing from other endpoints](#importing-from-other-endpoints)
+  - [Merging Models](#merging-models)
+- [Auto Formatting](#auto-formatting)
+  - [Formatting Rules](#formatting-rules)
+    - [Configuration blocks are aligned by their `=` sign.](#configuration-blocks-are-aligned-by-their--sign)
+    - [Field definitions are aligned into columns separated by 2 or more spaces.](#field-definitions-are-aligned-into-columns-separated-by-2-or-more-spaces)
 - [FAQ](#faq)
   - [Why not support @id for multiple blocks?](#why-not-support-id-for-multiple-blocks)
 
@@ -817,7 +817,8 @@ embed \_ { @@attribute0
 
 #### Core Block Attributes
 
-Prisma supports the following core block attributes. Block attributes may be used in `model` and `embed` blocks. These attributes **must** be implemented by every connector with a **best-effort implementation**:
+Prisma supports the following core block attributes. Block attributes may be used in `model` and `embed` blocks. These attributes **must** be implemented by
+every connector with a **best-effort implementation**:
 
 - `@@map(_ name: String)`: Define the name of the underlying table or collection name
 - `@@id(_ fields: Identifier[])`: Defines a composite primary key across fields
@@ -903,8 +904,8 @@ This comment is for the reader's clarity and is not present in the AST.
 
 > ⚠ This is not implemented yet.
 
-These comments will show up in the AST, either as descriptions to AST nodes or as free-floating comments. Tools can then use these comments to provide
-additional information to the user.
+These comments as either field comments, model comments or as free-floating comments. Instrospection will pull comments on fields or models from the database.
+Lift will also update these comments in datasources that support this.
 
 ### Example with Comments
 
@@ -1180,11 +1181,13 @@ If two datasources of the same name are enabled, we will throw a runtime-time er
 
 ## Function
 
-Prisma core provides a set of functions that **must** be implemented by every connector with a **best-effort implementation**. Functions only work inside field and block attributes that accept them.
+Prisma core provides a set of functions that **must** be implemented by every connector with a **best-effort implementation**. Functions only work inside field
+and block attributes that accept them.
 
 - `uuid()` - generates a fresh UUID
 - `cuid()` - generates a fresh cuid
-- `between(min, max)` - generates a random int in the specified range (⚠ This is not implemented yet. See [tracking issue](https://github.com/prisma/prisma2/issues/811))
+- `between(min, max)` - generates a random int in the specified range (⚠ This is not implemented yet. See
+  [tracking issue](https://github.com/prisma/prisma2/issues/811))
 - `now()` - current date and time
 
 Default values using a dynamic generator can be specified as follows:
