@@ -34,7 +34,7 @@ Prisma Framework consists of several tools:
 
 - [Prisma Schema Language](schema) (PSL) ❔
 - [Tools](tools) - Overview of the Tools ❌
-  - [CLI](cli) - setup and introspection ❌
+  - [CLI](cli) - setup and introspection 🚧
   - [Studio](studio) - GUI 🚨
   - [Photon](photon) - data access ❌
     - [Photon.js](photonjs) 🚨
