@@ -33,7 +33,7 @@ The introspection allows an user to examine an existing database and generate a 
 - Make manual decisions on non obvious representations in schema TODO Really?
 - Goal: Database -> Introspection -> create database from schema (migration via lift?) => identical to where we started
 
-## Implementation
+## Steps and Parts
 
 Introspection happens in the following steps:
 
@@ -55,3 +55,61 @@ The renderer then takes the internal datamodel representation and prints it. Whi
 
 * not printing relation names for unambigous relations if their name matches a Prisma style M:N relation table '_PostToUser'
 * not printing the @relation(references: id) if the foreign key is on the lexicographically lower model
+
+## Implementation
+
+### Ids
+* are identified by the primary key status
+* can be single column than they get the @id annotation
+* or multi-column, than they get a @@id block annotation
+* we identify two possible id strategies: NONE, or AUTO if the column is autoincrementing
+* in the second case we try to capture the sequence name, allocation size and initial value
+* the datamodel parser is currently very restrictive with the valid @id combinations
+    * `id: String @id(strategy:NONE)` for a non-auto-incrementing text id field is no accepted
+    * the datamodel validator requires the addition of `@default(cuid())` `@default(uuid())`
+
+### Relations
+
+#### Underlying structure
+* relations can be either inferred from columns holding foreign key constraints or from explicit join tables
+* only Prisma style join tables are ignored and rolled into relations directly joining the models, others will interpret the table as intermediate model  
+
+#### Naming relations
+#### Naming relationfields
+#### Which side has the fk
+#### Cardinality of relation
+#### Backrelationfields
+
+### Foreign Keys
+* compound foreign key constraints for a relation are currently not specced correctly in PSL 
+
+
+### Unique / Indexes 
+* single field unique indexes are converted to @unique annotations on the field they affect except for
+    * relationfields (here they indicate a One2One relation)
+    * id fields, the @id annotation already implies the @unique
+* multi field unique indexes are converted in a @@unique block anotation, the fields themselves do not get an annotation
+
+### Default Values
+* read it if possible
+* DateTime -> expression not yet implemented
+
+### Data Types
+* As datatypes Prisma only supports the GQL types ID, String, Int, Float, Boolean, Json as well as Prismas Datetime
+* Therefore the schema describer maps the underlying database types to these datatypes. This is db specific.
+    * this can cause data entry errors at runtime due to loss of constraints during conversions such as varchar(20) -> String or smallint -> Int 
+
+### Lists
+* Prisma 
+* native Arrays
+* lists as tables?
+
+### Enums
+
+
+
+### Hidden Tables which are not rendered into the datamodel 
+* Migration table
+* Sequence tables backing ids
+* Prisma style Many2Many relation join tables
+* Prisma style scalar list tables
