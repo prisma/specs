@@ -5,7 +5,14 @@ This repository contains specifications for Prisma Framework:
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-sdf
+
+- [About this repository](#about-this-repository)
+- [Specifications](#specifications)
+  - [User facing parts](#user-facing-parts)
+  - [Internal parts](#internal-parts)
+  - [Organisation](#organisation)
+    - [Process](#process)
+    - [Meta](#meta)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
