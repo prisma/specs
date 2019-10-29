@@ -727,7 +727,7 @@ Specifies a default value if null is provided
 
 ##### @relation(\_ name?: String, references?: Identifier[], onDelete?: CascadeEnum)
 
-Disambiguates relationships when needed.
+Specifies and disambiguates relationships when needed. Where possible on relational databases, the `@relation` annotation will translate to a foreign key constraint, but not an index.
 
 ###### Named relations
 

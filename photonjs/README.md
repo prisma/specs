@@ -900,9 +900,9 @@ Note: Combined with OCC (i.e. `if`) also known as "unit of work"
 
 ```ts
 // Batching, don't get the results with $noData
-const m1 = photon.user.create({ firstName: 'Alice' })
+const m1 = photon.user.create({ firstName: 'Alice' }).load()
 const m2 = photon.post.create({ title: 'Hello world' })
-const [u1, p1]: [boolean, boolean] = await photon.batch([m1, m2])
+const [u1, p1]: [User, void] = await photon.batch([m1, m2])
 
 // TODO
 // - `if` API
