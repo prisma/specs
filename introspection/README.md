@@ -16,7 +16,23 @@ TODO
 
 - [Motivation](#motivation)
 - [Functionality](#functionality)
+- [Steps and Parts](#steps-and-parts)
 - [Implementation](#implementation)
+  - [Ids](#ids)
+  - [Relations](#relations)
+    - [Underlying structure](#underlying-structure)
+    - [Naming relations](#naming-relations)
+    - [Naming relationfields](#naming-relationfields)
+    - [Which side has the fk](#which-side-has-the-fk)
+    - [Cardinality of relation](#cardinality-of-relation)
+    - [Backrelationfields](#backrelationfields)
+  - [Foreign Keys](#foreign-keys)
+  - [Unique / Indexes](#unique--indexes)
+  - [Default Values](#default-values)
+  - [Data Types](#data-types)
+  - [Lists](#lists)
+  - [Enums](#enums)
+  - [Hidden Tables which are not rendered into the datamodel](#hidden-tables-which-are-not-rendered-into-the-datamodel)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
