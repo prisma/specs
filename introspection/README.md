@@ -73,6 +73,7 @@ The renderer then takes the internal datamodel representation and prints it. Whi
 * not printing the @relation(references: id) if the foreign key is on the lexicographically lower model
 
 ## Implementation
+These are the areas where we need to make decisions that go beyond the information contained in the SQL schema returned by the schema describer. 
 
 ### Ids
 * Are identified by the primary key status
@@ -115,13 +116,11 @@ We are using foreign key constraints to infer relations. There could of course b
 * If the relation is One2One or One2Many the SQL schema only contains one column with the FK whose name we can use for the relationfield. 
 * In the case of Many2Many relation fields there are no names available to us. 
 * We want to offer backrelation fields, therefore we need conventions to create at least one, sometimes two relationfield names.
-* Singular
-* Plural
-* Disambiguate
-* 
-
-
-
+* If the added relationfield is singular we camelcase the name of the opposing Model  e.g `post`
+* If the added relationfield is plural we camelcase and pluralize the name of the opposing model e.g. `posts` (this can lead to ugly names when pluralization fails)
+* If we need to generate several relationfields targeting the same opposing model we append the relation name `posts_RelationName`
+* If the relation is a self relation we append the name of referencing field to the normally generated name i.e. `user_husband`
+ 
 ### Unique / Indexes 
 * Single field unique indexes are converted to @unique annotations on the field they affect except for
 * Multi field unique indexes are converted in a @@unique block anotation, the fields themselves do not get an annotation
@@ -144,9 +143,9 @@ We are using foreign key constraints to infer relations. There could of course b
 * Lists implemented as tables are not recognized and rendered as normal models. 
 
 ### Different Enum Implementations
-* Native enums which sqlite does not have
-* Check constraints
-* Extra tables 
+* Native enums (SQLite does not have these) others are not tested yet
+* Check constraints are not recognized as enums
+* Extra tables are not recognized as enums
 
 
 ### Hidden Tables which are not rendered into the datamodel 
