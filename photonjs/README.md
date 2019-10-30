@@ -350,16 +350,16 @@ photon.user.find({
 
 #### Nested Write API
 
-| Operation             | Touches Record | Touches Connection |
-| --------------------- | -------------- | ------------------ |
-| `connect`             | No             | Yes                |
-| `disconnect`          | No             | Yes                |
-| ??? `resetAndConnect` | No             | Yes                |
-| `connectOrCreate`     | Yes            | Yes                |
-| `create`              | Yes            | Yes                |
-| `update`              | Yes            | No                 |
-| `replace`             | Yes            | No                 |
-| `delete`              | Yes            | Yes                |
+| Operation             | Touches Record | Touches Link |
+| ------------------ | -------------- | ------------ |
+| `link`             | No             | Yes          |
+| `unlink`           | No             | Yes          |
+| ??? `resetAndLink` | No             | Yes          |
+| `linkOrCreate`     | Yes            | Yes          |
+| `create`           | Yes            | Yes          |
+| `update`           | Yes            | No           |
+| `replace`          | Yes            | No           |
+| `delete`           | Yes            | Yes          |
 
 #### Fluent Write API
 
@@ -1307,7 +1307,7 @@ To solve these two use case, Photon can do the following:
 - [x] Distinct
 - [ ] Tracing
 - [ ] `find` vs `findUnique` vs `get` ...
-- [ ] Terminology: link vs connect (https://github.com/prisma/photonjs/issues/227 and https://github.com/prisma/specs/issues/140#issuecomment-530821669)
+- [x] Terminology: link vs connect (https://github.com/prisma/photonjs/issues/227 and https://github.com/prisma/specs/issues/140#issuecomment-530821669)
 - [ ] Cascading deletes
 - [ ] Force indexes
 - [ ] `Photon` constructor API
