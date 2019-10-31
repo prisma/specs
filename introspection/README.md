@@ -71,12 +71,9 @@ The renderer then takes the internal datamodel representation and prints it. Whi
 * not printing the @relation(references: id) if the foreign key is on the lexicographically lower model
 
 ## Implementation
-These are the areas where we need to make decisions that go beyond the information contained in the SQL schema returned by the schema describer. 
+Slimming this down again to only mention cases the PSL -> SQL spec does not cover yet. 
 
 ### Ids
-* Are identified by the primary key status
-* Can be single column than they get the @id annotation
-* Can be multi-column, than they get a @@id block annotation
 * We identify two possible id strategies: NONE, or AUTO if the column is autoincrementing
 * In the second case we try to capture the sequence name, allocation size and initial value
 * The datamodel parser is currently very restrictive with the valid @id combinations
@@ -88,21 +85,7 @@ We are using foreign key constraints to infer relations. There could of course b
 
 #### Underlying structure
 * Relations can be either inferred from columns holding foreign key constraints or from explicit join tables (again with FKs)
-* Only Prisma style join tables are ignored and rolled into relations directly joining the models, others will interpret the table as intermediate model.  
-
-#### Cardinality of relation
-* If the field holding the foreign id has a unique constraint we infer a One2One relation, otherwise a One2Many relation. 
-* Prisma style Join Tables are the only cases where we directly infer a Many2Many relation. 
-* Other Join tables result in two One2Many relations spanning the intermediate model.
-
-#### Foreign Keys
-* Foreign keys can reference single fields or multiple fields. 
-* We store the side the id for the referenced table is stored on. 
-* If it is the lexicographically lower model the printer will omit this. Otherwise it adds `@relation(references: [field_name])`
-* For FKs we collect FK_name, columns, referenced_table, referenced_fields and cascade behavior from the SQL describer.
-* So far we cannot express compound foreign keys in PSL since the spec offers no way to specify the from columns
-* `@relation(from:[user_first_name, user_last_name] references: [first_name, last_name])`  the from here is not specced yet
-* We do not yet calculate onDelete behaviour since the SQL onDelete has different semantics from the Prisma onDelete
+* Only Prisma style join tables are ignored and rolled into relations directly joining the models, others will interpret the table as intermediate model connected by two One2Many relations.  
 
 #### Naming relations
 * We name all relations during introspection. 
@@ -119,21 +102,8 @@ We are using foreign key constraints to infer relations. There could of course b
 * If we need to generate several relationfields targeting the same opposing model we append the relation name `posts_RelationName`
 * If the relation is a self relation we append the name of referencing field to the normally generated name i.e. `user_husband`
  
-### Unique / Indexes 
-* Single field unique indexes are converted to @unique annotations on the field they affect except for
-* Multi field unique indexes are converted in a @@unique block anotation, the fields themselves do not get an annotation
-* Exceptions that dont get unique annotations: 
-    * Relationfields (here they indicate a One2One relation)
-    * Id fields, the @id or @@id annotations already implie the uniqueness
-
 ### Default Values
-* We parse the default values from the SQL schema if possible
 * For Datetime, converting defaults like CurrentTimeStamp to -> expression like `now()` is not yet implemented
-
-### Data Types
-* As datatypes Prisma only supports the GQL types ID, String, Int, Float, Boolean, Json as well as Prismas Datetime
-* Therefore the schema describer maps the underlying database types to these datatypes. This is db specific.
-    * this can cause data entry errors at runtime due to loss of constraints during conversions such as varchar(20) -> String or smallint -> Int 
 
 ### Different Types of List Fields
 * Prisma scalar list tables are converted into list fields and the tables are not rendered
@@ -141,7 +111,7 @@ We are using foreign key constraints to infer relations. There could of course b
 * Lists implemented as tables are not recognized and rendered as normal models. 
 
 ### Different Enum Implementations
-* Native enums (SQLite does not have these) others are not tested yet
+* Native enums are not recognized yet
 * Check constraints are not recognized as enums
 * Extra tables are not recognized as enums
 
