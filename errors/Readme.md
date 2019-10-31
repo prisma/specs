@@ -210,7 +210,7 @@ SDK acts as the interface between the binaries and the tools. This section cover
 
 #### P1001: Database not reachable
 
-- **Description**: Can't reach database server at `${database_host}`:`${database_port}` <br /> <br /> Please make sure your database server is running at `${host}:${port}`.
+- **Description**: Can't reach database server at `${database_host}`:`${database_port}` <br /> <br /> Please make sure your database server is running at `${database_host}:${database_port}`.
 - **Meta schema**:
 
   ```ts
@@ -225,7 +225,7 @@ SDK acts as the interface between the binaries and the tools. This section cover
 
 #### P1002: Database timeout
 
-- **Description**: The database server at `${database_host}`:`${database_port}` was reached but timed out. <br /> <br /> Please try again. <br /> <br /> Please make sure your database server is running at `${host}:${port}`.
+- **Description**: The database server at `${database_host}`:`${database_port}` was reached but timed out. <br /> <br /> Please try again. <br /> <br /> Please make sure your database server is running at `${database_host}:${database_port}`.
 - **Meta schema**:
 
   ```ts
@@ -547,7 +547,7 @@ Note: Errors with `*` in the title represent multiple types and are less defined
 
 #### P4000: Introspection failed
 
-- **Description**: Introspection operation failed to produce a schema file: `${introspection_error}`.
+- **Description**: Introspection operation failed to produce a schema file: `${introspection_error}`
 - **Meta schema**:
   ```ts
   type Meta = {
