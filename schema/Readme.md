@@ -992,8 +992,9 @@ type BigInt @raw("bigint") @transport("int64")
 
 Connector type definitions have 2 attributes:
 
-- `@raw(_ name: String)` defines the type we map to in the datasource.
-- `@transport(_ name: String)` defines how we transport this type over the network
+- `@raw(_ type: String)` defines the type we map to in the datasource.
+- `@transport(_ type: String)` defines how we transport this type from Photon to the Query Engine and back. Currently Prisma 2 uses GraphQL's type system, so
+  our default types are `Int`, `Float`, `String` & `Boolean`. In the future, we'll switch to a more granular type system like Protocol Buffers.
 
 There are 2 kinds of Connector Type Definitions: **Root Types** & **Standard Types**.
 
