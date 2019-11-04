@@ -1037,6 +1037,8 @@ type Boolean = Boolean
 type Int = Integer
 type Float = Real
 type DateTime = Timestamp
+type CUID = Varchar(10) @id @default(cuid())
+type UUID = Varchar(32) @id @default(uuid())
 
 // root type definitions
 type BigInt @raw("bigint") @transport("int64")
@@ -1114,6 +1116,8 @@ type Boolean = Boolean
 type Int = Int
 type Float = Float
 type Timestamp = Timestamp
+type CUID = Varchar(10) @id @default(cuid())
+type UUID = Varchar(32) @id @default(uuid())
 
 // root type definitions
 type TinyInt @raw("tinyint") @transport("int1")
