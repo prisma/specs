@@ -228,6 +228,13 @@ Destructive changes occur when a migration **will** cause data loss. We will war
 
 - remove a table that contains data
 - remove a field that contains data
+- alter a field that contains a data
+
+By "alter a field", we mean any of the following cases:
+
+- The type of the field changed
+- The nullability of the field changed
+- An index was added, removed or changed on the field
 
 ## Migration History
 
