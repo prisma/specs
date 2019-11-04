@@ -1020,6 +1020,8 @@ type Boolean = Boolean
 type Int = Integer
 type Float = Real
 type DateTime = Timestamp
+type CUID = Varchar(10) @id @default(cuid())
+type UUID = Varchar(32) @id @default(uuid())
 ```
 
 We use the `=` to define an alias from one type to the other.
