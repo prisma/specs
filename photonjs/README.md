@@ -17,6 +17,10 @@ This spec describes the Photon Javascript API
   - [Prisma Schema](#prisma-schema)
   - [Types](#types)
   - [Terminology](#terminology)
+  - [Constructor](#constructor)
+  - [Logging & Debugging](#logging--debugging)
+    - [Logging](#logging)
+    - [Debugging](#debugging)
   - [Basic Queries](#basic-queries)
   - [Field-level Primary Key constraint](#field-level-primary-key-constraint)
     - [Field-level unique constraint](#field-level-unique-constraint)
@@ -48,7 +52,7 @@ This spec describes the Photon Javascript API
   - [Batching](#batching)
   - [Criteria API](#criteria-api)
   - [Design decisions](#design-decisions)
-  - [Constructor](#constructor)
+  - [Constructor](#constructor-1)
   - [Connection management](#connection-management)
 - [Error Handling](#error-handling)
   - [Error Character Encoding](#error-character-encoding)
@@ -161,6 +165,131 @@ type Profile = {
   - Terminating/chainable operation
   - Graph selection: Travesal vs operate
   - ...
+
+## Constructor
+```ts
+
+export type LogLevel = 'info' | 'warn' | 'query' 
+
+export type LogOption = LogLevel | {
+  level: LogLevel
+  /**
+   * @default 'stdout'
+   */
+  emit?: 'event' | 'stdout'
+}
+
+export interface PhotonOptions {
+  datasources?: Datasources
+
+  /**
+   * @default false
+   */
+  log?: boolean | LogOption[]
+
+  /**
+   * You probably don't want to use this. \`__internal\` is used by internal tooling.
+   */
+  __internal?: {
+    debug?: boolean
+    hooks?: Hooks
+    engine?: {
+      cwd?: string
+      binaryPath?: string
+    }
+  }
+}
+```
+
+## Logging & Debugging
+
+### Logging
+
+All engine related logs can be configured with the `log` property.
+These are examples how to specify different log levels:
+
+Just providing the log levels, stdout as default
+
+```ts
+const photon = new Photon({
+  log: ['info', 'query'],
+})
+```
+
+Changing on a per log level, where the logs end up: As an event or in stdout.
+
+```ts
+const photon = new Photon({
+  log: [
+    {
+      level: 'info',
+      emit: 'stdout',
+    },
+    {
+      level: 'query',
+      emit: 'event',
+    },
+    'WARN',
+  ],
+})
+
+photon.on('query', e => {
+  console.log(e.timestamp, e.query, e.args)
+})
+```
+
+Log level names get mapped to the event name for the event emitter.
+
+```ts
+const photon = new Photon({
+  log: [
+    {
+      level: 'info',
+      emit: 'event',
+    },
+    {
+      level: 'query',
+      emit: 'event',
+    },
+    {
+      level: 'warn',
+      emit: 'event',
+    },
+  ],
+})
+
+photon.on('query', e => {
+  e.timestamp
+  e.query
+  e.args
+  console.log(e)
+})
+
+photon.on('info', e => {
+  e.timestamp
+  e.message
+  console.log(e)
+})
+
+photon.on('warn', e => {
+  e.timestamp
+  e.message
+  console.log(e)
+})
+```
+
+### Debugging
+
+The `debug` property includes debugging logs of the TypeScript implementation; whereas, the `log` property addresses the logs coming from the query engine.
+As the TypeScript debugging logs are mostly used by maintainers and not users, it was moved to `__internal` to not confuse users of the Photon.js library.
+
+```ts
+const photon = new Photon({
+  __internal: {
+    debug: true,
+  },
+})
+```
 
 ## Basic Queries
 
