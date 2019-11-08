@@ -3,8 +3,8 @@
 - Owner: @timsuchanek
 - Stakeholders: @schickling
 - State:
-  - Spec: In Progress 🚧
-  - Implementation: In Progress 🚧
+  - Spec: ✅ - current, stable
+  - Implementation: ✅ - current, stable
 
 Description of how the interface for generation in the individual languages like JavaScript and TypeScript looks like, and which protocol is used under the hood to achieve that interface.
 
@@ -114,6 +114,8 @@ type BinaryPaths = {
   introspectionEngine?: { [binaryTarget: string]: string }
 }
 ```
+
+To understand, what `binaryTargets` means, you can read more [here](https://github.com/prisma/specs/tree/master/binaries#use-case-photonjs-generator).
 
 <details>
   <summary>`DMMF` Types</summary>
