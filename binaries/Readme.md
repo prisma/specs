@@ -128,23 +128,46 @@ which is why we need different binaries for those as well.
 ### How?
 
 We build multiple binaries on common operating systems with different combinations
-of OpenSSL versions. This results in a few binaries which work on a large selection
-of operating systems, distributions and cloud platforms.
+of OpenSSL versions. This results in a few binaries, which work on a large selection
+of operating systems, distributions, and cloud platforms.
 
 Initially, we built specific binaries for given platforms (e.g. Netlify), which resulted in many 
 binaries which couldn't be shared with similar platforms and it was hard to maintain. 
 
-### Binary builds
+### Binaries
 
 The following table lists the pre-built binaries provided by Prisma.
-These include Windows and Mac, and multiple variations for Linux distributions
+These include Windows and Mac, and multiple variations for Linux distributions.
 
-| Build          | OS                  | OpenSSL variations | Downloads |
+#### S3 URL schema
+
+The binaries are published under the following URL schema.
+
+- Latest: 
+  `<base url>/<branch>/latest/<platform family>/<binary>(.<file extension>).gz`
+- Specific commit: 
+  `<base url>/<branch>/<commit>/<platform family>/<binary>(.<file extension>).gz`
+
+Notes
+
+- The `<base url>` is `https://prisma-builds.s3-eu-west-1.amazonaws.com`.
+- `<commit>` and `<branch>` always correspond to the git branch and commit the binary was built for.
+- The binary names are:
+  - prisma
+  - migration-engine
+  - introspection-engine
+  - prisma-fmt
+
+#### Binary build targets
+
+| Build          | Build OS            | OpenSSL variations | Downloads |
 | :------------- | :------------------ | :----------------: | :-------- |
-| `darwin`       | Mac                 | n/a                | (tbd)     |
-| `windows`      | Windows             | n/a                | (tbd)     |
-| `debian`       | Debian              | 1.0.x, 1.1.y       | (tbd)     |
-| `rhel`         | CentOS              | 1.0.x, 1.1.y       | (tbd)     |
+| `darwin`       | Mac                 | n/a                | [prisma](https://prisma-builds.s3-eu-west-1.amazonaws.com/master/latest/darwin/prisma.gz)               [migration-engine](https://prisma-builds.s3-eu-west-1.amazonaws.com/master/latest/darwin/migration-engine.gz)               [introspection-engine](https://prisma-builds.s3-eu-west-1.amazonaws.com/master/latest/darwin/introspection-engine.gz)               [prisma-fmt](https://prisma-builds.s3-eu-west-1.amazonaws.com/master/latest/darwin/prisma-fmt.gz)               |
+| `windows`      | Windows             | n/a                | [prisma.exe](https://prisma-builds.s3-eu-west-1.amazonaws.com/master/latest/windows/prisma.exe.gz)          [migration-engine.exe](https://prisma-builds.s3-eu-west-1.amazonaws.com/master/latest/windows/migration-engine.exe.gz)          [introspection-engine.exe](https://prisma-builds.s3-eu-west-1.amazonaws.com/master/latest/windows/introspection-engine.exe.gz)          [prisma-fmt.exe](https://prisma-builds.s3-eu-west-1.amazonaws.com/master/latest/windows/prisma-fmt.exe.gz)          |
+| `debian`       | Debian 8            | 1.0.x              | [prisma](https://prisma-builds.s3-eu-west-1.amazonaws.com/master/latest/debian-openssl-1.0.x/prisma.gz) [migration-engine](https://prisma-builds.s3-eu-west-1.amazonaws.com/master/latest/debian-openssl-1.0.x/migration-engine.gz) [introspection-engine](https://prisma-builds.s3-eu-west-1.amazonaws.com/master/latest/debian-openssl-1.0.x/introspection-engine.gz) [prisma-fmt](https://prisma-builds.s3-eu-west-1.amazonaws.com/master/latest/debian-openssl-1.0.x/prisma-fmt.gz) |
+|                |                     | 1.1.x              | [prisma](https://prisma-builds.s3-eu-west-1.amazonaws.com/master/latest/debian-openssl-1.1.x/prisma.gz) [migration-engine](https://prisma-builds.s3-eu-west-1.amazonaws.com/master/latest/debian-openssl-1.1.x/migration-engine.gz) [introspection-engine](https://prisma-builds.s3-eu-west-1.amazonaws.com/master/latest/debian-openssl-1.1.x/introspection-engine.gz) [prisma-fmt](https://prisma-builds.s3-eu-west-1.amazonaws.com/master/latest/debian-openssl-1.1.x/prisma-fmt.gz) |
+| `rhel`         | CentOS 6            | 1.0.x              | [prisma](https://prisma-builds.s3-eu-west-1.amazonaws.com/master/latest/rhel-openssl-1.0.x/prisma.gz)   [migration-engine](https://prisma-builds.s3-eu-west-1.amazonaws.com/master/latest/rhel-openssl-1.0.x/migration-engine.gz)   [introspection-engine](https://prisma-builds.s3-eu-west-1.amazonaws.com/master/latest/rhel-openssl-1.0.x/introspection-engine.gz)   [prisma-fmt](https://prisma-builds.s3-eu-west-1.amazonaws.com/master/latest/rhel-openssl-1.0.x/prisma-fmt.gz)   |
+|                |                     | 1.1.x              | [prisma](https://prisma-builds.s3-eu-west-1.amazonaws.com/master/latest/rhel-openssl-1.1.x/prisma.gz)   [migration-engine](https://prisma-builds.s3-eu-west-1.amazonaws.com/master/latest/rhel-openssl-1.1.x/migration-engine.gz)   [introspection-engine](https://prisma-builds.s3-eu-west-1.amazonaws.com/master/latest/rhel-openssl-1.1.x/introspection-engine.gz)   [prisma-fmt](https://prisma-builds.s3-eu-west-1.amazonaws.com/master/latest/rhel-openssl-1.1.x/prisma-fmt.gz)   |
 
 ### Linux distributions and versions
 
@@ -152,9 +175,9 @@ This table shows which Linux distributions are compatible with our pre-built bin
 
 | OS                  | Version                  | Build          | Status [?](#status-legend) | OpenSSL [[1]](#openssl) | Comment |
 | :------------------ | :----------------------- | :------------- | :------------------------: | :---------------------: | :------ |
-| Debian              | 8 (Jessie)               | `debian`       | (:heavy_check_mark:)       | 1.0.x                   | [[2]](#dependencies) install `nodejs` or `libssl1.0.0`
-|                     | 9 (Stretch)              |                | (:heavy_check_mark:)       | 1.1.x                   | [[2]](#dependencies) install `nodejs` or `libssl1.1`
-|                     | 10 (Buster)              |                | (:heavy_check_mark:)       | 1.1.x                   | [[2]](#dependencies) install `nodejs` or `libssl1.1`
+| Debian              | 8 (Jessie)               | `debian`       | (:heavy_check_mark:)       | 1.0.x                   | [[2]](#dependencies) install `nodejs` or `openssl`
+|                     | 9 (Stretch)              |                | (:heavy_check_mark:)       | 1.1.x                   | [[2]](#dependencies) install `nodejs` or `openssl`
+|                     | 10 (Buster)              |                | (:heavy_check_mark:)       | 1.1.x                   | [[2]](#dependencies) install `nodejs` or `openssl`
 | Ubuntu              | 14.04 (trusty)           | `debian`       | (:heavy_check_mark:)       | 1.0.x                   | [[2]](#dependencies) install `nodejs` or `openssl`
 |                     | 16.04 (xenial)           |                | (:heavy_check_mark:)       | 1.0.x                   | [[2]](#dependencies) install `nodejs` or `openssl`
 |                     | 18.04 (bionic)           |                | (:heavy_check_mark:)       | 1.1.x                   | [[2]](#dependencies) install `nodejs` or `openssl`
@@ -175,10 +198,10 @@ This is also continuously tracked on [our build system](https://buildkite.com/pr
 
 |                     | Build          | Base OS                  | Status [?](#status-legend) | Comment |
 | :------------------ | :------------- | :----------------------  | :------------------------: | :------ |
-| Netlify             | `debian`       | Ubuntu 16.04             | :heavy_check_mark:         | Use the latest build image 
+| Netlify             | `debian`       | Ubuntu 16.04/18.04       | :heavy_check_mark:         | Use the latest build image 
 | Codesandbox         | `debian`       | Debian 8 Jessie          | :heavy_check_mark:         |
 | Zeit                | `rhel`         | Amazon Linux (CentOS)    | :heavy_check_mark:         |
-| Lambda              | `rhel`         | Amazon Linux (CentOS)    | :heavy_check_mark:         | Use the NodeJS 8 image or higher
+| Lambda              | `rhel`         | Amazon Linux (CentOS)    | :heavy_check_mark:         | Use the NodeJS 10 image or higher
 
 ### Status legend
 
@@ -212,7 +235,7 @@ From photon's perspective, we'll download the binaries to `./node_modules/@gener
 
 ### Naming Convention
 
-All downloaded binaries must follow the naming convention outlined by the [Table of Binaries](#pre-built-binary-targets).
+All downloaded binaries must follow the naming convention outlined by the [Table of Binaries](#binary-build-targets).
 
 This includes both binaries downloaded for a generator and downloaded for CLI commands.
 
@@ -255,7 +278,7 @@ Environment variable to configure the binary for CLI (like `prisma2 lift` or `pr
 | `PRISMA_MIGRATION_ENGINE_BINARY` | (optional) Overrides the resolution path for migration engine binary for `Lift` commands. | Can be a relative (from CWD) or an absolute path to the binary |
 | `PRISMA_QUERY_ENGINE_BINARY`     | (optional) Overrides the resolution path for query engine binary for `generate` command.  | Can be a relative (from CWD) or an absolute path to the binary |
 
-- CLI binaries can only be overridden by a path to a custom binary. It does not alter download behavior, it just overrides the binary path provided for respective commands. This means that using [known binaries](#pre-built-binary-targets) is not possible.
+- CLI binaries can only be overridden by a path to a custom binary. It does not alter download behavior, it just overrides the binary path provided for respective commands. This means that using [known binaries](#binary-build-targets) is not possible.
 
 #### Environment Variables Error Handling
 
@@ -290,14 +313,14 @@ Fields on the `generator` block to configure the availability of binaries for ge
 
 | Field           | Description                                                                                                                                                                                                                                                 |
 | --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `binaryTargets` | _(optional)_ An array of binaries that are required by the application, string for [known binary](#pre-built-binary-targets) targets. These are downloaded at generation time. Note that custom binary paths should not be provided in the `binaryTargets`. |
+| `binaryTargets` | _(optional)_ An array of binaries that are required by the application, string for [known binary](#binary-build-targets) targets. These are downloaded at generation time. Note that custom binary paths should not be provided in the `binaryTargets`. |
 
 Environment variable to configure a specific binary for the generated code's runtime:
 
 | Environment Variable             | Description                                                                                                                                                 |
 | -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `PRISMA_MIGRATION_ENGINE_BINARY` | _(optional)_ A string literal with a [known binary](#pre-built-binary-targets) name (like `darwin` or `linux-glibc-libssl1.0.2"` or path to a custom binary |
-| `PRISMA_QUERY_ENGINE_BINARY`     | _(optional)_ A string literal with a [known binary](#pre-built-binary-targets) name (like `darwin` or `linux-glibc-libssl1.0.2"` or path to a custom binary |
+| `PRISMA_MIGRATION_ENGINE_BINARY` | _(optional)_ A string literal with a [known binary](#binary-build-targets) name (like `darwin` or `linux-glibc-libssl1.0.2"` or path to a custom binary |
+| `PRISMA_QUERY_ENGINE_BINARY`     | _(optional)_ A string literal with a [known binary](#binary-build-targets) name (like `darwin` or `linux-glibc-libssl1.0.2"` or path to a custom binary |
 
 - Both `binaryTargets` field and `PRISMA_QUERY_ENGINE_BINARY` environment variable are optional. Here are some scenarios
 
