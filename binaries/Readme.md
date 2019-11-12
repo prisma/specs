@@ -111,24 +111,90 @@ VSCode Prisma extension uses this binary for providing code formatting features.
 
 ## Binary Files
 
-### Pre-built Binary Targets
+Prisma provides multiple binaries for various platforms and operating systems.
 
-|             **Build**              |      **Known Platforms**      |                                                    **Query Engine**                                                     | **Migration Engine**                                                                                                   | **Prisma Format**                                                                                                |
-| :--------------------------------: | :---------------------------: | :---------------------------------------------------------------------------------------------------------------------: | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-|               darwin               |      (Local development)      |               [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/darwin/prisma.gz)               | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/darwin/migration-engine.gz)                  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/darwin/prisma-fmt.gz)                  |
-|              windows               |      (Local development)      |            [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/windows/prisma.exe.gz)             | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/windows/migration-engine.exe.gz)             | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/windows/prisma-fmt.exe.gz)             |
-|      linux-glibc-libssl1.0.1       |      Lambda Node 8, ZEIT      |      [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-glibc-libssl1.0.1/prisma.gz)       | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-glibc-libssl1.0.1/migration-engine.gz) | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-glibc-libssl1.0.1/prisma-fmt.gz) |
-|      linux-glibc-libssl1.0.2       | Lambda (Node 10), Netlify, Up |      [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-glibc-libssl1.0.2/prisma.gz)       | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-glibc-libssl1.0.2/migration-engine.gz) | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-glibc-libssl1.0.2/prisma-fmt.gz) |
-|      linux-glibc-libssl1.1.0       |               ?               |      [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-glibc-libssl1.1.0/prisma.gz)       | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-glibc-libssl1.1.0/migration-engine.gz) | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-glibc-libssl1.1.0/prisma-fmt.gz) |
-|      linux-glibc-libssl1.1.1       |               ?               |      [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-glibc-libssl1.1.1/prisma.gz)       | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-glibc-libssl1.1.1/migration-engine.gz) | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-glibc-libssl1.1.1/prisma-fmt.gz) |
-|       linux-musl-libssl1.0.1       |            Alpine             |       [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-musl-libssl1.0.1/prisma.gz)       | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-musl-libssl1.0.1/migration-engine.gz)  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-musl-libssl1.0.1/prisma-fmt.gz)  |
-|       linux-musl-libssl1.0.2       |            Alpine             |       [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-musl-libssl1.0.2/prisma.gz)       | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-musl-libssl1.0.2/migration-engine.gz)  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-musl-libssl1.0.2/prisma-fmt.gz)  |
-|       linux-musl-libssl1.1.0       |            Alpine             |       [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-musl-libssl1.1.0/prisma.gz)       | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-musl-libssl1.1.0/migration-engine.gz)  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-musl-libssl1.1.0/prisma-fmt.gz)  |
-|       linux-musl-libssl1.1.1       |            Alpine             |       [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-musl-libssl1.1.1/prisma.gz)       | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-musl-libssl1.1.1/migration-engine.gz)  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-musl-libssl1.1.1/prisma-fmt.gz)  |
-| linux-glibc-libssl1.0.1-ubuntu1604 |         Ubuntu 16.04          | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-glibc-libssl1.0.1-ubuntu1604/prisma.gz) | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-musl-libssl1.1.1/migration-engine.gz)  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-musl-libssl1.1.1/prisma-fmt.gz)  |
-| linux-glibc-libssl1.0.2-ubuntu1604 |         Ubuntu 16.04          | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-glibc-libssl1.0.2-ubuntu1604/prisma.gz) | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-musl-libssl1.1.1/migration-engine.gz)  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-musl-libssl1.1.1/prisma-fmt.gz)  |
-| linux-glibc-libssl1.1.0-ubuntu1604 |         Ubuntu 16.04          | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-glibc-libssl1.1.0-ubuntu1604/prisma.gz) | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-musl-libssl1.1.1/migration-engine.gz)  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-musl-libssl1.1.1/prisma-fmt.gz)  |
-| linux-glibc-libssl1.1.1-ubuntu1604 |         Ubuntu 16.04          | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-glibc-libssl1.1.1-ubuntu1604/prisma.gz) | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-musl-libssl1.1.1/migration-engine.gz)  | [download](https://s3-eu-west-1.amazonaws.com/prisma-native/master/latest/linux-musl-libssl1.1.1/prisma-fmt.gz)  |
+### Why?
+
+We need different binaries because operating systems such as Windows and Linux work 
+fundamentally different. Some Linux distributions have the same issue. On top of that,
+different versions of Linux distributions have different versions of OpenSSL installed,
+which is why we need different binaries for those as well.
+
+### How?
+
+We build multiple binaries on common operating systems with different combinations
+of OpenSSL versions. This results in a few binaries which work on a large selection
+of operating systems, distributions and cloud platforms.
+
+Initially, we built specific binaries for given platforms (e.g. Netlify), which resulted in many 
+binaries which couldn't be shared with similar platforms and it was hard to maintain. 
+
+### Binary builds
+
+The following table lists the pre-built binaries provided by Prisma.
+These include Windows and Mac, and multiple variations for Linux distributions
+
+| Build          | OS                  | OpenSSL variations | Downloads |
+| :------------- | :------------------ | :----------------: | :-------- |
+| `darwin`       | Mac                 | n/a                | (tbd)     |
+| `windows`      | Windows             | n/a                | (tbd)     |
+| `debian`       | Debian              | 1.0.x, 1.1.y       | (tbd)     |
+| `rhel`         | CentOS              | 1.0.x, 1.1.y       | (tbd)     |
+
+### Linux distributions and versions
+
+This table shows which Linux distributions are compatible with our pre-built binaries.
+
+| OS                  | Version                  | Build          | Status [?](#status-legend) | OpenSSL [[1]](#openssl) | Comment |
+| :------------------ | :----------------------- | :------------- | :------------------------: | :---------------------: | :------ |
+| Debian              | 8 (Jessie)               | `debian`       | (:heavy_check_mark:)       | 1.0.x                   | [[2]](#dependencies) install `nodejs` or `libssl1.0.0`
+|                     | 9 (Stretch)              |                | (:heavy_check_mark:)       | 1.1.x                   | [[2]](#dependencies) install `nodejs` or `libssl1.1`
+|                     | 10 (Buster)              |                | (:heavy_check_mark:)       | 1.1.x                   | [[2]](#dependencies) install `nodejs` or `libssl1.1`
+| Ubuntu              | 14.04 (trusty)           | `debian`       | (:heavy_check_mark:)       | 1.0.x                   | [[2]](#dependencies) install `nodejs` or `openssl`
+|                     | 16.04 (xenial)           |                | (:heavy_check_mark:)       | 1.0.x                   | [[2]](#dependencies) install `nodejs` or `openssl`
+|                     | 18.04 (bionic)           |                | (:heavy_check_mark:)       | 1.1.x                   | [[2]](#dependencies) install `nodejs` or `openssl`
+|                     | 19.04 (disco)            |                | (:heavy_check_mark:)       | 1.1.x                   | [[2]](#dependencies) install `nodejs` or `openssl`
+| CentOS              | 6                        | `rhel`         | :heavy_check_mark:         | 1.0.x                   |
+|                     | 7                        |                | :heavy_check_mark:         | 1.0.x                   |
+| Fedora              | 28                       | `rhel`         | :heavy_check_mark:         | 1.1.x                   |
+|                     | 29                       |                | :heavy_check_mark:         | 1.1.x                   |
+|                     | 30                       |                | :heavy_check_mark:         | 1.1.x                   |
+| Linux Mint          | 18                       | `debian`       | (:heavy_check_mark:)       | 1.0.x                   | [[2]](#dependencies) install `nodejs` or `openssl`
+|                     | 19                       |                | (:heavy_check_mark:)       | 1.1.x                   | [[2]](#dependencies) install `nodejs` or `openssl`
+| Arch Linux          | 2019.09.01               | `debian`       | :heavy_check_mark:         | 1.1.x                   |
+| Alpine              | *                        | n/a            | :x:                        | ?                       | see [prisma/photonjs#173](https://github.com/prisma/photonjs/issues/173)
+
+This is also continuously tracked on [our build system](https://buildkite.com/prisma/binary-testing).
+
+### Cloud environments
+
+|                     | Build          | Base OS                  | Status [?](#status-legend) | Comment |
+| :------------------ | :------------- | :----------------------  | :------------------------: | :------ |
+| Netlify             | `debian`       | Ubuntu 16.04             | :heavy_check_mark:         | Use the latest build image 
+| Codesandbox         | `debian`       | Debian 8 Jessie          | :heavy_check_mark:         |
+| Zeit                | `rhel`         | Amazon Linux (CentOS)    | :heavy_check_mark:         |
+| Lambda              | `rhel`         | Amazon Linux (CentOS)    | :heavy_check_mark:         | Use the NodeJS 8 image or higher
+
+### Status legend
+
+- :heavy_check_mark: Works out of the box with no configuration at all.
+- (:heavy_check_mark:) You may need to install dependencies.
+- :x: Currently unsupported.
+
+### Footnotes
+
+1. #### OpenSSL
+
+    The OpenSSL column in the tables above describe what the default OpenSSL version is on 
+    a given OS and version. It may not be installed per default, but it's always packaged
+    through the native package manager (e.g. apt for Ubuntu), and in most cases you can
+    simply install the package `openssl`.
+
+2. #### Dependencies
+
+    You need dependencies on your machine to run the binary successfully. You can
+    use your OS package manager, for example apt-get or yum. Check the table above
+    which dependency you need exactly and then install it, e.g. `sudo apt-get install nodejs`.
 
 #### URL Scheme
 
@@ -147,7 +213,7 @@ This includes both binaries downloaded for a generator and downloaded for CLI co
 
 ### Custom Binary
 
-In case a binary for your platform is not listed in the [Pre-built Binary Targets](#pre-built-binary-targets). Please follow [this section](https://github.com/prisma/prisma2/blob/custom_binary/docs/core/generators/photonjs.md#compiling-custom-binary) of the docs to build a custom binary.
+In case a binary for your platform is not listed in the [Pre-built Binary Targets](#binary-builds). Please follow [this section](https://github.com/prisma/prisma2/blob/custom_binary/docs/core/generators/photonjs.md#compiling-custom-binary) of the docs to build a custom binary.
 
 ### OpenSSL
 
@@ -408,10 +474,3 @@ PRISMA_QUERY_ENGINE_BINARY=./custom-query-engine-binary # On local
 Unset `PRISMA_QUERY_ENGINE_BINARY` in production for it to pick the only binary specified in `binaryTargets`.
 
 [Examples for other deployment scenarios](https://github.com/prisma/prisma-examples/tree/prisma2/deployment-platforms)
-
-## Unresolved questions
-
-- [ ] Should we unify different binaries (query engine, migration engine, ...) into one single binary?
-- [ ] Some platforms [tally `package.json` with the actual contents of `node_modules`](https://github.com/prisma/photonjs/issues/117), this spec does not address
-      that issue.
-- [ ] Possible New Dimension: Is libssl built for specific distros? E.g. does libssl1.0.1 built on centos not work for ubuntu? https://github.com/prisma/prisma2/issues/157
