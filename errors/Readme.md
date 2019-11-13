@@ -363,7 +363,7 @@ Note: Errors with `*` in the title represent multiple types and are less defined
 
 #### P2000: Input value too long
 
-- **Description**: The value `${field_value}` for the field `${field_name}` on the is too long for the field's type
+- **Description**: The value `${field_value}` for the field `${field_name}` is too long for the field's type
 - **Meta schema**:
 
   ```ts
