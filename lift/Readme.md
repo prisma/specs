@@ -159,55 +159,210 @@ translated to datasource-specific migration commands.
 <details>
 <summary>CreateModel</summary>
 
-**TODO**
+<pre>
+type CreateModel = {
+    model: string
+}
+</pre>
 
 </details>
 <details>
 <summary>UpdateModel</summary>
 
-**TODO**
+<pre>
+type UpdateModel = {
+    model: string
+
+    new_name?: string
+}
+</pre>
+
 
 </details>
 <details>
 <summary>DeleteModel</summary>
 
-**TODO**
+<pre>
+type DeleteModel = {
+    model: string
+}
+</pre>
+
+
+</details>
+<details>
+<summary>CreateDirective</summary>
+
+<pre>
+type DirectiveArgument = {
+    name: string
+    // a prisma schema expression serialized as a string
+    value: string 
+}
+
+type CreateDirective = {
+    // One of `model` or `enum` is always present.
+    model?: string
+    field?: string
+    enum?: string
+    directive: string
+    // The arguments of the directive are required to match directives that can be repeated,
+    // like `@@unique` on a model. This field is omitted when matching can be done without comparing
+    // the arguments, and present when a directive should be matched exactly.
+    arguments?: Array<DirectiveArgument>
+}
+</pre>
+
+</details>
+<details>
+<summary>DeleteDirective</summary>
+
+<pre>
+type DirectiveArgument = {
+    name: string
+    // a prisma schema expression serialized as a string
+    value: string
+}
+
+type DeleteDirective {
+    // One of `model` or `enum` is always present.
+    model?: string
+    field?: string
+    enum?: string
+    directive: string
+    // The arguments of the directive are required to match directives that can be repeated,
+    // like `@@unique` on a model. This field is omitted when matching can be done without comparing
+    // the arguments, and present when a directive should be matched exactly.
+    arguments?: Array<DirectiveArgument>
+}
+</pre>
+
+</details>
+<details>
+<summary>CreateDirectiveArgument</summary>
+
+<pre>
+type CreateDirectiveArgument = {
+    // One of `model` or `enum` is always present.
+    model?: string
+    field?: string
+    enum?: string
+    directive: string
+    argument: string,
+    // a prisma schema expression serialized as a string
+    value: string
+}
+</pre>
+
+</details>
+<details>
+<summary>UpdateDirectiveArgument</summary>
+
+<pre>
+type UpdateDirectiveArgument = {
+    // One of `model` or `enum` is always present.
+    model?: string
+    field?: string
+    enum?: string
+    directive: string
+    argument: string,
+
+    // a prisma schema expression serialized as a string
+    new_value: string
+}
+</pre>
+
+</details>
+<details>
+<summary>DeleteDirectiveArgument</summary>
+
+<pre>
+type DeleteDirectiveArgument = {
+    // One of `model` or `enum` is always present.
+    model?: string
+    field?: string
+    enum?: string
+    directive: string
+    argument: string,
+}
+</pre>
 
 </details>
 <details>
 <summary>CreateField</summary>
 
-**TODO**
+<pre>
+type CreateField = {
+    model: string
+    field: string
+    type: string
+    arity: "required" | "optional" | "list"
+}
+</pre>
 
 </details>
 <details>
 <summary>DeleteField</summary>
 
-**TODO**
+<pre>
+type DeleteField = {
+    model: string
+    field: string
+}
+</pre>
 
 </details>
 <details>
 <summary>UpdateField</summary>
 
-**TODO**
+<pre>
+type UpdateField = {
+    model: string
+    field: string
+
+    new_name?: string
+    type?: string
+    arity?: "required" | "optional" | "list"
+}
+</pre>
+
 
 </details>
 <details>
 <summary>CreateEnum</summary>
 
-**TODO**
+<pre>
+type CreateEnum = {
+    enum: string
+    values: Array<string>
+}
+</pre>
 
 </details>
 <details>
 <summary>UpdateEnum</summary>
 
-**TODO**
+<pre>
+type UpdateEnum = {
+    enum: string
+
+    new_name?: string
+    created_values?: Array<string>
+    deleted_values?: Array<string>
+}
+</pre>
+
 
 </details>
+
 <details>
 <summary>DeleteEnum</summary>
 
-**TODO**
+<pre>
+type DeleteEnum = {
+    enum: string
+}
+</pre>
 
 </details>
 
