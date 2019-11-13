@@ -188,6 +188,28 @@ type DeleteModel = {
 }
 </pre>
 
+</details>
+<details>
+<summary>CreateCustomType</summary>
+
+<pre>
+type CreateCustomType = {
+    custom_type: string
+
+    type: string
+    arity: "required" | "optional" | "list"
+}
+</pre>
+
+</details>
+<details>
+<summary>DeleteCustomType</summary>
+
+<pre>
+type DeleteCustomType = {
+    custom_type: string
+}
+</pre>
 
 </details>
 <details>
