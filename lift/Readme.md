@@ -25,8 +25,9 @@ data to look after the migration and Lift will take care of generating the neces
       - [CreateModel](#createmodel)
       - [UpdateModel](#updatemodel)
       - [DeleteModel](#deletemodel)
-      - [CreateCustomType](#createcustomtype)
-      - [DeleteCustomType](#deletecustomtype)
+      - [CreateTypeAlias](#createtypealias)
+      - [UpdateTypeAlias](#updatetypealias)
+      - [DeleteTypeAlias](#deletetypealias)
       - [CreateDirective](#createdirective)
       - [DeleteDirective](#deletedirective)
       - [CreateDirectiveArgument](#createdirectiveargument)
@@ -198,22 +199,31 @@ type DeleteModel = {
 }
 ```
 
-#### CreateCustomType
+#### CreateTypeAlias
 
 ```typescript
-type CreateCustomType = {
-    custom_type: string
+type CreateTypeAlias = {
+    type_alias: string
 
     type: string
     arity: "required" | "optional" | "list"
 }
 ```
 
-#### DeleteCustomType
+#### UpdateTypeAlias
 
 ```typescript
-type DeleteCustomType = {
-    custom_type: string
+type UpdateTypeAlias = {
+    type_alias: string
+    type?: string
+}
+```
+
+#### DeleteTypeAlias
+
+```typescript
+type DeleteTypeAlias = {
+    type_alias: string
 }
 ```
 
