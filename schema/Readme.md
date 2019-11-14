@@ -507,7 +507,7 @@ For implicit many-to-many relations, you **must** include both `Blog.authors` an
 
 ##### Explicit Many-to-Many (M:N) Relationships
 
-> ⚠ This is not implemented yet. See [tracking issue](https://github.com/prisma/prisma2/issues/816)
+> ⚠ This is not implemented yet. See [tracking issue](https://github.com/prisma/prisma2/issues/816) and a [related discussion](https://github.com/prisma/specs/issues/264).
 
 Many-to-many relationships are simply 2 one-to-many relationships.
 
