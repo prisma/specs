@@ -1,4 +1,4 @@
-# Prisma 2 Repositories
+# Prisma Framework Repositories
 
 - Owner: @janpio
 - Stakeholders: @schickling, @dpetrick
@@ -26,14 +26,14 @@ Prisma obviously uses GitHub for hosting our git repositories. This document spe
 
 ## Repositories in use
 
-Repositories used for Prisma 2:
+Repositories used for Prisma Framwork:
 
 ### Framework
 
 #### Tools
 
-- https://github.com/prisma/prisma2 - Prisma 2: CLI and Docs
-- https://github.com/prisma/specs - Specification of Prisma 2
+- https://github.com/prisma/prisma2 - Prisma Framework: CLI and Docs
+- https://github.com/prisma/specs - Specification of Prisma Framework
 - https://github.com/prisma/photonjs - Photon.js
 - https://github.com/prisma/lift - Lift
 - https://github.com/prisma/studio - Studio
@@ -52,8 +52,8 @@ Repositories used for Prisma 2:
 
 - https://github.com/prisma/prisma-test-utils - Genererator for test utilities used to generate fake DBs with fake data for writing unit/integration tests
 - https://github.com/prisma/prisma2-private (🔒 private) - Sensitive information and issues
-- https://github.com/prisma/prisma-examples/tree/prisma2 - Examples using Prisma 2
-- https://github.com/prisma/database-schema-examples - Database Schema Examples (to be supported by Prisma 2)
+- https://github.com/prisma/prisma-examples/tree/prisma2 - Examples using Prisma Framework
+- https://github.com/prisma/database-schema-examples - Database Schema Examples (to be supported by Prisma Framework)
 
 
 ### Meta

@@ -32,27 +32,26 @@ Besides the [specifications](#specifications) linked below, most of the work her
 
 Prisma Framework consists of several tools:
 
-- [Prisma Schema Language](schema) (PSL) ❔
-- [Tools](tools) - Overview of the Tools ❌
-  - [CLI](cli) - setup and introspection 🚧
-  - [Studio](studio) - GUI 🚨
-  - [Photon](photon) - data access ❌
-    - [Photon.js](photonjs) 🚨
-    - [Photon.go](photongo) 🚨
-  - [Lift](lift) - migration 🚨
-  - [VSCode Prisma](vscode-extension) - PSL formatting and linting ❌
+- [Prisma Schema Language](schema) (PSL)
+- Tools
+  - [CLI](cli) - setup and introspection
+  - [Studio](studio) - GUI
+  - [Photon](photon) - data access
+    - [Photon.js](photonjs)
+    - [Photon.go](photongo)
+  - [Lift](lift) - migration
+  - [VSCode Prisma](vscode-extension) - PSL formatting and linting
 
 ### Internal parts
 
 It also has several internal parts:
 
-- [SDK](sdk) ❌
-  - [JS SDK](sdk-js) ❌
-    - [Generators](sdk-js/generators) 🚨
-    - [Engine Runtime](sdk-js/engine-runtime) 🚨
-- [Binaries](binaries) 🚨
-- [Capabilities](capabilities) 🚧
-- [Errors](errors) 🚧
+- [SDK](sdk)
+  - [JS SDK](sdk-js)
+    - [Generators](sdk-js/generators)
+    - [Engine Runtime](sdk-js/engine-runtime)
+- [Binaries](binaries)
+- [Errors](errors)
 
 ### Organisation
 
@@ -60,26 +59,12 @@ We don't only spec the software itself, but also how we work on it and on these 
 
 #### Process
 
-- [GitHub labels](process/labels.md) ✅
-- [Issue Triage](process/issue-triage.md) ✅
-- [Repositories](process/repositories.md) ✅
-- [Release Milestones](process/release-milestones.md) ✅
+- [GitHub labels](process/labels.md)
+- [Issue Triage](process/issue-triage.md)
+- [Repositories](process/repositories.md)
+- [Release Milestones](process/release-milestones.md)
 
 #### Meta
 
-- [Specs](meta/specs.md) 🚧
-- [Table of Contents](meta/table-of-contents.md) ✅
-
----
-
-Emoji key:
-
-- ❔ - unknown state
-- ✅ - current, stable
-- 🚧 - work in progress (see [Pull Requests](https://github.com/prisma/specs/pulls))
-- 🚨 - outdated, needs work
-- ❌ - does not exist yet
-
-Build status:
-
-- CLI Netlify Status: [![Netlify Status](https://api.netlify.com/api/v1/badges/17fd71c4-de5a-4759-83dc-90d6656ae79b/deploy-status)](https://app.netlify.com/sites/prisma-specs/deploys)
+- [Specs](meta/specs.md)
+- [Table of Contents](meta/table-of-contents.md)

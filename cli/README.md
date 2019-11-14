@@ -8,8 +8,6 @@
 
 Prisma CLI offers essential functionality to Prisma Framework users.
 
-Note: Source code of the design document now lives at https://github.com/prisma/spec-cli
-
 ---
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
@@ -123,5 +121,5 @@ If the `HTTPS_PROXY` or `HTTP_PROXY` environment variables are set, proxy settin
 
 ## Design Document
 
-This lives over at https://github.com/prisma/spec-cli
-View Online: https://prisma-cli-spec.netlify.com/
+- This lives over at https://github.com/prisma/spec-cli
+- View Online: https://prisma-cli-spec.netlify.com/
