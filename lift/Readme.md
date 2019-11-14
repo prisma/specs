@@ -22,6 +22,22 @@ data to look after the migration and Lift will take care of generating the neces
     - [Schema](#schema)
     - [Migration](#migration)
     - [Step](#step)
+      - [CreateModel](#createmodel)
+      - [UpdateModel](#updatemodel)
+      - [DeleteModel](#deletemodel)
+      - [CreateCustomType](#createcustomtype)
+      - [DeleteCustomType](#deletecustomtype)
+      - [CreateDirective](#createdirective)
+      - [DeleteDirective](#deletedirective)
+      - [CreateDirectiveArgument](#createdirectiveargument)
+      - [UpdateDirectiveArgument](#updatedirectiveargument)
+      - [DeleteDirectiveArgument](#deletedirectiveargument)
+      - [CreateField](#createfield)
+      - [DeleteField](#deletefield)
+      - [UpdateField](#updatefield)
+      - [CreateEnum](#createenum)
+      - [UpdateEnum](#updateenum)
+      - [DeleteEnum](#deleteenum)
     - [Hook](#hook)
     - [Destructive Changes](#destructive-changes)
   - [Migration History](#migration-history)
@@ -156,60 +172,200 @@ A Migration is a grouping of one or more Steps. Each migration lives in it's own
 Steps are actions that resolves into zero or more database commands. Steps generically describe models, fields and relationships, so they can be easily
 translated to datasource-specific migration commands.
 
-<details>
-<summary>CreateModel</summary>
+#### CreateModel
 
-**TODO**
+```typescript
+type CreateModel = {
+    model: string
+}
+```
 
-</details>
-<details>
-<summary>UpdateModel</summary>
+#### UpdateModel
 
-**TODO**
+```typescript
+type UpdateModel = {
+    model: string
 
-</details>
-<details>
-<summary>DeleteModel</summary>
+    new_name?: string
+}
+```
 
-**TODO**
+#### DeleteModel
 
-</details>
-<details>
-<summary>CreateField</summary>
+```typescript
+type DeleteModel = {
+    model: string
+}
+```
 
-**TODO**
+#### CreateCustomType
 
-</details>
-<details>
-<summary>DeleteField</summary>
+```typescript
+type CreateCustomType = {
+    custom_type: string
 
-**TODO**
+    type: string
+    arity: "required" | "optional" | "list"
+}
+```
 
-</details>
-<details>
-<summary>UpdateField</summary>
+#### DeleteCustomType
 
-**TODO**
+```typescript
+type DeleteCustomType = {
+    custom_type: string
+}
+```
 
-</details>
-<details>
-<summary>CreateEnum</summary>
+#### CreateDirective
 
-**TODO**
+```typescript
+type DirectiveArgument = {
+    name: string
+    // a prisma schema expression serialized as a string
+    value: string 
+}
 
-</details>
-<details>
-<summary>UpdateEnum</summary>
+type CreateDirective = {
+    // One of `model` or `enum` is always present.
+    model?: string
+    field?: string
+    enum?: string
+    directive: string
+    // The arguments of the directive are required to match directives that can be repeated,
+    // like `@@unique` on a model. This field is omitted when matching can be done without comparing
+    // the arguments, and present when a directive should be matched exactly.
+    arguments?: Array<DirectiveArgument>
+}
+```
 
-**TODO**
+#### DeleteDirective
 
-</details>
-<details>
-<summary>DeleteEnum</summary>
+```typescript
+type DirectiveArgument = {
+    name: string
+    // a prisma schema expression serialized as a string
+    value: string
+}
 
-**TODO**
+type DeleteDirective {
+    // One of `model` or `enum` is always present.
+    model?: string
+    field?: string
+    enum?: string
+    directive: string
+    // The arguments of the directive are required to match directives that can be repeated,
+    // like `@@unique` on a model. This field is omitted when matching can be done without comparing
+    // the arguments, and present when a directive should be matched exactly.
+    arguments?: Array<DirectiveArgument>
+}
+```
 
-</details>
+#### CreateDirectiveArgument
+
+```typescript
+type CreateDirectiveArgument = {
+    // One of `model` or `enum` is always present.
+    model?: string
+    field?: string
+    enum?: string
+    directive: string
+    argument: string,
+    // a prisma schema expression serialized as a string
+    value: string
+}
+```
+
+#### UpdateDirectiveArgument
+
+```typescript
+type UpdateDirectiveArgument = {
+    // One of `model` or `enum` is always present.
+    model?: string
+    field?: string
+    enum?: string
+    directive: string
+    argument: string,
+
+    // a prisma schema expression serialized as a string
+    new_value: string
+}
+```
+
+#### DeleteDirectiveArgument
+
+```typescript
+type DeleteDirectiveArgument = {
+    // One of `model` or `enum` is always present.
+    model?: string
+    field?: string
+    enum?: string
+    directive: string
+    argument: string,
+}
+```
+
+#### CreateField
+
+```typescript
+type CreateField = {
+    model: string
+    field: string
+    type: string
+    arity: "required" | "optional" | "list"
+}
+```
+
+#### DeleteField
+
+```typescript
+type DeleteField = {
+    model: string
+    field: string
+}
+```
+
+#### UpdateField
+
+```typescript
+type UpdateField = {
+    model: string
+    field: string
+
+    new_name?: string
+    type?: string
+    arity?: "required" | "optional" | "list"
+}
+```
+
+#### CreateEnum
+
+```typescript
+type CreateEnum = {
+    enum: string
+    values: Array<string>
+}
+```
+
+#### UpdateEnum
+
+```typescript
+type UpdateEnum = {
+    enum: string
+
+    new_name?: string
+    created_values?: Array<string>
+    deleted_values?: Array<string>
+}
+```
+
+#### DeleteEnum
+
+```typescript
+type DeleteEnum = {
+    enum: string
+}
+```
 
 ### Hook
 
