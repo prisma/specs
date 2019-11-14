@@ -156,66 +156,54 @@ A Migration is a grouping of one or more Steps. Each migration lives in it's own
 Steps are actions that resolves into zero or more database commands. Steps generically describe models, fields and relationships, so they can be easily
 translated to datasource-specific migration commands.
 
-<details>
-<summary>CreateModel</summary>
+#### CreateModel
 
-<pre>
+```typescript
 type CreateModel = {
     model: string
 }
-</pre>
+```
 
-</details>
-<details>
-<summary>UpdateModel</summary>
+#### UpdateModel
 
-<pre>
+```typescript
 type UpdateModel = {
     model: string
 
     new_name?: string
 }
-</pre>
+```
 
+#### DeleteModel
 
-</details>
-<details>
-<summary>DeleteModel</summary>
-
-<pre>
+```typescript
 type DeleteModel = {
     model: string
 }
-</pre>
+```
 
-</details>
-<details>
-<summary>CreateCustomType</summary>
+#### CreateCustomType
 
-<pre>
+```typescript
 type CreateCustomType = {
     custom_type: string
 
     type: string
     arity: "required" | "optional" | "list"
 }
-</pre>
+```
 
-</details>
-<details>
-<summary>DeleteCustomType</summary>
+#### DeleteCustomType
 
-<pre>
+```typescript
 type DeleteCustomType = {
     custom_type: string
 }
-</pre>
+```
 
-</details>
-<details>
-<summary>CreateDirective</summary>
+#### CreateDirective
 
-<pre>
+```typescript
 type DirectiveArgument = {
     name: string
     // a prisma schema expression serialized as a string
@@ -233,13 +221,11 @@ type CreateDirective = {
     // the arguments, and present when a directive should be matched exactly.
     arguments?: Array<DirectiveArgument>
 }
-</pre>
+```
 
-</details>
-<details>
-<summary>DeleteDirective</summary>
+#### DeleteDirective
 
-<pre>
+```typescript
 type DirectiveArgument = {
     name: string
     // a prisma schema expression serialized as a string
@@ -257,13 +243,11 @@ type DeleteDirective {
     // the arguments, and present when a directive should be matched exactly.
     arguments?: Array<DirectiveArgument>
 }
-</pre>
+```
 
-</details>
-<details>
-<summary>CreateDirectiveArgument</summary>
+#### CreateDirectiveArgument
 
-<pre>
+```typescript
 type CreateDirectiveArgument = {
     // One of `model` or `enum` is always present.
     model?: string
@@ -274,13 +258,11 @@ type CreateDirectiveArgument = {
     // a prisma schema expression serialized as a string
     value: string
 }
-</pre>
+```
 
-</details>
-<details>
-<summary>UpdateDirectiveArgument</summary>
+#### UpdateDirectiveArgument
 
-<pre>
+```typescript
 type UpdateDirectiveArgument = {
     // One of `model` or `enum` is always present.
     model?: string
@@ -292,13 +274,11 @@ type UpdateDirectiveArgument = {
     // a prisma schema expression serialized as a string
     new_value: string
 }
-</pre>
+```
 
-</details>
-<details>
-<summary>DeleteDirectiveArgument</summary>
+#### DeleteDirectiveArgument
 
-<pre>
+```typescript
 type DeleteDirectiveArgument = {
     // One of `model` or `enum` is always present.
     model?: string
@@ -307,37 +287,31 @@ type DeleteDirectiveArgument = {
     directive: string
     argument: string,
 }
-</pre>
+```
 
-</details>
-<details>
-<summary>CreateField</summary>
+#### CreateField
 
-<pre>
+```typescript
 type CreateField = {
     model: string
     field: string
     type: string
     arity: "required" | "optional" | "list"
 }
-</pre>
+```
 
-</details>
-<details>
-<summary>DeleteField</summary>
+#### DeleteField
 
-<pre>
+```typescript
 type DeleteField = {
     model: string
     field: string
 }
-</pre>
+```
 
-</details>
-<details>
-<summary>UpdateField</summary>
+#### UpdateField
 
-<pre>
+```typescript
 type UpdateField = {
     model: string
     field: string
@@ -346,25 +320,20 @@ type UpdateField = {
     type?: string
     arity?: "required" | "optional" | "list"
 }
-</pre>
+```
 
+#### CreateEnum
 
-</details>
-<details>
-<summary>CreateEnum</summary>
-
-<pre>
+```typescript
 type CreateEnum = {
     enum: string
     values: Array<string>
 }
-</pre>
+```
 
-</details>
-<details>
-<summary>UpdateEnum</summary>
+#### UpdateEnum
 
-<pre>
+```typescript
 type UpdateEnum = {
     enum: string
 
@@ -372,21 +341,15 @@ type UpdateEnum = {
     created_values?: Array<string>
     deleted_values?: Array<string>
 }
-</pre>
+```
 
+#### DeleteEnum
 
-</details>
-
-<details>
-<summary>DeleteEnum</summary>
-
-<pre>
+```typescript
 type DeleteEnum = {
     enum: string
 }
-</pre>
-
-</details>
+```
 
 ### Hook
 
