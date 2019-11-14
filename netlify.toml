@@ -1,7 +1,0 @@
-[build]
-  publish = "public"
-  command = "bash build.sh"
-  
-[[redirects]]
-  from = "/"
-  to = "/cli"

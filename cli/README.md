@@ -8,6 +8,8 @@
 
 Prisma CLI offers essential functionality to Prisma Framework users.
 
+Note: Source code of the design document now lives at https://github.com/prisma/spec-cli
+
 ---
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
@@ -30,9 +32,7 @@ Prisma CLI offers essential functionality to Prisma Framework users.
 - [Other Functionality](#other-functionality)
   - [Help](#help)
   - [Proxy Support](#proxy-support)
-- [Technical Design Spec](#technical-design-spec)
-  - [View Online](#view-online)
-  - [Usage](#usage)
+- [Design Document](#design-document)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -59,7 +59,6 @@ TODO
 - npm/yarn default
 - All other options as fallback/alternative: Homebrew, curl, chocolatey, ...
 
-
 ## Commands
 
 ### Setup Prisma
@@ -68,7 +67,7 @@ TODO
 
 TODO
 
-### Create datamodel based on existing database 
+### Create datamodel based on existing database
 
 `prisma2 introspect`
 
@@ -88,13 +87,13 @@ TODO
 
 TODO
 
-### Migrate datamodel 
+### Migrate datamodel
 
 `prisma2 lift x`
 
 See [Lift specs](../lift).
 
-### Generate Photon 
+### Generate Photon
 
 `prisma2 generate`
 
@@ -122,18 +121,7 @@ TODO
 
 If the `HTTPS_PROXY` or `HTTP_PROXY` environment variables are set, proxy settings will be honored by the CLI.
 
+## Design Document
 
-
-## Technical Design Spec
-
-### View Online
-
-https://prisma-specs.netlify.com/cli/
-
-### Usage
-
-Edit [`src/pages/index.mdx`](src/pages/index.mdx) and run
-
-```
-yarn start
-```
+This lives over at https://github.com/prisma/spec-cli
+View Online: https://prisma-cli-spec.netlify.com/

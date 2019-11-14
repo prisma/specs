@@ -1,9 +1,0 @@
-{
-  "compilerOptions": {
-    "sourceMap": true,
-    "outDir": "dist",
-    "lib": ["esnext", "dom"],
-    "strict": true
-  },
-  "include": ["src/types.d.ts"]
-}
