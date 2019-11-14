@@ -198,22 +198,31 @@ type DeleteModel = {
 }
 ```
 
-#### CreateCustomType
+#### CreateTypeAlias
 
 ```typescript
-type CreateCustomType = {
-    custom_type: string
+type CreateTypeAlias = {
+    type_alias: string
 
     type: string
     arity: "required" | "optional" | "list"
 }
 ```
 
-#### DeleteCustomType
+#### UpdateTypeAlias
 
 ```typescript
-type DeleteCustomType = {
-    custom_type: string
+type UpdateTypeAlias = {
+    type_alias: string
+    type?: string
+}
+```
+
+#### DeleteTypeAlias
+
+```typescript
+type DeleteTypeAlias = {
+    type_alias: string
 }
 ```
 
