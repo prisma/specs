@@ -226,15 +226,6 @@ This is also continuously tracked on [our build system](https://buildkite.com/pr
     use your OS package manager, for example apt-get or yum. Check the table above
     which dependency you need exactly and then install it, e.g. `sudo apt-get install nodejs`.
 
-#### URL Scheme
-
-To download the binary, replace `${package}` with a package (e.g. `darwin`) and `${name}` with the name of the binary above (e.g. `query-engine`):
-
-- https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/${package}/${name}
-- E.g. https://s3-eu-west-1.amazonaws.com/prisma-native/alpha/latest/darwin/migration-engine
-
-From photon's perspective, we'll download the binaries to `./node_modules/@generated/photon/${package}`.
-
 ### Naming Convention
 
 All downloaded binaries must follow the naming convention outlined by the [Table of Binaries](#binary-build-targets).
