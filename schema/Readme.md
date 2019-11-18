@@ -307,7 +307,9 @@ Here's how some of the databases we're tracking map to the core types:
 
 #### List Types
 
-All primitive `types`, `enums`, `relations` and `embeds` natively support lists. Lists are denoted with `[]` at the end of the type.
+Lists are denoted with `[]` at the end of a type. Whether they are supported by a given datasource depends on the type being used in the list:
+* Lists are supported for relations and embeds by every connector.
+* Lists are supported for primitive types and enums by a connector if the value can be stored within the record. This means that a retrieval of this field in a query must not incur any additional lookups in the database. This is not the case for every datasource. For example Postgres does support this but SQLite does not.
 
 ```groovy
 model User {
@@ -318,6 +320,17 @@ model User {
 ```
 
 The default value for a required list is an empty list.
+
+If a connector does not support lists for primitive types it is possible to work around this limitation through relations. This makes the overhead of a query using this field transparent.
+```groovy
+model User {
+  names UserName[]
+}
+
+model UserName {
+  name String
+}
+```
 
 #### Optional Types
 
