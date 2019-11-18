@@ -323,6 +323,7 @@ model User {
 The default value for a required list is an empty list.
 
 If a connector does not support lists for primitive types it is possible to work around this limitation through relations. This makes the overhead of a query using this field transparent.
+
 ```groovy
 model User {
   names UserName[]
