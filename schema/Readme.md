@@ -308,6 +308,7 @@ Here's how some of the databases we're tracking map to the core types:
 #### List Types
 
 Lists are denoted with `[]` at the end of a type. Whether they are supported by a given datasource depends on the type being used in the list:
+
 * Lists are supported for relations and embeds by every connector.
 * Lists are supported for primitive types and enums by a connector if the value can be stored within the record. This means that a retrieval of this field in a query must not incur any additional lookups in the database. This is not the case for every datasource. For example Postgres does support this but SQLite does not.
 
