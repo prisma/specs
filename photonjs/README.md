@@ -816,12 +816,19 @@ await photon.user.findMany({
 
 ### Order By
 
+The query `findMany` allows the user to supply the `orderBy` argument which controls the sorting of the returned array of records:
 ```ts
 await photon.user.findMany({ orderBy: u => u.email.asc() })
 await photon.user.findMany({
   orderBy: (u, e) => e.and(u.email.asc(), u.firstName.desc()),
 })
 await photon.user.findMany({ orderBy: u => u.profile.imageSize.asc() })
+```
+
+If a query uses pagination parameters but no `orderBy` parameter is supplied an implicit `orderBy` for the id field of the model is added. The following two queries are semantically equivalent:
+```ts
+await photon.user.findMany({ first: 100 })
+await photon.user.findMany({ first: 100, orderBy: u => u.id.asc() })
 ```
 
 ### Write Operations (Update/Atomic)
