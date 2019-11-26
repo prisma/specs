@@ -47,7 +47,7 @@ Definition of errors in Prisma Framework. (In this document we make the distinct
       - [P3000: Database creation failed](#p3000-database-creation-failed)
       - [P3001: Destructive migration detected](#p3001-destructive-migration-detected)
       - [P3002: Migration rollback](#p3002-migration-rollback)
-    - [Introspection](#introspection)
+    - [Introspection Engine](#introspection-engine)
       - [P4000: Introspection failed](#p4000-introspection-failed)
     - [Schema Parser](#schema-parser)
       - [P5000: Schema parsing failed](#p5000-schema-parsing-failed)
