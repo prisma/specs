@@ -47,6 +47,7 @@ Repositories used for Prisma Framwork:
 - https://github.com/prisma/studio-code (🔒 private) - Studio Codebase
 - https://github.com/prisma/engine-build-cli - Build CLI for `prisma-engine`
 - https://github.com/prisma/typescript-pipelines - CLI/TypeScript release tooling
+- https://github.com/prisma/prisma2-development-environment - Prisma Framework Development Environment
 
 ### Additional
 
