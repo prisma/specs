@@ -263,7 +263,7 @@ To create a generator in TypeScript, create a new package, which needs two files
 
 A `generator.ts` file can use a helper function from the `@prisma/generator-helper` npm package to get a callback for when a generation is being requested:
 
-### `generator.ts`
+#### `generator.ts`
 
 ```ts
 #!/usr/bin/env ts-node
@@ -275,7 +275,7 @@ onGenerate((options: GeneratorOptions) => {
 })
 ```
 
-### `generator-manifest.json`
+#### `generator-manifest.json`
 
 Optionally, in the same folder as the `generator.ts`, there can be a `generator-manifest.json`, which includes the following information:
 
