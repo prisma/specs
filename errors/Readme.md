@@ -543,7 +543,7 @@ Note: Errors with `*` in the title represent multiple types and are less defined
   }
   ```
 
-### Introspection
+### Introspection Engine
 
 #### P4000: Introspection failed
 
