@@ -3,7 +3,7 @@
 - Owner: @schickling
 - Stakeholders: @timsuchanek
 - State:
-  - Spec: Outdated 🚨
+  - Spec: Unknown ❔
   - Implementation: Unknown ❔
 
 This spec describes the Photon Javascript API
