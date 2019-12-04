@@ -14,72 +14,71 @@ your datasources with Lift and administer your data using Studio.
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-
-  - [Datasource Block](#datasource-block)
-    - [Supported fields](#supported-fields)
-  - [Generator Block](#generator-block)
-    - [Supported fields](#supported-fields-1)
-    - [Binary Configuration](#binary-configuration)
-  - [Model Block](#model-block)
-    - [Field Names](#field-names)
-    - [Data Types](#data-types)
-      - [Core Data Type to Connector](#core-data-type-to-connector)
-      - [Core Data Type to Generator](#core-data-type-to-generator)
-      - [List Types](#list-types)
-      - [Optional Types](#optional-types)
-      - [Relations](#relations)
-        - [One-to-One (1:1) Relationships](#one-to-one-11-relationships)
-        - [One-to-Many (1:N) Relationships](#one-to-many-1n-relationships)
-          - [Implied Has-Many](#implied-has-many)
-          - [Implied Has-One](#implied-has-one)
-        - [Implicit Many-to-Many (M:N) Relationships](#implicit-many-to-many-mn-relationships)
-        - [Explicit Many-to-Many (M:N) Relationships](#explicit-many-to-many-mn-relationships)
-        - [Self-Referential Relationships](#self-referential-relationships)
-        - [Multiple-Reference Relationships](#multiple-reference-relationships)
-        - [Referencing Primary Composite Keys](#referencing-primary-composite-keys)
-        - [Referencing fields that are not @id](#referencing-fields-that-are-not-id)
-    - [Attributes](#attributes)
-      - [Case 1. No arguments](#case-1-no-arguments)
-      - [Case 2. One positional argument](#case-2-one-positional-argument)
-      - [Case 3. Many named arguments](#case-3-many-named-arguments)
-      - [Field Attributes](#field-attributes)
-      - [Core Field Attributes](#core-field-attributes)
-        - [@id](#id)
-        - [@unique](#unique)
-        - [@map(\_ name: String)](#map%5C_-name-string)
-        - [@default(\_ expr: Expr)](#default%5C_-expr-expr)
-        - [@relation(\_ name?: String, references?: Identifier[], onDelete?: CascadeEnum)](#relation%5C_-name-string-references-identifier-ondelete-cascadeenum)
-          - [Named relations](#named-relations)
-          - [Ambiguous relations](#ambiguous-relations)
-          - [Arguments](#arguments)
-          - [Validation](#validation)
-        - [@updatedAt](#updatedat)
-      - [Block Attributes](#block-attributes)
-      - [Core Block Attributes](#core-block-attributes)
-      - [Type Specifications](#type-specifications)
-    - [Why do we enforce the Core Prisma Primitive Type, even when there is a type specification?](#why-do-we-enforce-the-core-prisma-primitive-type-even-when-there-is-a-type-specification)
-  - [Comments](#comments)
-    - [// comment](#-comment)
-    - [/// comment](#-comment)
-    - [Example with Comments](#example-with-comments)
-  - [Type Definition](#type-definition)
-    - [Type Definitions provided by Connectors](#type-definitions-provided-by-connectors)
-  - [Enum Block](#enum-block)
-  - [Embed Block](#embed-block)
-    - [Inline Embeds](#inline-embeds)
-  - [Env Function](#env-function)
-    - [Introspect Behavior](#introspect-behavior)
-    - [Migrate Behavior](#migrate-behavior)
-    - [Generate Behavior](#generate-behavior)
-    - [Switching Datasources based on Environments](#switching-datasources-based-on-environments)
-  - [Function](#function)
-  - [Importing schemas](#importing-schemas)
-    - [Importing from other endpoints](#importing-from-other-endpoints)
-    - [Merging Models](#merging-models)
-  - [Auto Formatting](#auto-formatting)
-    - [Formatting Rules](#formatting-rules)
-      - [Configuration blocks are aligned by their `=` sign.](#configuration-blocks-are-aligned-by-their--sign)
-      - [Field definitions are aligned into columns separated by 2 or more spaces.](#field-definitions-are-aligned-into-columns-separated-by-2-or-more-spaces)
+- [Datasource Block](#datasource-block)
+  - [Supported fields](#supported-fields)
+- [Generator Block](#generator-block)
+  - [Supported fields](#supported-fields-1)
+  - [Binary Configuration](#binary-configuration)
+- [Model Block](#model-block)
+  - [Field Names](#field-names)
+  - [Data Types](#data-types)
+    - [Core Data Type to Connector](#core-data-type-to-connector)
+    - [Core Data Type to Generator](#core-data-type-to-generator)
+    - [List Types](#list-types)
+    - [Optional Types](#optional-types)
+    - [Relations](#relations)
+      - [One-to-One (1:1) Relationships](#one-to-one-11-relationships)
+      - [One-to-Many (1:N) Relationships](#one-to-many-1n-relationships)
+        - [Implied Has-Many](#implied-has-many)
+        - [Implied Has-One](#implied-has-one)
+      - [Implicit Many-to-Many (M:N) Relationships](#implicit-many-to-many-mn-relationships)
+      - [Explicit Many-to-Many (M:N) Relationships](#explicit-many-to-many-mn-relationships)
+      - [Self-Referential Relationships](#self-referential-relationships)
+      - [Multiple-Reference Relationships](#multiple-reference-relationships)
+      - [Referencing Primary Composite Keys](#referencing-primary-composite-keys)
+      - [Referencing fields that are not @id](#referencing-fields-that-are-not-id)
+  - [Attributes](#attributes)
+    - [Case 1. No arguments](#case-1-no-arguments)
+    - [Case 2. One positional argument](#case-2-one-positional-argument)
+    - [Case 3. Many named arguments](#case-3-many-named-arguments)
+    - [Field Attributes](#field-attributes)
+    - [Core Field Attributes](#core-field-attributes)
+      - [@id](#id)
+      - [@unique](#unique)
+      - [@map(\_ name: String)](#map%5C_-name-string)
+      - [@default(\_ expr: Expr)](#default%5C_-expr-expr)
+      - [@relation(\_ name?: String, references?: Identifier[], onDelete?: CascadeEnum)](#relation%5C_-name-string-references-identifier-ondelete-cascadeenum)
+        - [Named relations](#named-relations)
+        - [Ambiguous relations](#ambiguous-relations)
+        - [Arguments](#arguments)
+        - [Validation](#validation)
+      - [@updatedAt](#updatedat)
+    - [Block Attributes](#block-attributes)
+    - [Core Block Attributes](#core-block-attributes)
+    - [Type Specifications](#type-specifications)
+  - [Why do we enforce the Core Prisma Primitive Type, even when there is a type specification?](#why-do-we-enforce-the-core-prisma-primitive-type-even-when-there-is-a-type-specification)
+- [Comments](#comments)
+  - [// comment](#-comment)
+  - [/// comment](#-comment)
+  - [Example with Comments](#example-with-comments)
+- [Type Definition](#type-definition)
+  - [Type Definitions provided by Connectors](#type-definitions-provided-by-connectors)
+- [Enum Block](#enum-block)
+- [Embed Block](#embed-block)
+  - [Inline Embeds](#inline-embeds)
+- [Env Function](#env-function)
+  - [Introspect Behavior](#introspect-behavior)
+  - [Migrate Behavior](#migrate-behavior)
+  - [Generate Behavior](#generate-behavior)
+  - [Switching Datasources based on Environments](#switching-datasources-based-on-environments)
+- [Function](#function)
+- [Importing schemas](#importing-schemas)
+  - [Importing from other endpoints](#importing-from-other-endpoints)
+  - [Merging Models](#merging-models)
+- [Auto Formatting](#auto-formatting)
+  - [Formatting Rules](#formatting-rules)
+    - [Configuration blocks are aligned by their `=` sign.](#configuration-blocks-are-aligned-by-their--sign)
+    - [Field definitions are aligned into columns separated by 2 or more spaces.](#field-definitions-are-aligned-into-columns-separated-by-2-or-more-spaces)
 - [FAQ](#faq)
   - [Why not support @id for multiple blocks?](#why-not-support-id-for-multiple-blocks)
 
@@ -1149,39 +1148,6 @@ import Photon from '@generated/photon'
 const photon = new Photon()
 // Thrown: required `POSTGRES_URL` variable not found
 ```
-
-### Switching Datasources based on Environments
-
-> ⚠ This is not implemented yet. See [tracking issue](https://github.com/prisma/photonjs/issues/184)
-
-Sometimes it's nice to get started with an SQLite database and migrate to Postgres or MySQL for production. We support this workflow:
-
-```groovy
-datasource db {
-  enabled   = bool(env("SQLITE_URL"))
-  provider  = "sqlite"
-  url       = env("SQLITE_URL")
-}
-
-datasource db {
-  // we can probably automatically cast without bool(...)
-  enabled   = bool(env("POSTGRES_URL"))
-  provider  = "postgresql"
-  url       = env("POSTGRES_URL")
-}
-
-model User {
-  id         Int    @id @db.int
-  first_name String @unique
-}
-```
-
-When two different datasources share the same name, their exported capabilities are the intersection of the two datasources. This makes it safe to use the
-attributes depending on the runtime environment variable switch.
-
-Intersecting capabilities also provide a way to switch to a new data source and see how portable your datasource is.
-
-If two datasources of the same name are enabled, we will throw a runtime-time error.
 
 ## Function
 
