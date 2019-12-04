@@ -71,7 +71,6 @@ your datasources with Lift and administer your data using Studio.
     - [Introspect Behavior](#introspect-behavior)
     - [Migrate Behavior](#migrate-behavior)
     - [Generate Behavior](#generate-behavior)
-    - [Switching Datasources based on Environments](#switching-datasources-based-on-environments)
   - [Function](#function)
   - [Importing schemas](#importing-schemas)
     - [Importing from other endpoints](#importing-from-other-endpoints)
@@ -1164,39 +1163,6 @@ import Photon from '@generated/photon'
 const photon = new Photon()
 // Thrown: required `POSTGRES_URL` variable not found
 ```
-
-### Switching Datasources based on Environments
-
-> ⚠ This is not implemented yet. See [tracking issue](https://github.com/prisma/photonjs/issues/184)
-
-Sometimes it's nice to get started with an SQLite database and migrate to Postgres or MySQL for production. We support this workflow:
-
-```groovy
-datasource db {
-  enabled   = bool(env("SQLITE_URL"))
-  provider  = "sqlite"
-  url       = env("SQLITE_URL")
-}
-
-datasource db {
-  // we can probably automatically cast without bool(...)
-  enabled   = bool(env("POSTGRES_URL"))
-  provider  = "postgresql"
-  url       = env("POSTGRES_URL")
-}
-
-model User {
-  id         Int    @id @db.int
-  first_name String @unique
-}
-```
-
-When two different datasources share the same name, their exported capabilities are the intersection of the two datasources. This makes it safe to use the
-attributes depending on the runtime environment variable switch.
-
-Intersecting capabilities also provide a way to switch to a new data source and see how portable your datasource is.
-
-If two datasources of the same name are enabled, we will throw a runtime-time error.
 
 ## Function
 
