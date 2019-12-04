@@ -28,13 +28,19 @@ TODO Introduction
     - [Photon.js](#photonjs)
     - [CLI `generate` Command](#cli-generate-command)
   - [API](#api)
-- [Prisma Migration Engine](#prisma-migration-engine)
+- [Prisma Introspection Engine](#prisma-introspection-engine)
   - [Environment](#environment-1)
   - [Process Management](#process-management-1)
   - [Examples](#examples-1)
+    - [CLI `introspect` command ????](#cli-introspect-command-)
+  - [API](#api-1)
+- [Prisma Migration Engine](#prisma-migration-engine)
+  - [Environment](#environment-2)
+  - [Process Management](#process-management-2)
+  - [Examples](#examples-2)
     - [Prisma Test Utils](#prisma-test-utils)
     - [CLI `lift` command](#cli-lift-command)
-  - [API](#api-1)
+  - [API](#api-2)
 - [Error Handling](#error-handling)
 - [Future](#future)
 - [Open Questions](#open-questions)
@@ -110,6 +116,41 @@ Unlike, Photon.js CLI doesn't use `start` and `stop` functions but uses the quer
 [Engine commands](https://github.com/prisma/photonjs/blob/6b9af564fe87abde137ba1175f7ff31d6809e76b/packages/photon/src/engineCommands.ts) for CLI
 
 // TODO: Move the calls here and write description
+
+## Prisma Introspection Engine
+
+### Environment
+
+To provide a custom introspection engine binary, the fixed environment variable name is `PRISMA_INTROSPECTION_ENGINE_BINARY`.
+
+This applies to both CLI runtime and generator runtime that are using the Prisma SDK and want to swap the introspection engine binary.
+
+### Process Management
+
+The Prisma SDK provides the primitives (like, `init`, `stop`) for generators/CLI tools to perform binary process management for the Prisma introspection engine binary via the `IntrospectionEngine` class.
+
+The actual process management is similar to query engine binary. With the following noted differences:
+
+1. Introspection engine binary uses JSON RPC over stdio as the data protocol.
+
+### Examples
+
+
+#### CLI `introspect` command ????
+
+The `prisma2 introspect` command and its sub-commands use the Prisma introspection engine binary to introspect the database and return an equivalent Prisma schema.
+
+### API
+
+RPC API is listed as its TS types here??? There are probably none atm. 
+
+
+* listDatabases
+* getDatabaseMetadata
+* introspect 
+
+// TODO: Move the calls here and write description
+
 
 ## Prisma Migration Engine
 
