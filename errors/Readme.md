@@ -13,6 +13,7 @@ Definition of errors in Prisma Framework. (In this document we make the distinct
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
+
 - [Motivation](#motivation)
 - [Error Causes and Handling Strategies](#error-causes-and-handling-strategies)
 - [Error Codes](#error-codes)
@@ -31,6 +32,7 @@ Definition of errors in Prisma Framework. (In this document we make the distinct
       - [P1008: Database operation timeout](#p1008-database-operation-timeout)
       - [P1009: Database already exists](#p1009-database-already-exists)
       - [P1010: Database access denied](#p1010-database-access-denied)
+      - [P1011: TLS connection error](#p1011-tls-connection-error)
     - [Query Engine](#query-engine)
       - [P2000: Input value too long](#p2000-input-value-too-long)
       - [P2001: Record not found](#p2001-record-not-found)
@@ -53,8 +55,8 @@ Definition of errors in Prisma Framework. (In this document we make the distinct
       - [P5001: Schema relational ambiguity](#p5001-schema-relational-ambiguity)
       - [P5002: Schema string input validation errors](#p5002-schema-string-input-validation-errors)
   - [Photon.js](#photonjs)
-    - [Photon runtime validation error](#photon-runtime-validation-error)
-    - [Query engine connection error](#query-engine-connection-error)
+      - [Photon runtime validation error](#photon-runtime-validation-error)
+      - [Query engine connection error](#query-engine-connection-error)
   - [Prisma Studio](#prisma-studio)
   - [Prisma CLI](#prisma-cli)
     - [Init](#init)
