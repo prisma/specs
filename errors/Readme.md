@@ -13,7 +13,6 @@ Definition of errors in Prisma Framework. (In this document we make the distinct
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-
 - [Motivation](#motivation)
 - [Error Causes and Handling Strategies](#error-causes-and-handling-strategies)
 - [Error Codes](#error-codes)
@@ -54,8 +53,8 @@ Definition of errors in Prisma Framework. (In this document we make the distinct
       - [P5001: Schema relational ambiguity](#p5001-schema-relational-ambiguity)
       - [P5002: Schema string input validation errors](#p5002-schema-string-input-validation-errors)
   - [Photon.js](#photonjs)
-      - [Photon runtime validation error](#photon-runtime-validation-error)
-      - [Query engine connection error](#query-engine-connection-error)
+    - [Photon runtime validation error](#photon-runtime-validation-error)
+    - [Query engine connection error](#query-engine-connection-error)
   - [Prisma Studio](#prisma-studio)
   - [Prisma CLI](#prisma-cli)
     - [Init](#init)
@@ -199,11 +198,11 @@ SDK acts as the interface between the binaries and the tools. This section cover
   ```ts
   type Meta = {
     // Database host URI
-    database_host: string
+    database_host: string;
 
     // Database user name
-    database_user: string
-  }
+    database_user: string;
+  };
   ```
 
 - **Notes**: Might vary for different data source, For example, SQLite has no concept of user accounts, and instead relies on the file system for all database permissions. This makes enforcing storage quotas difficult and enforcing user permissions impossible.
@@ -216,11 +215,11 @@ SDK acts as the interface between the binaries and the tools. This section cover
   ```ts
   type Meta = {
     // Database host URI
-    database_host: string
+    database_host: string;
 
     // Database port
-    database_port: number
-  }
+    database_port: number;
+  };
   ```
 
 #### P1002: Database timeout
@@ -231,11 +230,11 @@ SDK acts as the interface between the binaries and the tools. This section cover
   ```ts
   type Meta = {
     // Database host URI
-    database_host: string
+    database_host: string;
 
     // Database port
-    database_port: string
-  }
+    database_port: string;
+  };
   ```
 
 #### P1003: Database does not exist
@@ -247,15 +246,15 @@ SDK acts as the interface between the binaries and the tools. This section cover
   type Meta = {
     // Database name for all data sources that support a database name
     // SQLite: File name of the database
-    database_name: string
+    database_name: string;
 
     // Postgres only: Database schema name
-    database_schema_name: string
+    database_schema_name: string;
 
     // All data sources that have a database host URI
     // SQLite: Path to the database file
-    database_host: string
-  }
+    database_host: string;
+  };
   ```
 
 - **Notes**: Different consumers of the SDK might handle that differently. Lift save, for example, shows a interactive dialog for user to create it.
@@ -268,11 +267,11 @@ SDK acts as the interface between the binaries and the tools. This section cover
   ```ts
   type Meta = {
     // Fully resolved path of the binary file
-    binary_path: string
+    binary_path: string;
 
     // Identifiers for the currently identified execution environment, e.g. `native`, `windows`, `darwin` etc
-    platform: string
-  }
+    platform: string;
+  };
   ```
 
 #### P1005: Unable to start the query engine
@@ -283,11 +282,11 @@ SDK acts as the interface between the binaries and the tools. This section cover
   ```ts
   type Meta = {
     // Fully resolved path of the binary file
-    binary_path: string
+    binary_path: string;
 
     // Identifiers for the currently identified execution environment, e.g. `native`, `windows`, `darwin` etc
-    platform: string
-  }
+    platform: string;
+  };
   ```
 
 #### P1006: Binary not found
@@ -298,11 +297,11 @@ SDK acts as the interface between the binaries and the tools. This section cover
   ```ts
   type Meta = {
     // Identifiers for the currently identified execution environment, e.g. `native`, `windows`, `darwin` etc
-    platform: string
+    platform: string;
 
     // Details of how a generator can be added.
-    generator_config: string
-  }
+    generator_config: string;
+  };
   ```
 
 - **Notes**: Tools (like Primsa CLI) consuming `generator_config` might color it using ANSI characters for better reading experience.
@@ -318,8 +317,8 @@ SDK acts as the interface between the binaries and the tools. This section cover
   ```ts
   type Meta = {
     // Operation time in s or ms (if <1000ms)
-    time: number
-  }
+    time: number;
+  };
   ```
 
 #### P1009: Database already exists
@@ -331,14 +330,14 @@ SDK acts as the interface between the binaries and the tools. This section cover
   type Meta = {
     // Database name, append `database_schema_name` when applicable
     // `database_schema_name`: Database schema name (For Postgres for example)
-    database_name: string
+    database_name: string;
 
     // Database host URI
-    database_host: string
+    database_host: string;
 
     // Database port
-    database_port: number
-  }
+    database_port: number;
+  };
   ```
 
 #### P1010: Database access denied
@@ -349,12 +348,24 @@ SDK acts as the interface between the binaries and the tools. This section cover
   ```ts
   type Meta = {
     // Database user name
-    database_user: string
+    database_user: string;
 
     // Database name, append `database_schema_name` when applicable
     // `database_schema_name`: Database schema name (For Postgres for example)
-    database_name: string
-  }
+    database_name: string;
+  };
+  ```
+
+#### P1011: TLS connection error
+
+- **Description**: Error opening a TLS connection: \${message}
+- **Meta schema**:
+
+  ```ts
+  type Meta = {
+    // The error message returned by the connector.
+    message: string;
+  };
   ```
 
 ### Query Engine
@@ -369,11 +380,11 @@ Note: Errors with `*` in the title represent multiple types and are less defined
   ```ts
   type Meta = {
     // Concrete value provided for a field on a model in Prisma schema. Should be peeked/truncated if too long to display in the error message
-    field_value: string
+    field_value: string;
 
     // Field name from one model from Prisma schema
-    field_name: string
-  }
+    field_name: string;
+  };
   ```
 
 #### P2001: Record not found
@@ -384,14 +395,14 @@ Note: Errors with `*` in the title represent multiple types and are less defined
   ```ts
   type Meta = {
     // Model name from Prisma schema
-    model_name: string
+    model_name: string;
 
     // Argument name from a supported query on a Prisma schema model
-    argument_name: string
+    argument_name: string;
 
     // Concrete value provided for an argument on a query. Should be peeked/truncated if too long to display in the error message
-    argument_value: string
-  }
+    argument_value: string;
+  };
   ```
 
 #### P2002: Unique key violation
@@ -401,8 +412,8 @@ Note: Errors with `*` in the title represent multiple types and are less defined
   ```ts
   type Meta = {
     // Field name from one model from Prisma schema
-    field_name: string
-  }
+    field_name: string;
+  };
   ```
 
 #### P2003: Foreign key violation
@@ -412,8 +423,8 @@ Note: Errors with `*` in the title represent multiple types and are less defined
   ```ts
   type Meta = {
     // Field name from one model from Prisma schema
-    field_name: string
-  }
+    field_name: string;
+  };
   ```
 
 #### P2004: Constraint violation
@@ -423,8 +434,8 @@ Note: Errors with `*` in the title represent multiple types and are less defined
   ```ts
   type Meta = {
     // Database error returned by the underlying data source
-    database_error: string
-  }
+    database_error: string;
+  };
   ```
 
 #### P2005: Stored value is invalid
@@ -435,11 +446,11 @@ Note: Errors with `*` in the title represent multiple types and are less defined
   ```ts
   type Meta = {
     // Concrete value provided for a field on a model in Prisma schema. Should be peeked/truncated if too long to display in the error message
-    field_value: string
+    field_value: string;
 
     // Field name from one model from Prisma schema
-    field_name: string
-  }
+    field_name: string;
+  };
   ```
 
 #### P2006: `*`Type mismatch: invalid (ID/Date/Json/Enum)
@@ -450,14 +461,14 @@ Note: Errors with `*` in the title represent multiple types and are less defined
   ```ts
   type Meta = {
     // Concrete value provided for a field on a model in Prisma schema. Should be peeked/truncated if too long to display in the error message
-    field_value: string
+    field_value: string;
 
     // Model name from Prisma schema
-    model_name: string
+    model_name: string;
 
     // Field name from one model from Prisma schema
-    field_name: string
-  }
+    field_name: string;
+  };
   ```
 
 - **Notes**: Details are not finalized. The current idea is that any variable coercion will happen in the query engine. Json might be recognized as a native Prisma scalar. This also brings up the question of shims. Clarity in those parts of the spec would help us answer this. The same questions apply to bring your own ID feature, will we recognize all known ID types (like uuid, cuid, MongoID) and validate them in any later before it hits the database?
@@ -469,8 +480,8 @@ Note: Errors with `*` in the title represent multiple types and are less defined
   ```ts
   type Meta = {
     // Database error returned by the underlying data source
-    database_error: string
-  }
+    database_error: string;
+  };
   ```
 - **Notes**: Details are not finalized. The current idea is that Photon, Query Engine will simply pass through the data and rely on database for data validation.
 
@@ -482,11 +493,11 @@ Note: Errors with `*` in the title represent multiple types and are less defined
   ```ts
   type Meta = {
     // Error(s) encountered when trying to parse a query in the query engine
-    query_parsing_error: string
+    query_parsing_error: string;
 
     // Location of the incorrect parsing, validation in a query. Represented by tuple or object with (line, character)
-    query_position: string
-  }
+    query_position: string;
+  };
   ```
 
 - **Notes**: This is unexpected from Photon (if they do it is a bug in Photon) but they are useful for anyone writing a query builder on top of the query engine.
@@ -499,11 +510,11 @@ Note: Errors with `*` in the title represent multiple types and are less defined
   ```ts
   type Meta = {
     // Error(s) encountered when trying to validate a query in the query engine
-    query_validation_error: string
+    query_validation_error: string;
 
     // Location of the incorrect parsing, validation in a query. Represented by tuple or object with (line, character)
-    query_position: string
-  }
+    query_position: string;
+  };
   ```
 
 - **Notes**: This is unexpected from Photon (if they do it is a bug in Photon) but they are useful for anyone writing a query builder on top of the query engine.
@@ -517,8 +528,8 @@ Note: Errors with `*` in the title represent multiple types and are less defined
   ```ts
   type Meta = {
     // Database error returned by the underlying data source
-    database_error: string
-  }
+    database_error: string;
+  };
   ```
 
 #### P3001: Destructive migration detected
@@ -528,8 +539,8 @@ Note: Errors with `*` in the title represent multiple types and are less defined
   ```ts
   type Meta = {
     // Details of a destructive migration from the migration engine
-    migration_engine_destructive_details: string
-  }
+    migration_engine_destructive_details: string;
+  };
   ```
 
 #### P3002: Migration rollback
@@ -539,8 +550,8 @@ Note: Errors with `*` in the title represent multiple types and are less defined
   ```ts
   type Meta = {
     // Database error returned by the underlying data source
-    database_error: string
-  }
+    database_error: string;
+  };
   ```
 
 ### Introspection Engine
@@ -552,8 +563,8 @@ Note: Errors with `*` in the title represent multiple types and are less defined
   ```ts
   type Meta = {
     // Generic error received from the introspection engine. Indicator of why an introspection failed
-    introspection_error: string
-  }
+    introspection_error: string;
+  };
   ```
 
 ### Schema Parser
@@ -565,17 +576,17 @@ Note: Errors with `*` in the title represent multiple types and are less defined
 
   ```ts
   type Position = {
-    line: number
-    character: number
-  }
+    line: number;
+    character: number;
+  };
 
   type Meta = {
     // Error(s) encountered when trying to parse the schema in the schema parser
-    schema_parsing_error: string
+    schema_parsing_error: string;
 
     // Location of the incorrect parsing, validation in the schema. Represented by tuple or object with (line, character)
-    schema_position: Position
-  }
+    schema_position: Position;
+  };
   ```
 
 #### P5001: Schema relational ambiguity
@@ -586,11 +597,11 @@ Note: Errors with `*` in the title represent multiple types and are less defined
   ```ts
   type Meta = {
     // Concrete name of model from Prisma schema that has an ambiguity
-    A: string
+    A: string;
 
     // Concrete name of model from Prisma schema that has an ambiguity
-    B: string
-  }
+    B: string;
+  };
   ```
 
 #### P5002: Schema string input validation errors
@@ -600,17 +611,17 @@ Note: Errors with `*` in the title represent multiple types and are less defined
 
   ```ts
   type Position = {
-    line: number
-    character: number
-  }
+    line: number;
+    character: number;
+  };
 
   type Meta = {
     // Error(s) encountered when trying to parse a string input to the schema in the schema parser (Like database URL)
-    schema_sub_parsing_error: string
+    schema_sub_parsing_error: string;
 
     // Location of the incorrect parsing, validation in the schema. Represented by tuple or object with (line, character)
-    schema_position: Position
-  }
+    schema_position: Position;
+  };
   ```
 
 ## Photon.js
@@ -623,8 +634,8 @@ Note: Errors with `*` in the title represent multiple types and are less defined
   ```ts
   type Meta = {
     // Photon runtime error describing a validation error like missing argument or incorrect data type.
-    photon_runtime_error: string
-  }
+    photon_runtime_error: string;
+  };
   ```
 
 - **Notes**: Photon might use ANSI characters to color the response for a better reading experience. Disabling that feature is documented [here](https://github.com/prisma/specs/tree/master/photonjs#error-character-encoding).
@@ -662,8 +673,8 @@ Note that Prisma CLI must exit with a non-zero exit code when it encounters an e
   ```ts
   type Meta = {
     // Folder name of current working directory (Equivalent of folder name from unix `pwd`)
-    folder_name: string
-  }
+    folder_name: string;
+  };
   ```
 
 #### Starter kit
@@ -674,8 +685,8 @@ Note that Prisma CLI must exit with a non-zero exit code when it encounters an e
   ```ts
   type Meta = {
     // Folder name of current working directory (Equivalent of folder name from unix `pwd`)
-    folder_name: string
-  }
+    folder_name: string;
+  };
   ```
 
 Init command relays the following errors from the SDK: `P3000`, `P4000`
