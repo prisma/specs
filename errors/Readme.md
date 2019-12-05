@@ -13,6 +13,7 @@ Definition of errors in Prisma Framework. (In this document we make the distinct
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
+
 - [Motivation](#motivation)
 - [Error Causes and Handling Strategies](#error-causes-and-handling-strategies)
 - [Error Codes](#error-codes)
@@ -54,8 +55,8 @@ Definition of errors in Prisma Framework. (In this document we make the distinct
       - [P5001: Schema relational ambiguity](#p5001-schema-relational-ambiguity)
       - [P5002: Schema string input validation errors](#p5002-schema-string-input-validation-errors)
   - [Photon.js](#photonjs)
-    - [Photon runtime validation error](#photon-runtime-validation-error)
-    - [Query engine connection error](#query-engine-connection-error)
+      - [Photon runtime validation error](#photon-runtime-validation-error)
+      - [Query engine connection error](#query-engine-connection-error)
   - [Prisma Studio](#prisma-studio)
   - [Prisma CLI](#prisma-cli)
     - [Init](#init)
