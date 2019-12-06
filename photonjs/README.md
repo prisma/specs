@@ -1440,6 +1440,7 @@ To solve these two use case, Photon can do the following:
 - [ ] Should we load data by default for create operations?
 - [ ] "Dataloader"
 - [ ] Query engine logging
+- [ ] Enable `.first()` type narrowing for `include` / `select`
 - [x] Distinct
 - [ ] Tracing
 - [ ] `find` vs `findUnique` vs `get` ...
