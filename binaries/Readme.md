@@ -156,10 +156,19 @@ These include Windows and Mac, and multiple variations for Linux distributions.
 
 The binaries are published under the following URL schema.
 
-- Latest: 
+- Latest:
+
   `<base url>/<branch>/latest/<platform family>/<binary>(.<file extension>).gz`
-- Specific commit: 
+
+  e.g. `https://prisma-builds.s3-eu-west-1.amazonaws.com/master/latest/darwin/prisma.gz`
+
+- Specific commit:
+
   `<base url>/<branch>/<commit>/<platform family>/<binary>(.<file extension>).gz`
+
+  e.g. `https://prisma-builds.s3-eu-west-1.amazonaws.com/master/4028eec09329a14692b13f06581329fddb7b2876/darwin/prisma.gz`
+
+The commit SHAs can be found in our [prisma-engine](https://github.com/prisma/prisma-engine/commits/master) repository.
 
 Notes
 
