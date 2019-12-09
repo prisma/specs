@@ -32,6 +32,7 @@ Definition of errors in Prisma Framework. (In this document we make the distinct
       - [P1008: Database operation timeout](#p1008-database-operation-timeout)
       - [P1009: Database already exists](#p1009-database-already-exists)
       - [P1010: Database access denied](#p1010-database-access-denied)
+      - [P1011: TLS connection error](#p1011-tls-connection-error)
     - [Query Engine](#query-engine)
       - [P2000: Input value too long](#p2000-input-value-too-long)
       - [P2001: Record not found](#p2001-record-not-found)
@@ -354,6 +355,18 @@ SDK acts as the interface between the binaries and the tools. This section cover
     // Database name, append `database_schema_name` when applicable
     // `database_schema_name`: Database schema name (For Postgres for example)
     database_name: string
+  }
+  ```
+
+#### P1011: TLS connection error
+
+- **Description**: Error opening a TLS connection: \${message}
+- **Meta schema**:
+
+  ```ts
+  type Meta = {
+    // The error message returned by the connector.
+    message: string
   }
   ```
 
