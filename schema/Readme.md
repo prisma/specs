@@ -537,7 +537,7 @@ model Writer {
 }
 
 // many to many
-model BlogsWriter {
+model BlogWriter {
   blog      Blog
   author    Writer
   is_owner  Boolean
@@ -553,7 +553,7 @@ model BlogsWriter {
 | ---------- | ------- |
 | id         | integer |
 
-| **BlogsWriters** |         |
+| **BlogWriter** |         |
 | ---------------- | ------- |
 | blog_id          | integer |
 | author_id        | integer |
