@@ -249,7 +249,7 @@ This includes both binaries downloaded for a generator and downloaded for CLI co
 
 ### Custom Binary
 
-In case a binary for your platform is not listed in the [Pre-built Binary Targets](#binary-builds). Please follow [this section](https://github.com/prisma/prisma2/blob/custom_binary/docs/core/generators/photonjs.md#compiling-custom-binary) of the docs to build a custom binary.
+In case a binary for your platform is not listed in the [Pre-built Binary Targets](#binary-build-targets). Please follow [this section](https://github.com/prisma/prisma2/blob/master/docs/core/generators/photonjs.md#manually-compiling-the-query-engine-binary) of the docs to build a custom binary.
 
 ### OpenSSL
 
