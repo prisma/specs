@@ -527,21 +527,21 @@ Many-to-many relationships are simply 2 one-to-many relationships.
 
 ```groovy
 model Blog {
-  id       Int       @id
-  authors  Writer[]
+  id           Int           @id
+  blogWriters  BlogWriter[]
 }
 
 model Writer {
-  id      Int     @id
-  blogs   Blog[]
+  id           Int           @id
+  blogWriters  BlogWriter[]
 }
 
 // many to many
-model BlogsWriters {
+model BlogWriter {
   blog      Blog
   author    Writer
   is_owner  Boolean
-  @@unique([author, blog])
+  @@id([author, blog])
 }
 ```
 
@@ -553,7 +553,7 @@ model BlogsWriters {
 | ---------- | ------- |
 | id         | integer |
 
-| **BlogsWriters** |         |
+| **BlogWriter** |         |
 | ---------------- | ------- |
 | blog_id          | integer |
 | author_id        | integer |
