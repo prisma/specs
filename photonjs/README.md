@@ -74,7 +74,7 @@ This spec describes the Photon Javascript API
 
 Prisma Query Engine performs efficient data retrieval from various datasources. A generated Photon Client provides an ergonomic interface for developers working with Prisma. This spec describes the leftmost arrow in the diagram below labelled "Query".
 
-![image-20191211103451703](/Users/sorenbs/code/prisma/specs/photonjs/photon-generator-overview.png)
+![image-20191211103451703](./photon-generator-overview.png)
 
 Prisma is designed to decouple the data retrieval work done by Prisma Query engine from the interface exposed to developers through the generated Photon Client. This enables us to optimise Photon Client API for every language we target. It is a goal to be as language-idiomatic as possible.
 
@@ -516,7 +516,7 @@ Together, these five fields provide powerful pagination control.
 
 `skip` pushes the beginning of the `first` or `last` segment away from the cursor specified by `before` or `after` be the amount specified. This is illustrated with yellow arrows on the illustration below.
 
-<img src="/Users/sorenbs/code/prisma/specs/photonjs/pagination.png" alt="image-20191229151441215" style="zoom:50%;" />
+<img src="./pagination.png" alt="image-20191229151441215" style="zoom:50%;" />
 
 > Note: There is an outstanding proposal to simplify the pagination model by combining the `first` and `last` fields into a single `take` field. 
 >
@@ -526,7 +526,7 @@ Together, these five fields provide powerful pagination control.
 
 Proposed simpler model:
 
-<img src="/Users/sorenbs/code/prisma/specs/photonjs/pagination-simplified.png" alt="image-20191229152718492" style="zoom:50%;" />
+<img src="./pagination-simplified.png" alt="image-20191229152718492" style="zoom:50%;" />
 
 # Writing data
 
