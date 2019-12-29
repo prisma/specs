@@ -1,12 +1,14 @@
 # Photon.js
 
-- Owner: @schickling
-- Stakeholders: @timsuchanek
+- Owner: @sorenbs
+- Stakeholders: @timsuchanek @schickling
 - State:
   - Spec: Unknown ❔
   - Implementation: Unknown ❔
 
 This spec describes the Photon Javascript API
+
+> Note: the spec is currently being re-written. While this is ongoing, you can find an archive of old thoughts and notes in the `archive` folder. This folder will be deleted when this spec rewrite is complete.
 
 ---
 
@@ -66,1414 +68,466 @@ This spec describes the Photon Javascript API
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Prisma Schema
 
-The example code below assumes the following Prisma schema:
 
-```prisma
-// datasource config ...
+# Background
 
-type ID = String @id @default(cuid())
+Prisma Query Engine performs efficient data retrieval from various datasources. A generated Photon Client provides an ergonomic interface for developers working with Prisma. This spec describes the leftmost arrow in the diagram below labelled "Query".
 
-model Post {
-  id        ID
-  title     String
-  body      String
-  published Boolean
-  comments  Comment[]
-  author    User
-}
+![image-20191211103451703](/Users/sorenbs/code/prisma/specs/photonjs/photon-generator-overview.png)
 
-model Comment {
-  id     ID
-  text   String
-  post   Post
-  media  Media[]
-  author User
-}
+Prisma is designed to decouple the data retrieval work done by Prisma Query engine from the interface exposed to developers through the generated Photon Client. This enables us to optimise Photon Client API for every language we target. It is a goal to be as language-idiomatic as possible.
 
-embed Media {
-  url      String
-  uploaded Boolean
-}
+### Goals for the PhotonJS API
 
-model User {
-  id           ID
-  firstName    String
-  lastName     String
-  email        String
-  posts        Post[]
-  comments     Comment[]
-  friends      User[]    @relation("friends")
-  profile      Profile
-  bestFriend   User?     @relation("bestFriend") @unique
-  version      Int
-}
+- Provide an API that is intuitive for JavaScript developers
+- Take advantage of TypeScript to provide the best possible typesafe API
 
-embed Profile {
-  imageUrl  String
-  imageSize String
+# Client Layout
+
+ The client is generated from a Prisma Schema. When imported, it already contain any required configuration:
+
+```typescript
+import { Photon } from '@prisma/photon'
+const photon = new Photon()
+```
+
+The client has two methods for connection handling:
+
+```typescript
+photon.connect(): Promise<void>
+photon.disconnect(): Promise<void>
+```
+
+The only other fields present on the top-level photon client object is a field for each of your models. If you have two models named `Post` and `User` in your Prisma Schema, the photon object could look like this:
+
+```typescript
+{
+  connect(): Promise<void>,
+	disconnect(): Promise<void>,
+  post: PostDelegate,
+  user: UserDelegate
 }
 ```
 
-## Types
+### A note on Promises
 
-```ts
-// NOTE the following types are auto-generated
-type Post = {
-  id: string
-  title: string
-  body: string
-  published: boolean
-}
+Any method that performs IO will return a promise. Or to be more precise, a promise-like object. They work like promises, but have extra fields and methods to enable the elegant chaining API. The TypeScript definition for such a Promise might look like this:
 
-type Comment = {
-  id: string
-  text: string
-  media: Media[]
-}
-
-type Media = {
-  url: string
-  uploaded: boolean
-}
-
-type User = {
-  id: string
-  firstName: string
-  lastName: string
-  email: string
-  profile: Profile
-  version: number
-}
-
-type Profile = {
-  imageUrl: string
-  imageSize: number
-}
+```typescript
+declare class PostClient<T> implements Promise<T>
 ```
 
-## Terminology
+In the following we will ignore this detail, and simply write type declarations like this:
 
-- To be defined
-  - Query
-  - Operation
-  - Write
-  - Read
-  - Selection set
-  - Query builder
-  - Terminating/chainable operation
-  - Graph selection: Travesal vs operate
-  - ...
-
-## Constructor
-```ts
-
-export type LogLevel = 'info' | 'warn' | 'query' 
-
-export type LogOption = LogLevel | {
-  level: LogLevel
-  /**
-   * @default 'stdout'
-   */
-  emit?: 'event' | 'stdout'
-}
-
-export interface PhotonOptions {
-  datasources?: Datasources
-
-  /**
-   * @default false
-   */
-  log?: boolean | LogOption[]
-
-  /**
-   * You probably don't want to use this. \`__internal\` is used by internal tooling.
-   */
-  __internal?: {
-    debug?: boolean
-    hooks?: Hooks
-    engine?: {
-      cwd?: string
-      binaryPath?: string
-    }
-  }
-}
+```typescript
+Promise<Post>
 ```
 
-## Logging & Debugging
+# Reading data
 
-### Logging
+There are two methods related to reading records:
 
-All engine related logs can be configured with the `log` property.
-These are examples how to specify different log levels:
-
-Just providing the log levels, stdout as default
-
-```ts
-const photon = new Photon({
-  log: ['info', 'query'],
-})
 ```
-
-Changing on a per log level, where the logs end up: As an event or in stdout.
-
-```ts
-const photon = new Photon({
-  log: [
-    {
-      level: 'info',
-      emit: 'stdout',
-    },
-    {
-      level: 'query',
-      emit: 'event',
-    },
-    'WARN',
-  ],
-})
-
-photon.on('query', e => {
-  console.log(e.timestamp, e.query, e.args)
-})
-```
-
-Log level names get mapped to the event name for the event emitter.
-
-```ts
-const photon = new Photon({
-  log: [
-    {
-      level: 'info',
-      emit: 'event',
-    },
-    {
-      level: 'query',
-      emit: 'event',
-    },
-    {
-      level: 'warn',
-      emit: 'event',
-    },
-  ],
-})
-
-photon.on('query', e => {
-  e.timestamp
-  e.query
-  e.args
-  console.log(e)
-})
-
-photon.on('info', e => {
-  e.timestamp
-  e.message
-  console.log(e)
-})
-
-photon.on('warn', e => {
-  e.timestamp
-  e.message
-  console.log(e)
-})
-```
-
-### Debugging
-
-The `debug` property includes debugging logs of the TypeScript implementation; whereas, the `log` property addresses the logs coming from the query engine.
-As the TypeScript debugging logs are mostly used by maintainers and not users, it was moved to `__internal` to not confuse users of the Photon.js library.
-
-```ts
-const photon = new Photon({
-  __internal: {
-    debug: true,
-  },
-})
-```
-
-## Basic Queries
-
-```ts
-// Find single record by @id field. Returns nullable result
-const alice: User | null = await photon.user.find('user-id')
-
-// Find single record by other unique field
-const alice: User | null = await photon.user.find({
-  email: 'alice@prisma.io',
-})
-
-// Find using composite/multi-field unique indexes
-// Note: This example is not compatible with the example schema above.
-const john: User | null = await photon.user.find({
-  firstName_lastName: {
-    firstName: 'John',
-    lastName: 'Doe',
-  },
-})
-
-// Find using named unique relation
-const bob: User | null = await photon.user.find({
-  bestFriend: { email: 'alice@prisma.io' },
-})
-
-// Get many nodes
-const allUsers: User[] = await photon.user.findMany()
-const first100Users: User[] = await photon.user.findMany({ first: 100 })
-
-// Find by (non-)unique field and return first found record
-const firstDoe: User | null = await photon.user
-  .findMany({ where: { lastName: 'Doe' } })
-  .first()
-
-// Alternative
-const firstDoe: User | null = await photon.user.findFirst({
-  where: { lastName: 'Doe' },
-})
-
-// Ordering
-const usersByEmail: User[] = await photon.user.findMany({
-  orderBy: { email: 'ASC' },
-})
-const usersByEmailAndName: User[] = await photon.user.findMany({
-  orderBy: { email: 'ASC', name: 'DESC' },
-})
-const usersByProfile: User[] = await photon.user.findMany({
-  orderBy: { profile: { imageSize: 'ASC' } },
-})
-
-// Where / filtering
-await photon.user.findMany({ where: { email: 'alice@gmail.com' } })
-await photon.user.findMany({ where: { email: { contains: '@gmail.com' } } })
-await photon.user.findMany({
-  where: { email: { containsInsensitive: '@gmail.com' } },
-})
-
-// Exists
-const userFound: boolean = await photon.user.find('bobs-id').exists()
-const foundAtLeastOneUser: boolean = await photon.user
-  .findMany({ email: { containsInsensitive: '@gmail.com' } })
-  .exists()
-
-// Simple aggregation short
-// TODO more examples
-const deletedCount: number = await photon.user.delete().count()
-```
-
-## Field-level Primary Key constraint
-
-Different unique constraints will change Photon's `where` blocks:
-
-```groovy
-model User {
-    id String @id
-    firstName String
-    lastName String
-    email String
-}
-```
-
-```ts
-photon.user.find({ id: 10 })
-```
-
-### Field-level unique constraint
-
-```groovy
-model User {
-    id String @id
-    firstName String
-    lastName String
-    email String  @unique
-}
-```
-
-```ts
-// allowed
-photon.user.find({ id: 10 })
-photon.user.find({ email: 'alice@prisma.io' })
-// compiler error
-photon.user.find({ id: 10, email: 'alice@prisma.io' })
-```
-
-### Model-level composite constraint (unnamed)
-
-```groovy
-model User {
-    id String @id
-    firstName String
-    lastName String
-    email String @unique
-    @@unique([ firstName, lastName ])
-}
-```
-
-```ts
-// allowed
-photon.user.find({ id: 10 })
-photon.user.find({ email: 'alice@prisma.io' })
-photon.user.find({
-  firstName_lastName: {
-    firstName: 'Alice',
-    lastName: 'Prisma',
-  },
-})
-// compiler error
-photon.user.find({
-  email: 'alice@prisma.io',
-  firstName_lastName: {
-    firstName: 'Alice',
-    lastName: 'Prisma',
-  },
-})
-photon.user.find({
-  id: 10,
-  firstName_lastName: {
-    firstName: 'Alice',
-    lastName: 'Prisma',
-  },
-})
-```
-
-### Naming the composite constraint
-
-```groovy
-model User {
-    id String @id
-    firstName String
-    lastName String
-    email String @unique
-    @@unique([ firstName, lastName ], alias: "fullName")
-}
-```
-
-```ts
-// allowed
-photon.user.find({ id: 10 })
-photon.user.find({ email: 'alice@prisma.io' })
-photon.user.find({
-  fullName: {
-    firstName: 'Alice',
-    lastName: 'Prisma',
-  },
-})
-// compiler error
-photon.user.find({
-  email: 'alice@prisma.io',
-  fullName: {
-    firstName: 'Alice',
-    lastName: 'Prisma',
-  },
-})
-photon.user.find({
-  id: 10,
-  fullName: {
-    firstName: 'Alice',
-    lastName: 'Prisma',
-  },
-})
-```
-
-## Writing Data
-
-### Write operations
-
-#### Nested Write API
-
-| Operation             | Touches Record | Touches Link |
-| ------------------ | -------------- | ------------ |
-| `link`             | No             | Yes          |
-| `unlink`           | No             | Yes          |
-| ??? `resetAndLink` | No             | Yes          |
-| `linkOrCreate`     | Yes            | Yes          |
-| `create`           | Yes            | Yes          |
-| `update`           | Yes            | No           |
-| `replace`          | Yes            | No           |
-| `delete`           | Yes            | Yes          |
-
-#### Fluent Write API
-
-- `create`
-- `orCreate`
-- `update`
-- `replace`
-- `delete`
-
-```ts
-// Returns Promise<void>
-await photon.user.create({
-  firstName: 'Alice',
-  lastName: 'Doe',
-  email: 'alice@prisma.io',
-  profile: { imageUrl: 'http://...', imageSize: 100 },
-})
-
-// Returns Promise<void>
-await photon.user.find('bobs-id').update({ firstName: 'Alice' })
-
-// Returns Promise<void>
-await photon.user
-  .find({ email: 'bob@prisma.io' })
-  .update({ firstName: 'Alice' })
-
-// Like `update` but replaces entire record. Requires all required fields like `create`.
-// Resets all connections.
-// Returns Promise<void>
-await photon.user.find({ email: 'bob@prisma.io' }).update(
-  {
-    firstName: 'Alice',
-    lastName: 'Doe',
-    email: 'alice@prisma.io',
-    profile: { imageUrl: 'http://...', imageSize: 100 },
-  },
-  { replace: true },
-)
-
-// Returns Promise<void>
-await photon.user.find('alice-id').orCreate({
-  firstName: 'Alice',
-  lastName: 'Doe',
-  email: 'alice@prisma.io',
-  profile: { imageUrl: 'http://...', imageSize: 100 },
-})
-
-// Returns Promise<void>
-await photon.user
-  .find('alice-id')
-  .update({ firstName: 'Alice' })
-  .orCreate({
-    firstName: 'Alice',
-    lastName: 'Doe',
-    email: 'alice@prisma.io',
-    profile: { imageUrl: 'http://...', imageSize: 100 },
-  })
-
-// Note: Delete operation sends query BEFORE record is deleted -> no .load() possible
-await photon.user.find('bobs-id').delete()
-
-// Write operations can be chained with the `.load()` API
-const updatedUser: User = await photon.user
-  .find('bobs-id')
-  .update({ firstName: 'Alice' })
-  .load()
-```
-
-### Many operations
-
-```ts
-await photon.user
-  .findMany({ where: { email: { endsWith: '@gmail.com' } } })
-  .update({ lastName: 'Doe' })
-
-await photon.user
-  .findMany({ where: { email: { endsWith: '@gmail.com' } } })
-  .delete()
-```
-
-### Nested writes
-
-```ts
-// Nested create
-await photon.user.create({
-  firstName: 'Alice',
-  posts: {
-    create: { title: 'New post', body: 'Hello world', published: true },
-  },
-})
-
-// TODO: How to return data from nested writes
-// - how many records were affected (e.g. nested update many)
-// await photon.user
-//   .create({
-//     firstName: 'Alice',
-//     posts: {
-//       create: { title: 'New post', body: 'Hello world', published: true },
-//     },
-//   })
-//   .load({ select: { posts: { newOnly: true } } })
-
-// Nested write with connect
-await photon.user.create({
-  firstName: 'Alice',
-  lastName: 'Doe',
-  email: 'alice@prisma.io',
-  profile: { imageUrl: 'http://...', imageSize: 100 },
-  posts: { connect: 'post-id' },
-})
-
-// Create a post and connect it to the author with a unique constraint
-await photon.post.create({
-  title: 'My cool blog post',
-  author: {
-    connect: {
-      firstName_lastName: {
-        firstName: 'John',
-        lastName: 'Doe',
-      },
-    },
-  },
-})
-
-// How to get newly created posts?
-await photon.user.find('bobs-id').update({
-  posts: {
-    create: { title: 'New post', body: 'Hello world', published: true },
-  },
-})
-
-//////////////
-
-await photon.user.create({
-  firstName: 'Alice',
-  lastName: 'Doe',
-  email: 'alice@prisma.io',
-  profile: { imageUrl: 'http://...', imageSize: 100 },
-  posts: p => p.connect('post-id'),
-})
-
-await photon.user.find('bobs-id').update({
-  posts: e => {
-    e.create({ title: 'New post', body: 'Hello world', published: true })
-    e.create([{ title: 'New post', body: 'Hello world', published: true }])
-    e.update({ title: 'New post', body: 'Hello world', published: true })
-    e.create({
-      title: 'New post',
-      body: 'Hello world',
-      published: true,
-      comments: c => c.create({ text: 'This is a comment' }),
-    })
-
-    e.operation(/* AST: */[
-      {
-        type: 'create',
-        data: {
-          title: 'New post',
-          body: 'Hello world',
-          published: true,
-          comments:
-        },
-      },
-    ])
-  },
-})
-
-//////////////
-```
-
-## Load: Select / Include API
-
-- Implicit load: Read operations
-- Explicit load:
-  - After write operations
-  - Custom selection set via include/select
-
-```ts
-// Select API
-type DynamicResult1 = {
-  posts: { comments: Comment[] }[]
-  friends: User[]
-}[]
-
-const userWithPostsAndFriends: DynamicResult1 = await photon.user
-  .find('bobs-id')
-  .load({ select: { posts: { select: { comments: true } }, friends: true } })
-
-type DynamicResult2 = (User & {
-  posts: (Post & { comments: Comment[] })[]
-  friends: User[]
-})[]
-
-const userWithPostsAndFriends: DynamicResult2 = await photon.user
-  .find('bobs-id')
-  .load({ include: { posts: { include: { comments: true } }, friends: true } })
+photon.post.findOne([args]): Promise<Post>
+photon.post.findMany([args]): Promise<Post[]>
 ```
 
 ### Default selection set
 
-- TODO
-  - Scalars
-  - Relations
-  - ID
-  - Embeds
+By default, Photon returns all scalar fields on a record, and no related records. This behavior can be decided on a per-query basis using the `include` and `select` fields described below.
 
-## Advanced Fluent API
+## Find a single record
 
-- TODO: Spec out difference between chainable vs terminating
-  - Chainable: schema-based fields (e.g. relations), find, update, upsert, create,
-  - Terminating: select, include, delete, count, scalar field, exists, aggregates?
-- TODO: Spec out return behavior
-  - read traversal
-  - write operation: single vs multi-record operation
-  - Alternative: explicit fetch/query
-- TODO: tradeoff multi-record-operations -> return count by default but can be adjusted to return actual data -> how?
-- TODO: Document transactional behavior
+Retrieves a single record that can be unambiguously identified by a single unique field or a combination of fields that together are unique. 
 
-```ts
-const bobsPosts: Post[] = await photon.user.find('bobs-id').post({ first: 50 })
-
-// Nested arrays are flat-mapped
-const comments: Comment[] = await.photon.user
-  .find('bobs-id')
-  .post()
-  .comments()
-
-type DynamicResult3 = (Post & { comments: Comment[] })[]
-
-const bobsPosts: DynamicResult3 = await photon.user
-  .find('bobs-id')
-  .post({ first: 50 })
-  .load({ include: { comments: true } })
-
-const media: Media[] = await photon.post
-  .find('id')
-  .comments({ where: { text: { startsWith: 'Hello' } } })
-  .media({ where: { url: 'exact-url' }, first: 100 })
-  .update({ uploaded: true })
-  .load()
-
-// Supports chaining multiple write operations
-await photon.user
-  .find('user-id')
-  .update({ email: 'new@email.com' })
-  .post({ where: { published: true } })
-  .update({ comments: { connect: 'comment-id' } })
+```typescript
+photon.post.findOne([args]): Promise<Post>
 ```
 
-### Null narrowing
+args is an object with a single required field `where` and two optional fields `include` and `select`.
 
-- Single-record `find` queries return `null` by default
-- `update` and `delete` as well as field traversal queries will fail if record is `null`
+Example:
 
-### Expressing the same query using fluent API syntax and nested writes
-
-- TODO
-- Add to spec: Control execution order of nested writes
-
-```ts
-// Declarative
-await photon.user.find('bob-id').update({
-  email: 'new@email.com',
-  posts: {
-    update: {
-      where: { published: true },
-      data: { comments: { connect: 'comment-id' } },
-    },
-  },
-})
-
-// Fluent
-await photon.user
-  .find('user-id')
-  .update({ email: 'new@email.com' })
-  .post({ where: { published: true } })
-  .update({ comments: { connect: 'comment-id' } })
-
-// await photon.user
-//   .find('user-id')
-//   .update({ email: 'new@email.com' })
-//   .post({ where: { published: true } })
-//   .comments()
-//   .connect('comment-id')
 ```
-
-## Mental model: Graph traversal
-
-- Idea: Select one or multiple records. Then read and/or write them.
-
-## Working with types
-
-- Use cases
-  - Constructing arguments
-  - Return types (e.g. select/include results -> `typeof` ?)
-  - Fluent API
-
-## Expressions
-
-- Kinds
-  - Criteria filters (`where`)
-  - Order by
-  - Write operations
-  - Select (aggregations)
-  - Group by
-
-### Criteria Filters
-
-```ts
-// Find one
-await photon.user.find(u => u.email.eq('alice@prisma.io'))
-
-// Find many
-await photon.user.findMany({
-  where: u => u.firstName.subString(1, 4).eq('arl'),
-})
-await photon.user.findMany({ where: u => u.email.contains('@gmail.com') })
-await photon.user.findMany({
-  where: u => u.email.insensitive.contains('@gmail.com'),
-})
-await photon.user.findMany({
-  where: u => u.email.toLowerCase().contains('@gmail.com'),
+const singlePost = await photon.post.findOne({
+	where: { id: "post-1" }
+	include: { author: true }
 })
 ```
 
-### Order By
+### where
 
-The query `findMany` allows the user to supply the `orderBy` argument which controls the sorting of the returned array of records:
-```ts
-await photon.user.findMany({ orderBy: u => u.email.asc() })
-await photon.user.findMany({
-  orderBy: (u, e) => e.and(u.email.asc(), u.firstName.desc()),
-})
-await photon.user.findMany({ orderBy: u => u.profile.imageSize.asc() })
-```
-
-If a query uses pagination parameters but no `orderBy` parameter is supplied an implicit `orderBy` for the id field of the model is added. The following two queries are semantically equivalent:
-```ts
-await photon.user.findMany({ first: 100 })
-await photon.user.findMany({ first: 100, orderBy: u => u.id.asc() })
-```
-
-### Write Operations (Update/Atomic)
-
-Set:
-
-```ts
-await photon.users
-  .findMany()
-  .update({ email: u => u.email.set('bob@gmail.com') })
-```
-
-Type specific:
-
-See:
-
-- Mongo API https://docs.mongodb.com/manual/reference/operator/update/
-- Dgraph https://docs.dgraph.io/query-language/#math-on-value-variables
-
-```ts
-// String
-await photon.users.findMany().update({ email: u => u.email.concat('-v2') })
-await photon.users.findMany().update({ email: u => u.email.toLowerCase() })
-await photon.users.findMany().update({ email: u => u.email.subString(1, 4) })
-// ...
-
-// Numbers: Int, Float, ...
-await photon.users.findMany().update({ version: u => u.version.inc(5) })
-await photon.users.findMany().update({ version: u => u.version.dec(5) })
-await photon.users.findMany().update({ version: u => u.version.mul(5) })
-await photon.users.findMany().update({ version: u => u.version.div(5) })
-await photon.users.findMany().update({ version: u => u.version.mod(5) })
-await photon.users.findMany().update({ version: u => u.version.pow(5, 10) })
-await photon.users.findMany().update({ version: u => u.version.min(5, 10) })
-await photon.users.findMany().update({ version: u => u.version.max(5, 10) })
-
-// Boolean
-
-// Arrays
-```
-
-Top level callback
-
-```ts
-await photon.users.findMany().update(u => ({
-  firstName: u.firstName.toLowerCase(),
-  lastName: u.lastName.toLowerCase(),
-}))
-```
-
-### Aggregations
-
-- count
-- sum
-- avg
-- median
-- max
-- min
-
-```ts
-await photon.users.findMany({ where: { version: 5 } }).load({
-  include: { aggr: u => ({ postCount: u.posts.count() }) },
-})
-
-await photon.users
-  .findMany({ where: { version: 5 } })
-  .load({ include: { postCount: u => u.posts.count() } })
-
-await photon.users.findMany({ where: { version: 5 } }).load({
-  select: {
-    id: true,
-    postCount: u => u.posts({ where: { p => p.comments().count().gt(10) } }).count(),
-  },
-})
-```
-
-### Group by
-
-```ts
-type DynamicResult4 = {
-  key: string
-  records: User[]
-}
-const groupByResult: DynamicResult4 = await photon.user
-  .findMany({
-    where: { isActive: true },
-    orderBy: { lastName: 'ASC' },
-    first: 100,
-  })
-  .group({
-    by: 'lastName',
-    having: g => g.age.avg.gt(10),
-    first: 10,
-  })
-  .load({ include: { avgAge: g => g.age.avg() } })
-
-await photon.user
-  .findMany({ where: u => u.age.lt(90) })
-  .group({ by: u => u.version.div(10) })
-  .load({ include: { versionSum: g => g.version.sum() } })
-
-await photon.user.findMany().group({ by: u => u.email.toLowerCase() })
-```
-
-### Distinct
-
-```ts
-// TODO: Do we really need this API?
-const values: string[] = await photon.post.findMany().title({ distinct: true })
-
-const values: string[] = await photon.post
-  .findMany()
-  .distinct({ title: true })
-  .title()
-
-type SubSet = { published: boolean; title: string }
-const values: SubSet[] = await photon.post
-  .findMany()
-  .distinct({ published: true, title: true })
-
-const distinctCount: number = await photon.post
-  .findMany()
-  .distinct({ published: true, title: true })
-  .count()
-
-// TODO count distinctly grouped value -> see aggregations
-```
-
-## Experimental: Meta response
-
-Note: This is a early draft for this feature and won't be implemented in the near future
-
-```ts
-// PageInfo
-const bobsPostsWithPageInfo: PageInfo<Post> = await photon.user
-  .find('bobs-id')
-  .post({ first: 50 })
-  .loadWithPageInfo()
-
-type PageInfo<Data> = {
-  data: Data[]
-  hasNext: boolean
-  hasPrev: boolean
-}
-
-const [bobsPosts, meta]: [Post[], Meta] = await photon.user
-  .find('bobs-id')
-  .post({ first: 50 })
-  .loadWithMeta({ pageInfo: true })
-```
-
-- Meta
-  - pageinfo
-  - traces/performance
-  - which records have been touched during a (nested) write
-- Strategies
-
-  - By extending load API + return object
-  - Return extra meta object
-
-- Can be applied to every paginable list and stream
-
-## Optimistic Concurrency Control / Optimistic Offline Lock
-
-- TODO Needs to be specced out for nested Graph API
-
-### Supported operations
-
-- `update`
-- `replace`
-- `delete`
-- `update`
-- `delete`
-
-```ts
-await photon.user
-  .find('alice-id')
-  .update({ firstName: 'Alice' }, { if: { version: 12 } })
-
-await photon.user
-  .find('alice-id')
-  .update({ firstName: 'Alice' }, { if: { version: 12 } })
-  .orCreate({
-    /* ... */
-  })
-
-await photon.user.find('bobs-id').delete({ if: { version: 12 } })
-
-// Global condition
-await photon.user
-  .find('bobs-id')
-  .delete()
-  .if([{ model: 'User', where: 'bobs-id', if: { name: 'Bob' } }])
-
-// both can be combined
-await photon.user
-  .find('bobs-id')
-  .delete({ if: { version: 12 } })
-  .if([{ model: 'User', where: 'alices-id', if: { name: 'Alice' } }])
-```
-
-## Batching
-
-Note: Combined with OCC (i.e. `if`) also known as "unit of work"
-
-```ts
-// Batching, don't get the results with $noData
-const m1 = photon.user.create({ firstName: 'Alice' }).load()
-const m2 = photon.post.create({ title: 'Hello world' })
-const [u1, p1]: [User, void] = await photon.batch([m1, m2])
-
-// TODO
-// - `if` API
-// - error handling: throw on first error or batch errors
-
-// Batching with transaction
-await photon.batch([m1, m2], { transaction: true })
-```
-
-## Criteria API
-
-- Filter generation per type
-- Allow for empty objects
-- Case sensitivity (https://github.com/prisma/prisma2/issues/258)
-- Shortcuts
-  - id
-    - multi-column uniques (See slack thread https://prisma.slack.com/archives/CKQTGR6T0/p1564566886224500?thread_ts=1564552560.218200&cid=CKQTGR6T0)
-
-## Design decisions
-
-- Choose boolean-based nested object syntax instead of array
-- language native DSL (Linq) vs string-based DSL (GraphQL)
-
-## Constructor
-
-- data source config
-- query engine binary
-- debug
-- modifiers
-- log colors https://github.com/prisma/specs/pull/151
-
-## Connection management
-
-- Lazy connect by default
-
-```ts
-const photon = new Photon()
-await photon.connect()
-
-await photon.disconnect()
-```
-
-<!--
-## TODO: Operation/Query optimization
-
-## TODO: Implicit back relations
-
-- See https://github.com/prisma/prisma2/issues/81
-
-## Top level query API
-
-```ts
-const nestedResult = await photon.query({
-  users: {
-    first: 100,
-    select: {
-      posts: { select: { comments: true } },
-      friends: true,
-    },
-  },
-})
-```
-
-## Embeds
+The `where` field is used to specify the fields to look up by. It contains another object with an optional field for each unique field combination:
 
 ```
-datasource mydb {
-  provider = "postgres"
-  url      = "pg:/..."
-}
-
-generator photon {
-  provider = "photonjs"
-  platform = ""
-}
-
-type ID = String @id @default(uuid())
-
-model Blog {
-  id          ID
-  name        String
-  viewCount   Int
-  isPublished Boolean
-  newField    String
-  posts       Post[]
-  authors     Author[]
-}
-
-model Author {
-  id    ID
-  name  String?
-  posts Post[]
-  blog  Blog
-  update String
-}
-
 model Post {
-  id       Int       @id
-  title    String
-  tags     String[]
-  blog     Blog
-  comments Comment[]
-}
-
-embed Comment {
-  text   String
-  media  Media[]
-  author Author
-}
-
-embed Media {
-  url      String
-  uploaded Boolean
+	id 		   Int  	@id
+	email 	 String @unique
+	category String
+	title    String
+	@@unique([category, title])
 }
 ```
 
-```ts
-await photon.post('id').update({
-  comments: {
-    update: {
-      where: { text: { startsWith: '...' } },
-      update: {
-        media: {
-          update: {
-            where: { url: 'exact-url' },
-            update: { uploaded: true },
-          },
-        },
-      },
-    },
-  },
-})
+The above schema results in a `where` argument with the following type signature:
+
+```
+where: {
+	id: number?
+	email: string?
+	category_title: { category: string, title: string }?
+}
 ```
 
-## `raw` fallbacks
+Only a single field may be used in a query, otherwise the call will error without performing the query.
 
-```ts
-await photon.user.findMany({
-  where: { email: { contains: '@gmail.com' } },
-  orderBy: {
-    raw: 'age + postsViewCount DESC',
-  },
-})
+### include
 
-const someEmail = 'bob@prisma.io'
-await photon.user.findMany({
-  orderBy: {
-    raw: 'age + postsViewCount DESC',
-  },
-  where: {
-    raw: ['email = $1', someEmail],
-  },
-})
+The `include` field is used to specify relations that should be retrieved together with the record. Related records will contain all scalar fields[LINK!] by default. If the related record also have relations, it is possible to include them as well. There is no limit to how deeply you can include relations. For to-many relations, you can also use the normal `findMany` arguments [LINK!] to filter, paginate etc.
 
-// Raw: Knex & Prisma
-const userWithPostsAndFriends1 = await photon.user.find({
-  where: knex.whereBuilderInSelecet(
-    knex.fields.User.name,
-    knex.queryMany.Post({ title: 'Alice' }, kx.fields.Post.title),
-  ),
-  select: knex.select('*').from('User'),
-})
+#### Including a to-one relation
 
-// Raw: SQL & Prisma
-const userWithPostsAndFriends2 = await photon.user.find({
-  where: {
-    raw: 'User.name != "n/a"',
-  },
-  select: {
-    raw: {
-      name: {
-        query: 'User.firstName + User.lastName; DROP TABLE',
-        type: 'string',
-      },
-      hobbies: {
-        topLevelQuery: 'SELECT * from Hobbies where User.id = $id',
-        type: {
-          name: 'Hobby',
-          fields: {
-            id: {
-              type: 'string',
-            },
-            name: {
-              type: 'string',
-            },
-          },
-        },
-      },
-    },
-  },
-})
 ```
-
-
-## Query options arg
-
-See `options` at https://docs.mongodb.com/manual/reference/method/db.collection.aggregate/#db.collection.aggregate
-
-- request
-  - timeout
-  - debug / explain
-  - transaction boundary
-  - geolocation
-  - force index / hints
-- response
-  - performance (via debug/explain)
-
-### Tracing
-
-- Request IDs
-- Open tracing
-
-## Pagination / Streaming
-
-- streaming for writes?
-
-```ts
-for await (const post of photon.post().$stream()) {
-  console.log(post)
+model Post {
+	author User
 }
 
-const postStreamWithPageInfo = await prisma
-  .post()
-  .$stream()
-  .$withPageInfo()
+model User {
+	posts Post[]
+}
+```
 
-for await (const posts of photon.user.find('bobs-id')
-  .post({ first: 50 })
-  .batch({ batchSize: 100 })) {
-  console.log(posts) // 100 posts
+The above schema results in a `include` argument that can be used as follows:
+
+```
+include: {
+	author: true
+}
+```
+
+#### Including multiple relation-hops
+
+```
+model Post {
+	author User
 }
 
-// Configure streaming chunkSize and fetchThreshold
-photon
-  .post({ first: 10000 })
-  .$stream({ chunkSize: 100, fetchThreshold: 0.5 /*, tailable: true*/ })
-
-// Buffering
-const posts = await prisma
-  .post({ first: 100000 })
-  .$stream()
-  .toArray()
-
-// Shortcut for count
-const userCount = await photon.user.count({
-  where: {
-    age: {
-      gt: 18,
-    },
-  },
-})
+model User {
+	posts 	 Post[]
+	friends: User[]
+}
 ```
 
-## Life-cycle hooks
+The above schema results in a `include` argument that can be used as follows:
 
-### Middleware (blocking)
+```
+include: {
+	author: {
+		friends: true
+	}
+}
+```
 
-```ts
-function beforeUserCreate(user: UserCreateProps): UserCreateProps {
-  return {
-    ...user,
-    email: user.email.toLowerCase(),
-  }
+#### Include a to-many relation and use relation arguments
+
+```
+model Post {
+	comments Comment[]
 }
 
-type UserCreateProps = { name: string }
-type UserCreateCallback = (userStuff: UserCreateProps) => Promiselike<UserCreateProps>
+model Comment {
+	text String
+}
+```
 
-const beforeUserCreateCallback: UserCreateCallback = user => ({
-  name: 'Tim',
-})
+The above schema results in a `include` argument that can be used as follows:
 
-function afterUserCreate(user) {
-  datadog.log(`User Created ${JSON.stringify(user)}`)
+```
+include: {
+	comments: {
+		skip: 10,
+		first: 10
+	}
+}
+```
+
+### select
+
+The `select` field is used to override the default selection set [LINK!]. When present, only scalar fields and relations explicitly requested are returned:
+
+```
+model Post {
+  title		 String
+	comments Comment[]
 }
 
-const prisma = new Photon({
-  middlewares: { beforeUserCreate, afterUserCreate },
+model Comment {
+	text String
+}
+```
+
+The above schema results in a `select` argument that can be used as follows:
+
+```
+select: {
+	title: true
+	comments: {
+		skip: 10,
+		first: 10
+	}
+}
+```
+
+Note that `select` and `include` cannot be combined.
+
+## Find multiple records
+
+Retrieves a list of records that match the filter criteria in the `where` field:
+
+```typescript
+photon.post.findMany([args]): Promise<Post[]>
+```
+
+args is an object with 9 optional fields `where`,`before`, `after`, `first`, `last`, `skip`, `orderBy`,  `select`, `include`.
+
+Example:
+
+```typescript
+photon.post.findMany({
+	first: 10,
+	where: {
+		title: {contains: "abba"}
+	}
 })
 ```
 
-### Events (non.find('bobs-id')-blocking)
+> return the first 10 posts where the title contains "abba"
 
-const photon = new Photon()
-photon.on('User:beforeCreate', user => {
-  stripe.user.create(user)
+`findMany` always returns a list containing 0, 1 or many records.
+
+### where
+
+The `where` field is used to specify the filter to apply when selecting records to return. Unlike `findOne`, the filter can use any field(s), not just unique fields. It contains an optional field for each field on the model:
+
+```
+model Post {
+	id 		   Int  	@id
+	email 	 String @unique
+	category String
+	title    String
+}
+```
+
+```
+where: {
+	id: number | NumberFilter | null
+	email: string | StringFilter | null
+	category: string | StringFilter | null
+	title: string | StringFilter | null
+	AND: Enumerable<PostWhereInput> | null
+  OR: Enumerable<PostWhereInput> | null
+  NOT: Enumerable<PostWhereInput> | null
+}
+```
+
+#### Exact match and advanced filters
+
+Photon support supplying an exact match filter directly, or using one of the more advanced filters:
+
+```
+export declare type StringFilter = {
+    equals?: string | null;
+    not?: string | StringFilter | null;
+    in?: Enumerable<string> | null;
+    notIn?: Enumerable<string> | null;
+    lt?: string | null;
+    lte?: string | null;
+    gt?: string | null;
+    gte?: string | null;
+    contains?: string | null;
+    startsWith?: string | null;
+    endsWith?: string | null;
+};
+export declare type DateTimeFilter = {
+    equals?: Date | string | null;
+    not?: Date | string | DateTimeFilter | null;
+    in?: Enumerable<Date | string> | null;
+    notIn?: Enumerable<Date | string> | null;
+    lt?: Date | string | null;
+    lte?: Date | string | null;
+    gt?: Date | string | null;
+    gte?: Date | string | null;
+};
+export declare type BooleanFilter = {
+    equals?: boolean | null;
+    not?: boolean | BooleanFilter | null;
+};
+export declare type IntFilter = {
+    equals?: number | null;
+    not?: number | IntFilter | null;
+    in?: Enumerable<number> | null;
+    notIn?: Enumerable<number> | null;
+    lt?: number | null;
+    lte?: number | null;
+    gt?: number | null;
+    gte?: number | null;
+};
+export declare type FloatFilter = {
+    equals?: number | null;
+    not?: number | FloatFilter | null;
+    in?: Enumerable<number> | null;
+    notIn?: Enumerable<number> | null;
+    lt?: number | null;
+    lte?: number | null;
+    gt?: number | null;
+    gte?: number | null;
+};
+```
+
+Exact Match examples:
+
+```typescript
+photon.post.findMany({
+	where: {
+		title: "abba is my favourite group!"
+	}
+})
+
+photon.post.findMany({
+	where: {
+		title: "abba is my favourite group!",
+    category: "1980 music"
+	}
 })
 ```
 
-## Error Handling
+Advanced Filter examples:
 
-- [ ] Needs to satisfy https://github.com/prisma/prisma/issues/3392#issuecomment-514999567
-- [ ] https://github.com/prisma/photonjs/issues/195#issuecomment-524126404
-
-If any error should occur, Prisma client will throw. The resulting error instance will have a `.code` property.
-You can find the possible error codes that we have in Prisma 1 [here](https://github.com/prisma/prisma/blob/master/server/connectors/api-connector/src/main/scala/com/prisma/api/schema/Errors.scala)
-
-### Where
-
-```ts
-photon.user.delete('id')
-photon.user.delete(['id1', 'id2'])
-
-photon.user.findMany({
-  where: {
-    id: ['id1', 'id2'], // instead of `_in` or `OR`
-    email: { endsWith: '@gmail.com' },
-  },
+```
+photon.post.findMany({
+	where: {
+		title: { startsWith: "abba" }
+	}
 })
 
-photon.user.findMany({
-  where: {
-    name: { contains: 'Bob' },
-    email: { contains: ['photon.io', 'gmail.com'] }, // instead of `_in` or `OR`
-  },
+photon.post.findMany({
+	where: {
+		title: { not: { contains: "abba" } },
+		id: { lt: 47 }
+	}
 })
 ```
 
--->
+#### Boolean combinators
 
-# Error Handling
+Photon supports 3 boolean combinators: `OR`, `NOT`, `AND`, that all take an array of objects with the exact same shape as the `where` argument.
 
-## Error Character Encoding
-
-Photon generates pretty error messages with ANSI characters for features like color coding errors and warnings in queries and newlines that are very useful for
-development as they usually pin point the issue.
-
-However, when this data is serialized it contains a lot of unicode characters.
-
-<details><summary>Serialized Photon error</summary>
-
-<p>
+Either the title or id field must match the creiterias:
 
 ```
-
-Error: ^[[31mInvalid ^[[1m`const data = await photon.users.findMany()`^[[22m invocation in ^[[4m/Users/divyendusingh/Documents/prisma/p2-studio/index.js:8:37^[[24m^[[39m ^[[2m ^[[90m 4 ^[[39m^[[36mconst^[[39m photon = ^[[36mnew^[[39m Photon^[[38;2;107;139;140m(^[[39m^[[38;2;107;139;140m)^[[39m^[[22m ^[[2m ^[[90m 5 ^[[39m^[[22m ^[[2m ^[[90m 6 ^[[39m^[[36masync^[[39m ^[[36mfunction^[[39m ^[[36mmain^[[39m^[[38;2;107;139;140m(^[[39m^[[38;2;107;139;140m)^[[39m ^[[38;2;107;139;140m{^[[39m^[[22m ^[[2m ^[[90m 7 ^[[39m ^[[36mtry^[[39m ^[[38;2;107;139;140m{^[[39m^[[22m ^[[31m^[[1m→^[[22m^[[39m ^[[90m 8 ^[[39m ^[[36mconst^[[39m data = ^[[36mawait^[[39m photon^[[38;2;107;139;140m.^[[39musers^[[38;2;107;139;140m.^[[39m^[[36mfindMany^[[39m^[[38;2;107;139;140m(^[[39m{ ^[[91munknown^[[39m: ^[[2m'1'^[[22m^[[2m^[[22m ^[[91m~~~~~~~^[[39m ^[[2m^[[22m}^[[2m)^[[22m Unknown arg ^[[91m`unknown`^[[39m in ^[[1munknown^[[22m for type ^[[1mUser^[[22m. Did you mean `^[[92mskip^[[39m`? ^[[2mAvailable args:^[[22m ^[[2mtype^[[22m ^[[1m^[[2mfindManyUser^[[1m^[[22m ^[[2m{^[[22m ^[[2m^[[32mwhere^[[39m?: ^[[37mUserWhereInput^[[39m^[[22m ^[[2m^[[32morderBy^[[39m?: ^[[37mUserOrderByInput^[[39m^[[22m ^[[2m^[[32mskip^[[39m?: ^[[37mInt^[[39m^[[22m ^[[2m^[[32mafter^[[39m?: ^[[37mString^[[39m^[[22m ^[[2m^[[32mbefore^[[39m?: ^[[37mString^[[39m^[[22m ^[[2m^[[32mfirst^[[39m?: ^[[37mInt^[[39m^[[22m ^[[2m^[[32mlast^[[39m?: ^[[37mInt^[[39m^[[22m ^[[2m}^[[22m
-
+photon.post.findMany({
+	where: {
+		OR: [
+			{ title: { not: { contains: "abba" } } },
+			{ id: { lt: 47 }}
+    ]
+	}
+})
 ```
 
-</p>
+Neither the title nor id field must match the creiterias:
 
-</details>
+```
+photon.post.findMany({
+	where: {
+		NOT: [
+			{ title: { not: { contains: "abba" } } },
+			{ id: { lt: 47 }}
+    ]
+	}
+})
+```
 
-There are two prominent use cases amongst others for disabling/better structuring the error logs:
+Both the title or id field must match the creiterias (above). This is equivalent to the simplified form not using the `AND` combinator (below):
 
-1. In Production logs, one might want to read the error messages thrown by Photon.
+```
+photon.post.findMany({
+	where: {
+		AND: [
+			{ title: { not: { contains: "abba" } } },
+			{ id: { lt: 47 }}
+    ]
+	}
+})
+```
 
-2. In tools like Studio, it currently strips the ANSI characters (like [this](https://codesandbox.io/s/photon-pretty-errors-m4l77)) and displays the output as
-   the error message.
+```
+photon.post.findMany({
+	where: {
+		title: { not: { contains: "abba" } },
+		id: { lt: 47 }
+	}
+})
+```
 
-To solve these two use case, Photon can do the following:
+#### Syntax inconsistency between findOne and findMany
 
-1. Use `NODE_ENV`. When `NODE_ENV` is set to `development` or is unset, Photon can emit logs with ANSI characters. However, when `NODE_ENV` is set to
-   `production` Photon can omit ANSI characters and any additional newline characters from the logs.
+The syntax for finding a single record that can be uniquely identified by two or more fields using the `findOne` API is different from returning that same record using the `findMany` API. This is due to the implementation complexity of supporting that same API in the `findOne` case:
 
-2. Photon can additionally offer `prettyLogs` as a constructor argument (defaults to `true`) to switch off the pretty error logging.
+```
+model Post {
+	category String
+	title    String
+	@@id([category, title])
+}
+```
 
-# Unresolved questions
+> Note: `@@id` is not supported yet
 
-- distinct
-  - select/include
+```typescript
+photon.post.findOne({
+	where: {
+		category_title: { category: "1980 music", title: "abba is my favourite group!" }
+	}
+})
+```
 
-### Figured out but needs spec
+```typescript
+photon.post.findMany({
+	where: {
+		category: "1980 music",
+    title: "abba is my favourite group!"
+	}
+})
+```
 
-- [ ] Error handling
-- [ ] OCC (also for nested operations)
-- [ ] Implicit back relations
-- [ ] Name clashes / `$` pre-fixing
-- [ ] Pluralization
-- [ ] Criteria API
-- [ ] File layout of generated node package
-- [ ] Type-mapping (default + custom)
-- [ ] Generated type-names for implemenation (what's exported vs internal)
 
-### Bigger todos
 
-- [ ] Lazy fields (Related: https://github.com/prisma/nexus-prisma/issues/301 and https://github.com/prisma/photonjs/issues/254)
-- [ ] Modifiers
-- [x] Find one by non-unique fields
-- [ ] Working with types
-- [ ] transactions by default (e.g. high throughput operations)
-- [ ] Expressions API/DSL
-- [ ] Binary copying
-- [ ] Type mapping (e.g. `DateTime` in Prisma schema to `Date` in JS) and how to overwrite default type-mapping behavior (e.g. using Moment.js)
-- [ ] Raw API fallbacks
-- [ ] Default selection set: Include ids of to-one relations (https://github.com/prisma/photonjs/issues/188)
-- [ ] Jump to definition
-- [ ] edge concept in schema
-- [ ] `.replace()` vs `.update({}, { replace: true })` (alternative: `overwrite: true`, `reset: true`)
-- [x] Batching
-- [ ] Consideration: How do operations (e.g. specified via the fluent API) translate into underlying DB queries (e.g. SQL queries/transactions)
-- [ ] Validate API with planned supported data sources
-- [ ] Bulk API / Streaming (read / write)
-  - [ ] Create many (https://github.com/prisma/prisma2/issues/284)
+### pagination: before, after, first, last, skip
 
-### Small & self-contained
+Together, these five fields provide powerful pagination control.
 
-- [ ] Decouple engine `connect` API from Photon instance (solves: https://github.com/prisma/photonjs/issues/153)
-- [ ] Should we load data by default for create operations?
-- [ ] "Dataloader"
-- [ ] Query engine logging
-- [ ] Enable `.first()` type narrowing for `include` / `select`
-- [x] Distinct
-- [ ] Tracing
-- [ ] `find` vs `findUnique` vs `get` ...
-- [x] Terminology: link vs connect (https://github.com/prisma/photonjs/issues/227 and https://github.com/prisma/specs/issues/140#issuecomment-530821669)
-- [ ] Cascading deletes
-- [ ] Force indexes
-- [ ] `Photon` constructor API
-- [ ] Generator/binary versioning
-- [ ] Options argument
-- [ ] Exec
-- [ ] Rename `where` to Criteria (filter/unique criteria)
-- [ ] Connection handling/config
-- [ ] Composite models: field grouping for efficient look ups
+`before` and `after` are cursors that point to a particular record, either using its `@id` field or a nuique field combination.
 
-### Ugly parts
+> Note: only `@id` is supported at the moment
 
-- [x] Select/Include API: Chainable `.select()` vs nested `{ select: { } }` API
-- [x] Upsert, findOrCreate, ...
-- [ ] Line between main arg vs options arg
+`first` and `last` specify how many records to retrieve, either from the beginning or the end of the list.
 
-### Related
+`skip` pushes the beginning of the `first` or `last` segment away from the cursor specified by `before` or `after` be the amount specified. This is illustrated with yellow arrows on the illustration below.
 
-- [ ] OCC needs triggers
+<img src="/Users/sorenbs/code/prisma/specs/photonjs/pagination.png" alt="image-20191229151441215" style="zoom:50%;" />
 
-### Future topics
+> Note: There is an outstanding proposal to simplify the pagination model by combining the `first` and `last` fields into a single `take` field. 
+>
+> This proposal is based on two observations: 1) `last` is only really useful in combination with `before` and `first` is only really useful in combination with `after`, as such we are using two variables to describe a single degree of freedom, which is confusing. 2) Even if other combinations are useful, they can be simply achieved by using the regular `where` filters.
+>
+> If adopted, this proposal will result in a simpler mental model depicted below.
 
-- [ ] Non-CRUD API operations
-- [ ] Silent mutations [prisma/prisma#4075](https://github.com/prisma/prisma/issues/4075)
-- [ ] Real-time API (subscriptions/live queries)
-- [ ] Dependent batch writes (see GraphQL export directive https://github.com/graphql/graphql-js/issues/462)
-- [ ] Usage in browser (depends on WASM)
-- [ ] Photon usage with Prisma server/cluster
-- [ ] Meta responses
-  - [ ] How to query records that were "touched" during nested writes
-  - [ ] (Nested) page info
-- [ ] Union queries
+Proposed simpler model:
+
+<img src="/Users/sorenbs/code/prisma/specs/photonjs/pagination-simplified.png" alt="image-20191229152718492" style="zoom:50%;" />
+
+# Writing data
+
+TODO
