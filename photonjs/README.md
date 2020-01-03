@@ -518,7 +518,7 @@ Together, these five fields provide powerful pagination control.
 
 <img src="./pagination.png" alt="image-20191229151441215" style="zoom:50%;" />
 
-> Note: There is an outstanding proposal to simplify the pagination model by combining the `first` and `last` fields into a single `take` field. 
+> Note: There is an [outstanding proposal](https://github.com/prisma/specs/issues/376) to simplify the pagination model by combining the `first` and `last` fields into a single `take` field. 
 >
 > This proposal is based on two observations: 1) `last` is only really useful in combination with `before` and `first` is only really useful in combination with `after`, as such we are using two variables to describe a single degree of freedom, which is confusing. 2) Even if other combinations are useful, they can be simply achieved by using the regular `where` filters.
 >
