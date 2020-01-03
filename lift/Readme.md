@@ -455,7 +455,7 @@ migrations/
     └─ README.md
 ```
 
-A migration folder contains 3 files:
+A migration folder contains at least 3 files:
 
 - **steps.json:** contains a JSON list of steps to run against the database. Steps contains only the up steps, the down steps are calculated on the fly.
 - **schema.prisma:** contains a snapshot of your `schema.prisma` file at a specific point in time after the migration has occurred.
@@ -821,7 +821,7 @@ Prisma also ships with a development command that makes developing an applicatio
 
 `prisma2 dev` is responsible for schema watching, auto-migrating and photon code generation. In this section we'll just cover migrations.
 
-Migrating your data during development is cumbersome and breaks your flow. To make this workflow more convenience, migrations during development are
+Migrating your data during development is cumbersome and breaks your flow. To make this workflow more convenient, migrations during development are
 automatically saved under the `./migrations/dev/` subfolder:
 
 ```
@@ -907,7 +907,7 @@ be accessed from a bash script with `echo $DIRECTION`.
 
 #### Transactional/rollback behavior of migration scripts
 
-The main question is this: If a migration script fails (exists with a non-zero exit code) after the datamodel has been migrated, should the datamodel be rolled
+The main question is this: If a migration script fails (exits with a non-zero exit code) after the datamodel has been migrated, should the datamodel be rolled
 back to the state before? The answer is yes. If you don't want the datamodel migration to be rolled back, make sure, that your migration script will not return
 a non-zero exit code, by e.g. using `try` `catch` in Node.js or adding an `|| echo ""` behind the potentially failing command.
 

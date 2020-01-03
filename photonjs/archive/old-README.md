@@ -16,7 +16,10 @@ This spec describes the Photon Javascript API
 
   - [Prisma Schema](#prisma-schema)
   - [Types](#types)
-  - [Basic Queries](#basic-queries)
+- [Reading Data](#reading-data)
+    - [Read Operations](#read-operations)
+      - [Naming](#naming)
+    - [Basic Queries](#basic-queries)
   - [Writing Data](#writing-data)
     - [Write operations](#write-operations)
       - [Nested Write API](#nested-write-api)
