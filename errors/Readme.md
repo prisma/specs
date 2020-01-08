@@ -128,7 +128,6 @@ Error codes make identification/classification of error easier. Moreover, we can
 | Query Engine         | 2000  | Query engine binary is responsible for getting data from data sources via connectors (This powers Photon). The errors in this range would usually be data constraint errors      |
 | Migration Engine     | 3000  | Migration engine binary is responsible for performing database migrations (This powers lift). The errors in this range would usually be schema migration/data destruction errors |
 | Introspection Engine | 4000  | Introspection engine binary is responsible for printing Prisma schema from an existing database. The errors in this range would usually be errors with schema inferring          |
-| Schema Parser        | 5000  | Schema parser is responsible for parsing the Prisma schema file. The errors in this range are usually syntactic or semantic errors.                                              |
 | Prisma Format        | 6000  | Prisma format powers the Prisma VSCode extension to pretty print the Prisma schema. The errors in this range are usually syntactic or semantic errors.                           |
 
 # Known Errors
@@ -162,69 +161,10 @@ SDK acts as the interface between the binaries and the tools. This section cover
 
 This spec does not list the errors. Instead the single source of truth for them is our code. Here is a list to their defintions for each error category:
 
-* [Common](https://github.com/prisma/prisma-engine/blob/master/libs/user-facing-errors/src/common.rs).
+* [Common](https://github.com/prisma/prisma-engine/blob/master/libs/user-facing-errors/src/common.rs)
 * [Query Engine](https://github.com/prisma/prisma-engine/blob/master/libs/user-facing-errors/src/query_engine.rs)
 * [Migration Engine](https://github.com/prisma/prisma-engine/blob/master/libs/user-facing-errors/src/migration_engine.rs)
 * [Introspection Engine](https://github.com/prisma/prisma-engine/blob/master/libs/user-facing-errors/src/introspection_engine.rs)
-
-### Schema Parser
-
-The errors for the parser are not defined in code yet.
-
-#### P5000: Schema parsing failed
-
-- **Description**: Failed to parse schema file: `${schema_parsing_error}` at `${schema_position}`
-- **Meta schema**:
-
-  ```ts
-  type Position = {
-    line: number
-    character: number
-  }
-
-  type Meta = {
-    // Error(s) encountered when trying to parse the schema in the schema parser
-    schema_parsing_error: string
-
-    // Location of the incorrect parsing, validation in the schema. Represented by tuple or object with (line, character)
-    schema_position: Position
-  }
-  ```
-
-#### P5001: Schema relational ambiguity
-
-- **Description**: There is a relational ambiguity in the schema file between the models `${A}` and `${B}`.
-- **Meta schema**:
-
-  ```ts
-  type Meta = {
-    // Concrete name of model from Prisma schema that has an ambiguity
-    A: string
-
-    // Concrete name of model from Prisma schema that has an ambiguity
-    B: string
-  }
-  ```
-
-#### P5002: Schema string input validation errors
-
-- **Description**: Database URL provided in the schema failed to parse: `${schema_sub_parsing_error}` at `${schema_position}`
-- **Meta schema**:
-
-  ```ts
-  type Position = {
-    line: number
-    character: number
-  }
-
-  type Meta = {
-    // Error(s) encountered when trying to parse a string input to the schema in the schema parser (Like database URL)
-    schema_sub_parsing_error: string
-
-    // Location of the incorrect parsing, validation in the schema. Represented by tuple or object with (line, character)
-    schema_position: Position
-  }
-  ```
 
 ## Photon.js
 
@@ -259,7 +199,7 @@ Note: Studio has two workflows:
 Electron app: Credentials from the UI → Introspection → Prisma schema → Valid Prisma project
 Web app: `prisma2 dev` → Provides Prisma schema i.e a Valid Prisma project
 
-Since studio uses Photon for query building. It relays the same error messages as Photon. Additionally, it relays the following errors from the SDK: `P3000`, `P5000`
+Since studio uses Photon for query building. It relays the same error messages as Photon. Additionally, it relays the following errors from the SDK: `P3000`.
 
 ## Prisma CLI
 
@@ -297,15 +237,15 @@ More issues for init command failures are covered here: https://prisma-specs.net
 
 ### Generate
 
-Generate command relays the following errors from the SDK: `P5000`, `P5001`, `P5002`
+!TODO
 
 ### Dev
 
-Dev command relays the following errors from the SDK: `P1000`, `P1001` , `P1002`, `P1003`, `P1004`, `P1005`, `P1006`, `P3000`, `P3001`, `P5000`, `P5001`, `P5002`
+Dev command relays the following errors from the SDK: `P1000`, `P1001` , `P1002`, `P1003`, `P1004`, `P1005`, `P1006`, `P3000`, `P3001`
 
 ### Lift
 
-Lift commands relays the following errors from the SDK: `P1000`, `P1001` , `P1002`, `P1003`, `P1004`, `P1005`, `P1006`, `P3000`, `P3001`, `P5000`, `P5001`, `P5002`
+Lift commands relays the following errors from the SDK: `P1000`, `P1001` , `P1002`, `P1003`, `P1004`, `P1005`, `P1006`, `P3000`, `P3001`
 
 ### Introspect
 
