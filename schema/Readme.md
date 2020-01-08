@@ -842,6 +842,7 @@ every connector with a **best-effort implementation**:
 - `@@id(_ fields: Identifier[])`: Defines a composite primary key across fields
   > ⚠ This is not implemented yet. (See [tracking issue](https://github.com/prisma/prisma-engine/issues/29))
 - `@@unique(_ fields: Identifier[], name: String?)`: Defines a composite unique constraint across fields
+- `@@index(_ fields: Identifier[], name: String?)`: Defines an index for multiple fields
 
 #### Type Specifications
 
