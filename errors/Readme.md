@@ -155,7 +155,7 @@ If we encounter a Rust panic, that is covered in the [Unknown Errors](#unknown-e
 
 SDK acts as the interface between the binaries and the tools. This section covers errors from SDK, binaries and the network between SDK ⇆ Binary and Binary ⇆ Data source.
 
-This spec does not list the errors. Instead the single source of truth for them is our code. Here is a list to their defintions for each error category:
+This spec does not list the individual errors. Instead the single source of truth for them is our code where they are defined with their codes and messages. Here is a list of links to their defintions for each error category:
 
 * [Common](https://github.com/prisma/prisma-engine/blob/master/libs/user-facing-errors/src/common.rs)
 * [Query Engine](https://github.com/prisma/prisma-engine/blob/master/libs/user-facing-errors/src/query_engine.rs)
