@@ -95,6 +95,119 @@ In the following we will ignore this detail, and simply write type declarations 
 Promise<Post>
 ```
 
+# Logging
+
+All Prisma Query engine related logs can be configured with the `log` property in the Photon constructor.
+These are examples how to specify different log levels:
+
+Just providing the log levels, stdout as default.
+
+```ts
+const photon = new Photon({
+  log: ['info', 'query'],
+})
+```
+
+Changing on a per log level, where the logs end up: As an event or in stdout.
+
+```ts
+const photon = new Photon({
+  log: [
+    {
+      level: 'info',
+      emit: 'stdout',
+    },
+    {
+      level: 'query',
+      emit: 'event',
+    },
+    'warn',
+  ],
+})
+
+photon.on('query', e => {
+  console.log(e.timestamp, e.query, e.args)
+})
+```
+
+Log level names get mapped to the event name for the event emitter.
+
+```ts
+const photon = new Photon({
+  log: [
+    {
+      level: 'info',
+      emit: 'event',
+    },
+    {
+      level: 'query',
+      emit: 'event',
+    },
+    {
+      level: 'warn',
+      emit: 'event',
+    },
+  ],
+})
+
+photon.on('query', e => {
+  e.timestamp
+  e.query
+  e.args
+  console.log(e)
+})
+
+photon.on('info', e => {
+  e.timestamp
+  e.message
+  console.log(e)
+})
+
+photon.on('warn', e => {
+  e.timestamp
+  e.message
+  console.log(e)
+})
+```
+
+# Error Formatting
+By default, Photon uses ANSI escape characters to pretty print the error stack and give recommendations on how to fix a problem facing with Photon. While this is very useful when using Photon from the terminal, in contexts like a GraphQL api, you only want the minimal error without any additional formatting.
+
+This is how error formatting can be configured with Photon.js.
+
+There are 3 error formatting levels:
+1. **Pretty Error**: Includes a full stack trace with colors, syntax highlighting of the code and extended error message with a possible solution for the problem. (*default*)
+2. **Colorless Error**: Same as pretty errors, just without colors.
+3. **Minimal Error**: Just the pure error message.
+
+
+In order to configure these different error formatting levels, we have two options: Environment variables and the `Photon` constructor.
+
+## Environment variables
+1. `NO_COLOR`: If this env var is provided, colors are stripped from the error message. Therefore we end up with a **colorless error**. The `NO_COLOR` environment variable is a standard described [here](https://no-color.org/). We have a tracking issue [here](https://github.com/prisma/prisma2/issues/686).
+2. `NODE_ENV=production`: If the env var `NODE_ENV` is set to `production`, only the **minimal error** will be printed. This allows for easier digestion of logs in production environments.
+
+## Constructor args
+The constructor argument to control the error formatting is called `errorFormat`. It can have the following values:
+- `undefined`: If it's not defined, the default is `pretty`
+- `pretty`: Enables pretty error formatting
+- `colorless`: Enables colorless error formatting
+- `minimal`: Enables minimal error formatting
+
+It can be used like so:
+```ts
+const photon = new Photon({
+  errorFormat: 'minimal'
+})
+```
+As the `errorFormat` property is optional, you still can just instantiate Photon like this:
+
+```ts
+const photon = new Photon()
+```
+
+
+
 # Reading data
 
 There are two methods related to reading records:
