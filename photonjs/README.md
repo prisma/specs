@@ -130,7 +130,7 @@ const photon = new Photon({
 })
 
 photon.on('query', e => {
-  console.log(e.timestamp, e.query, e.args)
+  console.log(e.timestamp, e.query, e.params)
 })
 ```
 
@@ -157,19 +157,23 @@ const photon = new Photon({
 photon.on('query', e => {
   e.timestamp
   e.query
-  e.args
+  e.params
+  e.duration
+  e.target
   console.log(e)
 })
 
 photon.on('info', e => {
   e.timestamp
   e.message
+  e.target
   console.log(e)
 })
 
 photon.on('warn', e => {
   e.timestamp
   e.message
+  e.target
   console.log(e)
 })
 ```
