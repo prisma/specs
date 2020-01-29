@@ -1,4 +1,4 @@
-# Photon.js
+# Prisma Client JS
 
 - Owner: @sorenbs
 - Stakeholders: @timsuchanek @schickling
@@ -6,7 +6,7 @@
   - Spec: Unknown ❔
   - Implementation: Unknown ❔
 
-This spec describes the Photon Javascript API
+This spec describes the Prisma Client Javascript API
 
 > Note: the spec is currently being re-written. While this is ongoing, you can find an archive of old thoughts and notes in the `archive` folder. This folder will be deleted when this spec rewrite is complete.
 
@@ -17,7 +17,7 @@ This spec describes the Photon Javascript API
 
 
 - [Background](#background)
-    - [Goals for the PhotonJS API](#goals-for-the-photonjs-api)
+    - [Goals for the Prisma Client JS API](#goals-for-the-photonjs-api)
 - [Client Layout](#client-layout)
     - [A note on Promises](#a-note-on-promises)
 - [Logging](#logging)
@@ -47,13 +47,13 @@ This spec describes the Photon Javascript API
 
 # Background
 
-Prisma Query Engine performs efficient data retrieval from various datasources. A generated Photon Client provides an ergonomic interface for developers working with Prisma. This spec describes the leftmost arrow in the diagram below labelled "Query".
+Prisma Query Engine performs efficient data retrieval from various datasources. A generated Prisma Client provides an ergonomic interface for developers working with Prisma. This spec describes the leftmost arrow in the diagram below labelled "Query".
 
 ![image-20191211103451703](./photon-generator-overview.png)
 
-Prisma is designed to decouple the data retrieval work done by Prisma Query engine from the interface exposed to developers through the generated Photon Client. This enables us to optimise Photon Client API for every language we target. It is a goal to be as language-idiomatic as possible.
+Prisma is designed to decouple the data retrieval work done by Prisma Query engine from the interface exposed to developers through the generated Prisma Client. This enables us to optimise Prisma Client API for every language we target. It is a goal to be as language-idiomatic as possible.
 
-### Goals for the PhotonJS API
+### Goals for the Prisma Client JS API
 
 - Provide an API that is intuitive for JavaScript developers
 - Take advantage of TypeScript to provide the best possible typesafe API
@@ -63,18 +63,18 @@ Prisma is designed to decouple the data retrieval work done by Prisma Query engi
  The client is generated from a Prisma Schema. When imported, it already contain any required configuration:
 
 ```typescript
-import { Photon } from '@prisma/photon'
-const photon = new Photon()
+import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient()
 ```
 
 The client has two methods for connection handling:
 
 ```typescript
-photon.connect(): Promise<void>
-photon.disconnect(): Promise<void>
+prisma.connect(): Promise<void>
+prisma.disconnect(): Promise<void>
 ```
 
-The only other fields present on the top-level photon client object is a field for each of your models. If you have two models named `Post` and `User` in your Prisma Schema, the photon object could look like this:
+The only other fields present on the top-level PrismaClient object is a field for each of your models. If you have two models named `Post` and `User` in your Prisma Schema, the `prisma` object could look like this:
 
 ```typescript
 {
@@ -101,13 +101,13 @@ Promise<Post>
 
 # Logging
 
-All Prisma Query engine related logs can be configured with the `log` property in the Photon constructor.
+All Prisma Query engine related logs can be configured with the `log` property in the PrismaClient constructor.
 These are examples how to specify different log levels:
 
 Just providing the log levels, stdout as default.
 
 ```ts
-const photon = new Photon({
+const prismaClient = new PrismaClient({
   log: ['info', 'query'],
 })
 ```
@@ -115,7 +115,7 @@ const photon = new Photon({
 Changing on a per log level, where the logs end up: As an event or in stdout.
 
 ```ts
-const photon = new Photon({
+const prismaClient = new PrismaClient({
   log: [
     {
       level: 'info',
@@ -129,7 +129,7 @@ const photon = new Photon({
   ],
 })
 
-photon.on('query', e => {
+prismaClient.on('query', e => {
   console.log(e.timestamp, e.query, e.params)
 })
 ```
@@ -137,7 +137,7 @@ photon.on('query', e => {
 Log level names get mapped to the event name for the event emitter.
 
 ```ts
-const photon = new Photon({
+const prismaClient = new PrismaClient({
   log: [
     {
       level: 'info',
@@ -154,7 +154,7 @@ const photon = new Photon({
   ],
 })
 
-photon.on('query', e => {
+prismaClient.on('query', e => {
   e.timestamp
   e.query
   e.params
@@ -163,14 +163,14 @@ photon.on('query', e => {
   console.log(e)
 })
 
-photon.on('info', e => {
+prismaClient.on('info', e => {
   e.timestamp
   e.message
   e.target
   console.log(e)
 })
 
-photon.on('warn', e => {
+prismaClient.on('warn', e => {
   e.timestamp
   e.message
   e.target
@@ -178,10 +178,11 @@ photon.on('warn', e => {
 })
 ```
 
-# Error Formatting
-By default, Photon uses ANSI escape characters to pretty print the error stack and give recommendations on how to fix a problem facing with Photon. While this is very useful when using Photon from the terminal, in contexts like a GraphQL api, you only want the minimal error without any additional formatting.
 
-This is how error formatting can be configured with Photon.js.
+# Error Formatting
+By default, Prisma Client uses ANSI escape characters to pretty print the error stack and give recommendations on how to fix a problem facing with Prisma Client. While this is very useful when using Prisma Client from the terminal, in contexts like a GraphQL api, you only want the minimal error without any additional formatting.
+
+This is how error formatting can be configured with Prisma Client JS.
 
 There are 3 error formatting levels:
 1. **Pretty Error**: Includes a full stack trace with colors, syntax highlighting of the code and extended error message with a possible solution for the problem. (*default*)
@@ -189,7 +190,7 @@ There are 3 error formatting levels:
 3. **Minimal Error**: Just the pure error message.
 
 
-In order to configure these different error formatting levels, we have two options: Environment variables and the `Photon` constructor.
+In order to configure these different error formatting levels, we have two options: Environment variables and the `PrismaClient` constructor.
 
 ## Environment variables
 1. `NO_COLOR`: If this env var is provided, colors are stripped from the error message. Therefore we end up with a **colorless error**. The `NO_COLOR` environment variable is a standard described [here](https://no-color.org/). We have a tracking issue [here](https://github.com/prisma/prisma2/issues/686).
@@ -204,14 +205,14 @@ The constructor argument to control the error formatting is called `errorFormat`
 
 It can be used like so:
 ```ts
-const photon = new Photon({
+const prisma = new PrismaClient({
   errorFormat: 'minimal'
 })
 ```
-As the `errorFormat` property is optional, you still can just instantiate Photon like this:
+As the `errorFormat` property is optional, you still can just instantiate Prisma Client like this:
 
 ```ts
-const photon = new Photon()
+const prisma = new PrismaClient()
 ```
 
 
@@ -221,20 +222,20 @@ const photon = new Photon()
 There are two methods related to reading records:
 
 ```
-photon.post.findOne([args]): Promise<Post>
-photon.post.findMany([args]): Promise<Post[]>
+prisma.post.findOne([args]): Promise<Post>
+prisma.post.findMany([args]): Promise<Post[]>
 ```
 
 ### Default selection set
 
-By default, Photon returns all scalar fields on a record, and no related records. This behavior can be decided on a per-query basis using the `include` and `select` fields described below.
+By default, Prisma Client returns all scalar fields on a record, and no related records. This behavior can be decided on a per-query basis using the `include` and `select` fields described below.
 
 ## Find a single record
 
 Retrieves a single record that can be unambiguously identified by a single unique field or a combination of fields that together are unique. 
 
 ```typescript
-photon.post.findOne([args]): Promise<Post>
+prisma.post.findOne([args]): Promise<Post>
 ```
 
 args is an object with a single required field `where` and two optional fields `include` and `select`.
@@ -242,7 +243,7 @@ args is an object with a single required field `where` and two optional fields `
 Example:
 
 ```
-const singlePost = await photon.post.findOne({
+const singlePost = await prisma.post.findOne({
 	where: { id: "post-1" }
 	include: { author: true }
 })
@@ -378,7 +379,7 @@ Note that `select` and `include` cannot be combined.
 Retrieves a list of records that match the filter criteria in the `where` field:
 
 ```typescript
-photon.post.findMany([args]): Promise<Post[]>
+prisma.post.findMany([args]): Promise<Post[]>
 ```
 
 args is an object with 9 optional fields `where`,`before`, `after`, `first`, `last`, `skip`, `orderBy`,  `select`, `include`.
@@ -386,7 +387,7 @@ args is an object with 9 optional fields `where`,`before`, `after`, `first`, `la
 Example:
 
 ```typescript
-photon.post.findMany({
+prisma.post.findMany({
 	first: 10,
 	where: {
 		title: {contains: "abba"}
@@ -425,7 +426,7 @@ where: {
 
 #### Exact match and advanced filters
 
-Photon support supplying an exact match filter directly, or using one of the more advanced filters:
+Prisma Client support supplying an exact match filter directly, or using one of the more advanced filters:
 
 ```
 export declare type StringFilter = {
@@ -480,13 +481,13 @@ export declare type FloatFilter = {
 Exact Match examples:
 
 ```typescript
-photon.post.findMany({
+prisma.post.findMany({
 	where: {
 		title: "abba is my favourite group!"
 	}
 })
 
-photon.post.findMany({
+prisma.post.findMany({
 	where: {
 		title: "abba is my favourite group!",
     category: "1980 music"
@@ -497,13 +498,13 @@ photon.post.findMany({
 Advanced Filter examples:
 
 ```
-photon.post.findMany({
+prisma.post.findMany({
 	where: {
 		title: { startsWith: "abba" }
 	}
 })
 
-photon.post.findMany({
+prisma.post.findMany({
 	where: {
 		title: { not: { contains: "abba" } },
 		id: { lt: 47 }
@@ -513,12 +514,12 @@ photon.post.findMany({
 
 #### Boolean combinators
 
-Photon supports 3 boolean combinators: `OR`, `NOT`, `AND`, that all take an array of objects with the exact same shape as the `where` argument.
+Prisma Client supports 3 boolean combinators: `OR`, `NOT`, `AND`, that all take an array of objects with the exact same shape as the `where` argument.
 
 Either the title or id field must match the creiterias:
 
 ```
-photon.post.findMany({
+prisma.post.findMany({
 	where: {
 		OR: [
 			{ title: { not: { contains: "abba" } } },
@@ -531,7 +532,7 @@ photon.post.findMany({
 Neither the title nor id field must match the creiterias:
 
 ```
-photon.post.findMany({
+prisma.post.findMany({
 	where: {
 		NOT: [
 			{ title: { not: { contains: "abba" } } },
@@ -544,7 +545,7 @@ photon.post.findMany({
 Both the title or id field must match the creiterias (above). This is equivalent to the simplified form not using the `AND` combinator (below):
 
 ```
-photon.post.findMany({
+prisma.post.findMany({
 	where: {
 		AND: [
 			{ title: { not: { contains: "abba" } } },
@@ -555,7 +556,7 @@ photon.post.findMany({
 ```
 
 ```
-photon.post.findMany({
+prisma.post.findMany({
 	where: {
 		title: { not: { contains: "abba" } },
 		id: { lt: 47 }
@@ -578,7 +579,7 @@ model Post {
 > Note: `@@id` is not supported yet
 
 ```typescript
-photon.post.findOne({
+prisma.post.findOne({
 	where: {
 		category_title: { category: "1980 music", title: "abba is my favourite group!" }
 	}
@@ -586,7 +587,7 @@ photon.post.findOne({
 ```
 
 ```typescript
-photon.post.findMany({
+prisma.post.findMany({
 	where: {
 		category: "1980 music",
     title: "abba is my favourite group!"
@@ -619,6 +620,15 @@ Together, these five fields provide powerful pagination control.
 Proposed simpler model:
 
 <img src="./pagination-simplified.png" alt="image-20191229152718492" style="zoom:50%;" />
+
+# Raw database access
+Raw database access is being exposed in a minimal fashion with the `prisma.raw()` method.
+It allows you to execute raw SQL (and later as well different query languages, when NoSQL databases are added) on the database. While this raw database access enables you to work around the limitations of the Prisma Client queries, it's important to note, that this initial version doesn't protect you from SQL injections. So use this with precaution.
+
+## Raw Usage
+```ts
+const result: any = await prisma.raw('SELECT 1')
+```
 
 # Writing data
 
