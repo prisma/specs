@@ -17,7 +17,7 @@ This spec describes the Prisma Client Javascript API
 
 
 - [Background](#background)
-    - [Goals for the Prisma Client JS API](#goals-for-the-photonjs-api)
+    - [Goals for the Prisma Client JS API](#goals-for-the-prisma-client-js-api)
 - [Client Layout](#client-layout)
     - [A note on Promises](#a-note-on-promises)
 - [Logging](#logging)
@@ -39,6 +39,8 @@ This spec describes the Prisma Client Javascript API
       - [Boolean combinators](#boolean-combinators)
       - [Syntax inconsistency between findOne and findMany](#syntax-inconsistency-between-findone-and-findmany)
     - [pagination: before, after, first, last, skip](#pagination-before-after-first-last-skip)
+- [Raw database access](#raw-database-access)
+  - [Raw Usage](#raw-usage)
 - [Writing data](#writing-data)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
