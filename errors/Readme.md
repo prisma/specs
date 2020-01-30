@@ -13,15 +13,16 @@ Definition of errors in Prisma Framework. (In this document we make the distinct
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
+
 - [Motivation](#motivation)
 - [Error Causes and Handling Strategies](#error-causes-and-handling-strategies)
 - [Error Codes](#error-codes)
 - [Known Errors](#known-errors)
   - [Known Errors Template](#known-errors-template)
   - [Prisma SDK](#prisma-sdk)
-  - [Photon.js](#photonjs)
-    - [Photon runtime validation error](#photon-runtime-validation-error)
-    - [Query engine connection error](#query-engine-connection-error)
+  - [Prisma Client JS](#prisma-client-js)
+      - [Prisma Client JS runtime validation error](#prisma-client-js-runtime-validation-error)
+      - [Query engine connection error](#query-engine-connection-error)
   - [Prisma Studio](#prisma-studio)
   - [Prisma CLI](#prisma-cli)
     - [Init](#init)
@@ -35,7 +36,7 @@ Definition of errors in Prisma Framework. (In this document we make the distinct
 - [Unknown Errors](#unknown-errors)
   - [Unknown Error Template](#unknown-error-template)
   - [Unknown Error Handling](#unknown-error-handling)
-    - [Photon.js](#photonjs-1)
+    - [Prisma Client JS](#prisma-client-js-1)
     - [Studio](#studio)
     - [CLI](#cli)
 - [Error Log Masking](#error-log-masking)

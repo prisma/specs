@@ -15,16 +15,17 @@ This spec describes the Prisma Client Javascript API
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
+
 - [Background](#background)
-  - [Goals for the Prisma Client JS API](#goals-for-the-prisma-client-js-api)
+    - [Goals for the Prisma Client JS API](#goals-for-the-prisma-client-js-api)
 - [Client Layout](#client-layout)
-  - [A note on Promises](#a-note-on-promises)
+    - [A note on Promises](#a-note-on-promises)
 - [Logging](#logging)
 - [Error Formatting](#error-formatting)
   - [Environment variables](#environment-variables)
   - [Constructor args](#constructor-args)
 - [Reading data](#reading-data)
-  - [Default selection set](#default-selection-set)
+    - [Default selection set](#default-selection-set)
   - [Find a single record](#find-a-single-record)
     - [where](#where)
     - [include](#include)
