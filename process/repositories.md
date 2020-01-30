@@ -2,7 +2,7 @@
 
 - Owner: @janpio
 - Stakeholders: @schickling, @dpetrick
-- State: 
+- State:
   - Spec: Stable ✅
   - Implementation: Fully implemented ✅
 
@@ -12,7 +12,6 @@ Prisma obviously uses GitHub for hosting our git repositories. This document spe
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
 
 - [Repositories in use](#repositories-in-use)
   - [Framework](#framework)
@@ -34,8 +33,8 @@ Repositories used for Prisma Framwork:
 
 - https://github.com/prisma/prisma2 - Prisma Framework: CLI and Docs
 - https://github.com/prisma/specs - Specification of Prisma Framework
-- https://github.com/prisma/photonjs - Photon.js
-- https://github.com/prisma/lift - Lift
+- https://github.com/prisma/prisma-client-js - Prisma Client JS
+- https://github.com/prisma/migrate - Prisma Migrate
 - https://github.com/prisma/studio - Studio
 - https://github.com/prisma/vscode-prisma - VSCode Extension for Prisma
 
@@ -56,7 +55,6 @@ Repositories used for Prisma Framwork:
 - https://github.com/prisma/prisma-examples/tree/prisma2 - Examples using Prisma Framework
 - https://github.com/prisma/database-schema-examples - Database Schema Examples (to be supported by Prisma Framework)
 
-
 ### Meta
 
 - https://github.com/prisma/prisma-label-sync - GitHub Label automation
@@ -66,6 +64,6 @@ Repositories used for Prisma Framwork:
 - In theory everything could live in one big, happy repo 🎅
 - Split if clearly defined separate tool (e.g. `photonjs`, `lift`)
 - Split if issues should be collected in separate location (e.g. `prisma-engine`)
-- Split if separation necessary for technical reasons (CI, commits)  (e.g. `prisma-engine`)
+- Split if separation necessary for technical reasons (CI, commits) (e.g. `prisma-engine`)
 - Split if usage outside of Prisma could be useful (e.g. `prisma-query`)
 - That being said, the current split and guidelines are somewhat arbitary and might change in the future

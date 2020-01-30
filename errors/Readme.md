@@ -13,7 +13,6 @@ Definition of errors in Prisma Framework. (In this document we make the distinct
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-
 - [Motivation](#motivation)
 - [Error Causes and Handling Strategies](#error-causes-and-handling-strategies)
 - [Error Codes](#error-codes)
@@ -21,8 +20,8 @@ Definition of errors in Prisma Framework. (In this document we make the distinct
   - [Known Errors Template](#known-errors-template)
   - [Prisma SDK](#prisma-sdk)
   - [Photon.js](#photonjs)
-      - [Photon runtime validation error](#photon-runtime-validation-error)
-      - [Query engine connection error](#query-engine-connection-error)
+    - [Photon runtime validation error](#photon-runtime-validation-error)
+    - [Query engine connection error](#query-engine-connection-error)
   - [Prisma Studio](#prisma-studio)
   - [Prisma CLI](#prisma-cli)
     - [Init](#init)
@@ -50,7 +49,7 @@ Definition of errors in Prisma Framework. (In this document we make the distinct
 
 | Component            | Description                                                                                        |
 | -------------------- | -------------------------------------------------------------------------------------------------- |
-| Systems that use SDK | Photon.js, Studio, Prisma CLI: dev, lift, generate commands, etc.                                  |
+| Systems that use SDK | Prisma Client js, Studio, Prisma CLI: dev, lift, generate commands, etc.                           |
 | Prisma SDK           | Helps tools interact with binaries. Spec [here](../sdk-js/Readme.md)                               |
 | Core                 | Binary artifacts of Prisma 2 compilation and a part of the SDK. Spec [here](../binaries/Readme.md) |
 | Data source          | A database or any other data source supported by Prisma                                            |
@@ -118,13 +117,13 @@ In certain cases, like when a port collision, Prisma SDK can try to retry gracef
 
 Error codes make identification/classification of error easier. Moreover, we can have internal range for different system components
 
-| Tool (Binary)        | Range | Description                                                                                                                                                                      |
-| -------------------- | ----- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Common               | 1000  | Common errors across all binaries. Common by itself is not a binary.                                                                                                             |
-| Query Engine         | 2000  | Query engine binary is responsible for getting data from data sources via connectors (This powers Photon). The errors in this range would usually be data constraint errors      |
-| Migration Engine     | 3000  | Migration engine binary is responsible for performing database migrations (This powers lift). The errors in this range would usually be schema migration/data destruction errors |
-| Introspection Engine | 4000  | Introspection engine binary is responsible for printing Prisma schema from an existing database. The errors in this range would usually be errors with schema inferring          |
-| Prisma Format        | 6000  | Prisma format powers the Prisma VSCode extension to pretty print the Prisma schema. The errors in this range are usually syntactic or semantic errors.                           |
+| Tool (Binary)        | Range | Description                                                                                                                                                                        |
+| -------------------- | ----- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Common               | 1000  | Common errors across all binaries. Common by itself is not a binary.                                                                                                               |
+| Query Engine         | 2000  | Query engine binary is responsible for getting data from data sources via connectors (This powers Prisma Client). The errors in this range would usually be data constraint errors |
+| Migration Engine     | 3000  | Migration engine binary is responsible for performing database migrations (This powers lift). The errors in this range would usually be schema migration/data destruction errors   |
+| Introspection Engine | 4000  | Introspection engine binary is responsible for printing Prisma schema from an existing database. The errors in this range would usually be errors with schema inferring            |
+| Prisma Format        | 6000  | Prisma format powers the Prisma VSCode extension to pretty print the Prisma schema. The errors in this range are usually syntactic or semantic errors.                             |
 
 # Known Errors
 
@@ -157,26 +156,26 @@ SDK acts as the interface between the binaries and the tools. This section cover
 
 This spec does not list the individual errors. Instead the single source of truth for them is our code where they are defined with their codes and messages. Here is a list of links to their defintions for each error category:
 
-* [Common](https://github.com/prisma/prisma-engine/blob/master/libs/user-facing-errors/src/common.rs)
-* [Query Engine](https://github.com/prisma/prisma-engine/blob/master/libs/user-facing-errors/src/query_engine.rs)
-* [Migration Engine](https://github.com/prisma/prisma-engine/blob/master/libs/user-facing-errors/src/migration_engine.rs)
-* [Introspection Engine](https://github.com/prisma/prisma-engine/blob/master/libs/user-facing-errors/src/introspection_engine.rs)
+- [Common](https://github.com/prisma/prisma-engine/blob/master/libs/user-facing-errors/src/common.rs)
+- [Query Engine](https://github.com/prisma/prisma-engine/blob/master/libs/user-facing-errors/src/query_engine.rs)
+- [Migration Engine](https://github.com/prisma/prisma-engine/blob/master/libs/user-facing-errors/src/migration_engine.rs)
+- [Introspection Engine](https://github.com/prisma/prisma-engine/blob/master/libs/user-facing-errors/src/introspection_engine.rs)
 
-## Photon.js
+## Prisma Client JS
 
-#### Photon runtime validation error
+#### Prisma Client JS runtime validation error
 
-- **Description**: Validation Error: `${photon_runtime_error}`
+- **Description**: Validation Error: `${prismaClientRuntimeError}`
 - **Meta schema**:
 
   ```ts
   type Meta = {
-    // Photon runtime error describing a validation error like missing argument or incorrect data type.
-    photon_runtime_error: string
+    // Prisma Client runtime error describing a validation error like missing argument or incorrect data type.
+    prismaClientRuntimeError: string
   }
   ```
 
-- **Notes**: Photon might use ANSI characters to color the response for a better reading experience. Disabling that feature is documented [here](https://github.com/prisma/specs/tree/master/photonjs#error-character-encoding).
+- **Notes**: Prisma Client might use ANSI escape characters to color the response for a better reading experience. Disabling that feature is documented [here](https://github.com/prisma/specs/tree/master/prisma-client-js#error-character-encoding).
 
 #### Query engine connection error
 
@@ -184,9 +183,9 @@ This spec does not list the individual errors. Instead the single source of trut
 
 ---
 
-Additionally, Photon relays the following errors from the SDK: `P1000`, `P1001` , `P1002`, `P1003`, `P1004`, `P1005`, `P1006`, `P2000`, `P2001` , `P2002`, `P2003`, `P2004`, `P2005`, `P2006`, `P2007`, `P2008`, `P2009`.
+Additionally, Prisma Client JS relays the following errors from the SDK: `P1000`, `P1001` , `P1002`, `P1003`, `P1004`, `P1005`, `P1006`, `P2000`, `P2001` , `P2002`, `P2003`, `P2004`, `P2005`, `P2006`, `P2007`, `P2008`, `P2009`.
 
-Note: For `P1006`, Photon provides additional information in case it detects that the binary is incorrectly pinned.
+Note: For `P1006`, Prisma Client JS provides additional information in case it detects that the binary is incorrectly pinned.
 
 ## Prisma Studio
 
@@ -195,7 +194,7 @@ Note: Studio has two workflows:
 Electron app: Credentials from the UI → Introspection → Prisma schema → Valid Prisma project
 Web app: `prisma2 dev` → Provides Prisma schema i.e a Valid Prisma project
 
-Since studio uses Photon for query building. It relays the same error messages as Photon. Additionally, it relays the following errors from the SDK: `P3000`.
+Since studio uses Prisma Client JS for query building. It relays the same error messages as Prisma Client JS. Additionally, it relays the following errors from the SDK: `P3000`.
 
 ## Prisma CLI
 
@@ -251,7 +250,7 @@ Introspect command relays the following errors from the SDK: `P1000`, `P1001` , 
 
 Many of these errors from the previous section are expected to be consumed programmatically.
 
-`Photon.js`: In user's code base
+`Prisma Client JS`: In user's code base
 `Prisma SDK`: Lift etc, in the tools that use Prisma SDK
 
 Therefore, they should be consumable programmatically and have an error structure:
@@ -278,7 +277,7 @@ As Prisma 2 is still early, we're not yet aware of all error cases that can occu
 
 An error can occur in any of the following tools that currently make up Prisma 2's developer surface area:
 
-- Photon.js
+- Prisma Client JS
 - Studio
 - CLI
 
@@ -297,9 +296,9 @@ The error report generally is more exhaustive than the logging output (e.g. it a
 
 ## Unknown Error Handling
 
-### Photon.js
+### Prisma Client JS
 
-On encountering an unexpected error, Photon should inform the user and prepare an error report with context of the issue and masked sensitive information to be shared manually or via telemetry.
+On encountering an unexpected error, Prisma Client should inform the user and prepare an error report with context of the issue and masked sensitive information to be shared manually or via telemetry.
 
 <details><Summary>Logging output</Summary>
 
@@ -312,11 +311,11 @@ Find more info in the error report:
 Please help us fix the problem!
 
 Copy the error report and paste it as a GitHub issue here:
-**https://www.github.com/prisma/photonjs/issues**
+**https://www.github.com/prisma/prisma-client-js/issues**
 
-Thanks for helping us making Photon.js more stable! 🙏
+Thanks for helping us making Prisma Client more stable! 🙏
 
-An internal error occurred during invocation of **photon.users.create()** in **/path/to/dir/src/.../file.ts**
+An internal error occurred during invocation of **prisma.user.create()** in **/path/to/dir/src/.../file.ts**
 
   ${userStackTrace}
 ```
@@ -330,7 +329,7 @@ An internal error occurred during invocation of **photon.users.create()** in **/
 File name: `prisma-error.md` is created inside the project directory on first error and is appended to on subsequent errors.
 
 ```
-# Error report (Photon JS | July 23, 2019 | 14:42:23 h)
+# Error report (Prisma Client JS | July 23, 2019 | 14:42:23 h)
 
 This is an exhaustive report containing all relevant information about the error.
 
@@ -352,7 +351,7 @@ ${prisma2 -v}
 
 ${schema.prisma}
 
-## Generated Photon JS code
+## Generated Prisma Client JS code
 
 ${index.d.ts}
 ```
@@ -419,7 +418,7 @@ ${schema.prisma}
 
 </details>
 
-Note that studio can also yield Photon errors as it uses Photon internally. The error log generation in that case would be done by Photon but the UI to prompt user to create a Github issue or send it to us would be handled by Studio.
+Note that studio can also yield Prisma Client JS errors as it uses Prisma Client JS internally. The error log generation in that case would be done by Prisma Client JS but the UI to prompt user to create a Github issue or send it to us would be handled by Studio.
 
 ### CLI
 

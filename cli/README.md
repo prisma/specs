@@ -13,7 +13,6 @@ Prisma CLI offers essential functionality to Prisma Framework users.
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-
 - [Problem, Idea, Concept](#problem-idea-concept)
 - [Use Cases](#use-cases)
 - [Installation](#installation)
@@ -47,8 +46,8 @@ Prisma CLI offers essential functionality to Prisma users.
 1. Create a new project using Prisma Framework
 1. Set up Prisma Framework in an existing project with an existing database
 1. Iterate on Datamodel
-1. Generate Photon.js
-1. Use Lift to migrate your database
+1. Generate Prisma Client JS
+1. Use Prisma Migrate to migrate your database
 
 ## Installation
 
