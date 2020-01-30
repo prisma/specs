@@ -15,17 +15,16 @@ This spec describes the Prisma Client Javascript API
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-
 - [Background](#background)
-    - [Goals for the Prisma Client JS API](#goals-for-the-prisma-client-js-api)
+  - [Goals for the Prisma Client JS API](#goals-for-the-prisma-client-js-api)
 - [Client Layout](#client-layout)
-    - [A note on Promises](#a-note-on-promises)
+  - [A note on Promises](#a-note-on-promises)
 - [Logging](#logging)
 - [Error Formatting](#error-formatting)
   - [Environment variables](#environment-variables)
   - [Constructor args](#constructor-args)
 - [Reading data](#reading-data)
-    - [Default selection set](#default-selection-set)
+  - [Default selection set](#default-selection-set)
   - [Find a single record](#find-a-single-record)
     - [where](#where)
     - [include](#include)
@@ -622,6 +621,27 @@ Together, these five fields provide powerful pagination control.
 Proposed simpler model:
 
 <img src="./pagination-simplified.png" alt="image-20191229152718492" style="zoom:50%;" />
+
+## Raw database access
+
+It allows you to execute raw SQL on the database.
+Prisma accepts any raw SQL string and executes it directly against the database.
+Prisma does not perform escaping of user input, so this should be handled by the user in order to prevent SQL injection attacks.
+Numerous libraries exist for this purpose, including the popular `sqlstring` for MySQL.
+
+### Raw Usage
+
+```ts
+const result: number = await prisma.raw('SELECT 1')
+
+type User = {
+  id: string
+  name: string
+  email: string
+}
+
+const users: Array<User> = await prisma.raw('SELECT * FROM User')
+```
 
 # Writing data
 
