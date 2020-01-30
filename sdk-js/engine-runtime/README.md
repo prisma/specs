@@ -13,6 +13,7 @@ TODO Introduction
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
+
 - [Motivation](#motivation)
 - [Packages](#packages)
 - [Prisma Query Engine](#prisma-query-engine)
@@ -24,7 +25,7 @@ TODO Introduction
       - [Waiting for the Binary to be Ready](#waiting-for-the-binary-to-be-ready)
     - [Stop](#stop)
   - [Examples](#examples)
-    - [Photon.js](#photonjs)
+    - [Prisma Client JS](#prisma-client-js)
     - [CLI `generate` Command](#cli-generate-command)
   - [API](#api)
 - [Prisma Introspection Engine](#prisma-introspection-engine)
