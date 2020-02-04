@@ -30,7 +30,7 @@ Description of how the interface for generation in the individual languages like
 
 ## Context
 
-An important mechanism in Prisma 2 is the generation of artifacts based on the Prisma schema. Prisma Framework itself for example includes the built-in generator Photon, which is used to generate a Photon.js client that can be used to access data via Prisma in applications in Javascript/Typescript apps. This pattern of generating artifacts based on the schema can also be used by generators created by the community.
+An important mechanism in Prisma 2 is the generation of artifacts based on the Prisma schema. Prisma Framework itself for example includes the built-in generator Photon, which is used to generate a Prisma Client JS client that can be used to access data via Prisma in applications in Javascript/Typescript apps. This pattern of generating artifacts based on the schema can also be used by generators created by the community.
 
 ## Generator architecture
 

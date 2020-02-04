@@ -124,13 +124,13 @@ Generator blocks configure what clients are generated and how they're generated.
 
 ```groovy
 generator js {
-  provider = "photonjs"
+  provider = "prisma-client-js"
   target   = "es3"
   output   = "./client"
 }
 
 generator ts {
-  target   = "photonjs"
+  target   = "prisma-client-js"
   provider = "./path/to/custom/generator"
 }
 
@@ -145,7 +145,7 @@ generator go {
 > Note: these provider names are WIP
 
 - `provider` Can be a path or one of the following built in datasource providers:
-  - `photonjs`
+  - `prisma-client-js`
   - `photongo`
 - `output` Path for the generated client
 
@@ -172,8 +172,8 @@ This namespace is determined by the capabilities of the generator. The generator
 ### Binary Configuration
 
 ```groovy
-generator photon {
-  provider = "photonjs"
+generator client {
+  provider = "prisma-client-js"
   snakeCase = true
   platforms = ["native", "linux-glibc-libssl1.0.2"]
   pinnedPlatform = env("PLATFORM") // On local, "native" and in production, "linux-glibc-libssl1.0.2"
@@ -308,8 +308,8 @@ Here's how some of the databases we're tracking map to the core types:
 
 Lists are denoted with `[]` at the end of a type. Whether they are supported by a given datasource depends on the type being used in the list:
 
-* Lists are supported for relations and embeds by every connector.
-* Lists are supported for primitive types and enums by a connector if the value can be stored within the record. This means that a retrieval of this field in a query must not incur any additional lookups in the database. This is not the case for every datasource. For example Postgres does support this but SQLite does not.
+- Lists are supported for relations and embeds by every connector.
+- Lists are supported for primitive types and enums by a connector if the value can be stored within the record. This means that a retrieval of this field in a query must not incur any additional lookups in the database. This is not the case for every datasource. For example Postgres does support this but SQLite does not.
 
 ```groovy
 model User {
@@ -554,10 +554,10 @@ model BlogWriter {
 | id         | integer |
 
 | **BlogWriter** |         |
-| ---------------- | ------- |
-| blog_id          | integer |
-| author_id        | integer |
-| is_owner         | boolean |
+| -------------- | ------- |
+| blog_id        | integer |
+| author_id      | integer |
+| is_owner       | boolean |
 
 ##### Self-Referential Relationships
 
@@ -1159,8 +1159,8 @@ $ prisma generate
 But runtime will:
 
 ```js
-import Photon from '@generated/photon'
-const photon = new Photon()
+import { PrismaClient } from '@prisma/client'
+const client = new PrismaClient()
 // Thrown: required `POSTGRES_URL` variable not found
 ```
 
