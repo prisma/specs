@@ -39,6 +39,8 @@ This spec describes the Prisma Client Javascript API
       - [Boolean combinators](#boolean-combinators)
       - [Syntax inconsistency between findOne and findMany](#syntax-inconsistency-between-findone-and-findmany)
     - [pagination: before, after, first, last, skip](#pagination-before-after-first-last-skip)
+  - [Raw database access](#raw-database-access)
+    - [Raw Usage](#raw-usage)
 - [Writing data](#writing-data)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -622,6 +624,27 @@ Together, these five fields provide powerful pagination control.
 Proposed simpler model:
 
 <img src="./pagination-simplified.png" alt="image-20191229152718492" style="zoom:50%;" />
+
+## Raw database access
+
+It allows you to execute raw SQL on the database.
+Prisma accepts any raw SQL string and executes it directly against the database.
+Prisma does not perform escaping of user input, so this should be handled by the user in order to prevent SQL injection attacks.
+Numerous libraries exist for this purpose, including the popular `sqlstring` for MySQL.
+
+### Raw Usage
+
+```ts
+const result: number = await prisma.raw('SELECT 1')
+
+type User = {
+  id: string
+  name: string
+  email: string
+}
+
+const users: Array<User> = await prisma.raw('SELECT * FROM User')
+```
 
 # Writing data
 
