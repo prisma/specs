@@ -1,14 +1,11 @@
 # Photon.js
 
-- Owner: @sorenbs
-- Stakeholders: @timsuchanek @schickling
+- Stakeholders: @sorenbs @timsuchanek @schickling
 - State:
-  - Spec: Unknown ❔
-  - Implementation: Unknown ❔
+  - Spec: Unknown Documenting existing implementation. Still WIP.
+  - Implementation: Mostly implemented
 
 This spec describes the Photon Javascript API
-
-> Note: the spec is currently being re-written. While this is ongoing, you can find an archive of old thoughts and notes in the `archive` folder. This folder will be deleted when this spec rewrite is complete.
 
 ---
 
