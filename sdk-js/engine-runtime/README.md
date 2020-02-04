@@ -2,7 +2,7 @@
 
 - Owner: @schickling
 - Stakeholders: @Weakky @timsuchanek
-- State: 
+- State:
   - Spec: Unknown ❔
   - Implementation: Unknown ❔
 
@@ -25,7 +25,7 @@ TODO Introduction
       - [Waiting for the Binary to be Ready](#waiting-for-the-binary-to-be-ready)
     - [Stop](#stop)
   - [Examples](#examples)
-    - [Photon.js](#photonjs)
+    - [Prisma Client JS](#prisma-client-js)
     - [CLI `generate` Command](#cli-generate-command)
   - [API](#api)
 - [Prisma Introspection Engine](#prisma-introspection-engine)
@@ -101,15 +101,15 @@ SDK polls the query engine binary's HTTP server for its status at an interval. T
 
 ### Examples
 
-#### Photon.js
+#### Prisma Client JS
 
-Photon.js uses the Prisma SDK for binary process management during its runtime. It uses `start` and `stop` functions as described. Additionally, Photon can lazily `start` the binary when a request is received without an existing connection.
+Prisma Client JS uses the Prisma SDK for binary process management during its runtime. It uses `start` and `stop` functions as described. Additionally, Photon can lazily `start` the binary when a request is received without an existing connection.
 
 #### CLI `generate` Command
 
 The `prisma2 generate` command uses the Prisma SDK to convert the Prisma schema file, output of which is then used by it for generating code using generators like Photon.
 
-Unlike, Photon.js CLI doesn't use `start` and `stop` functions but uses the query engine binary as a spawned process to parse the schema prisma file and get its serialized JSON (DMMF) over stdio.
+Unlike, Prisma Client JS CLI doesn't use `start` and `stop` functions but uses the query engine binary as a spawned process to parse the schema prisma file and get its serialized JSON (DMMF) over stdio.
 
 ### API
 
@@ -135,22 +135,19 @@ The actual process management is similar to query engine binary. With the follow
 
 ### Examples
 
-
 #### CLI `introspect` command ????
 
 The `prisma2 introspect` command and its sub-commands use the Prisma introspection engine binary to introspect the database and return an equivalent Prisma schema.
 
 ### API
 
-RPC API is listed as its TS types here??? There are probably none atm. 
+RPC API is listed as its TS types here??? There are probably none atm.
 
-
-* listDatabases
-* getDatabaseMetadata
-* introspect 
+- listDatabases
+- getDatabaseMetadata
+- introspect
 
 // TODO: Move the calls here and write description
-
 
 ## Prisma Migration Engine
 
