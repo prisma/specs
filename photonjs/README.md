@@ -501,4 +501,218 @@ Proposed simpler model:
 
 # Writing data
 
-TODO
+> This section is WIP
+
+There are six methods related to creating, updating and deleting records:
+
+```
+photon.post.create([args]): Promise<Post>
+photon.post.delete([args]): Promise<Post>
+photon.post.deleteMany([args]): Promise<BatchPayload>
+photon.post.update([args]): Promise<Post>
+photon.post.updateMany([args]): Promise<BatchPayload>
+photon.post.updsert([args]): Promise<Post>
+```
+
+## Create a single record
+
+Creates a single record and returns the created record, including any auto-generated fields such as a id field with a default value.
+
+```typescript
+photon.post.create([args]): Promise<Post>
+```
+
+args is an object with a single required field `data` and two optional fields `include` and `select`.
+
+Example:
+
+```
+const singlePost = await photon.post.create({
+	data: { id: "post-1", title: "New Post" }
+})
+```
+
+### data
+
+The `data` field is used to provide scalar fields for the record as well as decide how to handle relations. All required fields are non-nullable.
+
+#### Scalar fields
+
+Scalar fields must be set to a value of matching type:
+
+```
+title: "New Post"
+```
+
+#### To-one relation fields
+
+To-one relation fields have two options: 
+
+`create` creates a completely new model and establishes the relation. It has the same shape as the top-level `photon.model.create` methods `data` field. 
+
+`connect` uniquely identifies a record and establishes the relation. It has the same shape as the top-level `photon.model.findOne` methods `where` field.
+
+`create` and `connect` are optional fields, but you will receive a runtime error if not exactly one is specified.
+
+Example:
+
+```
+const singlePost = await photon.post.create({
+	data: { id: "post-1", title: "New Post", author: { connect: { id: "author-1" }} }
+})
+```
+
+
+
+#### To-many relation fields
+
+To-many relation fields have two options `create` and `connect`. They work similarly to to-one fields, except they take either a single object or an array of objects:
+
+```
+const singleAuthor = await photon.author.create({
+	data: { id: "author-1", email: "some@author.com", posts: { connect: [{ id: "post-1" }, { id: "post-2" }]} }
+})
+```
+
+### Include and select
+
+Include and select are used to specify the fields included in the created record. The behavior is identical to that of `findOne` [LINK].
+
+## Delete a single record
+
+Deletes a single record and returns the deleted record
+
+```typescript
+photon.post.delete([args]): Promise<Post>
+```
+
+args is an object with a single required field `where` and two optional fields `include` and `select`.
+
+Example:
+
+```
+const deletedPost = await photon.post.delete({
+	where: { id: "post-1" }
+})
+```
+
+### where
+
+The `where` field uniquely identifies the record to be deleted. It has the same shape as the `photon.model.findOne` methods `where` field.
+
+### Include and select
+
+Include and select are used to specify the fields included retrieved record. The behavior is identical to that of `findOne` [LINK].
+
+The data to be returned is retrieved from the database before deleting the record. 
+
+## Delete multiple records
+
+Deletes multiple records and returns a count of the deleted records.
+
+```typescript
+photon.post.deleteMany([args]): Promise<BatchPayload>
+```
+
+args is an object with a single required field `where`
+
+Example:
+
+```
+const deletedPost = await photon.post.deleteMany({
+	where: { title: { contains: "car" } }
+})
+```
+
+The return value has this shape:
+
+```
+{
+	count: number
+}
+```
+
+### where
+
+The `where` field identifies the records to be deleted. It has the same shape as the `photon.model.findMany` methods `where` field.
+
+## Update a single record
+
+Updates a single record and returns the updated record
+
+```typescript
+photon.post.update([args]): Promise<Post>
+```
+
+args is an object with a two required fields `where` and `data` as well as two optional fields `include` and `select`.
+
+Example:
+
+```
+const deletedPost = await photon.post.update({
+	where: { id: "post-1" },
+	data: { title: "A new title" }
+})
+```
+
+### where
+
+The `where` field uniquely identifies the record to be updated. It has the same shape as the `photon.model.findOne` methods `where` field.
+
+The `data` field is used to provide scalar fields for the record as well as decide how to handle relations. All required fields are non-nullable.
+
+### data
+
+The `data` field is used to update scalar fields as well as relations. All fields are optional, but at least one must be provided.
+
+#### Scalar fields
+
+Scalar fields must be set to a value of matching type:
+
+```
+title: "New Post"
+```
+
+If the field is nullable, it can be set to null:
+
+```
+title: null
+```
+
+#### To-one relation fields
+
+To-one relation fields have two options: 
+
+`create` creates a completely new model and establishes the relation. It has the same shape as the top-level `photon.model.create` methods `data` field. 
+
+`connect` uniquely identifies a record and establishes the relation. It has the same shape as the top-level `photon.model.findOne` methods `where` field.
+
+`create` and `connect` are optional fields, but you will receive a runtime error if not exactly one is specified.
+
+Example:
+
+```
+const singlePost = await photon.post.create({
+	data: { id: "post-1", title: "New Post", author: { connect: { id: "author-1" }} }
+})
+```
+
+
+
+#### To-many relation fields
+
+To-many relation fields have two options `create` and `connect`. They work similarly to to-one fields, except they take either a single object or an array of objects:
+
+```
+const singleAuthor = await photon.author.create({
+	data: { id: "author-1", email: "some@author.com", posts: { connect: [{ id: "post-1" }, { id: "post-2" }]} }
+})
+```
+
+### 
+
+### Include and select
+
+Include and select are used to specify the fields included retrieved record. The behavior is identical to that of `findOne` [LINK].
+
+The data to be returned is retrieved from the database before deleting the record. 
