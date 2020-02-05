@@ -91,7 +91,7 @@ The datasource block tells the schema where the models are backed.
 ```groovy
 datasource pg {
   provider = "postgresql"
-  url      = env.POSTGRES_URL
+  url      = env.DATABASE_URL
 }
 ```
 
