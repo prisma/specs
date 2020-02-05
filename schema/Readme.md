@@ -86,23 +86,12 @@ your datasources with Lift and administer your data using Studio.
 
 ## Datasource Block
 
-Datasource blocks tell the schema where the models are backed. You can have multiple datasources with different connectors.
+The datasource block tells the schema where the models are backed.
 
 ```groovy
 datasource pg {
   provider = "postgresql"
   url      = env.POSTGRES_URL
-  enabled  = true
-}
-
-datasource mgo {
-  provider = "mongodb"
-  url      = env.MONGO_URL
-}
-
-datasource mgo2 {
-  provider = "mongodb"
-  url      = env.MONGO2_URL
 }
 ```
 
@@ -114,7 +103,6 @@ datasource mgo2 {
   - `mysql`
   - `sqlite`
 - `url` Connection url including auth info. Each datasource provider documents the url syntax. most providers use the syntax provided by the database
-- `enabled` Use environment variables to enable/disable a datasource
 
 Connectors may bring their own attributes to allow users to tailor their schemas according to specific features of their connected datasources.
 
