@@ -651,7 +651,7 @@ Numerous libraries exist for this purpose, including the popular `sqlstring` for
 ### Raw Usage
 
 ```ts
-const result: number = await prisma.raw('SELECT 1')
+const result: number = await prisma.raw`SELECT 1`
 
 type User = {
   id: string
@@ -659,7 +659,7 @@ type User = {
   email: string
 }
 
-const users: Array<User> = await prisma.raw('SELECT * FROM User')
+const users: Array<User> = await prisma.raw`SELECT * FROM User`
 ```
 
 # Writing data
