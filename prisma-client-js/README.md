@@ -58,6 +58,12 @@ This spec describes the Prisma Client Javascript API
       - [To-many relation fields](#to-many-relation-fields-1)
     - [](#)
     - [Include and select](#include-and-select-2)
+- [`undefined` vs `null`](#undefined-vs-null)
+  - [Write: Updating a User](#write-updating-a-user)
+      - [`undefined`](#undefined)
+      - [`null`](#null)
+  - [Read: Fetching multiple Users](#read-fetching-multiple-users)
+  - [Cases in which only `undefined` is allowed](#cases-in-which-only-undefined-is-allowed)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
