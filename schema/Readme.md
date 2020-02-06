@@ -1092,7 +1092,7 @@ The schema can require certain environment expectations to be met. The purpose o
 ```groovy
 datasource pg {
   provider = "postgres"
-  url      = env("POSTGRES_URL")
+  url      = env("DATABASE_URL")
 }
 ```
 
@@ -1116,9 +1116,9 @@ Introspection time will require the environment variable to be present:
 
 ```sh
 $ prisma introspect
-! required POSTGRES_URL variable not found
+! required DATABASE_URL variable not found
 
-$ export POSTGRES_URL="postgres://user:secret@rds.amazon.com:4321/db"
+$ export DATABASE_URL="postgres://user:secret@rds.amazon.com:4321/db"
 $ prisma introspect
 ```
 
@@ -1130,9 +1130,9 @@ Migration time will require the environment variable to be present:
 
 ```sh
 $ prisma lift up
-! required POSTGRES_URL variable not found
+! required DATABASE_URL variable not found
 
-$ export POSTGRES_URL="postgres://user:secret@rds.amazon.com:4321/db"
+$ export DATABASE_URL="postgres://user:secret@rds.amazon.com:4321/db"
 $ prisma lift up
 ```
 
@@ -1149,7 +1149,7 @@ But runtime will:
 ```js
 import { PrismaClient } from '@prisma/client'
 const client = new PrismaClient()
-// Thrown: required `POSTGRES_URL` variable not found
+// Thrown: required `DATABASE_URL` variable not found
 ```
 
 ## Function
