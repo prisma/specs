@@ -194,6 +194,57 @@ prismaClient.on('warn', e => {
 })
 ```
 
+# Errors
+These are the different kinds of errors that can occur in the Prisma Client:
+
+### 1. `PrismaClientValidationError`
+If the input to a query is incorrect, a Validation Error is being thrown.
+An example could be a missing field or an incorrect type of a field that is being provided
+to the Prisma Client.
+
+### 2. `PrismaClientKnownRequestError`
+As soon as the validation was successful, Prisma Client sends the query request to the query engine.
+The query engine might now return an error related to the request.
+This could e.g. be a unique constraint violation while creating a record.
+All `PrismaClientRequestError`s have a `code` property and optionally a `meta` property including relevant meta information to the error.
+
+### 3. `PrismaClientUnknownRequestError`
+While the query engine knows many of the possible errors, that can occur, it doesn't know all of them.
+This error can be an edge-case, that doesn't occur often, which didn't get a `code` assigned to it yet.
+While this is an unknown error, this kind of error does **not** crash the query engine and it can continue running.
+
+### 4. `PrismaClientRustPanicError`
+In rare cases, the query engine, which is written in Rust, panics.
+This means, that the engine crashes and exits with a non-zero exit code.
+In this case, the Prisma Client or the whole Node Process has to be restarted.
+
+### 5. `PrismaClientInitializationError`
+As soon as `prisma.connect()` is called or the first request is performed, the Client starts the query engine binary. During this startup of the binary, things can go wrong.
+Examples here:
+- The port its http server wants to bind on, can e.g. already be taken.
+- The schema might not validate, because an environment variable is missing.
+
+## Discriminating error types
+In order to handle different kinds of errors, `instanceof` can be used:
+
+```ts
+import { PrismaClient, PrismaClientRequestError } from '@prisma/client'
+
+const client = new PrismaClient()
+
+try {
+  await client.user.create({ data: { email: 'alreadyexisting@mail.com' } })
+} catch (e) {
+  if (e instanceof PrismaClientRequestError) {
+    // The .code property can be accessed in a type-safe manner
+    if (e.code === 'P2002') {
+      console.log('We got a unique constraint violation')
+    }
+  }
+  throw e
+}
+```
+
 # Error Formatting
 
 By default, Prisma Client uses ANSI escape characters to pretty print the error stack and give recommendations on how to fix a problem facing with Prisma Client. While this is very useful when using Prisma Client from the terminal, in contexts like a GraphQL api, you only want the minimal error without any additional formatting.
