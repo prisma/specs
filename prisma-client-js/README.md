@@ -220,8 +220,8 @@ In this case, the Prisma Client or the whole Node Process has to be restarted.
 
 ### 5. `PrismaClientInitializationError`
 As soon as `prisma.connect()` is called or the first request is performed, the Client starts the query engine binary. During this startup of the binary, things can go wrong.
-Examples here:
-- The port its http server wants to bind on, can e.g. already be taken.
+Examples:
+- The port, on which the query engine http server wants to bind on, can e.g. already be taken.
 - The schema might not validate, because an environment variable is missing.
 
 ## Discriminating error types
