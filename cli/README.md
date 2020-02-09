@@ -203,7 +203,7 @@ Please make sure to provide valid database credentials for the database server a
 
 The `prisma introspect` command can be run without arguments. Additionally, these arguments can be specified:
 
-- **path** specify the path used to read the `schema.prisma` file instead of the default path. Note that the generation result is written to that same file.
+- **schema** specify the path used to read the `schema.prisma` file instead of the default path. Note that the generation result is written to that same file.
 
 ### Canonical Schema Mapping
 
@@ -268,6 +268,8 @@ The common patterns are pciked to minimise false positives while providing an ea
 
 List of inferred patterns:
 
+> Note: This list should be moved to a separate introspection spec
+
 **Variations of updatedAt fields**
 
 If a column has any of the names `updatedAt`, `updated_at`, `updated_on`, `updated`, `updateDate`, `updatedDate`, `lastModifiedDate` and is of a type that maps to the Prisma type `DateTime`, the following fieldPattern is added:
@@ -315,4 +317,31 @@ If no patterns are found, the `prismarc.json` file is not created, and no additi
 
 # Generate
 
+[Joël - please expand this section to cover all details]
 
+The `prisma generate` command parses the `schema.prisma` file, identifies `generator` blocks and invokes the relevant generators. Currently, we support the single generator `prisma-client-js`. In the future we will provide generators for other languages and support third party generators.
+
+A generator will code-generate a data access client based on the schema. The following will describe how the `prisma-client-js` generator works.
+
+~~~
+Generated Prisma Client to ./node_modules/@prisma/client
+Done in 1.49s
+~~~
+
+### Arguments
+
+The `prisma generate` command can be run without arguments. Additionally, these arguments can be specified:
+
+- **schema** specify the path used to read the `schema.prisma` file instead of the default path. This does not affect the location of the generated artefacts.
+
+### Identifying the npm project
+
+The prisma client is being generated into an npm project. As such, a npm project must first be identified. The generator follows normal npm conventions and will search recursively from the directory where it is invoked, all the way up to the root of the filesystem.
+
+If no npm project is found, it wil run `npm init -y` in the folder where it is invoked to create a new npm project.
+
+### Install @prisma/client
+
+After identifying the npm project, the generator will ensure that the `@prisma/client` package is installed. If it is already present in the `package.json` file, no action is taken. Otherwise [Joël - explain]
+
+> Question: How do we handle the case where `@prisma/client` package has a different version than the CLI/generator?
