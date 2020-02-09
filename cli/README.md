@@ -28,6 +28,9 @@
     - [Disabling Introspection Configuration](#disabling-introspection-configuration)
     - [Considerations for the first-run experience](#considerations-for-the-first-run-experience-1)
 - [Generate](#generate)
+    - [Arguments](#arguments-2)
+    - [Identifying the npm project](#identifying-the-npm-project)
+    - [Install @prisma/client](#install-prismaclient)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
