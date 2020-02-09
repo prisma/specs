@@ -34,7 +34,9 @@
 
 Prisma CLI offers essential workflows to Prisma users, including introspecting databases and generating a typesafe data-access client.
 
-> Note: During the Prisma 2 preview period, the cli command is `prisma2`. In this spec we will refer to is simply as `prisma` as that will be the name when we publish the first release candidate.
+> Note: During the Prisma 2 preview period, the cli command is `prisma2`. In this spec we will refer to it simply as `prisma` as that will be the name when we publish the first release candidate.
+
+> Note: This spec refers to other specs that do not yet exist 
 
 # CLI Layout
 
@@ -179,7 +181,7 @@ Obviously, the `Get started guide` and the `Next steps` section from the `prisma
 
 # Introspect
 
-The `prisma introspect` command connects the the specified database and generates a canonical schema representing the database structure. It requires an existing `schema.prisma` file to be present and correctly configured with a `datasource` that points to an accessible database. The existing `schema.prisma` file is overwritten with the new schema, and any manual changes applied to that file are lost.
+The `prisma introspect` command connects to the specified database and generates a canonical schema representing the database structure. It requires an existing `schema.prisma` file to be present and correctly configured with a `datasource` that points to an accessible database. The existing `schema.prisma` file is overwritten with the new schema, and any manual changes applied to that file are lost.
 
 ~~~
 Introspecting based on datasource defined in schema.prisma …
@@ -219,7 +221,7 @@ During introspection, the Canonical Schema Mapping is used to decide if a field 
 
 ### Introspection Configuration
 
-The Canonical Schema Mapping is designed to ensure the introspection result is always easy to understand. It is a design goal to not perform any magic. As a result, often it is required to manually extend the schema after introspecting a database. This is tedious and leads to extra work when re-introspecting, because manual edits will be lost.
+The Canonical Schema Mapping is designed to ensure that the introspection result is always easy to understand. It is a design goal to not perform any magic. As a result, often it is required to manually extend the schema after introspecting a database. This is tedious and leads to extra work when re-introspecting, because manual edits will be lost.
 
 Introspection Configuration allows the user to change the Canonical Schema Mapping to be in line with patterns used in the database. 
 
@@ -228,7 +230,7 @@ The following configuration options are awailable:
 - **fieldPatterns**: Add attributes to a field by matching on its name
 - **modelPatterns**: Add attributes to a model by matching on its name
 
-The configuration is stored in a `prismarc.json` file. The following example will
+The configuration is stored in a `prismarc.json` file next to the schema.prisma file. The following example will
 
 - add the `@updatedAt` attribute to all fields called updatedAt or updated_at
 - add the `@createdAt` attribute to all fields called createdAt
@@ -250,9 +252,66 @@ The configuration is stored in a `prismarc.json` file. The following example wil
 
 See the full Prisma Config spec for more details
 
+If one or more Introspection Configuration patterns are applied during introspection, the CLI output is amended to include an informational line:
+
+```
+Introspection Configuration patterns were applied 7 times. See [link to docs] for details
+```
+
+The docs should explain how Introspection configuration works, including how to disable it.
+
 ### Inferred Introspection Configuration
 
+If there is no `prismarc.json` file, `prisma introspect` will run a set of heuristics to identify common patterns. If one or more patterns are identified, a `prismarc.json` file is created, and all the patterns are written to it. `prisma introspect` will then proceed as normally, and take the newly created Introspection Configuration into account.
+
+The common patterns are pciked to minimise false positives while providing an easy transition from most popular ORMs, including Sequelize, TypeORM, Objection, ActiveRecord, Hibernate, Laravel. Additionally, it is a goal to provide a smooth upgrade path for Prisma1 users.
+
+List of inferred patterns:
+
+**Variations of updatedAt fields**
+
+If a column has any of the names `updatedAt`, `updated_at`, `updated_on`, `updated`, `updateDate`, `updatedDate`, `lastModifiedDate` and is of a type that maps to the Prisma type `DateTime`, the following fieldPattern is added:
+
+```
+"@updatedAt": "/^updatedAt|updated_at|updated_on|updated|updateDate|updatedDate|lastModifiedDate$/",
+```
+
+**Variations of createdAt fields**
+
+If a column has any of the names `createdAt`, `created_at`, `created_on`, `created`, `createDate`, `createdDate` and is of a type that maps to the Prisma type `DateTime`, the following fieldPattern is added:
+
+```
+"@createdAt": "/^createdAt|created_at|created_on|created|createDate|createdDate$/",
+```
+
+**UUID**
+
+If a column has the name `id` and native database type `UUID` or `CHAR(36)` or `VARCHAR(36)`, the following pattern is added:
+
+```
+"@id @default(uuid())": "/^id$/",
+```
+
+**CUID**
+
+If a column has the name `id` and native database type `VARCHAR(24)`, the following pattern is added:
+
+```
+"@id @default(cuid())": "/^id$/",
+```
+
+### Disabling Introspection Configuration
+
+Introspection Configuration and Inferred Introspection Configuration can be disavled by leaving the `prismarc.json` empty, or set `"fieldPatterns"` to an empty object.
+
 ### Considerations for the first-run experience
+
+When a user first approaches Prisma, they will rin `prisma generate` immediadtely after running `prisma init`. As such, there will be no `prismarc.json` file, an the Inferred Introspection Configuration is triggered.
+
+If any patterns are found, the `prismarc.json` file is created and a message is added to the CLI output, indicating how many times patterns were used during introspection. In the event of a false positive, the CLI message will direct the user to the docs describing how to modify or disable the patterns. 
+
+If no patterns are found, the `prismarc.json` file is not created, and no additional message is printed. In the event of a false negative (a missing pattern), there is no way for a new user to discover this functionality. They will observe a less functional generated client, and potentially attempt to manually edit the schema, resulting in loss of those changes at the next introspection run. Addressing this shortcoming would lead to an overly complex product, so we will accept this, and focus on adding new patterns as we learn about them.
+
 
 # Generate
 
