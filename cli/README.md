@@ -315,6 +315,12 @@ If any patterns are found, the `prismarc.json` file is created and a message is 
 
 If no patterns are found, the `prismarc.json` file is not created, and no additional message is printed. In the event of a false negative (a missing pattern), there is no way for a new user to discover this functionality. They will observe a less functional generated client, and potentially attempt to manually edit the schema, resulting in loss of those changes at the next introspection run. Addressing this shortcoming would lead to an overly complex product, so we will accept this, and focus on adding new patterns as we learn about them.
 
+### The re-introspection workflow
+
+[mostly solved by Introspection Configuration]
+
+[Readme to describe the case where it is not solved]
+
 
 # Generate
 
