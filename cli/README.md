@@ -27,6 +27,7 @@
     - [Inferred Introspection Configuration](#inferred-introspection-configuration)
     - [Disabling Introspection Configuration](#disabling-introspection-configuration)
     - [Considerations for the first-run experience](#considerations-for-the-first-run-experience-1)
+    - [The re-introspection workflow](#the-re-introspection-workflow)
 - [Generate](#generate)
     - [Arguments](#arguments-2)
     - [Identifying the npm project](#identifying-the-npm-project)
