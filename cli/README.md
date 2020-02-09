@@ -25,6 +25,7 @@
     - [Canonical Schema Mapping](#canonical-schema-mapping)
     - [Introspection Configuration](#introspection-configuration)
     - [Inferred Introspection Configuration](#inferred-introspection-configuration)
+    - [Disabling Introspection Configuration](#disabling-introspection-configuration)
     - [Considerations for the first-run experience](#considerations-for-the-first-run-experience-1)
 - [Generate](#generate)
 
