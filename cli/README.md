@@ -357,5 +357,5 @@ After identifying the npm project, the generator will ensure that the `@prisma/c
 > Question: How do we handle the case where `@prisma/client` package has a different version than the CLI/generator?
 - Currently, the CLI only prints a warning. This is useful for developing as versions are always different
 - Maybe we want
-  - to give a more useful warning and indicate how to fix it? ie (run `npm install prisma2@2.0.0` if `"@prisma/client": "2.0.0"`)
+  - to give a more useful warning and indicate how to fix it? ie (run `npm install --save-dev prisma2@2.0.0` if `"@prisma/client": "2.0.0"`)
   - to error and require the user to fix it (even for a minor version?)
