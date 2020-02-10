@@ -95,7 +95,7 @@ The only other fields present on the top-level PrismaClient object is a field fo
 ```typescript
 {
   connect(): Promise<void>,
-	disconnect(): Promise<void>,
+  disconnect(): Promise<void>,
   post: PostDelegate,
   user: UserDelegate
 }
