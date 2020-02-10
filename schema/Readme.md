@@ -86,23 +86,12 @@ your datasources with Lift and administer your data using Studio.
 
 ## Datasource Block
 
-Datasource blocks tell the schema where the models are backed. You can have multiple datasources with different connectors.
+The datasource block tells the schema where the models are backed.
 
 ```groovy
 datasource pg {
   provider = "postgresql"
-  url      = env.POSTGRES_URL
-  enabled  = true
-}
-
-datasource mgo {
-  provider = "mongodb"
-  url      = env.MONGO_URL
-}
-
-datasource mgo2 {
-  provider = "mongodb"
-  url      = env.MONGO2_URL
+  url      = env("DATABASE_URL")
 }
 ```
 
@@ -114,7 +103,6 @@ datasource mgo2 {
   - `mysql`
   - `sqlite`
 - `url` Connection url including auth info. Each datasource provider documents the url syntax. most providers use the syntax provided by the database
-- `enabled` Use environment variables to enable/disable a datasource
 
 Connectors may bring their own attributes to allow users to tailor their schemas according to specific features of their connected datasources.
 
@@ -1104,7 +1092,7 @@ The schema can require certain environment expectations to be met. The purpose o
 ```groovy
 datasource pg {
   provider = "postgres"
-  url      = env("POSTGRES_URL")
+  url      = env("DATABASE_URL")
 }
 ```
 
@@ -1128,9 +1116,9 @@ Introspection time will require the environment variable to be present:
 
 ```sh
 $ prisma introspect
-! required POSTGRES_URL variable not found
+! required DATABASE_URL variable not found
 
-$ export POSTGRES_URL="postgres://user:secret@rds.amazon.com:4321/db"
+$ export DATABASE_URL="postgres://user:secret@rds.amazon.com:4321/db"
 $ prisma introspect
 ```
 
@@ -1142,9 +1130,9 @@ Migration time will require the environment variable to be present:
 
 ```sh
 $ prisma lift up
-! required POSTGRES_URL variable not found
+! required DATABASE_URL variable not found
 
-$ export POSTGRES_URL="postgres://user:secret@rds.amazon.com:4321/db"
+$ export DATABASE_URL="postgres://user:secret@rds.amazon.com:4321/db"
 $ prisma lift up
 ```
 
@@ -1161,7 +1149,7 @@ But runtime will:
 ```js
 import { PrismaClient } from '@prisma/client'
 const client = new PrismaClient()
-// Thrown: required `POSTGRES_URL` variable not found
+// Thrown: required `DATABASE_URL` variable not found
 ```
 
 ## Function
