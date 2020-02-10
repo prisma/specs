@@ -58,6 +58,12 @@ This spec describes the Prisma Client Javascript API
       - [To-many relation fields](#to-many-relation-fields-1)
     - [](#)
     - [Include and select](#include-and-select-2)
+- [`undefined` vs `null`](#undefined-vs-null)
+  - [Write: Updating a User](#write-updating-a-user)
+      - [`undefined`](#undefined)
+      - [`null`](#null)
+  - [Read: Fetching multiple Users](#read-fetching-multiple-users)
+  - [Cases in which only `undefined` is allowed](#cases-in-which-only-undefined-is-allowed)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -879,3 +885,113 @@ const singleAuthor = await photon.author.create({
 Include and select are used to specify the fields included retrieved record. The behavior is identical to that of `findOne` [LINK].
 
 The data to be returned is retrieved from the database before deleting the record. 
+
+# `undefined` vs `null`
+While many libraries like [graphql-js](https://github.com/graphql/graphql-js) don't make a differentiation between `undefined` and `null`,
+there is an important difference between `null` and `undefined` in Prisma Client JS.
+The result of a Prisma Client request can only include `null`, whereas both `null` and `undefined` can be valid values as an input to Prisma Client JS methods.
+
+To understand the semantic difference between `undefined` and `null`, we look into one **write** and one **read** example.
+
+## Write: Updating a User
+
+Given the datamodel
+```prisma
+type User {
+  id int @id @default(autoincrement())
+  email String @unique
+  name String?
+}
+```
+Updating a User can look like this:
+```ts
+await prisma.user.update({
+  where: {
+    id: 6
+  },
+  data: {
+    email: undefined,
+    name: null
+  }
+})
+```
+
+What will now happen to the `email` and what to the `name`?
+#### `undefined`
+The answer can be derived from the fact, how keys in an object with the value `undefined` are serialized in JavaScript.
+Calling `JSON.stringify({ key: undefined })` will result in `"{}"`, an empty object, because the semantic meaning
+in JavaScript of `undefined` is "the value is not present".
+The same can be observed for a function argument that has not been provided:
+```js
+function x(a, b) {
+  return b
+}
+
+assert(x(1) === undefined)
+```
+Translated to the domain of Prisma where we perform actions of data manipulation, you could say, that **if `undefined` is provided, it will be treated, as if it hasn't been there all together**. In other words, providing `undefined` will result in a no-op.
+In our example, the `email` field will therefore not be changed.
+
+This can be very useful when constructing a query programmatically like so:
+```ts
+await prisma.user.update({
+  where: {
+    id: 6
+  },
+  data: {
+    email: emailValid ? undefined : newEmail
+  }
+})
+```
+In this case, we don't want to change the email if the boolean `emailValid` is `true`.
+
+#### `null`
+In the above example we set the `name` value to `null`. This actually will result in a database write, which will set the value of `name` for the User with the id `6` to `NULL` in the database.
+So unlike `undefined`, the value `null` will explicitly treated by the query engine.
+
+
+## Read: Fetching multiple Users
+`null` and `undefined` also have a different meaning when fetching data.
+We can query for multiple users like so:
+```ts
+const users = await prisma.user.findMany({
+  where: {
+    name: undefined
+  }
+})
+```
+This will fetch **all** Users, as we again treat the `undefined` as not present.
+If we however query for Users like so:
+```ts
+const users = await prisma.user.findMany({
+  where: {
+    name: null
+  }
+})
+```
+We actually want to get the Users, which have the value `NULL` in the database for the column `name`.
+
+To sum the behavior up: `null` is treated explicitly, while `undefined` is being ignored.
+
+## Cases in which only `undefined` is allowed
+There are certain cases, in which providing `undefined` is allowed, while `null` isn't.
+The reason is, that providing `undefined` is the same as not providing the value all together, whereas providing `null` means,
+that we're actually taking that `null` value and use it for the query.
+Back to our above example, this query is not valid:
+```ts
+const users = await prisma.user.findMany({
+  where: {
+    email: null
+  }
+}
+```
+As the field `email` is required in the above datamodel, it can't be `NULL` in the database, therefore it doesn't make sense to query for Users, which have set the `email` to `null`.
+
+The following query is valid though, as it would be treated, as if we wouldn't query for the email at all:
+```ts
+const users = await prisma.user.findMany({
+  where: {
+    email: undefined
+  }
+}
+```
