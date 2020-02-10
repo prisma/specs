@@ -208,7 +208,7 @@ Please make sure to provide valid database credentials for the database server a
 
 The `prisma introspect` command can be run without arguments. Additionally, these arguments can be specified:
 
-- **schema** specify the path used to read the `schema.prisma` file instead of the default path. Note that the generation result is written to that same file.
+- **schema** specify the path used to read the `schema.prisma` file instead of the default path. The path can be absolute or relative. Note that the generation result is written to that same file.
 
 ### Canonical Schema Mapping
 
@@ -235,7 +235,7 @@ The following configuration options are awailable:
 - **fieldPatterns**: Add attributes to a field by matching on its name
 - **modelPatterns**: Add attributes to a model by matching on its name
 
-The configuration is stored in a `prismarc.json` file next to the schema.prisma file. The following example will
+The configuration is stored in a `prismarc.json` file next to the `schema.prisma` file. The following example will
 
 - add the `@updatedAt` attribute to all fields called updatedAt or updated_at
 - add the `@createdAt` attribute to all fields called createdAt
@@ -328,8 +328,6 @@ If no patterns are found, the `prismarc.json` file is not created, and no additi
 
 # Generate
 
-[Joël - please expand this section to cover all details]
-
 The `prisma generate` command parses the `schema.prisma` file, identifies `generator` blocks and invokes the relevant generators. Currently, we support the single generator `prisma-client-js`. In the future we will provide generators for other languages and support third party generators.
 
 A generator will code-generate a data access client based on the schema. The following will describe how the `prisma-client-js` generator works.
@@ -343,7 +341,8 @@ Done in 1.49s
 
 The `prisma generate` command can be run without arguments. Additionally, these arguments can be specified:
 
-- **schema** specify the path used to read the `schema.prisma` file instead of the default path. This does not affect the location of the generated artefacts.
+- **schema** specify the path used to read the `schema.prisma` file instead of the default path. The path can be absolute or relative. This does not affect the location of the generated artefacts.
+- **watch** enables watching the `schema.prisma` file and re-runs `generate` when the file changes.
 
 ### Identifying the npm project
 
@@ -353,6 +352,10 @@ If no npm project is found, it wil run `npm init -y` in the folder where it is i
 
 ### Install @prisma/client
 
-After identifying the npm project, the generator will ensure that the `@prisma/client` package is installed. If it is already present in the `package.json` file, no action is taken. Otherwise [Joël - explain]
+After identifying the npm project, the generator will ensure that the `@prisma/client` package is installed. If it is already present in the `package.json` file, no action is taken. Otherwise it will run `npm install @prisma/client` to add the package as a dependency.
 
 > Question: How do we handle the case where `@prisma/client` package has a different version than the CLI/generator?
+- Currently, the CLI only prints a warning. This is useful for developing as versions are always different
+- Maybe we want
+  - to give a more useful warning and indicate how to fix it? ie (run `npm install --save-dev prisma2@2.0.0` if `"@prisma/client": "2.0.0"`)
+  - to error and require the user to fix it (even for a minor version?)
