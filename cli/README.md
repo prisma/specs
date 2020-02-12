@@ -130,7 +130,7 @@ If a folder named `prisma` is already present, the init command will fail with t
 
 **schema.prisma**
 
-```
+```prisma
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
@@ -211,7 +211,7 @@ The Prisma Schema is a reflection of the structure of a database. The Prisma Sch
 
 For example, it is common for ORMs to automatically keep a column up to date with the latest time the record was updated. The column is typically called something like `updatedAt` or `updated_at`. Prisma provides similar functionality, but does not rely on name conventions to decide when to enable this behavior. Instead, an explicit schema attribute is used to enable this behaviour:
 
-```
+```prisma
 model User {
   lastUpdateTime DateTime @updatedAt
 }
