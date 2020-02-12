@@ -241,14 +241,15 @@ The `prisma generate` command can be run without arguments. Additionally, these 
 
 The prisma client is being generated into an npm project. As such, a npm project must first be identified. The generator follows normal npm conventions and will search recursively from the directory where it is invoked, all the way up to the root of the filesystem.
 
-If no npm project is found, it wil run `npm init -y` in the folder where it is invoked to create a new npm project.
+If no npm project is found, it will create a new `package.json` file (similar to `npm init -y`) in the folder where it is invoked to create a new npm project.
 
 ### Install @prisma/client
 
 After identifying the npm project, the generator will ensure that the `@prisma/client` package is installed. If it is already present in the `package.json` file, no action is taken. Otherwise it will run `npm install @prisma/client` to add the package as a dependency.
 
 > Question: How do we handle the case where `@prisma/client` package has a different version than the CLI/generator?
-- Currently, the CLI only prints a warning. This is useful for developing as versions are always different
-- Maybe we want
-  - to give a more useful warning and indicate how to fix it? ie (run `npm install --save-dev prisma2@2.0.0` if `"@prisma/client": "2.0.0"`)
-  - to error and require the user to fix it (even for a minor version?)
+
+Currently, the CLI only prints a warning. This is useful for developing as versions are always different
+
+> Right now there is no reason to have this warning in the first place because CLI and Client can currently be used in any combination. In the future we might want to have a versioning system for the internal API, which could lead to errors on mismatch.
+[See issue here.](https://github.com/prisma/prisma2/issues/1539#issuecomment-584110461)
