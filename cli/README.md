@@ -23,6 +23,11 @@
 - [Introspect](#introspect)
     - [Arguments](#arguments-1)
     - [Canonical Schema Mapping](#canonical-schema-mapping)
+    - [Introspection Configuration](#introspection-configuration)
+    - [Inferred Introspection Configuration](#inferred-introspection-configuration)
+    - [Disabling Introspection Configuration](#disabling-introspection-configuration)
+    - [Considerations for the first-run experience](#considerations-for-the-first-run-experience-1)
+    - [The re-introspection workflow](#the-re-introspection-workflow)
 - [Generate](#generate)
     - [Arguments](#arguments-2)
     - [Identifying the npm project](#identifying-the-npm-project)
@@ -88,24 +93,15 @@ The three commands are documented in separate chapters below. All CLI commands a
 
 The `prisma init` command helps bootstrap a Prisma project. It does not connect to a database, and it does not read any existing files in the directory.
 
+
 ~~~
 ✔ Your Prisma schema was created at prisma/schema.prisma.
   You can now open it in your favorite editor.
 
-Next steps
-1. Set your DB connection string as the `url` of the `datasource` block.
-2. Run prisma introspect to test the connection and obtain your data model.
-3. Run prisma generate to generate Prisma Client.
-
-You can then start using Prisma Client in your application:
-
-```
-import { PrismaClient } from '@prisma/client'
-// or const { PrismaClient } = require('@prisma/client')
-
-const prisma = new PrismaClient()
-
-```
+NEXT STEPS
+1. Modify the `DATABASE_URL` in the `.env` file to point to your existing database. If you need to create a new database schema, read https://pris.ly/d/getting-started.
+2. Run `prisma introspect` to turn your database schema into a Prisma Data Model.
+3. Run `prisma generate` to install Prisma Client and start querying your database.
 
 More information in our documentation:
 https://pris.ly/d/getting-started
@@ -184,20 +180,31 @@ Obviously, the `Get started guide` and the `Next steps` section from the `prisma
 The `prisma introspect` command connects to the specified database and generates a canonical schema representing the database structure. It requires an existing `schema.prisma` file to be present and correctly configured with a `datasource` that points to an accessible database. The existing `schema.prisma` file is overwritten with the new schema, and any manual changes applied to that file are lost.
 
 ~~~
-Introspecting based on datasource defined in schema.prisma …
-Done with introspection in 2.48s
+Connecting to ["database"|`[db name]`] at `[host or filename]`...
+✔ Wrote Prisma Data Model into `./prisma/schema.prisma` in 2.48s
+
+Run `prisma generate` to generate Prisma Client.
 ~~~
 
 If a connection to the database can not be established, an error is printed:
 
 ```
-Introspecting based on datasource defined in prisma/schema.prisma …
+Connecting to ["database"|`[db name]`] at `[host or filename]`...
+
 Error: P1000
 
-Authentication failed against database server at `localhost`, the provided database credentials for `johndoe` are not valid.
+Authentication failed against database server at `[host or filename]`, the provided database credentials for `[user]` are not valid.
 
-Please make sure to provide valid database credentials for the database server at `localhost`.
+Please make sure to provide valid database credentials for the database server at `[host or filename]`.
 ```
+
+If the database does not have any tables, a useful message instructs the user to read our getting started material:
+
+~~~
+Connecting to ["database"|`[db name]`] at `[host or filename]`...
+
+Your database does not contain any tables. Read how to proceed: [NIKO - LINK].
+~~~
 
 ### Arguments
 
@@ -225,9 +232,27 @@ The `prisma generate` command parses the `schema.prisma` file, identifies `gener
 
 A generator will code-generate a data access client based on the schema. The following will describe how the `prisma-client-js` generator works.
 
+Below is the CLI output from the command.
+
+First are three lines of checkmarks describing things that happened. The first two only happens in certain cases as described below in the sections `Identifying the npm project` and `Install @prisma/client`.
+Second is a super minimal example.
+Third is a link to the API docs.
+
 ~~~
-Generated Prisma Client to ./node_modules/@prisma/client
-Done in 1.49s
+[✔ Created `./package.json`]
+[✔ Installed the `@prisma/client` package in your project]
+✔ Generated Prisma Client to ./node_modules/@prisma/client in 1.48s
+
+You can now start using Prisma Client in your code:
+
+```
+import { PrismaClient } from '@prisma/client'
+// or const { PrismaClient } = require('@prisma/client')
+
+const prisma = new PrismaClient()
+```
+
+Explore the full API: http://pris.ly/d/client
 ~~~
 
 ### Arguments
