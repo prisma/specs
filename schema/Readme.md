@@ -88,7 +88,7 @@ your datasources with Lift and administer your data using Studio.
 
 The datasource block tells the schema where the models are backed.
 
-```groovy
+```prisma
 datasource pg {
   provider = "postgresql"
   url      = env("DATABASE_URL")
@@ -110,7 +110,7 @@ Connectors may bring their own attributes to allow users to tailor their schemas
 
 Generator blocks configure what clients are generated and how they're generated. Language preferences and binary configuration will go in here:
 
-```groovy
+```prisma
 generator js {
   provider = "prisma-client-js"
   target   = "es3"
@@ -141,7 +141,7 @@ Generators may brign their own attributes
 
 Generator blocks also generate a namespace. This namespace allows fine-grained control over how a model generates it's types:
 
-```groovy
+```prisma
 generate go {
   snakeCase = true
   provider  = "go"
@@ -159,7 +159,7 @@ This namespace is determined by the capabilities of the generator. The generator
 
 ### Binary Configuration
 
-```groovy
+```prisma
 generator client {
   provider = "prisma-client-js"
   snakeCase = true
@@ -189,7 +189,7 @@ Models may be backed by different datasources:
 
 Here's an example of the Model block:
 
-```groovy
+```prisma
 model User {
   id         Int       @id
   email      String    @unique
@@ -299,7 +299,7 @@ Lists are denoted with `[]` at the end of a type. Whether they are supported by 
 - Lists are supported for relations and embeds by every connector.
 - Lists are supported for primitive types and enums by a connector if the value can be stored within the record. This means that a retrieval of this field in a query must not incur any additional lookups in the database. This is not the case for every datasource. For example Postgres does support this but SQLite does not.
 
-```groovy
+```prisma
 model User {
   names    String[]
   ages     Int[]
@@ -311,7 +311,7 @@ The default value for a required list is an empty list.
 
 If a connector does not support lists for primitive types it is possible to work around this limitation through relations. This makes the overhead of a query using this field transparent.
 
-```groovy
+```prisma
 model User {
   names UserName[]
 }
@@ -326,7 +326,7 @@ model UserName {
 Most field types also support optional fields. By default, fields are required, but if you want to make them optional, you add a `?` at the end. Currently, the
 only field type that is not nullable is the [List Type](#list-types).
 
-```groovy
+```prisma
 model User {
   names    String[]
   ages     Int?
@@ -359,7 +359,7 @@ Prisma core provides explicit support for all 3 relation types and connectors mu
 
 ##### One-to-One (1:1) Relationships
 
-```groovy
+```prisma
 model User {
   id        Int           @id
   customer  Customer?
@@ -395,7 +395,7 @@ optional. If one side of the relation is missing, Prisma implies the field name 
 If you're introspecting an existing database and the foreign key does not follow the alphanumeric convention, then we'll use the
 `@relation(_ name: String?, references: Identifier[]?, onDelete: OnDeleteEnum?)` attribute to clarify.
 
-```groovy
+```prisma
 model User {
   id        Int        @id
   customer  Customer?  @relation(references: id)
@@ -413,7 +413,7 @@ model Customer {
 
 A writer can have multiple blogs.
 
-```groovy
+```prisma
 model Writer {
   id      Int     @id
   blogs   Blog[]
@@ -442,7 +442,7 @@ Connectors for relational databases will implement this as two tables with a for
 
 You **may** omit `Blog.author` or `Writer.blogs` and the relationship will remain intact.
 
-```groovy
+```prisma
 model Writer {
   id Int @id
 }
@@ -458,7 +458,7 @@ must explicitly name the relation.
 
 ###### Implied Has-One
 
-```groovy
+```prisma
 model Writer {
   id    Int    @id
   blogs Blog[]
@@ -476,7 +476,7 @@ you must explicitly name the relation.
 
 Blogs can have multiple writers and a writer can write many blogs. Prisma supports implicit join tables as a low-syntax way to get started.
 
-```groovy
+```prisma
 model Blog {
   id       Int       @id
   authors  Writer[]
@@ -513,7 +513,7 @@ For implicit many-to-many relations, you **must** include both `Blog.authors` an
 
 Many-to-many relationships are simply 2 one-to-many relationships.
 
-```groovy
+```prisma
 model Blog {
   id           Int           @id
   blogWriters  BlogWriter[]
@@ -551,7 +551,7 @@ model BlogWriter {
 
 Prisma supports self-referential relationships:
 
-```groovy
+```prisma
 model Employee {
   id         Int       @id
   reportsTo  Employee
@@ -567,7 +567,7 @@ model Employee {
 
 Models may have multiple references to the same model. To prevent ambiguities, we explicitly name the foreign key field using a `@relation` attribute:
 
-```groovy
+```prisma
 model User {
   id        Int         @id
   asked     Question[]  @relation("Question_User_Asked")
@@ -587,7 +587,7 @@ model Question {
 
 You can also have relationships to composite primary keys
 
-```groovy
+```prisma
 model Document {
   @@id([ projectID, revision ])
 
@@ -622,7 +622,7 @@ Underneath:
 The `@id` attribute marks the primary identifier of a model. If a model does not have a primary identifier or you want to reference another field, you can
 specify the field using the `@relation` attribute
 
-```groovy
+```prisma
 model Document {
   projectID  String   @default('')
   revision   Int      @default(1)
@@ -658,7 +658,7 @@ Depending on their signature, attributes may be called in the following cases:
 
 For arrays with a single parameter, you **may** omit the surrounding brackets:
 
-```groovy
+```prisma
 @attribute([email]) // is the same as
 @attribute(email)
 ```
@@ -675,14 +675,14 @@ function signature, but if it's present and required, the caller **must** place 
 
 You **must not** have multiple arguments with the same name:
 
-```groovy
+```prisma
 // compiler error
 @attribute(key: "a", key: "b")
 ```
 
 For arrays with a single parameter, you **may** omit the surrounding brackets:
 
-```groovy
+```prisma
 @attribute([item], key: [item]) // is the same as
 @attribute(item, key: item)
 ```
@@ -745,7 +745,7 @@ Relation fields that do not clearly belong to a specific relationship constitute
 
 This is an example ambiguous relation on the schema of an imaginary simplified blogging platform:
 
-```groovy
+```prisma
 model Blog {
     id          Int @id
     authors     User[]
@@ -761,7 +761,7 @@ model User  {
 
 There are two relationships between `Blog` and `User`, so we need to name them to tell them apart. A valid version of this schema could look like this:
 
-```groovy
+```prisma
 model Blog {
     id          Int @id
     authors     User[] @relation("Authorship")
@@ -841,7 +841,7 @@ In order to live up to our promise of not tailoring Prisma to the lowest-common 
 The connector can bring all of its own specific types into the schema. This will make your schema less universal, but more capable for the datasource you're
 using. Connectors will export a schema of capabilities that you can apply to your schema field and blocks.
 
-```groovy
+```prisma
 datasource pg {
   provider = "postgres"
   url      = "postgres://localhost:5432/jack?sslmode=false"
@@ -882,7 +882,7 @@ Additionally, a generator might choose to implement dedicated support for all or
 
 For example, a ts generator might choose to interpret the type of the `name` field as `ArrayBuffer(8)` instead of `String` for performance reasons
 
-```groovy
+```prisma
 model User {
 	name  pg.Varchar(n: 8)
 }
@@ -917,7 +917,7 @@ Lift will also update these comments in datasources that support them.
 
 Here are some different examples:
 
-```groovy
+```prisma
 /// This comment will get attached to the User model
 model User {
   /// This comment will get attached to the id field as a comment
@@ -943,7 +943,7 @@ model Customer {}
 
 Type definitions can be used to consolidate various type specifications into one type.
 
-```groovy
+```prisma
 type Numeric {
   precision Int @bound(gte: 1, lte: 131072)
   scale Int @bound(gte: 0, lte: 16383)
@@ -965,7 +965,7 @@ Connectors can bring their own type definitions allowing you to use these types 
 
 **postgres.prisma (generated by the connector)**
 
-```groovy
+```prisma
 type SmallInt Int @raw("smallint") @bound(gte: -32768, lte: 32767)
 type BigInt Int @raw("bigint") @bound(gte: -9223372036854775808, lte: 9223372036854775807)
 type Money Float @raw("money") @bound(gte: -92233720368547758.08, lte: 92233720368547758.07)
@@ -990,7 +990,7 @@ type Varchar {
 
 **schema.prisma**
 
-```groovy
+```prisma
 datasource pg {
   provider = "postgres"
   url = "postgres://localhost:5432/db"
@@ -1006,7 +1006,7 @@ model Customer {
 
 ## Enum Block
 
-```groovy
+```prisma
 enum Color {
   Red
   Teal
@@ -1017,7 +1017,7 @@ Enums can include their corresponding value to determine what is stored by the d
 
 > ⚠ This is not implemented yet. See [tracking issue](https://github.com/prisma/prisma2/issues/273)
 
-```groovy
+```prisma
 enum Color {
   Red  = "RED"
   Teal = "TEAL"
@@ -1035,7 +1035,7 @@ Embeds are supported natively by Prisma. There are 2 types of embeds: named embe
 Unlike relations, embed tells the clients that this data \_comes with the record. How the data is actually stored (co-located or not) is not a concern of the
 data model.
 
-```groovy
+```prisma
 model User {
   id        String
   customer  StripeCustomer?
@@ -1065,7 +1065,7 @@ There's another way to use embeds.
 When you don't need to reuse an embed, inline embeds are handy. Inlines embeds are supported in `model` and `embed` blocks. They can be nested as deep as you
 want. Please don't go too deep though.
 
-```groovy
+```prisma
 model User {
   id        String
   customer  embed {
@@ -1089,7 +1089,7 @@ The schema can require certain environment expectations to be met. The purpose o
 - Keeps secrets out of the schema
 - Improve portability of the schema
 
-```groovy
+```prisma
 datasource pg {
   provider = "postgres"
   url      = env("DATABASE_URL")
@@ -1100,7 +1100,7 @@ You can also provide a default if the environment variable is not specified:
 
 > ⚠ This is not implemented yet. See [tracking issue](https://github.com/prisma/prisma2/issues/812)
 
-```groovy
+```prisma
   provider = "sqlite"
   url      = env("SQLITE_PATH", default: "file.db")
 ```
@@ -1165,7 +1165,7 @@ and block attributes that accept them.
 
 Default values using a dynamic generator can be specified as follows:
 
-```groovy
+```prisma
 model User {
   age        Int       @default(between([ 1, 5 ]))
   height     Float     @default(between([ 1, 5 ]))
@@ -1187,7 +1187,7 @@ function that will concatenate schemas together and join their contents.
 
 **schema.prisma**
 
-```groovy
+```prisma
 import "./post.prisma"
 
 model User {
@@ -1197,7 +1197,7 @@ model User {
 
 **post.prisma**
 
-```groovy
+```prisma
 model Post {
 	title pg.Varchar(n: 42)
 	body  String
@@ -1206,7 +1206,7 @@ model Post {
 
 Resolves to:
 
-```groovy
+```prisma
 model Post {
 	title pg.Varchar(n: 42)
 	body  String
@@ -1239,7 +1239,7 @@ Often times you'll import a schema that has conflicting models. In this case we 
 
 **post.prisma**
 
-```groovy
+```prisma
 model Post {
   id    Int    @id
 	title pg.Varchar(n: 42)
@@ -1250,7 +1250,7 @@ model Post {
 
 **schema.prisma**
 
-```groovy
+```prisma
 import "./post.prisma"
 
 model User {
@@ -1264,7 +1264,7 @@ model Post {
 
 Resolves to:
 
-```groovy
+```prisma
 model User {
 	posts: Post[]
 }
@@ -1368,7 +1368,7 @@ block _ {
 
 Inline embeds add their own nested formatting rules:
 
-```groovy
+```prisma
 model User {
   id        String
   name      String
@@ -1388,7 +1388,7 @@ model User {
 
 ## Why not support @id for multiple blocks?
 
-```groovy
+```prisma
 model RecipeIngredient {
   recipe                  Recipe     @id
   ingredient              Ingredient @id
@@ -1402,7 +1402,7 @@ With this syntax, the `@id` ordering is unclear and the
 [order of primary keys matters](https://stackoverflow.com/questions/16713233/why-does-primary-key-order-matter). Additionally, while it looks nice it doesn't
 work for the other composite types. For example, `@unique` twice:
 
-```groovy
+```prisma
 model RecipeIngredient {
   recipe                  Recipe @unique
   ingredient              Ingredient @unique
@@ -1414,7 +1414,7 @@ model RecipeIngredient {
 
 Means those are unique across the table, while `@unique([recipe, ingredient])` would mean that the combination of fields must be unique in the table:
 
-```groovy
+```prisma
 model RecipeIngredient {
   recipe                  Recipe
   ingredient              Ingredient
