@@ -125,6 +125,26 @@ generator go {
 
 Generators may bring their own attributes.
 
+### Generator Namespaces
+
+Generator blocks also generate a namespace. This namespace allows fine-grained control over how a model generates it's types:
+
+```prisma
+generate go {
+  snakeCase = true
+  provider  = "go"
+}
+
+type UUID String @go.type("uuid.UUID")
+
+model User {
+  id     UUID    @id
+  email  String  @go.bytes(100)
+}
+```
+
+This namespace is determined by the capabilities of the generator. The generator will export a schema of capabilities we'll plug into.
+
 ### Binary Configuration
 
 ```prisma
