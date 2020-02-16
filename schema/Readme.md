@@ -842,6 +842,61 @@ enum Color {
 ```
 
 PSL only supports `String` enum value types.
+## Embed Block
+
+> ⚠ This is not implemented yet. See [tracking issue(https://github.com/prisma/lift/issues/43)
+
+Embeds are supported natively by Prisma. There are 2 types of embeds: named embeds (just called embeds) and inline embeds.
+
+Unlike relations, embed tells the clients that this data \_comes with the record. How the data is actually stored (co-located or not) is not a concern of the
+data model.
+
+```prisma
+model User {
+  id        String
+  customer  StripeCustomer?
+}
+
+embed StripeCustomer {
+  id     String
+  cards  Source[]
+}
+
+enum Card {
+  Visa        = "VISA"
+  Mastercard  = "MASTERCARD"
+}
+
+embed Sources {
+  type Card
+}
+```
+
+### Inline Embeds
+
+> ⚠ This is not implemented yet. See [tracking issue(https://github.com/prisma/lift/issues/43)
+
+There's another way to use embeds.
+
+When you don't need to reuse an embed, inline embeds are handy. Inlines embeds are supported in `model` and `embed` blocks. They can be nested as deep as you
+want. Please don't go too deep though.
+
+```prisma
+model User {
+  id        String
+  customer  embed {
+    id     String
+    cards  embed {
+      type Card
+    }[]
+  }?
+}
+
+enum Card {
+  Visa        = "VISA"
+  Mastercard  = "MASTERCARD"
+}
+```
 
 ## Env Function
 
@@ -982,6 +1037,24 @@ block _ {
               @default
 
   first_name  LongNumeric  @default
+}
+```
+
+Inline embeds add their own nested formatting rules:
+
+```prisma
+model User {
+  id        String
+  name      String
+  customer  embed {
+    id         String
+    full_name  String
+    cards   embed {
+      type  Card
+    }[]
+  }?
+  age   Int
+  email String
 }
 ```
 
