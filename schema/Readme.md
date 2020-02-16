@@ -62,6 +62,7 @@ your datasources with Lift and administer your data using Studio.
     - [Example with Comments](#example-with-comments)
   - [Enum Block](#enum-block)
   - [Env Function](#env-function)
+    - [Env Function Default](#env-function-default)
     - [Env Function Behavior](#env-function-behavior)
   - [Function](#function)
   - [Auto Formatting](#auto-formatting)
