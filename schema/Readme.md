@@ -733,6 +733,9 @@ model User  {
 - name: _(optional, except when required for disambiguation)_ defines the name of the relationship. The name of the relation needs to be explicitly given to
   resolve amibiguities when the model contains two or more fields that refer to the same model (another model or itself).
 - references: _(optional)_ list of field names to reference
+- onDelete: _(optional)_ defines what we do when the referenced relation is deleted
+  - **CASCADE**: also delete this entry
+  - **SET_NULL**: set the field to null. This is the default
 
 ###### Validation
 
