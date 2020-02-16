@@ -857,11 +857,25 @@ datasource pg {
 }
 ```
 
+### Env Function Default
+
+You can also provide a default if the environment variable is not specified:
+
+> ⚠ This is not implemented yet. See [tracking issue](https://github.com/prisma/prisma2/issues/812)
+
+```prisma
+  provider = "sqlite"
+  url      = env("SQLITE_PATH", default: "file.db")
+```
+
+The `provider` must be static and cannot be an environment variable. Our general philosophy is that you want to generate environment variables **as late as
+possible**. The sections below describe this behavior.
+
 ### Env Function Behavior
 
-> ⚠ This is not implemented yet. See [tracking issue](https://github.com/prisma/prisma2/issues/800)
-
 Only functionality that actually requires the environment variable to be set will fail if it is missing. E.g. `generate` will **not** require the environment variable:
+
+> ⚠ This is not implemented yet. See [tracking issue](https://github.com/prisma/prisma2/issues/800)
 
 ```sh
 $ prisma generate
