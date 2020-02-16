@@ -19,6 +19,7 @@ your datasources with Lift and administer your data using Studio.
     - [Supported fields](#supported-fields)
   - [Generator Block](#generator-block)
     - [Supported fields](#supported-fields-1)
+    - [Generator Namespaces](#generator-namespaces)
     - [Binary Configuration](#binary-configuration)
   - [Model Block](#model-block)
     - [Field Names](#field-names)
