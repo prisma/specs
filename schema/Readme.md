@@ -225,13 +225,13 @@ Here's how some of the databases we're tracking map to the core types:
 
 #### Core Data Type to Connector
 
-| Type     | Postgres  | MySQL     | SQLite  |
-| -------- | --------- | --------- | ------- |
-| String   | text      | TEXT      | TEXT    |
-| Boolean  | boolean   | BOOLEAN   | _N/A_   |
-| Int      | integer   | INT       | INTEGER |
-| Float    | real      | FLOAT     | REAL    |
-| Datetime | timestamp | TIMESTAMP | _N/A_   |
+| Type     | Postgres  | MySQL     | SQLite  | Mongo  | Raw JSON |
+| -------- | --------- | --------- | ------- | ------ | -------- |
+| String   | text      | TEXT      | TEXT    | string | string   |
+| Boolean  | boolean   | BOOLEAN   | _N/A_   | bool   | boolean  |
+| Int      | integer   | INT       | INTEGER | int32  | number   |
+| Float    | real      | FLOAT     | REAL    | double | number   |
+| Datetime | timestamp | TIMESTAMP | _N/A_   | date   | _N/A_    |
 
 **\_N/A:** here means no perfect equivalent, but we can probably get pretty close.
 
