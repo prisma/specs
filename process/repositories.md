@@ -43,7 +43,7 @@ Repositories used for Prisma Framwork:
 
 - https://github.com/prisma/prisma-engine - Prisma Engine (Rust)
 - https://github.com/prisma/prisma-sdk-js - Prisma SDK (JS)
-- https://github.com/prisma/prisma-query - Query Abstraction
+- https://github.com/prisma/quaint - SQL Query AST and Visitor for Rust
 - https://github.com/prisma/studio-code (🔒 private) - Studio Codebase
 - https://github.com/prisma/engine-build-cli - Build CLI for `prisma-engine`
 - https://github.com/prisma/typescript-pipelines - CLI/TypeScript release tooling
