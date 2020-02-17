@@ -65,7 +65,7 @@ Flags
 
 Examples
 
-  Setup Prisma for your existing database
+  Setup Prisma a new Prisma project
   $ prisma2 init
 
   Introspect an existing database
@@ -78,7 +78,7 @@ Examples
 
 ### Commands
 
-The three commands are documented in separate chapters below. All CLI commands are non-interactive
+The three commands are documented in separate chapters below. All CLI commands are non-interactive.
 
 - init
 - introspect
@@ -88,15 +88,15 @@ The three commands are documented in separate chapters below. All CLI commands a
 
 The `prisma init` command helps bootstrap a Prisma project. It does not connect to a database, and it does not read any existing files in the directory.
 
-
 ~~~
-✔ Your Prisma schema was created at prisma/schema.prisma.
+✔ Your Prisma schema was created at `prisma/schema.prisma`.
   You can now open it in your favorite editor.
 
-NEXT STEPS
-1. Modify the `DATABASE_URL` in the `.env` file to point to your existing database. If you need to create a new database schema, read https://pris.ly/d/getting-started.
-2. Run `prisma introspect` to turn your database schema into a Prisma Data Model.
-3. Run `prisma generate` to install Prisma Client and start querying your database.
+Next steps:
+1. Set the `provider` of the `datasource` block in `schema.prisma` to match your database: `postgresql`, `mysql` or `sqlite`.
+2. Set the `DATABASE_URL` in the `.env` file to point to your existing database. If your database has no tables yet, read https://pris.ly/d/getting-started.
+3. Run `prisma introspect` to turn your database schema into a Prisma data model.
+4. Run `prisma generate` to install Prisma Client. You can then start querying your database.
 
 More information in our documentation:
 https://pris.ly/d/getting-started
@@ -113,8 +113,8 @@ The init command creates a new folder called `prisma` in the directory where it 
 If a folder named `prisma` is already present, the init command will fail with the following warning:
 
 ```
- ERROR  Folder prisma already exists in your project.
-        Please try again in a project that is not yet using Prisma.
+ERROR  A folder called `prisma` already exists in your project.
+       Please try again in a project that is not yet using Prisma.
 ```
 
 ### Generated files
@@ -141,7 +141,7 @@ generator client {
 # Environment variables declared in this file are automatically made available to Prisma.
 # See the documentation for more detail: https://pris.ly/d/prisma-schema#using-environment-variables
 
-# Prisma supports the native connection string format for Postgres, MySQL and SQLite.
+# Prisma supports the native connection string format for PostgreSQL, MySQL and SQLite.
 # See the documentation for all the connection string options: https://pris.ly/d/connection-strings
 
 DATABASE_URL="postgresql://johndoe:johndoe@localhost:5432/mydb?schema=public"
@@ -176,7 +176,7 @@ The `prisma introspect` command connects to the specified database and generates
 
 ~~~
 Connecting to ["database"|`[db name]`] at `[host or filename]`...
-✔ Wrote Prisma Data Model into `./prisma/schema.prisma` in 2.48s
+✔ Wrote Prisma data model into `./prisma/schema.prisma` in 2.48s
 
 Run `prisma generate` to generate Prisma Client.
 ~~~
@@ -198,7 +198,7 @@ If the database does not have any tables, a useful message instructs the user to
 ~~~
 Connecting to ["database"|`[db name]`] at `[host or filename]`...
 
-Your database does not contain any tables. Read how to proceed: [NIKO - LINK].
+Your database does not contain any tables. Read how to proceed here: https://pris.ly/d/getting-started.
 ~~~
 
 ### Arguments
