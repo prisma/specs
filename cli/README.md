@@ -259,7 +259,7 @@ The `prisma generate` command can be run without arguments. Additionally, these 
 
 ### Identifying the npm project
 
-The prisma client is being generated into an npm project. As such, a npm project must first be identified. The generator follows normal npm conventions and will search recursively from the directory where it is invoked, all the way up to the root of the filesystem.
+Prisma Client is being generated into an npm project. As such, a npm project must first be identified. The generator follows normal npm conventions and will search recursively from the directory where it is invoked, all the way up to the root of the filesystem.
 
 If no npm project is found, it will create a new `package.json` file (similar to `npm init -y`) in the folder where it is invoked to create a new npm project.
 
