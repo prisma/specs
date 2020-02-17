@@ -65,7 +65,7 @@ Flags
 
 Examples
 
-  Setup Prisma a new Prisma project
+  Setup a new Prisma project
   $ prisma2 init
 
   Introspect an existing database
