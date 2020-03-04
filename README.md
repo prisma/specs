@@ -68,3 +68,13 @@ We don't only spec the software itself, but also how we work on it and on these 
 
 - [Specs](meta/specs.md)
 - [Table of Contents](meta/table-of-contents.md)
+
+### Style Guide
+
+Please run `prettier` on every `.md` file before committing with the following configuration (ideally via this [VSC extension](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)):
+
+```json
+  "prettier.singleQuote": true,
+  "prettier.trailingComma": "all",
+  "prettier.semi": false,
+```
