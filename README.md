@@ -13,6 +13,7 @@ This repository contains specifications for Prisma Framework:
   - [Organisation](#organisation)
     - [Process](#process)
     - [Meta](#meta)
+  - [Style Guide](#style-guide)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
