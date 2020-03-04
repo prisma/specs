@@ -34,13 +34,13 @@ Prisma Framework consists of several tools:
 
 - [Prisma Schema Language](schema) (PSL)
 - Tools
-  - [CLI](cli) - setup and introspection
-  - [Studio](studio) - GUI
-  - [Photon](photon) - data access
-    - [Photon.js](photonjs)
-    - [Photon.go](photongo)
-  - [Lift](lift) - migration
+  - [Prisma CLI](cli) - setup and introspection
+  - [Prisma Client](photon) - data access
+    - [Prisma Client JS](prisma-client-js)
+    - [Prisma Client Go](prisma-client-go)
   - [VSCode Prisma](vscode-extension) - PSL formatting and linting
+  - [Prisma Migrate](miragte) - migrate databases
+  - [Prisma Studio](studio) - GUI
 
 ### Internal parts
 
