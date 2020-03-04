@@ -39,7 +39,7 @@ Prisma Framework consists of several tools:
     - [Prisma Client JS](prisma-client-js)
     - [Prisma Client Go](prisma-client-go)
   - [VSCode Prisma](vscode-extension) - PSL formatting and linting
-  - [Prisma Migrate](miragte) - migrate databases
+  - [Prisma Migrate](migrate) - migrate databases
   - [Prisma Studio](studio) - GUI
 
 ### Internal parts
