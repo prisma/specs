@@ -12,24 +12,23 @@ This spec describes the Prisma Client Javascript API
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-
 - [Background](#background)
-    - [Goals for the Prisma Client JS API](#goals-for-the-prisma-client-js-api)
+  - [Goals for the Prisma Client JS API](#goals-for-the-prisma-client-js-api)
 - [Client Layout](#client-layout)
-    - [A note on Promises](#a-note-on-promises)
+  - [A note on Promises](#a-note-on-promises)
 - [Logging](#logging)
 - [Errors](#errors)
-    - [1. `PrismaClientValidationError`](#1-prismaclientvalidationerror)
-    - [2. `PrismaClientKnownRequestError`](#2-prismaclientknownrequesterror)
-    - [3. `PrismaClientUnknownRequestError`](#3-prismaclientunknownrequesterror)
-    - [4. `PrismaClientRustPanicError`](#4-prismaclientrustpanicerror)
-    - [5. `PrismaClientInitializationError`](#5-prismaclientinitializationerror)
+  - [1. `PrismaClientValidationError`](#1-prismaclientvalidationerror)
+  - [2. `PrismaClientKnownRequestError`](#2-prismaclientknownrequesterror)
+  - [3. `PrismaClientUnknownRequestError`](#3-prismaclientunknownrequesterror)
+  - [4. `PrismaClientRustPanicError`](#4-prismaclientrustpanicerror)
+  - [5. `PrismaClientInitializationError`](#5-prismaclientinitializationerror)
   - [Discriminating error types](#discriminating-error-types)
 - [Error Formatting](#error-formatting)
   - [Environment variables](#environment-variables)
   - [Constructor args](#constructor-args)
 - [Reading data](#reading-data)
-    - [Default selection set](#default-selection-set)
+  - [Default selection set](#default-selection-set)
   - [Find a single record](#find-a-single-record)
     - [where](#where)
     - [include](#include)
@@ -67,8 +66,8 @@ This spec describes the Prisma Client Javascript API
     - [Include and select](#include-and-select-2)
 - [`undefined` vs `null`](#undefined-vs-null)
   - [Write: Updating a User](#write-updating-a-user)
-      - [`undefined`](#undefined)
-      - [`null`](#null)
+    - [`undefined`](#undefined)
+    - [`null`](#null)
   - [Read: Fetching multiple Users](#read-fetching-multiple-users)
   - [Cases in which only `undefined` is allowed](#cases-in-which-only-undefined-is-allowed)
 
@@ -335,7 +334,12 @@ Example:
 
 ```ts
 const singlePost = await prisma.post.findOne({
-	where: { id: "post-1" }
+	where: 42,
+	include: { author: true }
+})
+
+const otherPost = await prisma.post.findOne({
+	where: { email: 'some@author.com' }
 	include: { author: true }
 })
 ```
@@ -357,14 +361,16 @@ model Post {
 The above schema results in a `where` argument with the following type signature:
 
 ```ts
-type where = {
-  id?: number
-  email?: string
-  category_title?: { category: string; title: string }
-}
+type where =
+  | number // based on @id or @@id
+  | {
+      id?: number
+      email?: string
+      category_title?: { category: string; title: string }
+    }
 ```
 
-Only a single field may be used in a query, otherwise the call will error without performing the query.
+When using the object notation, only a single field may be used in a query, otherwise the call will error without performing the query. There is also a shorthand notion for the `@id` field or `@@id` fields.
 
 ### include
 
@@ -654,40 +660,6 @@ prisma.post.findMany({
 })
 ```
 
-#### Syntax inconsistency between findOne and findMany
-
-The syntax for finding a single record that can be uniquely identified by two or more fields using the `findOne` API is different from returning that same record using the `findMany` API. This is due to the implementation complexity of supporting that same API in the `findOne` case:
-
-```prisma
-model Post {
-	category String
-	title    String
-	@@id([category, title])
-}
-```
-
-> Note: `@@id` is not supported yet
-
-```ts
-prisma.post.findOne({
-  where: {
-    category_title: {
-      category: '1980 music',
-      title: 'abba is my favourite group!',
-    },
-  },
-})
-```
-
-```ts
-prisma.post.findMany({
-  where: {
-    category: '1980 music',
-    title: 'abba is my favourite group!',
-  },
-})
-```
-
 ### pagination: before, after, first, last, skip
 
 Together, these five fields provide powerful pagination control.
@@ -797,7 +769,7 @@ const singlePost = await prisma.post.create({
   data: {
     id: 'post-1',
     title: 'New Post',
-    author: { connect: { id: 'author-1' } },
+    author: { connect: 'author-1' },
   },
 })
 ```
@@ -811,7 +783,7 @@ const singleAuthor = await prisma.author.create({
   data: {
     id: 'author-1',
     email: 'some@author.com',
-    posts: { connect: [{ id: 'post-1' }, { id: 'post-2' }] },
+    posts: { connect: ['post-1', 'post-2'] },
   },
 })
 ```
@@ -942,7 +914,7 @@ const singlePost = await prisma.post.create({
   data: {
     id: 'post-1',
     title: 'New Post',
-    author: { connect: { id: 'author-1' } },
+    author: { connect: 'author-1' },
   },
 })
 ```
@@ -951,9 +923,13 @@ const singlePost = await prisma.post.create({
 
 To-many relation fields have two options `create` and `connect`. They work similarly to to-one fields, except they take either a single object or an array of objects:
 
-```
+```ts
 const singleAuthor = await prisma.author.create({
-	data: { id: "author-1", email: "some@author.com", posts: { connect: [{ id: "post-1" }, { id: "post-2" }]} }
+  data: {
+    id: 'author-1',
+    email: 'some@author.com',
+    posts: { connect: ['post-1', 'post-2'] },
+  },
 })
 ```
 
