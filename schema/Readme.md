@@ -258,7 +258,7 @@ part of the connectors interface to Prisma. If a connector doesn't have a core t
 | Boolean  | True or false value   |
 | Int      | Integer value         |
 | Float    | Floating point number |
-| Datetime | Timestamp             |
+| DateTime | Timestamp             |
 
 Here's how some of the databases we're tracking map to the core types:
 
@@ -270,7 +270,7 @@ Here's how some of the databases we're tracking map to the core types:
 | Boolean  | boolean   | BOOLEAN   |
 | Int      | integer   | INT       |
 | Float    | real      | FLOAT     |
-| Datetime | timestamp | TIMESTAMP |
+| DateTime | timestamp | TIMESTAMP |
 
 | Type     | SQLite  | Mongo  | Raw JSON |
 | -------- | ------- | ------ | -------- |
@@ -278,7 +278,7 @@ Here's how some of the databases we're tracking map to the core types:
 | Boolean  | _N/A_   | bool   | boolean  |
 | Int      | INTEGER | int32  | number   |
 | Float    | REAL    | double | number   |
-| Datetime | _N/A_   | date   | _N/A_    |
+| DateTime | _N/A_   | date   | _N/A_    |
 
 **\_N/A:** here means no perfect equivalent, but we can probably get pretty close.
 
@@ -290,7 +290,7 @@ Here's how some of the databases we're tracking map to the core types:
 | Boolean  | boolean | bool      |
 | Int      | number  | int       |
 | Float    | number  | float64   |
-| Datetime | Date    | time.Time |
+| DateTime | Date    | time.Time |
 
 #### List Types
 
@@ -1169,7 +1169,7 @@ Default values using a dynamic generator can be specified as follows:
 model User {
   age        Int       @default(between([ 1, 5 ]))
   height     Float     @default(between([ 1, 5 ]))
-  createdAt  Datetime  @default(now())
+  createdAt  DateTime  @default(now())
 }
 ```
 
