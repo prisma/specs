@@ -42,7 +42,7 @@ This is a stub of a specification for "Specs". It contains a minimal definition 
       - Unknown ❔
 - An introductionary paragraph (overview, summary, description) follows that gives a rough idea what the spec is about
 - This is separated from the rest of the document by a horizontal line
-- A Table of Contents is automatically generated on commit, place it [as documented](table-of-contents)
+- A Table of Contents is automatically generated on commit, place it [as documented](table-of-contents.md)
 - The next headline with `## Section` starts the first actual content section
 - Each section might contain any number of subsections (`### Subsection` and so on)
 

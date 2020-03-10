@@ -2,7 +2,7 @@
 
 - Owner: @janpio
 - Stakeholders: @schickling, @dpetrick
-- State: 
+- State:
   - Spec: Stable ✅
   - Implementation: Fully implemented ✅
 
@@ -34,8 +34,8 @@ Repositories used for Prisma Framwork:
 
 - https://github.com/prisma/prisma2 - Prisma Framework: CLI and Docs
 - https://github.com/prisma/specs - Specification of Prisma Framework
-- https://github.com/prisma/photonjs - Photon.js
-- https://github.com/prisma/lift - Lift
+- https://github.com/prisma/prisma-client-js - Prisma Client JS
+- https://github.com/prisma/migrate - Prisma Migrate
 - https://github.com/prisma/studio - Studio
 - https://github.com/prisma/vscode-prisma - VSCode Extension for Prisma
 
@@ -43,7 +43,7 @@ Repositories used for Prisma Framwork:
 
 - https://github.com/prisma/prisma-engine - Prisma Engine (Rust)
 - https://github.com/prisma/prisma-sdk-js - Prisma SDK (JS)
-- https://github.com/prisma/prisma-query - Query Abstraction
+- https://github.com/prisma/quaint - SQL Query AST and Visitor for Rust
 - https://github.com/prisma/studio-code (🔒 private) - Studio Codebase
 - https://github.com/prisma/engine-build-cli - Build CLI for `prisma-engine`
 - https://github.com/prisma/typescript-pipelines - CLI/TypeScript release tooling
@@ -56,7 +56,6 @@ Repositories used for Prisma Framwork:
 - https://github.com/prisma/prisma-examples/tree/prisma2 - Examples using Prisma Framework
 - https://github.com/prisma/database-schema-examples - Database Schema Examples (to be supported by Prisma Framework)
 
-
 ### Meta
 
 - https://github.com/prisma/prisma-label-sync - GitHub Label automation
@@ -66,6 +65,6 @@ Repositories used for Prisma Framwork:
 - In theory everything could live in one big, happy repo 🎅
 - Split if clearly defined separate tool (e.g. `photonjs`, `lift`)
 - Split if issues should be collected in separate location (e.g. `prisma-engine`)
-- Split if separation necessary for technical reasons (CI, commits)  (e.g. `prisma-engine`)
+- Split if separation necessary for technical reasons (CI, commits) (e.g. `prisma-engine`)
 - Split if usage outside of Prisma could be useful (e.g. `prisma-query`)
 - That being said, the current split and guidelines are somewhat arbitary and might change in the future

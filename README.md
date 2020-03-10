@@ -13,6 +13,7 @@ This repository contains specifications for Prisma Framework:
   - [Organisation](#organisation)
     - [Process](#process)
     - [Meta](#meta)
+  - [Style Guide](#style-guide)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -34,13 +35,13 @@ Prisma Framework consists of several tools:
 
 - [Prisma Schema Language](schema) (PSL)
 - Tools
-  - [CLI](cli) - setup and introspection
-  - [Studio](studio) - GUI
-  - [Photon](photon) - data access
-    - [Photon.js](photonjs)
-    - [Photon.go](photongo)
-  - [Lift](lift) - migration
+  - [Prisma CLI](cli) - setup and introspection
+  - [Prisma Client](photon) - data access
+    - [Prisma Client JS](prisma-client-js)
+    - [Prisma Client Go](prisma-client-go)
   - [VSCode Prisma](vscode-extension) - PSL formatting and linting
+  - [Prisma Migrate](migrate) - migrate databases
+  - [Prisma Studio](studio) - GUI
 
 ### Internal parts
 
@@ -69,3 +70,13 @@ We don't only spec the software itself, but also how we work on it and on these 
 
 - [Specs](meta/specs.md)
 - [Table of Contents](meta/table-of-contents.md)
+
+### Style Guide
+
+Please run `prettier` on every `.md` file before committing with the following configuration (ideally via this [VSC extension](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)):
+
+```json
+  "prettier.singleQuote": true,
+  "prettier.trailingComma": "all",
+  "prettier.semi": false,
+```
