@@ -51,6 +51,7 @@ It also has several internal parts:
     - [Generators](sdk-js/generators)
     - [Engine Runtime](sdk-js/engine-runtime)
 - [Binaries](binaries)
+- [Engines](engines)
 - [Errors](errors)
 
 ### Organisation
