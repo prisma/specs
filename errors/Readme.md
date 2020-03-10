@@ -199,7 +199,7 @@ The following errors have to be listed separately because they happen in the Jav
 
 #### P1006: Binary not found
 
-- **Description**: Photon binary for current platform `${platform}` could not be found. Make sure to adjust the generator configuration in the `schema.prisma` file. <br /> <br />`${generator_config}` <br /> <br />Please run `prisma2 generate` for your changes to take effect.
+- **Description**: Query engine binary for current platform `${platform}` could not be found. Make sure to adjust the generator configuration in the `schema.prisma` file. <br /> <br />`${generator_config}` <br /> <br />Please run `prisma2 generate` for your changes to take effect.
 - **Meta schema**:
   ```ts
   type Meta = {
@@ -213,7 +213,7 @@ The following errors have to be listed separately because they happen in the Jav
 
 #### P1007: Missing write access to download binary
 
-- **Description**: Please try installing Prisma 2 CLI again with the `--unsafe-perm` option. <br /> Example: `npm i -g --unsafe-perm prisma2`
+- **Description**: Can't write to `${targetDir}` please make sure you install "prisma2" with the right permissions.
 
 ## Prisma Client JS
 
