@@ -33,7 +33,7 @@ your datasources with Lift and administer your data using Studio.
           - [Implied Has-Many](#implied-has-many)
           - [Implied Has-One](#implied-has-one)
         - [Implicit Many-to-Many (M:N) Relationships](#implicit-many-to-many-mn-relationships)
-        - [Explicit Many-to-Many (M:N) Relationships](#explicit-many-to-many-mn-relationships)
+        - [Explicit Many-To-Many (M:N) Relationships With Or Without Extra Columns](#explicit-many-to-many-mn-relationships-with-or-without-extra-columns)
         - [Self-Referential Relationships](#self-referential-relationships)
         - [Multiple-Reference Relationships](#multiple-reference-relationships)
         - [Referencing Primary Composite Keys](#referencing-primary-composite-keys)
@@ -460,7 +460,7 @@ we'll use `primary key(blog, writer)` to ensure that there can't be no more than
 For implicit many-to-many relations, you **must** include both `Blog.author` and `Writer.blog`. If one of these fields is missing, Prisma will assume it's a
 **One-to-Many (1:N)** relationship.
 
-##### Explicit Many-to-Many (M:N) Relationships
+##### Explicit Many-To-Many (M:N) Relationships With Or Without Extra Columns
 
 > ⚠ This is not implemented yet. See [tracking issue](https://github.com/prisma/prisma2/issues/816) and a [related discussion](https://github.com/prisma/specs/issues/264).
 
@@ -499,6 +499,8 @@ model BlogWriter {
 | blog_id        | integer |
 | author_id      | integer |
 | is_owner       | boolean |
+
+Note that the join table, in this case, `BlogWriter` may contain extra fields like `is_owner`.
 
 ##### Self-Referential Relationships
 
