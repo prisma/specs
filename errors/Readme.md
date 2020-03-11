@@ -209,7 +209,7 @@ The following errors have to be listed separately because they happen in the Jav
     generator_config: string
   }
   ```
-- **Notes**: Tools (like Primsa CLI) consuming `generator_config` might color it using ANSI characters for better reading experience.
+- **Notes**: Tools (like Prisma CLI) consuming `generator_config` might color it using ANSI characters for better reading experience.
 
 #### P1007: Missing write access to download binary
 
