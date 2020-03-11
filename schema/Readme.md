@@ -378,12 +378,12 @@ appears first alphanumerically. In the example above, that's the `Customer` mode
 
 Under the hood, the models looks like this:
 
-| **users** |         |
+| **user** |         |
 | --------- | ------- |
 | id        | integer |
 | name      | text    |
 
-| **customers** |         |
+| **customer** |         |
 | ------------- | ------- |
 | id            | integer |
 | user          | integer |
@@ -415,8 +415,8 @@ A writer can have multiple blogs.
 
 ```prisma
 model Writer {
-  id      Int     @id
-  blogs   Blog[]
+  id     Int     @id
+  blog   Blog[]
 }
 
 model Blog {
@@ -427,20 +427,20 @@ model Blog {
 
 - `Blog.author`: points to the primary key on writer
 
-Connectors for relational databases will implement this as two tables with a foreign-key constraint on the blogs table:
+Connectors for relational databases will implement this as two tables with a foreign-key constraint on the `blog` table:
 
-| **writers** |         |
+| **writer** |         |
 | ----------- | ------- |
 | id          | integer |
 
-| **blogs** |         |
+| **blog** |         |
 | --------- | ------- |
 | id        | integer |
 | author    | integer |
 
 ###### Implied Has-Many
 
-You **may** omit `Blog.author` or `Writer.blogs` and the relationship will remain intact.
+You **may** omit `Blog.author` or `Writer.blog` and the relationship will remain intact.
 
 ```prisma
 model Writer {
@@ -453,15 +453,15 @@ model Blog {
 }
 ```
 
-For an **implied has-many**, a required list is added to `Writer`. In this case `blogs Blog[]`. If a `blogs` field already exists, there is an error and you
+For an **implied has-many**, a required list is added to `Writer`. In this case `blog Blog[]`. If a `blog` field already exists, there is an error and you
 must explicitly name the relation.
 
 ###### Implied Has-One
 
 ```prisma
 model Writer {
-  id    Int    @id
-  blogs Blog[]
+  id   Int    @id
+  blog Blog[]
 }
 
 model Blog {
@@ -479,12 +479,12 @@ Blogs can have multiple writers and a writer can write many blogs. Prisma suppor
 ```prisma
 model Blog {
   id       Int       @id
-  authors  Writer[]
+  author  Writer[]
 }
 
 model Writer {
-  id      Int     @id
-  blogs   Blog[]
+  id     Int     @id
+  blog   Blog[]
 }
 ```
 
@@ -504,7 +504,7 @@ we'll use `primary key(blog, writer)` to ensure that there can't be no more than
 | blog               | integer |
 | writer             | integer |
 
-For implicit many-to-many relations, you **must** include both `Blog.authors` and `Writer.blogs`. If one of these fields is missing, Prisma will assume it's a
+For implicit many-to-many relations, you **must** include both `Blog.author` and `Writer.blog`. If one of these fields is missing, Prisma will assume it's a
 **One-to-Many (1:N)** relationship.
 
 ##### Explicit Many-to-Many (M:N) Relationships
@@ -516,12 +516,12 @@ Many-to-many relationships are simply 2 one-to-many relationships.
 ```prisma
 model Blog {
   id           Int           @id
-  blogWriters  BlogWriter[]
+  blogWriter   BlogWriter[]
 }
 
 model Writer {
   id           Int           @id
-  blogWriters  BlogWriter[]
+  blogWriter   BlogWriter[]
 }
 
 // many to many
@@ -747,9 +747,9 @@ This is an example ambiguous relation on the schema of an imaginary simplified b
 
 ```prisma
 model Blog {
-    id          Int @id
-    authors     User[]
-    subscribers User[]
+    id         Int @id
+    author     User[]
+    subscriber User[]
 }
 
 model User  {
@@ -763,9 +763,9 @@ There are two relationships between `Blog` and `User`, so we need to name them t
 
 ```prisma
 model Blog {
-    id          Int @id
-    authors     User[] @relation("Authorship")
-    subscribers User[] @relation("Subscription")
+    id         Int @id
+    author     User[] @relation("Authorship")
+    subscriber User[] @relation("Subscription")
 }
 
 model User  {
