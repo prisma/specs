@@ -876,8 +876,6 @@ possible**. The sections below describe this behavior.
 
 Only functionality that actually requires the environment variable to be set will fail if it is missing. E.g. `generate` will **not** require the environment variable:
 
-> ⚠ This is not implemented yet. See [tracking issue](https://github.com/prisma/prisma2/issues/800)
-
 ```sh
 $ prisma generate
 ```
