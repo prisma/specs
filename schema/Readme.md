@@ -61,6 +61,8 @@ your datasources with Lift and administer your data using Studio.
     - [/// comment](#-comment)
     - [Example with Comments](#example-with-comments)
   - [Enum Block](#enum-block)
+  - [Embed Block](#embed-block)
+    - [Inline Embeds](#inline-embeds)
   - [Env Function](#env-function)
     - [Env Function Behavior](#env-function-behavior)
   - [Function](#function)
