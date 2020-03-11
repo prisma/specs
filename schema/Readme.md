@@ -56,14 +56,10 @@ your datasources with Lift and administer your data using Studio.
         - [@updatedAt](#updatedat)
       - [Block Attributes](#block-attributes)
       - [Core Block Attributes](#core-block-attributes)
-      - [Type Specifications](#type-specifications)
-    - [Why do we enforce the Core Prisma Primitive Type, even when there is a type specification?](#why-do-we-enforce-the-core-prisma-primitive-type-even-when-there-is-a-type-specification)
   - [Comments](#comments)
     - [// comment](#-comment)
     - [/// comment](#-comment)
     - [Example with Comments](#example-with-comments)
-  - [Type Definition](#type-definition)
-    - [Type Definitions provided by Connectors](#type-definitions-provided-by-connectors)
   - [Enum Block](#enum-block)
   - [Env Function](#env-function)
     - [Env Function Behavior](#env-function-behavior)
@@ -223,7 +219,7 @@ part of the connectors interface to Prisma. If a connector doesn't have a core t
 | Boolean  | True or false value   |
 | Int      | Integer value         |
 | Float    | Floating point number |
-| Datetime | Timestamp             |
+| DateTime | Timestamp             |
 
 Here's how some of the databases we're tracking map to the core types:
 
@@ -237,7 +233,7 @@ Here's how some of the databases we're tracking map to the core types:
 | Float    | real      | FLOAT     | REAL    |
 | Datetime | timestamp | TIMESTAMP | _N/A_   |
 
-**\_N/A:** here means no perfect equivalent, but we can probably get pretty close.
+**N/A:** here means no perfect equivalent, but we can probably get pretty close.
 
 #### Core Data Type to Generator
 
@@ -247,7 +243,7 @@ Here's how some of the databases we're tracking map to the core types:
 | Boolean  | boolean | bool      |
 | Int      | number  | int       |
 | Float    | number  | float64   |
-| Datetime | Date    | time.Time |
+| DateTime | Date    | time.Time |
 
 #### List Types
 
@@ -335,12 +331,12 @@ appears first alphanumerically. In the example above, that's the `Customer` mode
 
 Under the hood, the models looks like this:
 
-| **users** |         |
+| **user** |         |
 | --------- | ------- |
 | id        | integer |
 | name      | text    |
 
-| **customers** |         |
+| **customer** |         |
 | ------------- | ------- |
 | id            | integer |
 | user          | integer |
@@ -372,8 +368,8 @@ A writer can have multiple blogs.
 
 ```prisma
 model Writer {
-  id      Int     @id
-  blogs   Blog[]
+  id     Int     @id
+  blog   Blog[]
 }
 
 model Blog {
@@ -384,20 +380,20 @@ model Blog {
 
 - `Blog.author`: points to the primary key on writer
 
-Connectors for relational databases will implement this as two tables with a foreign-key constraint on the blogs table:
+Connectors for relational databases will implement this as two tables with a foreign-key constraint on the `blog` table:
 
-| **writers** |         |
+| **writer** |         |
 | ----------- | ------- |
 | id          | integer |
 
-| **blogs** |         |
+| **blog** |         |
 | --------- | ------- |
 | id        | integer |
 | author    | integer |
 
 ###### Implied Has-Many
 
-You **may** omit `Blog.author` or `Writer.blogs` and the relationship will remain intact.
+You **may** omit `Blog.author` or `Writer.blog` and the relationship will remain intact.
 
 ```prisma
 model Writer {
@@ -410,15 +406,15 @@ model Blog {
 }
 ```
 
-For an **implied has-many**, a required list is added to `Writer`. In this case `blogs Blog[]`. If a `blogs` field already exists, there is an error and you
+For an **implied has-many**, a required list is added to `Writer`. In this case `blog Blog[]`. If a `blog` field already exists, there is an error and you
 must explicitly name the relation.
 
 ###### Implied Has-One
 
 ```prisma
 model Writer {
-  id    Int    @id
-  blogs Blog[]
+  id   Int    @id
+  blog Blog[]
 }
 
 model Blog {
@@ -436,12 +432,12 @@ Blogs can have multiple writers and a writer can write many blogs. Prisma suppor
 ```prisma
 model Blog {
   id       Int       @id
-  authors  Writer[]
+  author  Writer[]
 }
 
 model Writer {
   id     Int     @id
-  blogs  Blog[]
+  blog   Blog[]
 }
 ```
 
@@ -461,7 +457,7 @@ we'll use `primary key(blog, writer)` to ensure that there can't be no more than
 | blog               | integer |
 | writer             | integer |
 
-For implicit many-to-many relations, you **must** include both `Blog.authors` and `Writer.blogs`. If one of these fields is missing, Prisma will assume it's a
+For implicit many-to-many relations, you **must** include both `Blog.author` and `Writer.blog`. If one of these fields is missing, Prisma will assume it's a
 **One-to-Many (1:N)** relationship.
 
 ##### Explicit Many-to-Many (M:N) Relationships
@@ -473,12 +469,12 @@ Many-to-many relationships are simply 2 one-to-many relationships.
 ```prisma
 model Blog {
   id           Int           @id
-  blogWriters  BlogWriter[]
+  blogWriter   BlogWriter[]
 }
 
 model Writer {
   id           Int           @id
-  blogWriters  BlogWriter[]
+  blogWriter   BlogWriter[]
 }
 
 // many to many
@@ -704,9 +700,9 @@ This is an example ambiguous relation on the schema of an imaginary simplified b
 
 ```prisma
 model Blog {
-    id          Int @id
-    authors     User[]
-    subscribers User[]
+    id         Int @id
+    author     User[]
+    subscriber User[]
 }
 
 model User  {
@@ -720,9 +716,9 @@ There are two relationships between `Blog` and `User`, so we need to name them t
 
 ```prisma
 model Blog {
-    id          Int @id
-    authors     User[] @relation("Authorship")
-    subscribers User[] @relation("Subscription")
+    id         Int @id
+    author     User[] @relation("Authorship")
+    subscriber User[] @relation("Subscription")
 }
 
 model User  {
@@ -786,72 +782,6 @@ every connector with a **best-effort implementation**:
 - `@@unique(_ fields: Identifier[], name: String?)`: Defines a composite unique constraint across fields
 - `@@index(_ fields: Identifier[], name: String?)`: Defines an index for multiple fields
 
-#### Type Specifications
-
-> ⚠ This is not implemented yet. See [tracking issue](https://github.com/prisma/prisma2/issues/813)
-
-In order to live up to our promise of not tailoring Prisma to the lowest-common database feature-set, connectors may bring their own attributes to the schema.
-
-The connector can bring all of its own specific types into the schema. This will make your schema less universal, but more capable for the datasource you're
-using. Connectors will export a schema of capabilities that you can apply to your schema field and blocks.
-
-```prisma
-datasource pg {
-  provider = "postgres"
-  url      = "postgres://localhost:5432/jack?sslmode=false"
-}
-
-datasource ms {
-  provider = "mysql"
-  url      = "mysql://localhost:5522/jack"
-}
-
-type PGCitext String @pg.Citext
-type PGUUID String @pg.UUID
-
-embed Point2D {
-  X Int
-  Y Int
-  @@pg.Point
-  @@ms.Point
-}
-
-embed Point3D {
-  X Int
-  Y Int
-  Z Int
-  @@pg.Point
-  @@ms.Point
-}
-
-model User {
-  id         UUID
-  email      Citext
-  location1  Point2D
-  location2  Point3D
-}
-```
-
-Additionally, a generator might choose to implement dedicated support for all or some Type Specifications.
-
-For example, a ts generator might choose to interpret the type of the `name` field as `ArrayBuffer(8)` instead of `String` for performance reasons
-
-```prisma
-model User {
-	name  pg.Varchar(n: 8)
-}
-```
-
-This mapping is not declarative, so the generator is free to take all aspects of the schema into account when making this decision, including collation settings
-for the table and so on.
-
-### Why do we enforce the Core Prisma Primitive Type, even when there is a type specification?
-
-Generators are guaranteed that they can always fall back to the Core Prisma Primitive Type. This way they can implement special enhancements for certain Type
-Specifications of certain databases but still work reasonably well for all the types and databases that they don't have dedicated support for.
-
-This is especially important for connectors and generators implemented by the community.
-
 ## Comments
 
 There are 2 types of comments that are supported in the schema:
@@ -889,73 +819,6 @@ model User {
 /// in the same way that godoc.org works.
 
 model Customer {}
-```
-
-## Type Definition
-
-> ⚠ This is not implemented yet. See [tracking issue](https://github.com/prisma/prisma2/issues/801)
-
-Type definitions can be used to consolidate various type specifications into one type.
-
-```prisma
-type Numeric {
-  precision Int @bound(gte: 1, lte: 131072)
-  scale Int @bound(gte: 0, lte: 16383)
-}
-
-model User {
-  id       Int      @id
-  weight   Numeric(precision: 5, scale: 20)
-}
-```
-
-You can attach any field attribute to a type definition.
-
-### Type Definitions provided by Connectors
-
-> ⚠ This is not implemented yet. See [tracking issue](https://github.com/prisma/prisma2/issues/802)
-
-Connectors can bring their own type definitions allowing you to use these types in your own schemas.
-
-**postgres.prisma (generated by the connector)**
-
-```prisma
-type SmallInt Int @raw("smallint") @bound(gte: -32768, lte: 32767)
-type BigInt Int @raw("bigint") @bound(gte: -9223372036854775808, lte: 9223372036854775807)
-type Money Float @raw("money") @bound(gte: -92233720368547758.08, lte: 92233720368547758.07)
-
-type Numeric {
-  @@raw("numeric(precision, scale)")
-  precision Int @bound(gte: 1, lte: 131072)
-  scale Int @bound(gte: 0, lte: 16383)
-}
-
-type Point {
-  @@raw("point(x, y)")
-  x Float @bound(gte: -3.4E38, lte: 3.4E38)
-  y Float @bound(gte: -3.4E38, lte: 3.4E38)
-}
-
-type Varchar {
-  @@raw("varchar(n)")
-  n Int @bound(gte: 1, lte: 1000000000)
-}
-```
-
-**schema.prisma**
-
-```prisma
-datasource pg {
-  provider = "postgres"
-  url = "postgres://localhost:5432/db"
-}
-
-model Customer {
-  age      pg.SmallInt
-  amount   pg.Money
-  name     pg.Varchar(n: 10)
-  location pg.Point(y: 5, x: 6)
-}
 ```
 
 ## Enum Block
@@ -1029,7 +892,7 @@ Default values using a dynamic generator can be specified as follows:
 model User {
   age        Int       @default(between([ 1, 5 ]))
   height     Float     @default(between([ 1, 5 ]))
-  createdAt  Datetime  @default(now())
+  createdAt  DateTime  @default(now())
 }
 ```
 
