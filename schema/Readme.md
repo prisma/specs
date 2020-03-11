@@ -61,8 +61,6 @@ your datasources with Lift and administer your data using Studio.
     - [/// comment](#-comment)
     - [Example with Comments](#example-with-comments)
   - [Enum Block](#enum-block)
-  - [Embed Block](#embed-block)
-    - [Inline Embeds](#inline-embeds)
   - [Env Function](#env-function)
     - [Env Function Behavior](#env-function-behavior)
   - [Function](#function)
@@ -221,7 +219,7 @@ part of the connectors interface to Prisma. If a connector doesn't have a core t
 | Boolean  | True or false value   |
 | Int      | Integer value         |
 | Float    | Floating point number |
-| Datetime | Timestamp             |
+| DateTime | Timestamp             |
 
 Here's how some of the databases we're tracking map to the core types:
 
@@ -235,7 +233,7 @@ Here's how some of the databases we're tracking map to the core types:
 | Float    | real      | FLOAT     | REAL    |
 | Datetime | timestamp | TIMESTAMP | _N/A_   |
 
-**\_N/A:** here means no perfect equivalent, but we can probably get pretty close.
+**N/A:** here means no perfect equivalent, but we can probably get pretty close.
 
 #### Core Data Type to Generator
 
@@ -245,7 +243,7 @@ Here's how some of the databases we're tracking map to the core types:
 | Boolean  | boolean | bool      |
 | Int      | number  | int       |
 | Float    | number  | float64   |
-| Datetime | Date    | time.Time |
+| DateTime | Date    | time.Time |
 
 #### List Types
 
@@ -333,12 +331,12 @@ appears first alphanumerically. In the example above, that's the `Customer` mode
 
 Under the hood, the models looks like this:
 
-| **users** |         |
+| **user** |         |
 | --------- | ------- |
 | id        | integer |
 | name      | text    |
 
-| **customers** |         |
+| **customer** |         |
 | ------------- | ------- |
 | id            | integer |
 | user          | integer |
@@ -370,8 +368,8 @@ A writer can have multiple blogs.
 
 ```prisma
 model Writer {
-  id      Int     @id
-  blogs   Blog[]
+  id     Int     @id
+  blog   Blog[]
 }
 
 model Blog {
@@ -382,20 +380,20 @@ model Blog {
 
 - `Blog.author`: points to the primary key on writer
 
-Connectors for relational databases will implement this as two tables with a foreign-key constraint on the blogs table:
+Connectors for relational databases will implement this as two tables with a foreign-key constraint on the `blog` table:
 
-| **writers** |         |
+| **writer** |         |
 | ----------- | ------- |
 | id          | integer |
 
-| **blogs** |         |
+| **blog** |         |
 | --------- | ------- |
 | id        | integer |
 | author    | integer |
 
 ###### Implied Has-Many
 
-You **may** omit `Blog.author` or `Writer.blogs` and the relationship will remain intact.
+You **may** omit `Blog.author` or `Writer.blog` and the relationship will remain intact.
 
 ```prisma
 model Writer {
@@ -408,15 +406,15 @@ model Blog {
 }
 ```
 
-For an **implied has-many**, a required list is added to `Writer`. In this case `blogs Blog[]`. If a `blogs` field already exists, there is an error and you
+For an **implied has-many**, a required list is added to `Writer`. In this case `blog Blog[]`. If a `blog` field already exists, there is an error and you
 must explicitly name the relation.
 
 ###### Implied Has-One
 
 ```prisma
 model Writer {
-  id    Int    @id
-  blogs Blog[]
+  id   Int    @id
+  blog Blog[]
 }
 
 model Blog {
@@ -434,12 +432,12 @@ Blogs can have multiple writers and a writer can write many blogs. Prisma suppor
 ```prisma
 model Blog {
   id       Int       @id
-  authors  Writer[]
+  author  Writer[]
 }
 
 model Writer {
   id     Int     @id
-  blogs  Blog[]
+  blog   Blog[]
 }
 ```
 
@@ -459,7 +457,7 @@ we'll use `primary key(blog, writer)` to ensure that there can't be no more than
 | blog               | integer |
 | writer             | integer |
 
-For implicit many-to-many relations, you **must** include both `Blog.authors` and `Writer.blogs`. If one of these fields is missing, Prisma will assume it's a
+For implicit many-to-many relations, you **must** include both `Blog.author` and `Writer.blog`. If one of these fields is missing, Prisma will assume it's a
 **One-to-Many (1:N)** relationship.
 
 ##### Explicit Many-to-Many (M:N) Relationships
@@ -471,12 +469,12 @@ Many-to-many relationships are simply 2 one-to-many relationships.
 ```prisma
 model Blog {
   id           Int           @id
-  blogWriters  BlogWriter[]
+  blogWriter   BlogWriter[]
 }
 
 model Writer {
   id           Int           @id
-  blogWriters  BlogWriter[]
+  blogWriter   BlogWriter[]
 }
 
 // many to many
@@ -702,9 +700,9 @@ This is an example ambiguous relation on the schema of an imaginary simplified b
 
 ```prisma
 model Blog {
-    id          Int @id
-    authors     User[]
-    subscribers User[]
+    id         Int @id
+    author     User[]
+    subscriber User[]
 }
 
 model User  {
@@ -718,9 +716,9 @@ There are two relationships between `Blog` and `User`, so we need to name them t
 
 ```prisma
 model Blog {
-    id          Int @id
-    authors     User[] @relation("Authorship")
-    subscribers User[] @relation("Subscription")
+    id         Int @id
+    author     User[] @relation("Authorship")
+    subscriber User[] @relation("Subscription")
 }
 
 model User  {
@@ -949,7 +947,7 @@ Default values using a dynamic generator can be specified as follows:
 model User {
   age        Int       @default(between([ 1, 5 ]))
   height     Float     @default(between([ 1, 5 ]))
-  createdAt  Datetime  @default(now())
+  createdAt  DateTime  @default(now())
 }
 ```
 
@@ -1039,24 +1037,6 @@ block _ {
               @default
 
   first_name  LongNumeric  @default
-}
-```
-
-Inline embeds add their own nested formatting rules:
-
-```prisma
-model User {
-  id        String
-  name      String
-  customer  embed {
-    id         String
-    full_name  String
-    cards   embed {
-      type  Card
-    }[]
-  }?
-  age   Int
-  email String
 }
 ```
 
