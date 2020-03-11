@@ -56,25 +56,14 @@ your datasources with Lift and administer your data using Studio.
         - [@updatedAt](#updatedat)
       - [Block Attributes](#block-attributes)
       - [Core Block Attributes](#core-block-attributes)
-      - [Type Specifications](#type-specifications)
-    - [Why do we enforce the Core Prisma Primitive Type, even when there is a type specification?](#why-do-we-enforce-the-core-prisma-primitive-type-even-when-there-is-a-type-specification)
   - [Comments](#comments)
     - [// comment](#-comment)
     - [/// comment](#-comment)
     - [Example with Comments](#example-with-comments)
-  - [Type Definition](#type-definition)
-    - [Type Definitions provided by Connectors](#type-definitions-provided-by-connectors)
   - [Enum Block](#enum-block)
-  - [Embed Block](#embed-block)
-    - [Inline Embeds](#inline-embeds)
   - [Env Function](#env-function)
-    - [Introspect Behavior](#introspect-behavior)
-    - [Migrate Behavior](#migrate-behavior)
-    - [Generate Behavior](#generate-behavior)
+    - [Env Function Behavior](#env-function-behavior)
   - [Function](#function)
-  - [Importing schemas](#importing-schemas)
-    - [Importing from other endpoints](#importing-from-other-endpoints)
-    - [Merging Models](#merging-models)
   - [Auto Formatting](#auto-formatting)
     - [Formatting Rules](#formatting-rules)
       - [Configuration blocks are aligned by their `=` sign.](#configuration-blocks-are-aligned-by-their--sign)
@@ -99,16 +88,15 @@ datasource pg {
 
 - `provider` Can be one of the following built in datasource providers:
   - `postgresql`
-  - `mongodb`
   - `mysql`
   - `sqlite`
-- `url` Connection url including auth info. Each datasource provider documents the url syntax. most providers use the syntax provided by the database
+- `url` Connection URL including authentication info. Each datasource provider documents the URL syntax. Most providers use the syntax provided by the database. (more information see [Datasource URLs](datasource_urls.md))
 
 Connectors may bring their own attributes to allow users to tailor their schemas according to specific features of their connected datasources.
 
 ## Generator Block
 
-Generator blocks configure what clients are generated and how they're generated. Language preferences and binary configuration will go in here:
+Generator blocks configure which clients are generated and how they're generated. Language preferences and binary configuration will go in here:
 
 ```prisma
 generator js {
@@ -123,39 +111,19 @@ generator ts {
 }
 
 generator go {
-  provider  = "photongo"
+  provider  = "prisma-client-go"
   snakeCase = true
 }
 ```
 
 ### Supported fields
 
-> Note: these provider names are WIP
-
 - `provider` Can be a path or one of the following built in datasource providers:
   - `prisma-client-js`
-  - `photongo`
+  - `prisma-client-go` (⚠ This is not implemented yet.)
 - `output` Path for the generated client
 
-Generators may brign their own attributes
-
-Generator blocks also generate a namespace. This namespace allows fine-grained control over how a model generates it's types:
-
-```prisma
-generate go {
-  snakeCase = true
-  provider  = "go"
-}
-
-type UUID String @go.type("uuid.UUID")
-
-model User {
-  id     UUID    @id
-  email  String  @go.bytes(100)
-}
-```
-
-This namespace is determined by the capabilities of the generator. The generator will export a schema of capabilities we'll plug into.
+Generators may bring their own attributes.
 
 ### Binary Configuration
 
@@ -180,12 +148,6 @@ You can find more information about the binary configuration in the [binary spec
 ## Model Block
 
 Models are the high-level entities of our business. They are the nouns: the User, the Comment, the Post and the Tweet.
-
-Models may be backed by different datasources:
-
-- In postgres, a model is a table
-- In mongodb, a model is a collection
-- In REST, a model is a resource
 
 Here's an example of the Model block:
 
@@ -238,7 +200,6 @@ model _ {
 Field names are:
 
 - Display name for the field
-  - Affects the UI in studio, lift, etc.
 - Not opinionated on casing
   - camel, snake, pascal are fine
 - Name of the underlying field in the data source
@@ -264,23 +225,15 @@ Here's how some of the databases we're tracking map to the core types:
 
 #### Core Data Type to Connector
 
-| Type     | Postgres  | MySQL     |
-| -------- | --------- | --------- |
-| String   | text      | TEXT      |
-| Boolean  | boolean   | BOOLEAN   |
-| Int      | integer   | INT       |
-| Float    | real      | FLOAT     |
-| DateTime | timestamp | TIMESTAMP |
+| Type     | Postgres  | MySQL     | SQLite  |
+| -------- | --------- | --------- | ------- |
+| String   | text      | TEXT      | TEXT    |
+| Boolean  | boolean   | BOOLEAN   | _N/A_   |
+| Int      | integer   | INT       | INTEGER |
+| Float    | real      | FLOAT     | REAL    |
+| Datetime | timestamp | TIMESTAMP | _N/A_   |
 
-| Type     | SQLite  | Mongo  | Raw JSON |
-| -------- | ------- | ------ | -------- |
-| String   | TEXT    | string | string   |
-| Boolean  | _N/A_   | bool   | boolean  |
-| Int      | INTEGER | int32  | number   |
-| Float    | REAL    | double | number   |
-| DateTime | _N/A_   | date   | _N/A_    |
-
-**\_N/A:** here means no perfect equivalent, but we can probably get pretty close.
+**N/A:** here means no perfect equivalent, but we can probably get pretty close.
 
 #### Core Data Type to Generator
 
@@ -340,7 +293,7 @@ enum Card {
 }
 ```
 
-The default output for a nullable field is null.
+The default output for a nullable field is `null`.
 
 #### Relations
 
@@ -620,7 +573,7 @@ Underneath:
 > ⚠ This is not implemented yet. See [tracking issue](https://github.com/prisma/prisma2/issues/814)
 
 The `@id` attribute marks the primary identifier of a model. If a model does not have a primary identifier or you want to reference another field, you can
-specify the field using the `@relation` attribute
+specify the field using `references` in the `@relation` attribute
 
 ```prisma
 model Document {
@@ -692,7 +645,7 @@ For arrays with a single parameter, you **may** omit the surrounding brackets:
 Field attributes are marked by an `@` prefix placed at the end of the field definition. You can have as many field attributes as you want and they may also span
 multiple lines:
 
-```
+```prisma
 model _ {
   _ _ @attribute
 }
@@ -780,9 +733,6 @@ model User  {
 - name: _(optional, except when required for disambiguation)_ defines the name of the relationship. The name of the relation needs to be explicitly given to
   resolve amibiguities when the model contains two or more fields that refer to the same model (another model or itself).
 - references: _(optional)_ list of field names to reference
-- onDelete: _(optional)_ defines what we do when the referenced relation is deleted
-  - **CASCADE**: also delete this entry
-  - **SET_NULL**: set the field to null. This is the default
 
 ###### Validation
 
@@ -832,72 +782,6 @@ every connector with a **best-effort implementation**:
 - `@@unique(_ fields: Identifier[], name: String?)`: Defines a composite unique constraint across fields
 - `@@index(_ fields: Identifier[], name: String?)`: Defines an index for multiple fields
 
-#### Type Specifications
-
-> ⚠ This is not implemented yet. See [tracking issue](https://github.com/prisma/prisma2/issues/813)
-
-In order to live up to our promise of not tailoring Prisma to the lowest-common database feature-set, connectors may bring their own attributes to the schema.
-
-The connector can bring all of its own specific types into the schema. This will make your schema less universal, but more capable for the datasource you're
-using. Connectors will export a schema of capabilities that you can apply to your schema field and blocks.
-
-```prisma
-datasource pg {
-  provider = "postgres"
-  url      = "postgres://localhost:5432/jack?sslmode=false"
-}
-
-datasource ms {
-  provider = "mysql"
-  url      = "mysql://localhost:5522/jack"
-}
-
-type PGCitext String @pg.Citext
-type PGUUID String @pg.UUID
-
-embed Point2D {
-  X Int
-  Y Int
-  @@pg.Point
-  @@ms.Point
-}
-
-embed Point3D {
-  X Int
-  Y Int
-  Z Int
-  @@pg.Point
-  @@ms.Point
-}
-
-model User {
-  id         UUID
-  email      Citext
-  location1  Point2D
-  location2  Point3D
-}
-```
-
-Additionally, a generator might choose to implement dedicated support for all or some Type Specifications.
-
-For example, a ts generator might choose to interpret the type of the `name` field as `ArrayBuffer(8)` instead of `String` for performance reasons
-
-```prisma
-model User {
-	name  pg.Varchar(n: 8)
-}
-```
-
-This mapping is not declarative, so the generator is free to take all aspects of the schema into account when making this decision, including collation settings
-for the table and so on.
-
-### Why do we enforce the Core Prisma Primitive Type, even when there is a type specification?
-
-Generators are guaranteed that they can always fall back to the Core Prisma Primitive Type. This way they can implement special enhancements for certain Type
-Specifications of certain databases but still work reasonably well for all the types and databases that they don't have dedicated support for.
-
-This is especially important for connectors and generators implemented by the community.
-
 ## Comments
 
 There are 2 types of comments that are supported in the schema:
@@ -937,73 +821,6 @@ model User {
 model Customer {}
 ```
 
-## Type Definition
-
-> ⚠ This is not implemented yet. See [tracking issue](https://github.com/prisma/prisma2/issues/801)
-
-Type definitions can be used to consolidate various type specifications into one type.
-
-```prisma
-type Numeric {
-  precision Int @bound(gte: 1, lte: 131072)
-  scale Int @bound(gte: 0, lte: 16383)
-}
-
-model User {
-  id       Int      @id
-  weight   Numeric(precision: 5, scale: 20)
-}
-```
-
-You can attach any field attribute to a type definition.
-
-### Type Definitions provided by Connectors
-
-> ⚠ This is not implemented yet. See [tracking issue](https://github.com/prisma/prisma2/issues/802)
-
-Connectors can bring their own type definitions allowing you to use these types in your own schemas.
-
-**postgres.prisma (generated by the connector)**
-
-```prisma
-type SmallInt Int @raw("smallint") @bound(gte: -32768, lte: 32767)
-type BigInt Int @raw("bigint") @bound(gte: -9223372036854775808, lte: 9223372036854775807)
-type Money Float @raw("money") @bound(gte: -92233720368547758.08, lte: 92233720368547758.07)
-
-type Numeric {
-  @@raw("numeric(precision, scale)")
-  precision Int @bound(gte: 1, lte: 131072)
-  scale Int @bound(gte: 0, lte: 16383)
-}
-
-type Point {
-  @@raw("point(x, y)")
-  x Float @bound(gte: -3.4E38, lte: 3.4E38)
-  y Float @bound(gte: -3.4E38, lte: 3.4E38)
-}
-
-type Varchar {
-  @@raw("varchar(n)")
-  n Int @bound(gte: 1, lte: 1000000000)
-}
-```
-
-**schema.prisma**
-
-```prisma
-datasource pg {
-  provider = "postgres"
-  url = "postgres://localhost:5432/db"
-}
-
-model Customer {
-  age      pg.SmallInt
-  amount   pg.Money
-  name     pg.Varchar(n: 10)
-  location pg.Point(y: 5, x: 6)
-}
-```
-
 ## Enum Block
 
 ```prisma
@@ -1024,63 +841,7 @@ enum Color {
 }
 ```
 
-For now, we'll only support `String` enum value types.
-
-## Embed Block
-
-> ⚠ This is not implemented yet. See [tracking issue(https://github.com/prisma/lift/issues/43)
-
-Embeds are supported natively by Prisma. There are 2 types of embeds: named embeds (just called embeds) and inline embeds.
-
-Unlike relations, embed tells the clients that this data \_comes with the record. How the data is actually stored (co-located or not) is not a concern of the
-data model.
-
-```prisma
-model User {
-  id        String
-  customer  StripeCustomer?
-}
-
-embed StripeCustomer {
-  id     String
-  cards  Source[]
-}
-
-enum Card {
-  Visa        = "VISA"
-  Mastercard  = "MASTERCARD"
-}
-
-embed Sources {
-  type Card
-}
-```
-
-### Inline Embeds
-
-> ⚠ This is not implemented yet. See [tracking issue(https://github.com/prisma/lift/issues/43)
-
-There's another way to use embeds.
-
-When you don't need to reuse an embed, inline embeds are handy. Inlines embeds are supported in `model` and `embed` blocks. They can be nested as deep as you
-want. Please don't go too deep though.
-
-```prisma
-model User {
-  id        String
-  customer  embed {
-    id     String
-    cards  embed {
-      type Card
-    }[]
-  }?
-}
-
-enum Card {
-  Visa        = "VISA"
-  Mastercard  = "MASTERCARD"
-}
-```
+PSL only supports `String` enum value types.
 
 ## Env Function
 
@@ -1096,49 +857,11 @@ datasource pg {
 }
 ```
 
-You can also provide a default if the environment variable is not specified:
-
-> ⚠ This is not implemented yet. See [tracking issue](https://github.com/prisma/prisma2/issues/812)
-
-```prisma
-  provider = "sqlite"
-  url      = env("SQLITE_PATH", default: "file.db")
-```
-
-The `provider` must be static and cannot be an environment variable. Our general philosophy is that you want to generate environment variables **as late as
-possible**. The sections below describe this behavior.
-
-### Introspect Behavior
+### Env Function Behavior
 
 > ⚠ This is not implemented yet. See [tracking issue](https://github.com/prisma/prisma2/issues/800)
 
-Introspection time will require the environment variable to be present:
-
-```sh
-$ prisma introspect
-! required DATABASE_URL variable not found
-
-$ export DATABASE_URL="postgres://user:secret@rds.amazon.com:4321/db"
-$ prisma introspect
-```
-
-### Migrate Behavior
-
-> ⚠ This is not implemented yet. See [tracking issue](https://github.com/prisma/prisma2/issues/800)
-
-Migration time will require the environment variable to be present:
-
-```sh
-$ prisma lift up
-! required DATABASE_URL variable not found
-
-$ export DATABASE_URL="postgres://user:secret@rds.amazon.com:4321/db"
-$ prisma lift up
-```
-
-### Generate Behavior
-
-Generation time will **not** require the environment variable:
+Only functionality that actually requires the environment variable to be set will fail if it is missing. E.g. `generate` will **not** require the environment variable:
 
 ```sh
 $ prisma generate
@@ -1177,110 +900,6 @@ Functions will always be provided at the Prisma level by the query engine.
 
 The data types that these functions return will be defined by the connectors. For example, `now()` in Postgres will return a `timestamp with time zone`, while
 `now()` with a JSON connector would return an `ISOString`.
-
-## Importing schemas
-
-> ⚠ This is not implemented yet. See [tracking issue(https://github.com/prisma/prisma2/issues/92)
-
-A team may have a lot of configuration or many different models. They may also have many environments they need to deploy to. We support an `import <string>`
-function that will concatenate schemas together and join their contents.
-
-**schema.prisma**
-
-```prisma
-import "./post.prisma"
-
-model User {
-	posts Post[]
-}
-```
-
-**post.prisma**
-
-```prisma
-model Post {
-	title pg.Varchar(n: 42)
-	body  String
-}
-```
-
-Resolves to:
-
-```prisma
-model Post {
-	title pg.Varchar(n: 42)
-	body  String
-}
-
-model User {
-	posts Post[]
-}
-```
-
-### Importing from other endpoints
-
-We also support fetching schemas from Github, NPM, HTTP and can add more as desired. We were inspired by Hashicorp's
-[go-getter](https://github.com/hashicorp/go-getter).
-
-Here are some possibilities:
-
-```
-import "https://Aladdin:OpenSesame@www.example.com/index.html"
-import "github://prisma/project/post.schema"
-import "npm://prisma/app/comments.schema"
-```
-
-### Merging Models
-
-This is based on our [Research into Cue](https://github.com/prisma/specs/blob/cue/cue/Readme.md#application-2-safe-merging-of-models-with-the-same-name). We
-want to safely merge models in a clear way.
-
-Often times you'll import a schema that has conflicting models. In this case we take the union of all fields and attributes:
-
-**post.prisma**
-
-```prisma
-model Post {
-  id    Int    @id
-	title pg.Varchar(n: 42)
-	body  String
-  @@unique([id,title])
-}
-```
-
-**schema.prisma**
-
-```prisma
-import "./post.prisma"
-
-model User {
-	posts: Post[]
-}
-
-model Post {
-	title String @unique
-}
-```
-
-Resolves to:
-
-```prisma
-model User {
-	posts: Post[]
-}
-
-model Post {
-  id    Int    @id
-	title pg.Varchar(n: 42)
-	body  String
-  @@unique([id,title])
-}
-```
-
-Since our [type definitions are provided by connectors](#type-definitions-provided-by-connectors) we can use a constraint system to safely merge two datatypes
-and take the intersection of those two types.
-
-**Open Question:** How will this work for non data-type related attributes like `@unique`?
 
 ## Auto Formatting
 
@@ -1363,24 +982,6 @@ block _ {
               @default
 
   first_name  LongNumeric  @default
-}
-```
-
-Inline embeds add their own nested formatting rules:
-
-```prisma
-model User {
-  id        String
-  name      String
-  customer  embed {
-    id         String
-    full_name  String
-    cards   embed {
-      type  Card
-    }[]
-  }?
-  age   Int
-  email String
 }
 ```
 
