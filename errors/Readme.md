@@ -6,7 +6,7 @@
   - Spec: In Progress 🚧
   - Implementation: Future 👽
 
-Definition of errors in Prisma Framework. (In this document we make the distinction between [Unknown Errors](https://github.com/prisma/specs/tree/master/errors#unknown-errors) and [Known Errors](https://github.com/prisma/specs/tree/master/errors#known-errors).)
+Definition of errors in the Prisma Framework. (In this document we make the distinction between [Unknown Errors](https://github.com/prisma/specs/tree/master/errors#unknown-errors) and [Known Errors](https://github.com/prisma/specs/tree/master/errors#known-errors).)
 
 ---
 
@@ -20,6 +20,11 @@ Definition of errors in Prisma Framework. (In this document we make the distinct
 - [Known Errors](#known-errors)
   - [Known Errors Template](#known-errors-template)
   - [Prisma SDK](#prisma-sdk)
+    - [Common](#common)
+      - [P1004: Incompatible binary](#p1004-incompatible-binary)
+      - [P1005: Unable to start the query engine](#p1005-unable-to-start-the-query-engine)
+      - [P1006: Binary not found](#p1006-binary-not-found)
+      - [P1007: Missing write access to download binary](#p1007-missing-write-access-to-download-binary)
   - [Prisma Client JS](#prisma-client-js)
       - [Prisma Client JS runtime validation error](#prisma-client-js-runtime-validation-error)
       - [Query engine connection error](#query-engine-connection-error)
@@ -55,7 +60,7 @@ Definition of errors in Prisma Framework. (In this document we make the distinct
 | Core                 | Binary artifacts of Prisma 2 compilation and a part of the SDK. Spec [here](../binaries/Readme.md) |
 | Data source          | A database or any other data source supported by Prisma                                            |
 
-Prisma 2 ecosystem provides various layers of tools that communicate with each other to provide desired outcome.
+Prisma 2 ecosystem provides various layers of tools that communicate with each other to provide the desired outcome.
 
 Broadly, the life-cycle of a request (Query request or CLI command) can be seen in this diagram.
 
@@ -103,8 +108,8 @@ Handling strategy: Domain errors would usually originate from the data source an
 These are caused due to an error in Prisma runtime. For example,
 
 - The available binary is not compiled for this platform
-- SDK failed to bind a port for query engine
-- Database is not reachable
+- SDK failed to bind a port for the query engine
+- The database is not reachable
 - Database timeout
 
 Handling strategy: Notify the user by relaying the message from OS/Database and suggesting them to retry. They might need to free up resources or do something at the OS level.
@@ -116,7 +121,7 @@ In certain cases, like when a port collision, Prisma SDK can try to retry gracef
 
 # Error Codes
 
-Error codes make identification/classification of error easier. Moreover, we can have internal range for different system components
+Error codes make identification/classification of error easier. Moreover, we can have an internal range for different system components
 
 | Tool (Binary)        | Range | Description                                                                                                                                                                        |
 | -------------------- | ----- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -124,7 +129,7 @@ Error codes make identification/classification of error easier. Moreover, we can
 | Query Engine         | 2000  | Query engine binary is responsible for getting data from data sources via connectors (This powers Prisma Client). The errors in this range would usually be data constraint errors |
 | Migration Engine     | 3000  | Migration engine binary is responsible for performing database migrations (This powers lift). The errors in this range would usually be schema migration/data destruction errors   |
 | Introspection Engine | 4000  | Introspection engine binary is responsible for printing Prisma schema from an existing database. The errors in this range would usually be errors with schema inferring            |
-| Prisma Format        | 6000  | Prisma format powers the Prisma VSCode extension to pretty print the Prisma schema. The errors in this range are usually syntactic or semantic errors.                             |
+| Prisma Format        | 6000  | Prisma format powers the Prisma VSCode extension to pretty-print the Prisma schema. The errors in this range are usually syntactic or semantic errors.                             |
 
 # Known Errors
 
@@ -155,12 +160,60 @@ If we encounter a Rust panic, that is covered in the [Unknown Errors](#unknown-e
 
 SDK acts as the interface between the binaries and the tools. This section covers errors from SDK, binaries and the network between SDK ⇆ Binary and Binary ⇆ Data source.
 
-This spec does not list the individual errors. Instead the single source of truth for them is our code where they are defined with their codes and messages. Here is a list of links to their defintions for each error category:
+This spec does not list individual errors (Except for some errors in the "common" category which occur in the Javascript part of the code, these errors are listed below). Instead, the single source of truth for them is our code where they are defined with their codes and messages. Here is a list of links to their definitions for each error category:
 
 - [Common](https://github.com/prisma/prisma-engine/blob/master/libs/user-facing-errors/src/common.rs)
 - [Query Engine](https://github.com/prisma/prisma-engine/blob/master/libs/user-facing-errors/src/query_engine.rs)
 - [Migration Engine](https://github.com/prisma/prisma-engine/blob/master/libs/user-facing-errors/src/migration_engine.rs)
 - [Introspection Engine](https://github.com/prisma/prisma-engine/blob/master/libs/user-facing-errors/src/introspection_engine.rs)
+
+### Common
+
+The following errors have to be listed separately because they happen in the Javascript code that wraps the rust binaries.
+
+#### P1004: Incompatible binary
+
+- **Description**: The downloaded/provided binary `${binary_path}` is not compiled for platform `${platform}`
+- **Meta schema**:
+  ```ts
+  type Meta = {
+    // Fully resolved path of the binary file
+    binary_path: string
+    // Identifiers for the currently identified execution environment, e.g. `native`, `windows`, `darwin` etc
+    platform: string
+  }
+  ```
+
+#### P1005: Unable to start the query engine
+
+- **Description**: Failed to spawn the binary `${binary_path}` process for platform `${platform}`
+- **Meta schema**:
+  ```ts
+  type Meta = {
+    // Fully resolved path of the binary file
+    binary_path: string
+    // Identifiers for the currently identified execution environment, e.g. `native`, `windows`, `darwin` etc
+    platform: string
+  }
+  ```
+
+#### P1006: Binary not found
+
+- **Description**: Query engine binary for current platform `${platform}` could not be found. Make sure to adjust the generator configuration in the `schema.prisma` file. <br /> <br />`${generator_config}` <br /> <br />Please run `prisma2 generate` for your changes to take effect.
+- **Meta schema**:
+  ```ts
+  type Meta = {
+    // Identifiers for the currently identified execution environment, e.g. `native`, `windows`, `darwin` etc
+    platform: string
+    // Details of how a generator can be added.
+    generator_config: string
+  }
+  ```
+- **Notes**: Tools (like Prisma CLI) consuming `generator_config` might color it using ANSI characters for better reading experience.
+
+#### P1007: Missing write access to download binary
+
+- **Description**: Can't write to `${targetDir}` please make sure you install "prisma2" with the right permissions.
 
 ## Prisma Client JS
 
