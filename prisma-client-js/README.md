@@ -289,7 +289,7 @@ In order to configure these different error formatting levels, we have two optio
 
 The constructor argument to control the error formatting is called `errorFormat`. It can have the following values:
 
-- `undefined`: If it's not defined, the default is `pretty`
+- `undefined`: If it's not defined, the default is `colorless`
 - `pretty`: Enables pretty error formatting
 - `colorless`: Enables colorless error formatting
 - `minimal`: Enables minimal error formatting
@@ -298,7 +298,7 @@ It can be used like so:
 
 ```ts
 const prisma = new PrismaClient({
-  errorFormat: 'minimal',
+  errorFormat: 'pretty'
 })
 ```
 
