@@ -274,8 +274,8 @@ This is how error formatting can be configured with Prisma Client JS.
 
 There are 3 error formatting levels:
 
-1. **Pretty Error**: Includes a full stack trace with colors, syntax highlighting of the code and extended error message with a possible solution for the problem. (_default_)
-2. **Colorless Error**: Same as pretty errors, just without colors.
+1. **Colorless Error**: Includes a full stack trace, syntax highlighting of the code and extended error message with a possible solution for the problem. (_default_)
+2. **Pretty Error**: Same as colorless errors, but with colors.
 3. **Minimal Error**: Just the pure error message.
 
 In order to configure these different error formatting levels, we have two options: Environment variables and the `PrismaClient` constructor.
