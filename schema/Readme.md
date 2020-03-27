@@ -582,6 +582,7 @@ model Document {
   projectID  String   @default('')
   revision   Int      @default(1)
   blocks     Block[]
+  @@unique([projectID, revision])
 }
 
 model Block {
