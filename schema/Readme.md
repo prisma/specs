@@ -855,8 +855,6 @@ datasource pg {
 
 ### Env Function Behavior
 
-> ⚠ This is not implemented yet. See [tracking issue](https://github.com/prisma/prisma2/issues/800)
-
 Only functionality that actually requires the environment variable to be set will fail if it is missing. E.g. `generate` will **not** require the environment variable:
 
 ```sh
