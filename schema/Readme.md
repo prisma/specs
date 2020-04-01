@@ -6,7 +6,7 @@
   - Spec: In Progress 🚧
   - Implementation: In Progress 🚧
 
-The Prisma Schema declaratively describes the structure of your data sources. We use the Prisma Schema to generate Photon libraries for data access, migrate
+The Prisma Schema declaratively describes the structure of your data sources. We use the Prisma Schema to generate Prisma Client libraries for data access, migrate
 your datasources with Lift and administer your data using Studio.
 
 ---
@@ -462,8 +462,6 @@ For implicit many-to-many relations, you **must** include both `Blog.author` and
 
 ##### Explicit Many-to-Many (M:N) Relationships With or Without Extra Columns
 
-> ⚠ This is not implemented yet. See [tracking issue](https://github.com/prisma/prisma2/issues/816) and a [related discussion](https://github.com/prisma/specs/issues/264).
-
 Many-to-many relationships are simply 2 one-to-many relationships.
 
 ```prisma
@@ -538,8 +536,6 @@ model Question {
 
 ##### Referencing Primary Composite Keys
 
-> ⚠ This is not implemented yet. See [tracking issue](https://github.com/prisma/prisma2/issues/815)
-
 You can also have relationships to composite primary keys
 
 ```prisma
@@ -571,8 +567,6 @@ Underneath:
 | document_revision   | int  |
 
 ##### Referencing fields that are not @id
-
-> ⚠ This is not implemented yet. See [tracking issue](https://github.com/prisma/prisma2/issues/814)
 
 The `@id` attribute marks the primary identifier of a model. If a model does not have a primary identifier or you want to reference another field, you can
 specify the field using `references` in the `@relation` attribute
@@ -781,7 +775,6 @@ every connector with a **best-effort implementation**:
 
 - `@@map(_ name: String)`: Define the name of the underlying table or collection name
 - `@@id(_ fields: Identifier[])`: Defines a composite primary key across fields
-  > ⚠ This is not implemented yet. (See [tracking issue](https://github.com/prisma/prisma-engine/issues/29))
 - `@@unique(_ fields: Identifier[], name: String?)`: Defines a composite unique constraint across fields
 - `@@index(_ fields: Identifier[], name: String?)`: Defines an index for multiple fields
 
@@ -861,8 +854,6 @@ datasource pg {
 ```
 
 ### Env Function Behavior
-
-> ⚠ This is not implemented yet. See [tracking issue](https://github.com/prisma/prisma2/issues/800)
 
 Only functionality that actually requires the environment variable to be set will fail if it is missing. E.g. `generate` will **not** require the environment variable:
 
