@@ -5,7 +5,7 @@
   - Spec: In Progress 🚧
   - Implementation: Fully implemented ✅
 
-The Prisma VSCode Extension adds syntax highlighting, formatting and linting for `.prisma` files to VSCode.  
+The Prisma VSCode Extension adds syntax highlighting, formatting, jump-to-definition and linting for `.prisma` files to VSCode using a language server.  
 It can be installed via [https://marketplace.visualstudio.com/items?itemName=Prisma.prisma](https://marketplace.visualstudio.com/items?itemName=Prisma.prisma).
 
 ---
@@ -18,6 +18,7 @@ It can be installed via [https://marketplace.visualstudio.com/items?itemName=Pri
   - [Syntax Highlighting](#syntax-highlighting)
   - [Linting](#linting)
   - [Formatting](#formatting)
+  - [Jump-to-Definition](#jump-to-defintion)
 - [Technical Implementation](#technical-implementation)
   - [Installation](#installation)
   - [Syntax Highlighting](#syntax-highlighting-1)
@@ -53,6 +54,10 @@ Formatting runs for all `.prisma` files on demand (Right Click -> `Format Docume
 
 TODO appropriate screenshot or code block that shows before and after
 
+### Jump-to-Definition
+
+Jump-to-Definition runs for all `.prisma` files on demand (Right Click on model name -> `Go to Definition`).
+
 ## Technical Implementation
 
 ### Installation
@@ -70,3 +75,7 @@ Uses a call to the `prisma-fmt` binary.
 ### Formatting
 
 Uses a call to `prisma-fmt` binary.
+
+### Jump-to-Definition
+
+Uses a call to `query-engine` binary.
