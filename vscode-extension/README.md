@@ -18,12 +18,13 @@ It can be installed via [https://marketplace.visualstudio.com/items?itemName=Pri
   - [Syntax Highlighting](#syntax-highlighting)
   - [Linting](#linting)
   - [Formatting](#formatting)
-  - [Jump-to-Definition](#jump-to-defintion)
+  - [Jump-to-Definition](#jump-to-definition)
 - [Technical Implementation](#technical-implementation)
   - [Installation](#installation)
   - [Syntax Highlighting](#syntax-highlighting-1)
   - [Linting](#linting-1)
   - [Formatting](#formatting-1)
+  - [Jump-to-Definition](#jump-to-definition-1)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
