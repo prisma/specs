@@ -41,28 +41,28 @@ The following elements of a schema file are highlighted:
 - Enum Blocks (`enum`) (not supported yet)
 - Double and triple comments (`//` and `///`)
 
-![Alt text](images/syntaxHighlightingScreenshot.PNG?raw=true "Syntax Highlighting example")
+![Alt text](./images/syntaxHighlightingScreenshot.PNG?raw=true "Syntax Highlighting example")
 
 ### Linting
 
 Linting runs for all `.prisma` files as soon as you open them, highlighting invalid syntax or keywords in your schema file.
 
-![Alt text](images/lintingScreenshot.PNG?raw=true "Linting example")
+![Alt text](./images/lintingScreenshot.PNG?raw=true "Linting example")
 
 ### Formatting
 
 Formatting runs for all `.prisma` files on demand (Right Click -> `Format Document`) or if configured on save of the file.
 
 Before formatting:
-![Alt text](images/beforeFormatScreenshot.PNG?raw=true "Before formatting")
+![Alt text](./images/beforeFormatScreenshot.PNG?raw=true "Before formatting")
 After formatting:
-![Alt text](images/afterFormatScreenshot.PNG?raw=true "After formatting")
+![Alt text](./images/afterFormatScreenshot.PNG?raw=true "After formatting")
 
 ### Go to Definition
 
 Go to Definition runs for all `.prisma` files on demand (Right Click on model type -> `Go to Definition`).
 
-![Alt text](images/jump-to-definition.gif "Go to Definition Example")
+![Alt text](./images/jump-to-definition.gif "Go to Definition Example")
 
 
 ## Technical Implementation
