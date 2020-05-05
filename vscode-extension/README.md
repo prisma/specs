@@ -5,7 +5,7 @@
   - Spec: In Progress 🚧
   - Implementation: Fully implemented ✅
 
-The Prisma VSCode Extension adds syntax highlighting, formatting, linting and Go to Definition for `.prisma` files to VSCode.  
+The Prisma VSCode Extension adds [Syntax Highlighting](#syntax-highlighting), [Linting](#linting), [Formatting](#formatting) and [Go to Definition](#go-to-definition) for `.prisma` files to VSCode.  
 It can be installed via [https://marketplace.visualstudio.com/items?itemName=Prisma.prisma](https://marketplace.visualstudio.com/items?itemName=Prisma.prisma).
 
 ---
