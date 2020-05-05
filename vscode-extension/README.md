@@ -5,7 +5,7 @@
   - Spec: In Progress 🚧
   - Implementation: Fully implemented ✅
 
-The Prisma VSCode Extension adds syntax highlighting, formatting and linting for `.prisma` files to VSCode.  
+The Prisma VSCode Extension adds [Syntax Highlighting](#syntax-highlighting), [Linting](#linting), [Formatting](#formatting) and [Go to Definition](#go-to-definition) for `.prisma` files to VSCode.  
 It can be installed via [https://marketplace.visualstudio.com/items?itemName=Prisma.prisma](https://marketplace.visualstudio.com/items?itemName=Prisma.prisma).
 
 ---
@@ -18,11 +18,13 @@ It can be installed via [https://marketplace.visualstudio.com/items?itemName=Pri
   - [Syntax Highlighting](#syntax-highlighting)
   - [Linting](#linting)
   - [Formatting](#formatting)
+  - [Go to Definition](#go-to-definition)
 - [Technical Implementation](#technical-implementation)
   - [Installation](#installation)
   - [Syntax Highlighting](#syntax-highlighting-1)
   - [Linting](#linting-1)
   - [Formatting](#formatting-1)
+  - [Go to Definition](#go-to-definition-1)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -36,22 +38,35 @@ The following elements of a schema file are highlighted:
 
 - Model Blocks (`model`)
 - Config Blocks (`datasource` and `generator`)
-- Enum Blocks (`enum`)
+- Enum Blocks (`enum`) (not supported yet)
 - Double and triple comments (`//` and `///`)
 
-TODO appropriate screenshot that shows all functionality
+![Alt text](./images/syntaxHighlighting.png?raw=true "Syntax Highlighting example")
 
 ### Linting
 
 Linting runs for all `.prisma` files as soon as you open them, highlighting invalid syntax or keywords in your schema file.
 
-TODO appropriate screenshot that shows read squiggly line
+![Alt text](./images/linting.png?raw=true "Linting example")
 
 ### Formatting
 
 Formatting runs for all `.prisma` files on demand (Right Click -> `Format Document`) or if configured on save of the file.
 
-TODO appropriate screenshot or code block that shows before and after
+Before formatting: 
+
+![Alt text](./images/beforeFormatting.png?raw=true "Before formatting")
+
+After formatting:
+
+![Alt text](./images/afterFormatting.png?raw=true "After formatting")
+
+### Go to Definition
+
+Go to Definition runs for all `.prisma` files on demand (Right Click on model type -> `Go to Definition`).
+
+![Alt text](./images/jumpToDefinition.gif "Go to Definition Example")
+
 
 ## Technical Implementation
 
@@ -70,3 +85,7 @@ Uses a call to the `prisma-fmt` binary.
 ### Formatting
 
 Uses a call to `prisma-fmt` binary.
+
+### Go to Definition
+
+Implemented as a language features using the `prisma-language-server`.
