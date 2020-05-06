@@ -162,10 +162,10 @@ SDK acts as the interface between the binaries and the tools. This section cover
 
 This spec does not list individual errors (Except for some errors in the "common" category which occur in the Javascript part of the code, these errors are listed below). Instead, the single source of truth for them is our code where they are defined with their codes and messages. Here is a list of links to their definitions for each error category:
 
-- [Common](https://github.com/prisma/prisma-engine/blob/master/libs/user-facing-errors/src/common.rs)
-- [Query Engine](https://github.com/prisma/prisma-engine/blob/master/libs/user-facing-errors/src/query_engine.rs)
-- [Migration Engine](https://github.com/prisma/prisma-engine/blob/master/libs/user-facing-errors/src/migration_engine.rs)
-- [Introspection Engine](https://github.com/prisma/prisma-engine/blob/master/libs/user-facing-errors/src/introspection_engine.rs)
+- [Common](https://github.com/prisma/prisma-engines/blob/master/libs/user-facing-errors/src/common.rs)
+- [Query Engine](https://github.com/prisma/prisma-engines/blob/master/libs/user-facing-errors/src/query_engine.rs)
+- [Migration Engine](https://github.com/prisma/prisma-engines/blob/master/libs/user-facing-errors/src/migration_engine.rs)
+- [Introspection Engine](https://github.com/prisma/prisma-engines/blob/master/libs/user-facing-errors/src/introspection_engine.rs)
 
 ### Common
 

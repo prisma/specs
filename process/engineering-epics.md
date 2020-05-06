@@ -44,11 +44,11 @@ An **epic** follows the following conventions:
 1. It links to all associated work packages.
 1. It may contain an initial breakdown of tasks.
 
-example: https://github.com/prisma/prisma-engine/issues/28
+example: https://github.com/prisma/prisma-engines/issues/28
 
 A **work package** adheres to the following conventions:
 1. The title adheres to the pattern `[COMPONENT]: [NAME]`. The name is the same as the one of the parent epic. The part component is one of: `Datamodel Parser`, `Migration Engine`, `Query Engine` or `Introspection Engine`.
 1. It links to its associated parent epic.
 1. The implementing engineer supplies a small preliminary task list to provide a rough progress overview. New tasks are added to the list when they are discovered.
 
-example: https://github.com/prisma/prisma-engine/issues/59
+example: https://github.com/prisma/prisma-engines/issues/59

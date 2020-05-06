@@ -163,7 +163,7 @@ The binaries are published under the following URL schema.
   `<base url>/<branch>/<commit>/<platform family>/<binary>(.<file extension>).gz`  
   e.g. `https://binaries.prisma.sh/master/4028eec09329a14692b13f06581329fddb7b2876/darwin/prisma.gz`
 
-The commit SHAs can be found in our [prisma-engine](https://github.com/prisma/prisma-engine/commits/master) repository.
+The commit SHAs can be found in our [prisma-engines](https://github.com/prisma/prisma-engines/commits/master) repository.
 
 Notes
 
