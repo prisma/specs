@@ -16,14 +16,19 @@
     - [Help screen](#help-screen)
     - [Commands](#commands)
 - [Init](#init)
+    - [Output](#output)
     - [Arguments](#arguments)
     - [Behaviour](#behaviour)
     - [Generated files](#generated-files)
     - [Considerations for the first-run experience](#considerations-for-the-first-run-experience)
 - [Introspect](#introspect)
+    - [Output](#output-1)
+      - [Success](#success)
+      - [Errors](#errors)
     - [Arguments](#arguments-1)
     - [Canonical Schema Mapping](#canonical-schema-mapping)
 - [Generate](#generate)
+    - [Output](#output-2)
     - [Arguments](#arguments-2)
     - [Identifying the npm project](#identifying-the-npm-project)
     - [Install @prisma/client](#install-prismaclient)
@@ -88,6 +93,8 @@ The three commands are documented in separate chapters below. All CLI commands a
 
 The `prisma init` command helps bootstrap a Prisma project. It does not connect to a database, and it does not read any existing files in the directory.
 
+
+### Output
 
 ~~~
 ✔ Your Prisma schema was created at prisma/schema.prisma.
@@ -174,12 +181,35 @@ Obviously, the `Get started guide` and the `Next steps` section from the `prisma
 
 The `prisma introspect` command connects to the specified database and generates a canonical schema representing the database structure. It requires an existing `schema.prisma` file to be present and correctly configured with a `datasource` that points to an accessible database. The existing `schema.prisma` file is overwritten with the new schema, and any manual changes applied to that file are lost.
 
+### Output
+
+#### Success
+
 ~~~
-Connecting to ["database"|`[db name]`] at `[host or filename]`...
-✔ Wrote Prisma Data Model into `./prisma/schema.prisma` in 2.48s
+Introspecting …
+
+✔ Introspected 17 models and wrote them into prisma/schema.prisma in 1.36s
 
 Run `prisma generate` to generate Prisma Client.
 ~~~
+
+If there are Introspection Warnings, they are output as well:
+
+~~~
+Introspecting …
+
+✔ Introspected 17 models and wrote them into prisma/schema.prisma in 1.36s
+
+*** Warning ***
+
+These fields were commented out because we currently do not support their types.
+- Model: "no_unique_identifier", field: "field1" , raw data type: "integer key"
+- Model: "unsupported_type", field: "unsupported", raw data type: "binary(50)"
+
+Run `prisma generate` to generate Prisma Client.
+~~~
+
+#### Errors
 
 If a connection to the database can not be established, an error is printed:
 
@@ -227,7 +257,7 @@ The `prisma generate` command parses the `schema.prisma` file, identifies `gener
 
 A generator will code-generate a data access client based on the schema. The following will describe how the `prisma-client-js` generator works.
 
-Below is the CLI output from the command.
+### Output
 
 First are three lines of checkmarks describing things that happened. The first two only happens in certain cases as described below in the sections `Identifying the npm project` and `Install @prisma/client`.
 Second is a super minimal example.
