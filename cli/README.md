@@ -272,3 +272,25 @@ Currently, the CLI only prints a warning. This is useful for developing as versi
 
 > Right now there is no reason to have this warning in the first place because CLI and Client can currently be used in any combination. In the future we might want to have a versioning system for the internal API, which could lead to errors on mismatch.
 > [See issue here.](https://github.com/prisma/prisma2/issues/1539#issuecomment-584110461)
+
+# Status
+
+Application developers can make changes to their Prisma Schema and they can make changes to their Database Schema. This means that these two schemas can get out of sync. Out of sync means that the state of your database is different than the state that's represented in your Prisma Schema.
+
+`prisma status` provides a way to check if your database and your Prisma schema are in-sync.
+
+![Status Link](https://www.dropbox.com/s/bqpp132szvg4e5x/Screen%20Shot%202020-04-24%20at%2010.56.37%20AM.png?raw=1)
+
+## Suggested Implementation
+
+> This is left up to the engineers, but it's @matthewmueller's thought-process on how one might implement this.
+
+When the user runs `prisma status`, we issue a call to the Rust Engine to introspect the database, read and parse the Prisma Schema, then diff the result.
+
+If there is a difference between the Database Schema and the Prisma Schema, we'll display that diff to the user and exit 1. If there isn't any difference, we'll display nothing and exit 0.
+
+![Suggested Implementation](https://www.dropbox.com/s/dfx5ev8qwv2nv1d/Screen%20Shot%202020-04-24%20at%2010.59.33%20AM.png?raw=1)
+
+## Open Questions
+
+1. How do we avoid noise? Like permanent adjustments to the Prisma Schema that aren't present in the database that you want to keep?
