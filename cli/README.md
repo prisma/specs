@@ -27,6 +27,9 @@
     - [Arguments](#arguments-2)
     - [Identifying the npm project](#identifying-the-npm-project)
     - [Install @prisma/client](#install-prismaclient)
+- [Status](#status)
+  - [Suggested Implementation](#suggested-implementation)
+  - [Open Questions](#open-questions)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
