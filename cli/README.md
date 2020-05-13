@@ -10,22 +10,23 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
+
 - [Background](#background)
 - [CLI Layout](#cli-layout)
-  - [Help screen](#help-screen)
-  - [Commands](#commands)
+    - [Help screen](#help-screen)
+    - [Commands](#commands)
 - [Init](#init)
-  - [Arguments](#arguments)
-  - [Behaviour](#behaviour)
-  - [Generated files](#generated-files)
-  - [Considerations for the first-run experience](#considerations-for-the-first-run-experience)
+    - [Arguments](#arguments)
+    - [Behaviour](#behaviour)
+    - [Generated files](#generated-files)
+    - [Considerations for the first-run experience](#considerations-for-the-first-run-experience)
 - [Introspect](#introspect)
-  - [Arguments](#arguments-1)
-  - [Canonical Schema Mapping](#canonical-schema-mapping)
+    - [Arguments](#arguments-1)
+    - [Canonical Schema Mapping](#canonical-schema-mapping)
 - [Generate](#generate)
-  - [Arguments](#arguments-2)
-  - [Identifying the npm project](#identifying-the-npm-project)
-  - [Install @prisma/client](#install-prismaclient)
+    - [Arguments](#arguments-2)
+    - [Identifying the npm project](#identifying-the-npm-project)
+    - [Install @prisma/client](#install-prismaclient)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
