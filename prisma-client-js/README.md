@@ -12,24 +12,23 @@ This spec describes the Prisma Client Javascript API
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-
 - [Background](#background)
-    - [Goals for the Prisma Client JS API](#goals-for-the-prisma-client-js-api)
+  - [Goals for the Prisma Client JS API](#goals-for-the-prisma-client-js-api)
 - [Client Layout](#client-layout)
-    - [A note on Promises](#a-note-on-promises)
+  - [A note on Promises](#a-note-on-promises)
 - [Logging](#logging)
 - [Errors](#errors)
-    - [1. `PrismaClientValidationError`](#1-prismaclientvalidationerror)
-    - [2. `PrismaClientKnownRequestError`](#2-prismaclientknownrequesterror)
-    - [3. `PrismaClientUnknownRequestError`](#3-prismaclientunknownrequesterror)
-    - [4. `PrismaClientRustPanicError`](#4-prismaclientrustpanicerror)
-    - [5. `PrismaClientInitializationError`](#5-prismaclientinitializationerror)
+  - [1. `PrismaClientValidationError`](#1-prismaclientvalidationerror)
+  - [2. `PrismaClientKnownRequestError`](#2-prismaclientknownrequesterror)
+  - [3. `PrismaClientUnknownRequestError`](#3-prismaclientunknownrequesterror)
+  - [4. `PrismaClientRustPanicError`](#4-prismaclientrustpanicerror)
+  - [5. `PrismaClientInitializationError`](#5-prismaclientinitializationerror)
   - [Discriminating error types](#discriminating-error-types)
 - [Error Formatting](#error-formatting)
   - [Environment variables](#environment-variables)
   - [Constructor args](#constructor-args)
 - [Reading data](#reading-data)
-    - [Default selection set](#default-selection-set)
+  - [Default selection set](#default-selection-set)
   - [Find a single record](#find-a-single-record)
     - [where](#where)
     - [include](#include)
@@ -67,8 +66,8 @@ This spec describes the Prisma Client Javascript API
     - [Include and select](#include-and-select-2)
 - [`undefined` vs `null`](#undefined-vs-null)
   - [Write: Updating a User](#write-updating-a-user)
-      - [`undefined`](#undefined)
-      - [`null`](#null)
+    - [`undefined`](#undefined)
+    - [`null`](#null)
   - [Read: Fetching multiple Users](#read-fetching-multiple-users)
   - [Cases in which only `undefined` is allowed](#cases-in-which-only-undefined-is-allowed)
 
@@ -158,7 +157,7 @@ const prismaClient = new PrismaClient({
   ],
 })
 
-prismaClient.on('query', e => {
+prismaClient.on('query', (e) => {
   console.log(e.timestamp, e.query, e.params)
 })
 ```
@@ -183,7 +182,7 @@ const prismaClient = new PrismaClient({
   ],
 })
 
-prismaClient.on('query', e => {
+prismaClient.on('query', (e) => {
   e.timestamp
   e.query
   e.params
@@ -192,14 +191,14 @@ prismaClient.on('query', e => {
   console.log(e)
 })
 
-prismaClient.on('info', e => {
+prismaClient.on('info', (e) => {
   e.timestamp
   e.message
   e.target
   console.log(e)
 })
 
-prismaClient.on('warn', e => {
+prismaClient.on('warn', (e) => {
   e.timestamp
   e.message
   e.target
@@ -298,7 +297,7 @@ It can be used like so:
 
 ```ts
 const prisma = new PrismaClient({
-  errorFormat: 'pretty'
+  errorFormat: 'pretty',
 })
 ```
 
@@ -688,29 +687,76 @@ prisma.post.findMany({
 })
 ```
 
-### pagination: before, after, first, last, skip
+# Pagination
 
-Together, these five fields provide powerful pagination control.
+Pagination has 2 concepts: `cursor` and `take`.
 
-`before` and `after` are cursors that point to a particular record, either using its `@id` field or a nuique field combination.
+- `cursor` sets the position in the list
+- `take` selects either forward or backward from that cursor.
 
-> Note: only `@id` is supported at the moment
+Here are some various settings:
 
-`first` and `last` specify how many records to retrieve, either from the beginning or the end of the list.
+```
+                  cursor: 5
+                      │
+                      │
+                      │
+                      ▼
+┌───┐┌───┐┌───┐┌───┐┏━━━┓┏━━━┓┏━━━┓┌───┐┌───┐┌───┐
+│ 1 ││ 2 ││ 3 ││ 4 │┃ 5 ┃┃ 6 ┃┃ 7 ┃│ 8 ││ 9 ││10 │
+└───┘└───┘└───┘└───┘┗━━━┛┗━━━┛┗━━━┛└───┘└───┘└───┘
+                      ──────────▶
+                        take: 3
 
-`skip` pushes the beginning of the `first` or `last` segment away from the cursor specified by `before` or `after` be the amount specified. This is illustrated with yellow arrows on the illustration below.
 
-<img src="./pagination.png" alt="image-20191229151441215" style="zoom:50%;" />
 
-> Note: There is an [outstanding proposal](https://github.com/prisma/specs/issues/376) to simplify the pagination model by combining the `first` and `last` fields into a single `take` field.
->
-> This proposal is based on two observations: 1) `last` is only really useful in combination with `before` and `first` is only really useful in combination with `after`, as such we are using two variables to describe a single degree of freedom, which is confusing. 2) Even if other combinations are useful, they can be simply achieved by using the regular `where` filters.
->
-> If adopted, this proposal will result in a simpler mental model depicted below.
+                  cursor: 5
+                      │
+                      │
+                      │
+                      ▼
+┌───┐┌───┐┌───┐┏━━━┓┏━━━┓┌───┐┌───┐┌───┐┌───┐┌───┐
+│ 1 ││ 2 ││ 3 │┃ 4 ┃┃ 5 ┃│ 6 ││ 7 ││ 8 ││ 9 ││10 │
+└───┘└───┘└───┘┗━━━┛┗━━━┛└───┘└───┘└───┘└───┘└───┘
+               ◀────────
+                take: -2
 
-Proposed simpler model:
 
-<img src="./pagination-simplified.png" alt="image-20191229152718492" style="zoom:50%;" />
+
+                  cursor: 5
+                      │
+                      │
+                      │
+                      ▼
+┌───┐┌───┐┌───┐┌───┐┏━━━┓┌───┐┌───┐┌───┐┌───┐┌───┐
+│ 1 ││ 2 ││ 3 ││ 4 │┃ 5 ┃│ 6 ││ 7 ││ 8 ││ 9 ││10 │
+└───┘└───┘└───┘└───┘┗━━━┛└───┘└───┘└───┘└───┘└───┘
+                   take: -1
+
+
+
+                  cursor: 5
+                      │
+                      │
+                      │
+                      ▼
+┌───┐┌───┐┌───┐┌───┐┏━━━┓┌───┐┌───┐┌───┐┌───┐┌───┐
+│ 1 ││ 2 ││ 3 ││ 4 │┃ 5 ┃│ 6 ││ 7 ││ 8 ││ 9 ││10 │
+└───┘└───┘└───┘└───┘┗━━━┛└───┘└───┘└───┘└───┘└───┘
+                    take: 1
+
+
+                  cursor: 5
+                      │
+                      │
+                      │
+                      ▼
+┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐┌───┐
+│ 1 ││ 2 ││ 3 ││ 4 ││ 5 ││ 6 ││ 7 ││ 8 ││ 9 ││10 │
+└───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘└───┘
+
+                    take: 0
+```
 
 ## Raw database access
 
