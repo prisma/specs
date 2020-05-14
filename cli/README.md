@@ -27,6 +27,9 @@
     - [Arguments](#arguments-2)
     - [Identifying the npm project](#identifying-the-npm-project)
     - [Install @prisma/client](#install-prismaclient)
+- [Format](#format)
+    - [Arguments](#arguments-3)
+    - [Behaviour](#behaviour-1)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -78,11 +81,12 @@ Examples
 
 ### Commands
 
-The three commands are documented in separate chapters below. All CLI commands are non-interactive
+The three commands are documented in separate chapters below. All CLI commands are non-interactive.
 
 - init
 - introspect
 - generate
+- format
 
 # Init
 
@@ -271,4 +275,25 @@ After identifying the npm project, the generator will ensure that the `@prisma/c
 Currently, the CLI only prints a warning. This is useful for developing as versions are always different
 
 > Right now there is no reason to have this warning in the first place because CLI and Client can currently be used in any combination. In the future we might want to have a versioning system for the internal API, which could lead to errors on mismatch.
-> [See issue here.](https://github.com/prisma/prisma2/issues/1539#issuecomment-584110461)
+[See issue here.](https://github.com/prisma/prisma/issues/1539#issuecomment-584110461)
+
+# Format
+
+The `prisma format` command formats your schema.
+
+### Arguments
+
+The `prisma format` command can be run without arguments. Additionally, this argument can be specified:
+
+- **schema** specify the path used to read the `schema.prisma` file instead of the default path. The path can be absolute or relative.
+
+### Behaviour
+
+The format command will by default look for a `schema.prisma` file in the current directory or inside a `prisma` folder where it is run. The schema file will be validated then formatted and persisted.
+
+Output:
+```
+Formatted /Users/prisma/project/prisma/schema.prisma in 448ms 🚀
+```
+
+If the schema is invalid it will output validation errors (same output as `prisma validate`)

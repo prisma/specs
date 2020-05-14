@@ -290,6 +290,7 @@ Environment variable to configure the binary for CLI (like `prisma2 migrate` or 
 | `PRISMA_MIGRATION_ENGINE_BINARY`     | (optional) Overrides the resolution path for migration engine binary for `migrate` commands. | Can be a relative (from CWD) or an absolute path to the binary |
 | `PRISMA_INTROSPECTION_ENGINE_BINARY` | (optional) Overrides the resolution path for introspection engine binary.                 | Can be a relative (from CWD) or an absolute path to the binary |
 | `PRISMA_QUERY_ENGINE_BINARY`         | (optional) Overrides the resolution path for query engine binary for `generate` command.  | Can be a relative (from CWD) or an absolute path to the binary |
+| `PRISMA_FMT_BINARY`                  | (optional) Overrides the resolution path for format binary for `format` command.          | Can be a relative (from CWD) or an absolute path to the binary |
 
 - CLI binaries can only be overridden by a path to a custom binary. It does not alter download behavior, it just overrides the binary path provided for respective commands. This means that using [known binaries](#binary-build-targets) is not possible.
 
@@ -309,6 +310,7 @@ As we do not have precompiled binaries for ARM architecture yet, the user would 
 export PRISMA_INTROSPECTION_ENGINE_BINARY=<path to compiled introspection engine binary>
 export PRISMA_QUERY_ENGINE_BINARY=<path to compiled query engine binary>
 export PRISMA_MIGRATION_ENGINE_BINARY=<path to compiled migration engine binary>
+export PRISMA_FMT_BINARY=<path to compiled format binary>
 ```
 
 Then `prisma2 migrate` and `prisma2 generate` would use the respective compiled binaries.
@@ -336,6 +338,7 @@ Environment variable to configure a specific binary for the generated code's run
 | `PRISMA_MIGRATION_ENGINE_BINARY`     | _(optional)_ A string literal with a [known binary](#binary-build-targets) name (like `darwin` or `linux-glibc-libssl1.0.2"` or path to a custom binary |
 | `PRISMA_INTROSPECTION_ENGINE_BINARY` | _(optional)_ A string literal with a [known binary](#binary-build-targets) name (like `darwin` or `linux-glibc-libssl1.0.2"` or path to a custom binary |
 | `PRISMA_QUERY_ENGINE_BINARY`         | _(optional)_ A string literal with a [known binary](#binary-build-targets) name (like `darwin` or `linux-glibc-libssl1.0.2"` or path to a custom binary |
+| `PRISMA_FMT_BINARY`                  | _(optional)_ A string literal with a [known binary](#binary-build-targets) name (like `darwin` or `linux-glibc-libssl1.0.2"` or path to a custom binary |
 
 - Both `binaryTargets` field and `PRISMA_QUERY_ENGINE_BINARY` environment variable are optional. Here are some scenarios
 
