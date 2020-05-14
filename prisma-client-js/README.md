@@ -687,7 +687,7 @@ prisma.post.findMany({
 })
 ```
 
-# Pagination
+## Pagination
 
 Pagination has 2 concepts: `cursor` and `take`.
 
