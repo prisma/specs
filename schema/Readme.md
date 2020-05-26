@@ -876,17 +876,14 @@ and block attributes that accept them.
 
 - `uuid()` - generates a fresh UUID
 - `cuid()` - generates a fresh cuid
-- `between(min, max)` - generates a random int in the specified range (⚠ This is not implemented yet. See
-  [tracking issue](https://github.com/prisma/prisma2/issues/811))
 - `now()` - current date and time
 
 Default values using a dynamic generator can be specified as follows:
 
 ```prisma
 model User {
-  age        Int       @default(between([ 1, 5 ]))
-  height     Float     @default(between([ 1, 5 ]))
-  createdAt  DateTime  @default(now())
+  id        String   @default(uuid()) @id
+  createdAt DateTime @default(now())
 }
 ```
 
