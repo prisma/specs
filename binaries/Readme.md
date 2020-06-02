@@ -144,8 +144,7 @@ We build multiple binaries on common operating systems with different combinatio
 of OpenSSL versions. This results in a few binaries, which work on a large selection
 of operating systems, distributions, and cloud platforms.
 
-Initially, we built specific binaries for given platforms (e.g. Netlify), which resulted in many
-binaries which couldn't be shared with similar platforms and it was hard to maintain.
+Initially, we built specific binaries for given platforms (e.g. Netlify), which resulted in many binaries which couldn't be shared with similar platforms and it was hard to maintain.
 
 ### Binaries
 
@@ -177,8 +176,8 @@ Notes
 
 #### Binary build targets
 
-| Build name             | Build OS | OpenSSL | Downloads (`.gz`)                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| :--------------------- | :------- | :-----: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Build name             | Build OS | OpenSSL | Downloads (`.gz`)                                                                                                                                                                                                                                                                                                                                                   |
+| :--------------------- | :------- | :-----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `darwin`               | Mac      |   n/a   | [prisma](https://binaries.prisma.sh/master/latest/darwin/prisma.gz) [migration](https://binaries.prisma.sh/master/latest/darwin/migration.gz) [introspection](https://binaries.prisma.sh/master/latest/darwin/introspection.gz) [prisma-fmt](https://binaries.prisma.sh/master/latest/darwin/prisma-fmt.gz)                                                         |
 | `windows`              | Windows  |   n/a   | [prisma.exe](https://binaries.prisma.sh/master/latest/windows/prisma.exe.gz) [migration.exe](https://binaries.prisma.sh/master/latest/windows/migration.exe.gz) [introspection.exe](https://binaries.prisma.sh/master/latest/windows/introspection.exe.gz) [prisma-fmt.exe](https://binaries.prisma.sh/master/latest/windows/prisma-fmt.exe.gz)                     |
 | `debian-openssl-1.0.x` | Debian 8 |  1.0.x  | [prisma](https://binaries.prisma.sh/master/latest/debian-openssl-1.0.x/prisma.gz) [migration](https://binaries.prisma.sh/master/latest/debian-openssl-1.0.x/migration.gz) [introspection](https://binaries.prisma.sh/master/latest/debian-openssl-1.0.x/introspection.gz) [prisma-fmt](https://binaries.prisma.sh/master/latest/debian-openssl-1.0.x/prisma-fmt.gz) |
@@ -285,12 +284,12 @@ This is covered in the [Prisma Engine Runtime (for JavaScript/TypeScript) spec](
 
 Environment variable to configure the binary for CLI (like `prisma2 migrate` or `prisma2 generate`):
 
-| Environment Variable                 | Description                                                                               | Behavior                                                       |
-| ------------------------------------ | ----------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| Environment Variable                 | Description                                                                                  | Behavior                                                       |
+| ------------------------------------ | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
 | `PRISMA_MIGRATION_ENGINE_BINARY`     | (optional) Overrides the resolution path for migration engine binary for `migrate` commands. | Can be a relative (from CWD) or an absolute path to the binary |
-| `PRISMA_INTROSPECTION_ENGINE_BINARY` | (optional) Overrides the resolution path for introspection engine binary.                 | Can be a relative (from CWD) or an absolute path to the binary |
-| `PRISMA_QUERY_ENGINE_BINARY`         | (optional) Overrides the resolution path for query engine binary for `generate` command.  | Can be a relative (from CWD) or an absolute path to the binary |
-| `PRISMA_FMT_BINARY`                  | (optional) Overrides the resolution path for format binary for `format` command.          | Can be a relative (from CWD) or an absolute path to the binary |
+| `PRISMA_INTROSPECTION_ENGINE_BINARY` | (optional) Overrides the resolution path for introspection engine binary.                    | Can be a relative (from CWD) or an absolute path to the binary |
+| `PRISMA_QUERY_ENGINE_BINARY`         | (optional) Overrides the resolution path for query engine binary for `generate` command.     | Can be a relative (from CWD) or an absolute path to the binary |
+| `PRISMA_FMT_BINARY`                  | (optional) Overrides the resolution path for format binary for `format` command.             | Can be a relative (from CWD) or an absolute path to the binary |
 
 - CLI binaries can only be overridden by a path to a custom binary. It does not alter download behavior, it just overrides the binary path provided for respective commands. This means that using [known binaries](#binary-build-targets) is not possible.
 
@@ -433,22 +432,22 @@ Note: pinned binary in this section refers to binary specified via `PRISMA_QUERY
 
 ### Runtime
 
-In the scenario where platforms field is defined but no pinned platform field is defined, we resolve the binary at runtime by detecting the platform. This can be achieved by generating code similar to this pseudo-code in Photon.
+In the scenario where `binaryTargets` field is defined but no `pinnedBinaryTarget` field is defined, we resolve the binary at runtime by detecting the platform. This can be achieved by generating code similar to this pseudo-code in Photon.
 
 ```ts
 function detectPlatform(): string { ... }
 
-const pinnedPlatform = process.env.PRISMA_QUERY_ENGINE_BINARY
+const binaryTarget = process.env.PRISMA_QUERY_ENGINE_BINARY
 const binaries = {
   'mac': <path>,
   'lambda': <path>,
 }
 let binaryPath
-if (!pinnedPlatform) {
+if (!binaryTarget) {
   const inferredPlatform = detectPlatform()
   binaryPath = binaries[inferredPlatform]
 } else {
-  binaryPath = binaries[pinnedPlatform]
+  binaryPath = binaries[binaryTarget]
 }
 
 ```

@@ -131,17 +131,17 @@ Generators may bring their own attributes.
 generator client {
   provider = "prisma-client-js"
   snakeCase = true
-  platforms = ["native", "linux-glibc-libssl1.0.2"]
-  pinnedPlatform = env("PLATFORM") // On local, "native" and in production, "linux-glibc-libssl1.0.2"
+  binaryTargets = ["native", "linux-glibc-libssl1.0.2"]
+  pinnedBinaryTarget = env("BINARY_TARGET") // On local, "native" and in production, "linux-glibc-libssl1.0.2"
 }
 ```
 
-| Field            | Description                                                                                                                      | Behavior                                           |
-| ---------------- | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
-| `platforms`      | _(optional)_ An array of binaries that are required by the application, string for known platforms and path for custom binaries. | Declarative way to download the required binaries. |
-| `pinnedPlatform` | _(optional)_ A string that points to the name of an object in the `platforms` field, usually an environment variable             | Declarative way to choose the runtime binary       |
+| Field                | Description                                                                                                                           | Behavior                                           |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
+| `binaryTargets`      | _(optional)_ An array of binaries that are required by the application, string for known binary targets and path for custom binaries. | Declarative way to download the required binaries. |
+| `pinnedBinaryTarget` | _(optional)_ A string that points to the name of an object in the `binaryTargets` field, usually an environment variable              | Declarative way to choose the runtime binary       |
 
-- Both `platforms` and `pinnedPlatform` fields are optional, **however** when a custom binary is provided the `pinnedPlatform` is required.
+- Both `binaryTargets` and `pinnedBinaryTarget` fields are optional, **however** when a custom binary is provided the `pinnedBinaryTarget` is required.
 
 You can find more information about the binary configuration in the [binary spec](../binaries/Readme.md).
 
@@ -332,15 +332,15 @@ appears first alphanumerically. In the example above, that's the `Customer` mode
 Under the hood, the models looks like this:
 
 | **user** |         |
-| --------- | ------- |
-| id        | integer |
-| name      | text    |
+| -------- | ------- |
+| id       | integer |
+| name     | text    |
 
 | **customer** |         |
-| ------------- | ------- |
-| id            | integer |
-| user          | integer |
-| address       | text    |
+| ------------ | ------- |
+| id           | integer |
+| user         | integer |
+| address      | text    |
 
 You **may** omit either `User.customer` or `Customer.user` and the relationship will remain intact. This makes either the back-relation or the forward-relation
 optional. If one side of the relation is missing, Prisma implies the field name based on the name of the model it is pointing to.
@@ -383,13 +383,13 @@ model Blog {
 Connectors for relational databases will implement this as two tables with a foreign-key constraint on the `blog` table:
 
 | **writer** |         |
-| ----------- | ------- |
-| id          | integer |
+| ---------- | ------- |
+| id         | integer |
 
 | **blog** |         |
-| --------- | ------- |
-| id        | integer |
-| author    | integer |
+| -------- | ------- |
+| id       | integer |
+| author   | integer |
 
 ###### Implied Has-Many
 
