@@ -36,7 +36,7 @@ Prisma Framework consists of several tools:
 - [Prisma Schema Language](schema) (PSL)
 - Tools
   - [Prisma CLI](cli) - setup and introspection
-  - [Prisma Client](photon) - data access
+  - Prisma Client - data access
     - [Prisma Client JS](prisma-client-js)
     - [Prisma Client Go](prisma-client-go)
   - [VSCode Prisma](vscode-extension) - PSL formatting and linting
@@ -63,7 +63,6 @@ We don't only spec the software itself, but also how we work on it and on these 
 - [GitHub labels](process/labels.md)
 - [Issue Triage](process/issue-triage.md)
 - [Repositories](process/repositories.md)
-- [Release Milestones](process/release-milestones.md)
 
 #### Meta
 
