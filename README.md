@@ -1,6 +1,6 @@
 ---
 
-⚠ This repository is not actively used any more, please check out the [Prisma Documentation](docs.prisma.io) for updated information on Prisma. ⚠
+⚠ This repository is not actively used any more, please check out the [Prisma Documentation](https://docs.prisma.io) for updated information on Prisma. ⚠
 
 ---
 
