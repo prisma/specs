@@ -1,3 +1,9 @@
+---
+
+⚠ This repository is not actively used any more, please check out the [Prisma Documentation](docs.prisma.io) for updated information on Prisma. ⚠
+
+---
+
 # Prisma Framework Specifications 
 
 This repository contains specifications for Prisma Framework:
